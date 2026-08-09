@@ -575,7 +575,7 @@ agent-model-factory/
 - 记录峰值显存、训练时间、Adapter 大小和最终指标
 - Adapter 可独立加载与合并
 
-**当前进展（2026-08-06）**
+**当前进展（2026-08-09）**
 
 - `FC-MVP-001-fp32-attached-remediation-eval-v1` 已在结果产生前锁定 runner、
   compiler、comparison contract、唯一 FP32 attached candidate、唯一 run、
@@ -614,17 +614,39 @@ agent-model-factory/
   `fp32_attached_metadata_only_composite_manifest_complete`；
   `metadata_complete=true`、`offline_package_identity_complete=true`，此前 6 个
   package blocker 已解决。
-- 该结果仅完成 metadata/package identity。当前机器 exact-root resolution
-  通过不构成 clean-location attestation；`behavioral_reproducibility_unverified`、
+- 该 manifest gate 当时仅完成 metadata/package identity；当前机器 exact-root
+  resolution 通过不构成 clean-location attestation。当时的 3 个 blocker 是
+  `behavioral_reproducibility_unverified`、
   `clean_location_resolution_unverified` 与
-  `remote_revision_origin_unverified` 仍是 3 个 blocker。
-  offline-artifact、portable-package、preferred、serving、promotion、
-  merged-artifact 与 Runtime 全部仍为 false。
+  `remote_revision_origin_unverified`。
+- `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1` 已完成：
+  materialization、execution 与 comparison protocol 先冻结于
+  `eafd3f646e4ec08dd0a1f76443ccfd416e81fa22`；fresh checkout 和 pinned model
+  download 在 caller-supplied clean location 精确解析 base/tokenizer `9/9`、
+  Adapter `3/3`、repository sources `15/15`，无 symlink/reparse/hardlink、
+  overwrite、alternate remote/revision 或 historical Adapter path。
+- 唯一 formal offline replay 为 1 次 fresh FP32 attached load、20 次 ordered
+  generation、零 retry；raw output `20/20` 与 compiled output `20/20` 均精确
+  复现冻结 reference。耗时 `38.108256999985315s`、峰值显存
+  `6,267,895,296 bytes`、load 前 `0 bytes`、release 后 `8,519,680 bytes`，
+  全部 resource caps 通过。
+- predictions SHA-256 为
+  `a0e99e80e091d3d6c191e3863449a6a5298d7f0d3a23cc6d786968562e6d2a46`；
+  evidence SHA-256 为
+  `0e0d2174f4723ab42a5c11375cee10a819e32737810f63111d098decc2984044`。
+  strict recomputation 分类为
+  `fp32_attached_same_environment_clean_location_behavior_exactly_reproduced`，
+  `formal_gate_passed=true`。unified offline gate 在 Python 3.11.15、3.12.12、
+  3.13.7 上均通过 351 tests，审计 32 个 source files。
+- 该结果只证明 same recorded environment 的 clean-location 20-case exact
+  replay。唯一 blocker 是 `remote_revision_origin_unverified`；offline-artifact、
+  portable-package、preferred、serving、promotion、merged-artifact 与 Runtime
+  全部仍为 false，也不支持 cross-machine portability、repeat variance 或
+  external execution-count attestation。
 - 唯一 active objective 切换为
-  `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1`：先冻结
-  clean-location materialization、resolution 与 behavioral comparison protocol，
-  再执行注册范围；不得把 manifest validity 或当前机器 resolution 写成
-  reproducibility、promotion 或 Runtime evidence。
+  `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`：独立认证 pinned
+  remote revision origin；不得把 successful fetch/download 或 manifest hash match
+  写成 origin attestation，不得扩展为 promotion、serving 或 Runtime work。
 
 ## TOOL-007：输出/序列蒸馏
 

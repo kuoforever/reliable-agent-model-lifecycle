@@ -142,6 +142,29 @@ TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_SOURCE_HASHES = {
         "sha256:bb3cda72585bc84bf0cf84c5736cafe29c8dfc8bca5a851d82ecfed35b1b883d"
     ),
 }
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "tool_router_fp32_attached_offline_package_reproducibility_v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREREGISTRATION_SHA256 = (
+    "sha256:982d039b2b591d2dab80d489bbbada252c764c82fce94334580807616b22ffff"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_PATH = (
+    ROOT
+    / "baseline"
+    / "tool-router-fp32-attached-offline-package-reproducibility-v1-predictions.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_SHA256 = (
+    "sha256:a0e99e80e091d3d6c191e3863449a6a5298d7f0d3a23cc6d786968562e6d2a46"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_PATH = (
+    ROOT / "baseline" / "fc-mvp-001-fp32-attached-offline-package-reproducibility-v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_SHA256 = (
+    "sha256:0e0d2174f4723ab42a5c11375cee10a819e32737810f63111d098decc2984044"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_FREEZE_COMMIT = (
+    "eafd3f646e4ec08dd0a1f76443ccfd416e81fa22"
+)
 SUPPORTED_MINORS = {(3, 11), (3, 12), (3, 13)}
 FORBIDDEN_IMPORT_ROOTS = frozenset(
     {
@@ -217,6 +240,11 @@ def main() -> int:
     )
     fp32_attached_offline_package = _validate_fp32_attached_offline_package_manifest(
         fp32_attached_artifact_eligibility
+    )
+    fp32_attached_offline_package_reproducibility = (
+        _validate_fp32_attached_offline_package_reproducibility(
+            fp32_attached_offline_package
+        )
     )
     tests_run = _run_tests()
 
@@ -478,21 +506,60 @@ def main() -> int:
             ]
         ),
         "tool_router_fp32_attached_offline_package_remote_origin_attested": (
-            fp32_attached_offline_package["validation"][
+            fp32_attached_offline_package_reproducibility["derived_claims"][
                 "remote_revision_origin_attested"
             ]
         ),
         "tool_router_fp32_attached_offline_package_behavior_reproduced": (
-            fp32_attached_offline_package["validation"][
+            fp32_attached_offline_package_reproducibility["derived_claims"][
                 "behavioral_reproducibility_established"
             ]
         ),
         "tool_router_fp32_attached_offline_package_remaining_blocking_findings": (
-            fp32_attached_offline_package["validation"]["remaining_blocking_findings"]
+            fp32_attached_offline_package_reproducibility[
+                "remaining_blocking_findings"
+            ]
         ),
-        "tool_router_next_gate": fp32_attached_offline_package["validation"][
-            "next_gate"
-        ],
+        "tool_router_fp32_attached_offline_package_reproducibility_classification": (
+            fp32_attached_offline_package_reproducibility["classification"]
+        ),
+        "tool_router_fp32_attached_offline_package_reproducibility_gate_passed": (
+            fp32_attached_offline_package_reproducibility["formal_gate_passed"]
+        ),
+        "tool_router_fp32_attached_offline_package_clean_location_resolved": (
+            fp32_attached_offline_package_reproducibility["derived_claims"][
+                "clean_location_resolution_established"
+            ]
+        ),
+        "tool_router_fp32_attached_offline_package_raw_outputs_exact": (
+            fp32_attached_offline_package_reproducibility["comparison"][
+                "raw_outputs_exact"
+            ]
+        ),
+        "tool_router_fp32_attached_offline_package_compiled_outputs_exact": (
+            fp32_attached_offline_package_reproducibility["comparison"][
+                "compiled_outputs_exact"
+            ]
+        ),
+        "tool_router_fp32_attached_offline_package_replay_elapsed_seconds": (
+            fp32_attached_offline_package_reproducibility["resources"][
+                "performance"
+            ]["elapsed_seconds"]
+        ),
+        "tool_router_fp32_attached_offline_package_replay_peak_gpu_memory_bytes": (
+            fp32_attached_offline_package_reproducibility["resources"][
+                "performance"
+            ]["peak_gpu_memory_bytes"]
+        ),
+        "tool_router_fp32_attached_offline_package_replay_sha256": (
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_SHA256
+        ),
+        "tool_router_fp32_attached_offline_package_evidence_sha256": (
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_SHA256
+        ),
+        "tool_router_next_gate": fp32_attached_offline_package_reproducibility[
+            "locked_next_action"
+        ]["gate_id"],
     }
     print(json.dumps(result, sort_keys=True, separators=(",", ":")))
     return 0
@@ -3122,6 +3189,117 @@ def _validate_fp32_attached_offline_package_manifest(
     ):
         raise GateError("Tool Router FP32 attached offline package decision drift")
     return combined
+
+
+def _validate_fp32_attached_offline_package_reproducibility(
+    fp32_attached_offline_package: dict[str, Any],
+) -> dict[str, Any]:
+    from fullcycle_bridge.tool_router_fp32_attached_offline_package_reproducibility import (
+        load_manifest_source_bundle,
+        validate_reproducibility_evidence,
+    )
+    from scripts.build_tool_router_fp32_attached_offline_package_manifest import (
+        DEFAULT_ADAPTER_DIR,
+    )
+
+    manifest_validation = fp32_attached_offline_package.get("validation")
+    if (
+        not isinstance(manifest_validation, dict)
+        or manifest_validation.get("frozen_manifest_valid") is not True
+        or manifest_validation.get("next_gate")
+        != "FC-MVP-001-fp32-attached-offline-package-reproducibility-v1"
+        or manifest_validation.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "Tool Router FP32 attached reproducibility upstream manifest drift"
+        )
+
+    preregistration_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREREGISTRATION_PATH,
+        "Tool Router FP32 attached reproducibility preregistration",
+    )
+    replay_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_PATH,
+        "Tool Router FP32 attached reproducibility replay",
+    )
+    evidence_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_PATH,
+        "Tool Router FP32 attached reproducibility evidence",
+    )
+    manifest_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_MANIFEST_PATH,
+        "Tool Router FP32 attached offline package manifest",
+    )
+    reference_predictions_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_REMEDIATION_PREDICTIONS_PATH,
+        "Tool Router FP32 attached remediation predictions",
+    )
+    reference_evidence_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_REMEDIATION_EVAL_PATH,
+        "Tool Router FP32 attached remediation evidence",
+    )
+    evaluation_payload = _read_regular_file_once(
+        ROOT / "fixtures" / "tool_router_v1" / "eval.json",
+        "Tool Router frozen evaluation",
+    )
+    validation = validate_reproducibility_evidence(
+        preregistration_payload,
+        replay_payload,
+        evidence_payload,
+        expected_preregistration_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREREGISTRATION_SHA256
+        ),
+        expected_replay_artifact_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_SHA256
+        ),
+        expected_evidence_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_SHA256
+        ),
+        expected_protocol_freeze_commit=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_FREEZE_COMMIT
+        ),
+        replay_artifact_path=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_PREDICTIONS_PATH.name
+        ),
+        manifest_payload=manifest_payload,
+        reference_predictions_payload=reference_predictions_payload,
+        reference_evidence_payload=reference_evidence_payload,
+        evaluation_payload=evaluation_payload,
+        manifest_sources=load_manifest_source_bundle(
+            repository_root=ROOT,
+            adapter_root=DEFAULT_ADAPTER_DIR,
+        ),
+    )
+    expected_validation = {
+        "frozen_gate_valid": True,
+        "classification": (
+            "fp32_attached_same_environment_clean_location_behavior_exactly_"
+            "reproduced"
+        ),
+        "formal_gate_passed": True,
+        "clean_location_resolution_established": True,
+        "behavioral_reproducibility_established": True,
+        "remaining_blocking_findings": ["remote_revision_origin_unverified"],
+        "next_gate": (
+            "FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1"
+        ),
+        "runtime_eligible": False,
+    }
+    if validation != expected_validation:
+        raise GateError("Tool Router FP32 attached reproducibility validation drift")
+
+    evidence = _load_json_payload(
+        evidence_payload,
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_PATH,
+    )
+    if (
+        evidence.get("formal_gate_passed") is not True
+        or evidence.get("runtime_eligible") is not False
+        or evidence.get("remaining_blocking_findings")
+        != ["remote_revision_origin_unverified"]
+    ):
+        raise GateError("Tool Router FP32 attached reproducibility claim drift")
+    return evidence
 
 
 def _validate_fp32_isolation_precision(runs: list[dict[str, Any]]) -> None:

@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-06.
+> Updated: 2026-08-09.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -61,35 +61,68 @@ execution. FP32 attached offline package manifest v1 now binds the exact
 unchanged attached package through an externally trusted metadata-only
 composite manifest. Strict validation derives
 `fp32_attached_metadata_only_composite_manifest_complete`; all six prior
-package blockers are resolved, and the package identity is eligible to enter a
-clean-location reproducibility test. This establishes metadata completeness and
-offline package identity only. Remote revision origin, clean-location
-resolution, and behavioral reproducibility remain unverified. Offline-artifact,
-portable-package, preferred-candidate, serving, promotion, merged-artifact, and
-Runtime claims remain false. The next gate is clean-location package
-reproducibility, not an Adapter mutation, promotion, or Runtime integration.
+package blockers are resolved. Clean-location reproducibility v1 now resolves
+the exact package from fresh caller-supplied roots and exactly reproduces all
+20 frozen raw outputs and 20 compiled decisions in the same recorded
+environment with one fresh load and zero retries. All seven registered gates
+and resource caps pass. Remote revision origin remains unverified, so
+offline-artifact, portable-package, preferred-candidate, serving, promotion,
+merged-artifact, and Runtime claims remain false. The next gate is remote
+revision-origin attestation, not an Adapter mutation, promotion, or Runtime
+integration.
 
 ## Single active objective
 
-Complete `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1`:
+Complete `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`:
 
 ```text
-externally authenticated manifest + exact unchanged component identities
-        -> pre-register clean-location materialization and resolution
-resolved attached-only package + frozen execution/comparison contract
-        -> test behavioral reproducibility without promotion or Runtime
+pinned remote revision + exact externally authenticated package bytes
+        -> independently attest the revision origin
+origin attestation + completed same-environment clean-location replay
+        -> preserve fail-closed promotion, serving, and Runtime decisions
 ```
 
-Use the external manifest SHA-256 as the trust root and resolve the exact base,
-tokenizer, Adapter, prompt, compiler dependencies, environment, and execution
-contract from caller-supplied clean roots without relying on the Adapter's
-historical machine-relative path. Freeze the reconstruction and comparison
-protocol before model execution. Treat current-machine resolution only as entry
-eligibility, not clean-location or behavioral reproducibility. Remote revision
-origin remains unverified unless independently attested. Do not add data, train,
-tune against eval answers, alter the compiler, prompt, generation, precision,
-execution form, or weights, promote or publish an artifact, deploy serving, or
-integrate Runtime/Provider/MCP/Desktop.
+Independently attest the pinned remote revision origin without treating the
+successful Git fetch, Hugging Face download, manifest hash match, or completed
+behavioral replay as origin evidence by themselves. Preserve the unchanged
+package, frozen replay evidence, and all current claim boundaries. Do not add
+data, train, tune against eval answers, alter the compiler, prompt, generation,
+precision, execution form, or weights, promote or publish an artifact, deploy
+serving, or integrate Runtime/Provider/MCP/Desktop.
+
+The `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1` gate
+completed locally on 2026-08-06. Its materialization, execution, and comparison
+protocol was frozen before formal execution at
+`eafd3f646e4ec08dd0a1f76443ccfd416e81fa22`; the preregistration SHA-256 is
+`982d039b2b591d2dab80d489bbbada252c764c82fce94334580807616b22ffff`.
+A fresh checkout and pinned model download resolve base plus tokenizer `9/9`
+at 3,098,971,928 bytes, Adapter `3/3` at 17,468,332 bytes, and repository
+sources `15/15` at 233,571 bytes. The preflight is eligible without importing
+the runtime, loading a model, making a generation call, or creating outputs.
+
+The one formal offline replay uses one fresh FP32 attached-model load, 20
+ordered generation calls, and zero retries. It reproduces raw outputs `20/20`
+and compiled outputs `20/20` exactly. Measured elapsed time is
+`38.108256999985315s`; peak allocated GPU memory is `6,267,895,296 bytes`,
+with `0` bytes before load and `8,519,680` bytes after release. Every registered
+resource cap passes. The predictions artifact SHA-256 is
+`a0e99e80e091d3d6c191e3863449a6a5298d7f0d3a23cc6d786968562e6d2a46`;
+the evidence SHA-256 is
+`0e0d2174f4723ab42a5c11375cee10a819e32737810f63111d098decc2984044`.
+
+Strict post-run recomputation derives
+`fp32_attached_same_environment_clean_location_behavior_exactly_reproduced`
+and `formal_gate_passed=true`. The only remaining blocker is
+`remote_revision_origin_unverified`. Cross-machine portability, repeat
+variance, offline-artifact/portable/preferred eligibility, serving, promotion,
+merged-artifact permission, and Runtime eligibility remain unestablished or
+false. The unified offline gate passes 351 tests with `valid=true` on CPython
+3.11.15, 3.12.12, and 3.13.7 and audits 32 source files. The 56 focused tests,
+Ruff, strict mypy on the typed core/materializer/runner scope, py_compile, and
+`git diff --check` pass. Independent read-only audit found no P0, P1, or P2
+issue. A WSL Ubuntu Python 3.12.3 run also passes all 351 registered tests with
+four explicit Win32-only transport/handle skips.
+[Evidence](docs/FC-MVP-001-fp32-attached-offline-package-reproducibility-v1.md).
 
 The `FC-MVP-001-fp32-attached-offline-package-manifest-v1` gate completed
 locally on 2026-08-06. Its contract and builder were frozen before artifact
@@ -106,12 +139,12 @@ External raw-file SHA validation and strict recomputation derive
 package blockers are resolved. The manifest itself contains no self-digest,
 passed/eligible/Runtime decision, or next-gate decision. Current-machine exact
 resolution succeeds at base plus tokenizer `9/9`, Adapter `3/3`, and repository
-sources `15/15`, but this is not clean-location attestation. The remaining
-blockers are exactly `behavioral_reproducibility_unverified`,
+sources `15/15`, but this was not clean-location attestation. At that manifest
+gate, the remaining blockers were exactly `behavioral_reproducibility_unverified`,
 `clean_location_resolution_unverified`, and
 `remote_revision_origin_unverified`. Offline-artifact, portable-package,
 preferred-candidate, serving, promotion, merged-artifact, and Runtime claims
-remain false.
+were false.
 
 The unified offline gate passes 295 tests with `valid=true` on CPython 3.11.9,
 3.12.12, and 3.13.7 and audits 31 source files. The 27 focused manifest tests,
@@ -564,7 +597,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-003` | Pending review | Explicit-consent rich multimodal capture contract |
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
-| `FC-MVP-001` | In progress | Text Tool Router closed loop; metadata/package identity complete, clean-location reproducibility next |
+| `FC-MVP-001` | In progress | Text Tool Router closed loop; same-environment clean-location exact replay complete, remote revision origin attestation next |
 | `FC-MVP-002` | Pending | Multimodal GUI Action Model |
 
 Detailed technical tasks remain in

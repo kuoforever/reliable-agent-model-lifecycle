@@ -1,0 +1,282 @@
+{
+  "evidence_version": 1,
+  "experiment_id": "fc-mvp-001-fp32-attached-offline-package-reproducibility-v1",
+  "gate_id": "FC-MVP-001-fp32-attached-offline-package-reproducibility-v1",
+  "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+  "candidate_id": "fp32-attached-factorized-lora",
+  "preregistration_sha256": "sha256:982d039b2b591d2dab80d489bbbada252c764c82fce94334580807616b22ffff",
+  "protocol_freeze_commit": "eafd3f646e4ec08dd0a1f76443ccfd416e81fa22",
+  "source_lineage": {
+    "manifest_file_sha256": "sha256:4125f2eef2a4b8f07015169ac7fb77b830514e053a4624aa703e5f5a64943eb0",
+    "reference_predictions_sha256": "sha256:382071f0689ce4ca41329d689f76fc4c4b06faa68769fb80c99181015e678115",
+    "reference_evidence_sha256": "sha256:2dd17f6b1098490034f825d163f48f26eb4093d02f115424eb814cb2c925ad8e",
+    "evaluation_file_sha256": "sha256:32ceee99ab1be5672313a8aead91a089238d007dcab1a31d9ca999f28cc24595",
+    "evaluation_digest": "sha256:02221fedccb331466eb7b4a354c725a0ab31ac121f022298f42d3782b5e56a7a",
+    "protocol_source_hashes": {
+      "contract_source": "sha256:372a2d16fdc8125298eb06f9394840bc189fbb2b8de2b2d0581bcbafb996aa67",
+      "materializer_source": "sha256:1a9476c1e467eb97bb5bc26ac3c38fcd397c81423d91dc10896b7b3acff46025",
+      "runner_source": "sha256:1a93c569dc15863806ef121cbbcde9887718a6f7f767ccce9a817912f1cddb65"
+    }
+  },
+  "replay_artifact": {
+    "path": "tool-router-fp32-attached-offline-package-reproducibility-v1-predictions.json",
+    "bytes": 33942,
+    "sha256": "sha256:a0e99e80e091d3d6c191e3863449a6a5298d7f0d3a23cc6d786968562e6d2a46"
+  },
+  "materialization_receipt": {
+    "clean_groups": [
+      {
+        "expected_files": 9,
+        "issues": [],
+        "matched_bytes": 3098971928,
+        "matched_files": 9,
+        "resolved": true,
+        "root_role": "base_model_and_tokenizer"
+      },
+      {
+        "expected_files": 3,
+        "issues": [],
+        "matched_bytes": 17468332,
+        "matched_files": 3,
+        "resolved": true,
+        "root_role": "adapter"
+      },
+      {
+        "expected_files": 15,
+        "issues": [],
+        "matched_bytes": 233571,
+        "matched_files": 15,
+        "resolved": true,
+        "root_role": "repository"
+      }
+    ],
+    "clean_resolution_digest": "sha256:589d25652e91b93cc8be9f37708beb0badb74a5e7ea1775ba7317e949d1080e4",
+    "destination": {
+      "absolute_paths_recorded": false,
+      "adapter_root_relative_to_repository": "baseline/adapters/fc-mvp-001-lora-sft-v2",
+      "caller_supplied_root": true,
+      "children": {
+        "base_model_and_tokenizer": "base_model_and_tokenizer",
+        "repository": "repository"
+      },
+      "destination_id": "0fd9083350344509b1896d27f3ade5f4",
+      "hardlinks_used": false,
+      "overwrite_used": false,
+      "reparse_points_used": false,
+      "root_created_exclusive": true,
+      "root_was_absent": true,
+      "symlinks_used": false
+    },
+    "experiment_id": "fc-mvp-001-fp32-attached-offline-package-reproducibility-v1",
+    "gate_id": "FC-MVP-001-fp32-attached-offline-package-reproducibility-v1",
+    "issues": [],
+    "manifest_file_sha256": "sha256:4125f2eef2a4b8f07015169ac7fb77b830514e053a4624aa703e5f5a64943eb0",
+    "materialization_passed": true,
+    "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+    "phase_order": [
+      "fresh_repository_checkout",
+      "exact_adapter_lfs_checkout",
+      "pinned_base_snapshot_download",
+      "strict_manifest_resolution",
+      "offline_behavioral_execution"
+    ],
+    "preregistration_sha256": "sha256:982d039b2b591d2dab80d489bbbada252c764c82fce94334580807616b22ffff",
+    "protocol_freeze_commit": "eafd3f646e4ec08dd0a1f76443ccfd416e81fa22",
+    "protocol_sources": {
+      "contract_source": {
+        "bytes": 95999,
+        "path": "src/fullcycle_bridge/tool_router_fp32_attached_offline_package_reproducibility.py",
+        "sha256": "sha256:372a2d16fdc8125298eb06f9394840bc189fbb2b8de2b2d0581bcbafb996aa67"
+      },
+      "materializer_source": {
+        "bytes": 64347,
+        "path": "scripts/materialize_tool_router_fp32_attached_offline_package_reproducibility.py",
+        "sha256": "sha256:1a9476c1e467eb97bb5bc26ac3c38fcd397c81423d91dc10896b7b3acff46025"
+      },
+      "runner_source": {
+        "bytes": 59325,
+        "path": "scripts/probe_tool_router_fp32_attached_offline_package_reproducibility.py",
+        "sha256": "sha256:1a93c569dc15863806ef121cbbcde9887718a6f7f767ccce9a817912f1cddb65"
+      }
+    },
+    "receipt_version": 1,
+    "transport": {
+      "alternate_remote_used": false,
+      "alternate_revision_fallback_used": false,
+      "destination_scoped_cache": true,
+      "destination_scoped_hf_home": true,
+      "fresh_git_checkout": true,
+      "git_fetch_used": true,
+      "git_lfs_checkout_used": true,
+      "historical_adapter_base_path_used": false,
+      "model_downloader_invoked": true,
+      "model_downloader_path": "scripts/download_pinned_tool_router_model.py",
+      "model_downloader_sha256": "sha256:1d0d3321a55b185128de020f4b5a2a9c3ecc22f5abb0535c4712c4fd545d3a28",
+      "network_used_during_execution": false,
+      "network_used_during_materialization": true,
+      "repository_remote_url": "https://github.com/kuoforever/reliable-agent-model-lifecycle.git"
+    }
+  },
+  "clean_resolution": {
+    "resolution_version": 1,
+    "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+    "manifest_file_sha256": "sha256:4125f2eef2a4b8f07015169ac7fb77b830514e053a4624aa703e5f5a64943eb0",
+    "caller_supplied_roots": true,
+    "manifest_machine_paths_used": false,
+    "adapter_local_base_path_used": false,
+    "resolved": true,
+    "eligible_for_clean_location_reproducibility_test": true,
+    "offline_artifact_eligible": false,
+    "runtime_eligible": false,
+    "groups": [
+      {
+        "root_role": "base_model_and_tokenizer",
+        "resolved": true,
+        "expected_files": 9,
+        "matched_files": 9,
+        "matched_bytes": 3098971928,
+        "issues": []
+      },
+      {
+        "root_role": "adapter",
+        "resolved": true,
+        "expected_files": 3,
+        "matched_files": 3,
+        "matched_bytes": 17468332,
+        "issues": []
+      },
+      {
+        "root_role": "repository",
+        "resolved": true,
+        "expected_files": 15,
+        "matched_files": 15,
+        "matched_bytes": 233571,
+        "issues": []
+      }
+    ],
+    "failure_mode": null,
+    "resolution_digest": "sha256:589d25652e91b93cc8be9f37708beb0badb74a5e7ea1775ba7317e949d1080e4"
+  },
+  "comparison": {
+    "comparison_version": 1,
+    "scope": "same_recorded_environment_exact_twenty_case_raw_and_compiled_output_reproduction",
+    "records_expected": 20,
+    "records_observed": 20,
+    "example_order_exact": true,
+    "raw_output_comparison": "exact_utf8_bytes",
+    "raw_outputs_exact": 20,
+    "raw_outputs_digest_reference": "sha256:0ea00c3d73ba40a158d8fb54862d334c42d37be0f895455ea12788240fa2af28",
+    "raw_outputs_digest_observed": "sha256:0ea00c3d73ba40a158d8fb54862d334c42d37be0f895455ea12788240fa2af28",
+    "raw_mismatch_example_ids": [],
+    "compiler_symbol": "compile_decision",
+    "compiler_version": 1,
+    "compiled_output_comparison": "exact_canonical_json_bytes",
+    "compiled_outputs_exact": 20,
+    "compiled_outputs_digest_reference": "sha256:e6ae4e8f825085e72be476fe340a37a8b1d3f2488a078474c5766e085d6e4e0c",
+    "compiled_outputs_digest_observed": "sha256:e6ae4e8f825085e72be476fe340a37a8b1d3f2488a078474c5766e085d6e4e0c",
+    "compiled_mismatch_example_ids": [],
+    "compilation_failures": [],
+    "behavioral_reproducibility_established": true
+  },
+  "resources": {
+    "performance": {
+      "elapsed_seconds": 38.108256999985315,
+      "peak_gpu_memory_bytes": 6267895296,
+      "memory_allocated_before_load_bytes": 0,
+      "memory_allocated_after_release_bytes": 8519680
+    },
+    "caps": {
+      "elapsed_seconds_max": 153.98083879996557,
+      "peak_gpu_memory_bytes_max": 6300631040,
+      "memory_allocated_before_load_bytes_max": 16777216,
+      "memory_allocated_after_release_bytes_max": 16777216
+    },
+    "within_caps": {
+      "elapsed_seconds": true,
+      "peak_gpu_memory_bytes": true,
+      "memory_allocated_before_load_bytes": true,
+      "memory_allocated_after_release_bytes": true
+    },
+    "passed": true
+  },
+  "gates": {
+    "metadata_validation": true,
+    "materialization": true,
+    "clean_location_resolution": true,
+    "environment": true,
+    "execution_contract": true,
+    "behavioral_replay": true,
+    "resources": true
+  },
+  "classification": "fp32_attached_same_environment_clean_location_behavior_exactly_reproduced",
+  "formal_gate_passed": true,
+  "derived_claims": {
+    "metadata_complete": true,
+    "offline_package_identity_complete": true,
+    "clean_location_resolution_established": true,
+    "behavioral_reproducibility_established": true,
+    "behavioral_reproducibility_scope": "same_recorded_environment_exact_twenty_case_raw_and_compiled_output_reproduction",
+    "remote_revision_origin_attested": false,
+    "offline_artifact_eligible": false,
+    "portable_package_eligible": false,
+    "preferred_offline_candidate": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "merged_artifact_allowed": false,
+    "runtime_eligible": false
+  },
+  "remaining_blocking_findings": [
+    "remote_revision_origin_unverified"
+  ],
+  "remaining_blocking_finding_count": 1,
+  "locked_next_action": {
+    "gate_id": "FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1",
+    "action": "independently attest the pinned remote revision origin while keeping all promotion serving and Runtime claims false",
+    "classification": "fp32_attached_same_environment_clean_location_behavior_exactly_reproduced",
+    "formal_gate_passed": true,
+    "eligible_to_start": true,
+    "remaining_blocking_findings": [
+      "remote_revision_origin_unverified"
+    ],
+    "artifact_promotion_allowed": false,
+    "runtime_integration_allowed": false
+  },
+  "constraints": {
+    "new_data": false,
+    "training": false,
+    "eval_answer_tuning": false,
+    "decision_compiler_change": false,
+    "prompt_change": false,
+    "generation_change": false,
+    "precision_change": false,
+    "execution_form_change": false,
+    "base_or_tokenizer_substitution": false,
+    "adapter_or_weight_mutation": false,
+    "merged_weight_creation": false,
+    "artifact_promotion": false,
+    "serving_integration": false,
+    "runtime_integration": false,
+    "provider_integration": false,
+    "mcp_integration": false,
+    "desktop_integration": false
+  },
+  "claims": {
+    "metadata_validation_is_behavioral_reproducibility": false,
+    "materialization_transport_is_remote_origin_attestation": false,
+    "clean_location_is_cross_machine_reproducibility": false,
+    "transitive_dependency_hashes_pinned": false,
+    "full_eval_repeat_variance_established": false,
+    "external_execution_count_attested": false,
+    "offline_artifact_eligible": false,
+    "portable_package_eligible": false,
+    "preferred_offline_candidate": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "merged_artifact_allowed": false,
+    "scope": "same_recorded_environment_clean_location_twenty_case_replay_only"
+  },
+  "model_artifact_saved": false,
+  "tensor_payload_saved": false,
+  "offline_execution": true,
+  "runtime_eligible": false
+}
