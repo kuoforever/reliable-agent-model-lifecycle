@@ -65,30 +65,66 @@ package blockers are resolved. Clean-location reproducibility v1 now resolves
 the exact package from fresh caller-supplied roots and exactly reproduces all
 20 frozen raw outputs and 20 compiled decisions in the same recorded
 environment with one fresh load and zero retries. All seven registered gates
-and resource caps pass. Remote revision origin remains unverified, so
-offline-artifact, portable-package, preferred-candidate, serving, promotion,
-merged-artifact, and Runtime claims remain false. The next gate is remote
-revision-origin attestation, not an Adapter mutation, promotion, or Runtime
-integration.
+and resource caps pass. Remote revision-origin attestation v1 now binds the
+exact package to the fixed GitHub commit/tree/LFS pointer and the fixed Hugging
+Face revision/file metadata through content-addressed SHA-256 and Git blob
+SHA-1 checks. All ten origin gates pass and the prior origin blocker is closed.
+Author/signature, supply-chain, transparency-log, cross-machine, offline,
+portable, preferred, serving, promotion, merged-artifact, and Runtime claims
+remain false pending separate decisions.
 
 ## Single active objective
 
-Complete `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`:
+Complete `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`:
 
 ```text
-pinned remote revision + exact externally authenticated package bytes
-        -> independently attest the revision origin
-origin attestation + completed same-environment clean-location replay
-        -> preserve fail-closed promotion, serving, and Runtime decisions
+completed metadata + exact clean-location replay + hosted origin attestation
+        -> reassess offline artifact eligibility
+eligibility reassessment
+        -> keep preferred, promotion, serving, and Runtime decisions separate
 ```
 
-Independently attest the pinned remote revision origin without treating the
-successful Git fetch, Hugging Face download, manifest hash match, or completed
-behavioral replay as origin evidence by themselves. Preserve the unchanged
-package, frozen replay evidence, and all current claim boundaries. Do not add
-data, train, tune against eval answers, alter the compiler, prompt, generation,
-precision, execution form, or weights, promote or publish an artifact, deploy
-serving, or integrate Runtime/Provider/MCP/Desktop.
+Reassess offline artifact eligibility from the three completed evidence layers
+without treating hosted origin as an author or supply-chain signature,
+cross-machine behavioral portability, preferred-candidate selection,
+promotion, serving, or Runtime readiness. Preserve the unchanged package and
+all frozen evidence. Do not add data, train, tune against eval answers, alter
+the compiler, prompt, generation, precision, execution form, or weights,
+promote or publish an artifact, deploy serving, or integrate
+Runtime/Provider/MCP/Desktop.
+
+The `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1` gate
+completed locally on 2026-08-09. Its metadata-only contract and collector were
+frozen before formal observation at
+`d0f9a6988ef9702c713402bb179d7524e5e12c7f`. The 17,479-byte preregistration
+has SHA-256
+`0523caa79ab820e4de892e25f7e94e0081c1086e0255e286c6f202bbc382667e`;
+the 18,348-byte evidence has SHA-256
+`cdde41aed18e2fecccea1833f16cea4fc808eb5d212376c96f3e2763fcef7cfd`.
+
+One accepted observation makes five fixed HTTPS metadata requests with zero
+automatic retries. GitHub repository ID `1315085157`, package commit
+`eafd3f646e4ec08dd0a1f76443ccfd416e81fa22`, tree
+`175fc22f53392992dc6c6c32093898399702efeb`, all `18/18` selected blobs, and
+the Adapter LFS pointer/batch oid and size bind exactly. Hugging Face repository
+`Qwen/Qwen2.5-1.5B-Instruct`, revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306`, all ten siblings, and all nine
+package files bind exactly. The collector downloads no LFS payload, reads no
+large LFS bytes, loads no model, makes no generation call, writes no package
+bytes, and stores no signed URL/query.
+
+Strict recomputation derives
+`fp32_attached_github_and_huggingface_hosted_revision_origins_attested`,
+`formal_gate_passed=true`, `remote_revision_origin_attested=true`, and no
+remaining origin blockers. GitHub reports the package commit unsigned, so
+author/signature, supply-chain signature, and transparency-log claims remain
+false. Offline-artifact, portable, preferred, serving, promotion, merged, and
+Runtime claims also remain false pending reassessment. The unified offline gate
+passes 379 tests with `valid=true` on local CPython 3.12.12, 3.12.13, and
+3.13.7 and audits 33 source files; the 28 focused tests, Ruff, strict mypy on
+the typed contract/collector, py_compile, and `git diff --check` pass. Python
+3.11 remains delegated to the clean pull-request CI matrix before merge.
+[Evidence](docs/FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1.md).
 
 The `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1` gate
 completed locally on 2026-08-06. Its materialization, execution, and comparison
@@ -112,7 +148,7 @@ the evidence SHA-256 is
 
 Strict post-run recomputation derives
 `fp32_attached_same_environment_clean_location_behavior_exactly_reproduced`
-and `formal_gate_passed=true`. The only remaining blocker is
+and `formal_gate_passed=true`. At that gate, the only remaining blocker was
 `remote_revision_origin_unverified`. Cross-machine portability, repeat
 variance, offline-artifact/portable/preferred eligibility, serving, promotion,
 merged-artifact permission, and Runtime eligibility remain unestablished or
@@ -597,7 +633,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-003` | Pending review | Explicit-consent rich multimodal capture contract |
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
-| `FC-MVP-001` | In progress | Text Tool Router closed loop; same-environment clean-location exact replay complete, remote revision origin attestation next |
+| `FC-MVP-001` | In progress | Text Tool Router closed loop; hosted revision origin attested, offline artifact eligibility reassessment next |
 | `FC-MVP-002` | Pending | Multimodal GUI Action Model |
 
 Detailed technical tasks remain in
