@@ -163,6 +163,14 @@ has one Windows symlink-privilege skip. The 56 focused protocol tests pass with
 the same single skip. Ruff, strict mypy on the typed core/materializer/runner
 scope, `py_compile`, and `git diff --check` also pass.
 
+After GitHub Actions exposed Windows assumptions in the test scaffolding, the
+tests were made platform-explicit without changing the frozen materializer,
+runner, contract, preregistration, or formal artifacts. WSL Ubuntu on Python
+3.12.3 passes the same 351 registered tests with four explicit Win32-only
+transport/handle skips; its 56-test focused suite passes with the same four
+skips. The formal Windows tests continue to pass with their single privilege
+skip.
+
 An independent read-only audit found no P0, P1, or P2 issue. It independently
 recomputed replay and evidence hashes, all raw and compiled record hashes,
 resource-cap arithmetic, materialization and clean-resolution digests, freeze

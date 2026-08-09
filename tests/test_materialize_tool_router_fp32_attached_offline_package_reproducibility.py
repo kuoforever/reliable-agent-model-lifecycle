@@ -243,7 +243,7 @@ class MaterializerTests(unittest.TestCase):
     def test_downloader_local_dir_argument_is_platform_bounded_and_idempotent(
         self,
     ) -> None:
-        normal = self.destination / "base_model_and_tokenizer"
+        normal = Path(r"C:\clean-location\aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\base")
         windows_argument = "\\\\?\\" + str(normal)
         self.assertEqual(
             materializer._downloader_local_dir_argument(
@@ -474,6 +474,7 @@ class MaterializerTests(unittest.TestCase):
         self.assertEqual(observed["cwd"], layout.destination)
         self.assertEqual(observed["env"], environment)
 
+    @unittest.skipUnless(os.name == "nt", "formal local LFS checkout is Windows-scoped")
     def test_local_lfs_checkout_hydrates_verified_object_with_isolated_config(
         self,
     ) -> None:
@@ -778,6 +779,7 @@ class MaterializerTests(unittest.TestCase):
         self.assertFalse(self.destination.exists())
         self.assertFalse(self.receipt.exists())
 
+    @unittest.skipUnless(os.name == "nt", "Win32 read-only cleanup semantics")
     def test_cleanup_removes_nested_read_only_regular_file(self) -> None:
         read_only = (
             self.destination
@@ -960,7 +962,7 @@ class MaterializerTests(unittest.TestCase):
                     "--destination",
                     str(self.destination),
                     "--python-executable",
-                    sys.executable,
+                    str(Path(sys.executable).resolve(strict=True)),
                     "--receipt-output",
                     str(self.receipt),
                     "--freeze-commit",

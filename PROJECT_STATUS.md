@@ -120,7 +120,8 @@ false. The unified offline gate passes 351 tests with `valid=true` on CPython
 3.11.15, 3.12.12, and 3.13.7 and audits 32 source files. The 56 focused tests,
 Ruff, strict mypy on the typed core/materializer/runner scope, py_compile, and
 `git diff --check` pass. Independent read-only audit found no P0, P1, or P2
-issue.
+issue. A WSL Ubuntu Python 3.12.3 run also passes all 351 registered tests with
+four explicit Win32-only transport/handle skips.
 [Evidence](docs/FC-MVP-001-fp32-attached-offline-package-reproducibility-v1.md).
 
 The `FC-MVP-001-fp32-attached-offline-package-manifest-v1` gate completed
