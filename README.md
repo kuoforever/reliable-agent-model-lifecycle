@@ -357,13 +357,34 @@ SHA-256 validation and strict recomputation derive
 `fp32_attached_metadata_only_composite_manifest_complete`; all six prior
 package blockers are resolved.
 
-This establishes metadata completeness and offline package identity only.
-Remote revision origin, clean-location resolution, and behavioral
-reproducibility remain unverified. Offline-artifact eligibility, portable
-package eligibility, preferred-candidate status, serving readiness, promotion,
-merged-artifact permission, and Runtime eligibility remain false. See the
+At that manifest gate, this established metadata completeness and offline
+package identity only. Remote revision origin, clean-location resolution, and
+behavioral reproducibility remained unverified. Offline-artifact eligibility,
+portable-package eligibility, preferred-candidate status, serving readiness,
+promotion, merged-artifact permission, and Runtime eligibility remained false.
+See the
 [manifest evidence](docs/FC-MVP-001-fp32-attached-offline-package-manifest-v1.md)
 and [use/limitations contract](docs/FC-MVP-001-fp32-attached-offline-package-use-v1.md).
+
+### FP32 attached offline package reproducibility v1
+
+A fresh checkout at frozen commit `eafd3f646e4ec08dd0a1f76443ccfd416e81fa22`
+and a freshly downloaded pinned base snapshot resolve the exact package from
+caller-supplied clean roots: base plus tokenizer `9/9`, Adapter `3/3`, and
+repository sources `15/15`. The one pre-registered offline replay uses one
+fresh FP32 attached-model load, 20 ordered generation calls, and zero retries.
+It exactly reproduces all `20/20` raw UTF-8 outputs and all `20/20` compiled
+canonical decisions from the frozen reference.
+
+The classification is
+`fp32_attached_same_environment_clean_location_behavior_exactly_reproduced`.
+The measured replay takes `38.108256999985315` seconds and peaks at
+`6,267,895,296` allocated GPU bytes; all registered resource caps pass. This
+establishes clean-location resolution and exact 20-case behavioral replay only
+in the same recorded environment. `remote_revision_origin_unverified` is the
+sole remaining blocker. Offline-artifact, portable-package, preferred,
+serving, promotion, merged-artifact, and Runtime claims remain false. See
+[offline package reproducibility evidence](docs/FC-MVP-001-fp32-attached-offline-package-reproducibility-v1.md).
 
 ### Scale boundary of the current model evidence
 
@@ -385,6 +406,10 @@ It therefore does not independently prove that no alternate output path was
 ever executed; full-eval repeatability and variance are also intentionally not
 estimated by this gate.
 
+The clean-location gate adds one exact same-recorded-environment replay of the
+frozen 20-case raw and compiled outputs. It does not estimate repeat variance
+or establish cross-machine, cross-driver, or cross-library portability.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -398,12 +423,11 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current work is
-`FC-MVP-001-fp32-attached-offline-package-reproducibility-v1`. Use the external
-manifest SHA-256 as the trust root, freeze a clean-location materialization,
-resolution, execution, and comparison protocol, then test the exact unchanged
-attached package from caller-supplied clean roots. A valid manifest and current
-local resolution are entry evidence, not behavioral reproducibility. Remote
-revision origin also remains unverified unless separately attested. This gate
-must not add data, train, tune against eval answers, change the compiler,
+`FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`. Independently
+attest the pinned remote revision origin while preserving the completed
+same-recorded-environment clean-location replay. A successful fresh fetch and
+download are transport evidence, not remote-origin attestation. Do not treat
+the completed replay as cross-machine portability or promotion evidence. This
+gate must not add data, train, tune against eval answers, change the compiler,
 prompt, generation, precision, execution form, or weights, promote an artifact,
 deploy serving, or integrate Runtime/Provider/MCP/Desktop.
