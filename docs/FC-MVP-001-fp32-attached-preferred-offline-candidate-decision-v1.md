@@ -108,7 +108,9 @@ evaluation and saves no model or tensor payload. It does not establish:
 - Ruff, strict mypy on the typed decision scope, py_compile, builder `--check`,
   and `git diff --check` pass.
 
-The clean pull-request Python 3.11-3.13 matrix remains required before merge.
+The clean pull-request CI matrix independently passes the same 403-test gate
+with `valid=true` and 35 source files audited on CPython 3.11.15, 3.12.13, and
+3.13.14.
 
 ## Locked next action
 

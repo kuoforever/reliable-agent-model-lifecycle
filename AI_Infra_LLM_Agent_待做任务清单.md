@@ -717,8 +717,8 @@ agent-model-factory/
   generation、training 或新 eval，也未保存 model/tensor artifact。
 - local CPython 3.11.15、3.12.12、3.13.7 unified offline gate 各通过 403
   tests、`valid=true`、审计 35 个 source files；12 focused tests、Ruff、strict
-  mypy、py_compile、builder `--check` 与 diff-check 通过，clean PR CI 仍是 merge
-  前置。
+  mypy、py_compile、builder `--check` 与 diff-check 通过；clean PR CI matrix 在
+  CPython 3.11.15、3.12.13、3.13.14 上也独立通过同一 403-test gate。
 - 唯一 active objective 现切换为
   `FC-MVP-001-fp32-attached-portable-package-qualification-v1`：必须以 explicit
   cross-machine behavior/environment evidence 资格化 portability，不得从 preferred
