@@ -490,6 +490,15 @@ resource caps. It does not turn a single strict case-level improvement into a
 generalization, stable speedup, portable-package, capacity, latency, cost,
 promotion, or deployment claim.
 
+The portable-package qualification protocol is frozen at
+`f8dc9a62471759282ad2b41673d95acd43bf240f`. It requires a new exact replay on
+one operationally distinct native Windows machine under the locked user-space
+environment and same GPU class. Its machine receipt stores only
+domain-separated hashes of Windows MachineGuid and NVIDIA GPU UUID, binds them
+to the target replay artifacts, and is explicitly not hardware-backed remote
+attestation. No independent target execution has occurred, so cross-machine
+reproducibility and portable-package eligibility remain false.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -511,3 +520,10 @@ Runtime claims separate and false unless a later gate establishes them. This
 qualification must not add data, train, tune against eval answers, change the
 compiler, prompt, generation, precision, execution form, or weights, promote
 an artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+
+The protocol is frozen, but the formal gate is not complete. The exact next
+action is to run the frozen materialization/replay/qualification sequence on
+one operationally distinct native Windows machine satisfying the locked
+environment and same GPU class. WSL or another path on the controller does not
+qualify. See the
+[portable-package qualification protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
