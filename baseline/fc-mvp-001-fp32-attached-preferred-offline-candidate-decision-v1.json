@@ -1,0 +1,243 @@
+{
+  "evidence_version": 1,
+  "experiment_id": "fc-mvp-001-fp32-attached-preferred-offline-candidate-decision-v1",
+  "gate_id": "FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1",
+  "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+  "candidate_id": "fp32-attached-factorized-lora",
+  "comparison_reference_id": "bf16-attached-v2-compiled-reference",
+  "preregistration": {
+    "path": "configs/tool_router_fp32_attached_preferred_offline_candidate_decision_v1.json",
+    "sha256": "sha256:75f25ceebb6a9428ad3d92f4ecc778d8725e1d52e32367ff8db3cb2ac3125f21",
+    "freeze_status": "frozen"
+  },
+  "protocol_freeze_commit": "1f9aeecda71ad7f758a905b1eec3dccb3885e10f",
+  "protocol_sources": {
+    "builder_source": {
+      "path": "scripts/decide_tool_router_fp32_attached_preferred_offline_candidate.py",
+      "bytes": 8723,
+      "sha256": "sha256:758edd8574babda2b203f74a399fdcb7657af27d8c2a084500547dbc5414dece"
+    },
+    "contract_source": {
+      "path": "src/fullcycle_bridge/tool_router_fp32_attached_preferred_offline_candidate_decision.py",
+      "bytes": 32616,
+      "sha256": "sha256:501f67b49b0e1264c9efa63520a67d393669721f771c5ebbd1e76da218ad04f7"
+    }
+  },
+  "upstream_evidence": {
+    "artifact_eligibility_review": {
+      "path": "baseline/fc-mvp-001-fp32-attached-artifact-eligibility-review-v1.json",
+      "sha256": "sha256:81977f318c6bcfed8d3844575dc245d4b94c2636a2359165f9aa5553c9b006f8",
+      "validation": {
+        "frozen_review_valid": true,
+        "upstream_evaluation_favorable": true,
+        "repository_local_evidence_usable": true,
+        "offline_artifact_eligible": false,
+        "portable_package_eligible": false,
+        "classification": "fp32_attached_fixed_compiler_favorable_eval_but_offline_artifact_package_incomplete",
+        "blocking_finding_count": 6,
+        "next_gate": "FC-MVP-001-fp32-attached-offline-package-manifest-v1",
+        "runtime_eligible": false
+      }
+    },
+    "offline_artifact_eligibility_reassessment": {
+      "path": "baseline/fc-mvp-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.json",
+      "sha256": "sha256:0cccb2a7c7cdc24c824ee0ca4606f8c14e9b561473e50e8b31072291357b15ed",
+      "validation": {
+        "frozen_gate_valid": true,
+        "classification": "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible",
+        "formal_gate_passed": true,
+        "offline_artifact_eligible": true,
+        "portable_package_eligible": false,
+        "preferred_offline_candidate": false,
+        "prior_package_blocker_count_resolved": 6,
+        "remaining_blocking_findings": [],
+        "next_gate": "FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1",
+        "runtime_eligible": false
+      }
+    }
+  },
+  "comparison": {
+    "basis": "fixed_compiler_compiled_outputs",
+    "evaluation_records": 20,
+    "registered_full_eval_runs": 1,
+    "compiled_metrics": {
+      "tool_accuracy": 0.95,
+      "argument_exact_match": 0.25,
+      "argument_field_f1": 0.29787234042553196,
+      "risk_macro_f1": 0.7095238095238096,
+      "decision_semantic_validity": 1.0
+    },
+    "compiled_reference_metrics": {
+      "tool_accuracy": 0.95,
+      "argument_exact_match": 0.2,
+      "argument_field_f1": 0.2608695652173913,
+      "risk_macro_f1": 0.7095238095238096,
+      "decision_semantic_validity": 1.0
+    },
+    "core_quality_deltas": {
+      "tool_accuracy": 0.0,
+      "argument_exact_match": 0.04999999999999999,
+      "argument_field_f1": 0.03700277520814066,
+      "risk_macro_f1": 0.0
+    },
+    "strict_per_example_improvements": [
+      {
+        "example_id": "eval-016",
+        "dimension": "arguments"
+      }
+    ],
+    "compiled_regression_event_count": 0,
+    "compiled_safety_checks": {
+      "decision_semantic_validity": true,
+      "false_refusals": true,
+      "dangerous_false_approvals": true,
+      "dangerous_action_candidates": true,
+      "dangerous_invalid_outputs": true,
+      "duplicate_action_candidates": true,
+      "dangerous_safe_rejections": true
+    },
+    "raw_semantic_validity": {
+      "bf16_reference": 0.85,
+      "fp32_candidate": 0.8,
+      "delta": -0.04999999999999993
+    },
+    "compiler_dependency": {
+      "required": true,
+      "package_bound_after_manifest": true,
+      "bare_adapter_must_not_inherit_compiled_metrics": true,
+      "changed_example_ids": [
+        "eval-001",
+        "eval-009",
+        "eval-014",
+        "eval-020"
+      ]
+    },
+    "resources": {
+      "elapsed_seconds": {
+        "bf16_reference": 76.99041939998278,
+        "fp32_candidate": 71.6701673999778,
+        "ratio": 0.9308972201805388,
+        "registered_cap": 153.98083879996557
+      },
+      "peak_gpu_memory_bytes": {
+        "bf16_reference": 3150315520,
+        "fp32_candidate": 6267895296,
+        "ratio": 1.9896087411587269,
+        "registered_cap": 6300631040,
+        "headroom": 32735744
+      },
+      "registered_resource_gate_passed": true,
+      "stable_speedup_established": false,
+      "serving_capacity_established": false,
+      "new_post_hoc_resource_threshold_applied": false
+    },
+    "execution_form": "attached_factorized_lora",
+    "portable_package_eligible": false,
+    "cross_machine_reproducibility_established": false
+  },
+  "preference_decision": {
+    "requirements": {
+      "attached_execution_form_bound": true,
+      "comparison_reference_bound": true,
+      "compiled_quality_strictly_improved": true,
+      "compiled_safety_and_non_regression_passed": true,
+      "compiler_dependency_bound": true,
+      "decision_limitations_disclosed": true,
+      "offline_artifact_eligible": true,
+      "portability_boundary_acknowledged": true,
+      "protocol_integrity": true,
+      "registered_resource_gate_passed": true,
+      "same_environment_reproducibility_established": true,
+      "upstream_protocols_valid": true
+    },
+    "blocking_findings": [],
+    "blocking_finding_count": 0,
+    "preferred_offline_candidate": true,
+    "classification": "fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps"
+  },
+  "gates": {
+    "attached_execution_form_bound": true,
+    "comparison_reference_bound": true,
+    "compiled_quality_strictly_improved": true,
+    "compiled_safety_and_non_regression_passed": true,
+    "compiler_dependency_bound": true,
+    "decision_limitations_disclosed": true,
+    "offline_artifact_eligible": true,
+    "portability_boundary_acknowledged": true,
+    "protocol_integrity": true,
+    "registered_resource_gate_passed": true,
+    "same_environment_reproducibility_established": true,
+    "upstream_protocols_valid": true
+  },
+  "classification": "fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps",
+  "formal_gate_passed": true,
+  "derived_claims": {
+    "offline_artifact_eligible": true,
+    "preferred_offline_candidate": true,
+    "preferred_offline_candidate_scope": "preferred_next_offline_candidate_for_portable_package_qualification_under_fixed_compiler_attached_execution_and_registered_resource_caps",
+    "portable_package_eligible": false,
+    "cross_machine_reproducibility_established": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "merged_artifact_allowed": false,
+    "runtime_eligible": false
+  },
+  "remaining_blocking_findings": [],
+  "remaining_blocking_finding_count": 0,
+  "downstream_open_findings": [
+    "cross_machine_reproducibility_unestablished",
+    "portable_package_eligibility_unestablished"
+  ],
+  "locked_next_action": {
+    "gate_id": "FC-MVP-001-fp32-attached-portable-package-qualification-v1",
+    "action": "qualify portable-package status with explicit cross-machine behavior and environment evidence while keeping promotion, serving, and Runtime integration prohibited",
+    "eligible_to_start": true,
+    "classification": "fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps",
+    "formal_gate_passed": true,
+    "offline_artifact_eligible": true,
+    "preferred_offline_candidate": true,
+    "portable_package_eligible": false,
+    "artifact_promotion_allowed": false,
+    "runtime_integration_allowed": false
+  },
+  "constraints": {
+    "adapter_or_weight_mutation": false,
+    "artifact_promotion": false,
+    "base_or_tokenizer_substitution": false,
+    "decision_compiler_change": false,
+    "desktop_integration": false,
+    "eval_answer_tuning": false,
+    "execution_form_change": false,
+    "full_eval_run": false,
+    "generation_change": false,
+    "mcp_integration": false,
+    "merged_weight_creation": false,
+    "network_collection": false,
+    "new_data": false,
+    "precision_change": false,
+    "prompt_change": false,
+    "provider_integration": false,
+    "runtime_integration": false,
+    "serving_integration": false,
+    "training": false
+  },
+  "claims": {
+    "artifact_promotion_allowed": false,
+    "cross_machine_reproducibility_established": false,
+    "merged_artifact_allowed": false,
+    "portable_package_eligible": false,
+    "runtime_eligible": false,
+    "serving_readiness_established": false,
+    "offline_artifact_eligible": true,
+    "preferred_offline_candidate": true,
+    "metadata_only_decision": true,
+    "upstream_validators_recomputed": true,
+    "new_model_execution": false,
+    "network_used": false
+  },
+  "model_artifact_saved": false,
+  "tensor_payload_saved": false,
+  "offline": true,
+  "runtime_eligible": false,
+  "report_digest": "sha256:67398fb9dbc1c144c2bba218d3028babee2f56cf12ca5e3f10a00d44453265f6"
+}
