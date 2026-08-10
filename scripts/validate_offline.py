@@ -184,6 +184,27 @@ TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_SHA256 = (
 TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_FREEZE_COMMIT = (
     "d0f9a6988ef9702c713402bb179d7524e5e12c7f"
 )
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_PREREGISTRATION_PATH = (
+    ROOT
+    / "configs"
+    / "tool_router_fp32_attached_offline_artifact_eligibility_"
+    "reassessment_v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_PREREGISTRATION_SHA256 = (
+    "sha256:f1fc627d3d20f9c954f93e0cd4c930b22f592c48d2f4af72220c184f2e32c662"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_PATH = (
+    ROOT
+    / "baseline"
+    / "fc-mvp-001-fp32-attached-offline-artifact-eligibility-"
+    "reassessment-v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_SHA256 = (
+    "sha256:0cccb2a7c7cdc24c824ee0ca4606f8c14e9b561473e50e8b31072291357b15ed"
+)
+TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_FREEZE_COMMIT = (
+    "2a5db8afaf90a3557d6d8d8cd808089d305d83e1"
+)
 SUPPORTED_MINORS = {(3, 11), (3, 12), (3, 13)}
 FORBIDDEN_IMPORT_ROOTS = frozenset(
     {
@@ -267,6 +288,11 @@ def main() -> int:
     )
     fp32_attached_remote_origin = _validate_fp32_attached_remote_origin(
         fp32_attached_offline_package_reproducibility
+    )
+    fp32_attached_offline_artifact_reassessment = (
+        _validate_fp32_attached_offline_artifact_reassessment(
+            fp32_attached_remote_origin
+        )
     )
     tests_run = _run_tests()
 
@@ -490,7 +516,7 @@ def main() -> int:
             ]
         ),
         "tool_router_fp32_attached_offline_artifact_eligible": (
-            fp32_attached_artifact_eligibility["eligibility_decision"][
+            fp32_attached_offline_artifact_reassessment["derived_claims"][
                 "offline_artifact_eligible"
             ]
         ),
@@ -498,7 +524,7 @@ def main() -> int:
             fp32_attached_artifact_eligibility["packaging_review"]["blocking_findings"]
         ),
         "tool_router_fp32_attached_preferred_offline_candidate": (
-            fp32_attached_artifact_eligibility["eligibility_decision"][
+            fp32_attached_offline_artifact_reassessment["derived_claims"][
                 "preferred_offline_candidate"
             ]
         ),
@@ -596,9 +622,28 @@ def main() -> int:
                 "portable_package_eligible"
             ]
         ),
-        "tool_router_next_gate": fp32_attached_remote_origin["locked_next_action"][
-            "gate_id"
-        ],
+        "tool_router_fp32_attached_offline_artifact_reassessment_classification": (
+            fp32_attached_offline_artifact_reassessment["classification"]
+        ),
+        "tool_router_fp32_attached_offline_artifact_reassessment_gate_passed": (
+            fp32_attached_offline_artifact_reassessment["formal_gate_passed"]
+        ),
+        "tool_router_fp32_attached_offline_artifact_reassessment_evidence_sha256": (
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_SHA256
+        ),
+        "tool_router_fp32_attached_offline_artifact_reassessment_remaining_blocking_findings": (
+            fp32_attached_offline_artifact_reassessment[
+                "remaining_blocking_findings"
+            ]
+        ),
+        "tool_router_fp32_attached_offline_artifact_reassessment_portable_package_eligible": (
+            fp32_attached_offline_artifact_reassessment["derived_claims"][
+                "portable_package_eligible"
+            ]
+        ),
+        "tool_router_next_gate": fp32_attached_offline_artifact_reassessment[
+            "locked_next_action"
+        ]["gate_id"],
     }
     print(json.dumps(result, sort_keys=True, separators=(",", ":")))
     return 0
@@ -3457,6 +3502,122 @@ def _validate_fp32_attached_remote_origin(
         or evidence.get("runtime_eligible") is not False
     ):
         raise GateError("Tool Router FP32 attached remote-origin claim drift")
+    return evidence
+
+
+def _validate_fp32_attached_offline_artifact_reassessment(
+    remote_origin_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    from fullcycle_bridge.tool_router_fp32_attached_offline_artifact_eligibility_reassessment import (
+        validate_reassessment_evidence,
+    )
+    from scripts.reassess_tool_router_fp32_attached_offline_artifact_eligibility import (
+        compute_upstream_validations,
+        load_upstream_payloads,
+        protocol_source_payloads,
+    )
+
+    remote_derived = remote_origin_evidence.get("derived_claims")
+    if (
+        not isinstance(remote_derived, dict)
+        or remote_origin_evidence.get("formal_gate_passed") is not True
+        or remote_origin_evidence.get("classification")
+        != (
+            "fp32_attached_github_and_huggingface_hosted_revision_origins_"
+            "attested"
+        )
+        or remote_origin_evidence.get("remaining_blocking_findings") != []
+        or remote_derived.get("remote_revision_origin_attested") is not True
+        or remote_derived.get("offline_artifact_eligible") is not False
+        or remote_origin_evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "Tool Router FP32 attached offline-artifact reassessment upstream drift"
+        )
+
+    preregistration_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_PREREGISTRATION_PATH,
+        "Tool Router FP32 attached offline-artifact reassessment preregistration",
+    )
+    evidence_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_PATH,
+        "Tool Router FP32 attached offline-artifact reassessment evidence",
+    )
+    upstream_payloads = load_upstream_payloads()
+    upstream_validations = compute_upstream_validations(upstream_payloads)
+    validation = validate_reassessment_evidence(
+        preregistration_payload,
+        evidence_payload,
+        expected_preregistration_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_PREREGISTRATION_SHA256
+        ),
+        expected_evidence_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_SHA256
+        ),
+        expected_protocol_freeze_commit=(
+            TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_FREEZE_COMMIT
+        ),
+        upstream_payloads=upstream_payloads,
+        upstream_validations=upstream_validations,
+        protocol_source_payloads=protocol_source_payloads(),
+    )
+    expected_validation = {
+        "frozen_gate_valid": True,
+        "classification": (
+            "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_"
+            "package_eligible"
+        ),
+        "formal_gate_passed": True,
+        "offline_artifact_eligible": True,
+        "portable_package_eligible": False,
+        "preferred_offline_candidate": False,
+        "prior_package_blocker_count_resolved": 6,
+        "remaining_blocking_findings": [],
+        "next_gate": (
+            "FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1"
+        ),
+        "runtime_eligible": False,
+    }
+    if validation != expected_validation:
+        raise GateError(
+            "Tool Router FP32 attached offline-artifact reassessment validation drift"
+        )
+
+    evidence = _load_json_payload(
+        evidence_payload,
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_PATH,
+    )
+    derived = evidence.get("derived_claims")
+    claims = evidence.get("claims")
+    gates = evidence.get("gates")
+    if (
+        not isinstance(derived, dict)
+        or not isinstance(claims, dict)
+        or not isinstance(gates, dict)
+        or len(gates) != 9
+        or any(value is not True for value in gates.values())
+        or evidence.get("formal_gate_passed") is not True
+        or evidence.get("remaining_blocking_findings") != []
+        or len(evidence.get("resolved_prior_package_blockers", [])) != 6
+        or derived.get("offline_artifact_eligible") is not True
+        or derived.get("portable_package_eligible") is not False
+        or derived.get("cross_machine_reproducibility_established") is not False
+        or derived.get("preferred_offline_candidate") is not False
+        or derived.get("serving_readiness_established") is not False
+        or derived.get("artifact_promotion_allowed") is not False
+        or derived.get("merged_artifact_allowed") is not False
+        or derived.get("runtime_eligible") is not False
+        or claims.get("metadata_only_reassessment") is not True
+        or claims.get("upstream_validators_recomputed") is not True
+        or claims.get("new_model_execution") is not False
+        or claims.get("network_used") is not False
+        or evidence.get("model_artifact_saved") is not False
+        or evidence.get("tensor_payload_saved") is not False
+        or evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "Tool Router FP32 attached offline-artifact reassessment claim drift"
+        )
     return evidence
 
 

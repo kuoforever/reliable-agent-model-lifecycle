@@ -575,7 +575,7 @@ agent-model-factory/
 - 记录峰值显存、训练时间、Adapter 大小和最终指标
 - Adapter 可独立加载与合并
 
-**当前进展（2026-08-09）**
+**当前进展（2026-08-10）**
 
 - `FC-MVP-001-fp32-attached-remediation-eval-v1` 已在结果产生前锁定 runner、
   compiler、comparison contract、唯一 FP32 attached candidate、唯一 run、
@@ -666,15 +666,36 @@ agent-model-factory/
   `formal_gate_passed=true`、`remote_revision_origin_attested=true`、remaining
   blockers 为 0。
 - GitHub 明确报告 package commit unsigned，因此 author/signature、supply-chain
-  signature、historical transparency log 仍未建立；cross-machine、offline-artifact、
-  portable、preferred、serving、promotion、merged 与 Runtime 也继续为 false。
+  signature、historical transparency log 仍未建立；在该 gate 当时，
+  cross-machine、offline-artifact、portable、preferred、serving、promotion、
+  merged 与 Runtime 也继续为 false。
   本地 CPython 3.12.12、3.12.13、3.13.7 unified offline gate 均通过 379
   tests、审计 33 个 source files；clean PR CI matrix 在 CPython 3.11.15、
   3.12.13、3.13.14 上独立通过同一 gate。
+- `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1` 已完成：
+  outcome-neutral metadata-only protocol 先冻结于
+  `2a5db8afaf90a3557d6d8d8cd808089d305d83e1`；4,920-byte preregistration
+  SHA-256 为
+  `f1fc627d3d20f9c954f93e0cd4c930b22f592c48d2f4af72220c184f2e32c662`，
+  9,747-byte formal evidence SHA-256 为
+  `0cccb2a7c7cdc24c824ee0ca4606f8c14e9b561473e50e8b31072291357b15ed`。
+- 该 reassessment 严格重算 artifact review、manifest、clean-location replay、
+  remote-origin 四层 canonical validator；historical six package blockers 全部已由
+  manifest 解析，9/9 gates 全 true、remaining blockers 为 0，分类为
+  `fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible`，
+  `formal_gate_passed=true`、`offline_artifact_eligible=true`。
+- 该结论只关闭 exact composite package 的 offline artifact eligibility；
+  portable-package、cross-machine、preferred、serving、promotion、merged 与
+  Runtime 继续为 false。gate 未使用 network、model load、generation、training
+  或新 eval，也未保存 model/tensor artifact。
+- local CPython 3.11.15、3.12.12、3.13.7 unified offline gate 各通过 391
+  tests、`valid=true`、审计 34 个 source files；12 focused tests、Ruff、strict
+  mypy、py_compile、builder `--check` 与 diff-check 通过，clean PR Python
+  3.11-3.13 matrix 仍是 merge 前置条件。
 - 唯一 active objective 现切换为
-  `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`：只重审
-  offline artifact eligibility，不得自动推导 preferred candidate、promotion、
-  serving 或 Runtime readiness。
+  `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`：只比较 frozen
+  quality、compiler dependency、resource、execution-form 与 portability evidence，
+  不得自动推导 promotion、serving 或 Runtime readiness。
 
 ## TOOL-007：输出/序列蒸馏
 
