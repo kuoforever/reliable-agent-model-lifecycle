@@ -690,8 +690,8 @@ agent-model-factory/
   或新 eval，也未保存 model/tensor artifact。
 - local CPython 3.11.15、3.12.12、3.13.7 unified offline gate 各通过 391
   tests、`valid=true`、审计 34 个 source files；12 focused tests、Ruff、strict
-  mypy、py_compile、builder `--check` 与 diff-check 通过，clean PR Python
-  3.11-3.13 matrix 仍是 merge 前置条件。
+  mypy、py_compile、builder `--check` 与 diff-check 通过；clean PR CI matrix 在
+  CPython 3.11.15、3.12.13、3.13.14 上也独立通过同一 391-test gate。
 - 唯一 active objective 现切换为
   `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`：只比较 frozen
   quality、compiler dependency、resource、execution-form 与 portability evidence，

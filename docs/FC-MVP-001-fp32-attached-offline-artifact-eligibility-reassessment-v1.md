@@ -94,7 +94,9 @@ revision origin. The following remain false or unestablished:
 - Ruff, strict mypy on the typed reassessment scope, py_compile, builder
   `--check`, and `git diff --check` pass.
 
-The clean pull-request Python 3.11-3.13 matrix remains required before merge.
+The clean pull-request CI matrix independently passes the same 391-test gate
+with `valid=true` and 34 source files audited on CPython 3.11.15, 3.12.13, and
+3.13.14.
 
 ## Locked next action
 

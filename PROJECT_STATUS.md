@@ -123,8 +123,8 @@ preferred-candidate, serving, promotion, merged-artifact, and Runtime claims
 remain false. The unified offline gate passes 391 tests with `valid=true` and
 audits 34 source files on local CPython 3.11.15, 3.12.12, and 3.13.7. The 12
 focused tests, Ruff, strict mypy on the typed reassessment scope, py_compile,
-builder `--check`, and `git diff --check` pass; the clean Python 3.11-3.13
-pull-request matrix remains required before merge.
+builder `--check`, and `git diff --check` pass. The clean pull-request CI matrix
+independently passes the same gate on CPython 3.11.15, 3.12.13, and 3.13.14.
 [Evidence](docs/FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.md).
 
 The `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1` gate
