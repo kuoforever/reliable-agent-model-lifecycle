@@ -165,6 +165,25 @@ TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_SHA256 = (
 TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_FREEZE_COMMIT = (
     "eafd3f646e4ec08dd0a1f76443ccfd416e81fa22"
 )
+TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_PREREGISTRATION_PATH = (
+    ROOT
+    / "configs"
+    / "tool_router_fp32_attached_remote_revision_origin_attestation_v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_PREREGISTRATION_SHA256 = (
+    "sha256:0523caa79ab820e4de892e25f7e94e0081c1086e0255e286c6f202bbc382667e"
+)
+TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_PATH = (
+    ROOT
+    / "baseline"
+    / "fc-mvp-001-fp32-attached-remote-revision-origin-attestation-v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_SHA256 = (
+    "sha256:cdde41aed18e2fecccea1833f16cea4fc808eb5d212376c96f3e2763fcef7cfd"
+)
+TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_FREEZE_COMMIT = (
+    "d0f9a6988ef9702c713402bb179d7524e5e12c7f"
+)
 SUPPORTED_MINORS = {(3, 11), (3, 12), (3, 13)}
 FORBIDDEN_IMPORT_ROOTS = frozenset(
     {
@@ -245,6 +264,9 @@ def main() -> int:
         _validate_fp32_attached_offline_package_reproducibility(
             fp32_attached_offline_package
         )
+    )
+    fp32_attached_remote_origin = _validate_fp32_attached_remote_origin(
+        fp32_attached_offline_package_reproducibility
     )
     tests_run = _run_tests()
 
@@ -506,7 +528,7 @@ def main() -> int:
             ]
         ),
         "tool_router_fp32_attached_offline_package_remote_origin_attested": (
-            fp32_attached_offline_package_reproducibility["derived_claims"][
+            fp32_attached_remote_origin["derived_claims"][
                 "remote_revision_origin_attested"
             ]
         ),
@@ -516,9 +538,7 @@ def main() -> int:
             ]
         ),
         "tool_router_fp32_attached_offline_package_remaining_blocking_findings": (
-            fp32_attached_offline_package_reproducibility[
-                "remaining_blocking_findings"
-            ]
+            fp32_attached_remote_origin["remaining_blocking_findings"]
         ),
         "tool_router_fp32_attached_offline_package_reproducibility_classification": (
             fp32_attached_offline_package_reproducibility["classification"]
@@ -557,9 +577,28 @@ def main() -> int:
         "tool_router_fp32_attached_offline_package_evidence_sha256": (
             TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_SHA256
         ),
-        "tool_router_next_gate": fp32_attached_offline_package_reproducibility[
-            "locked_next_action"
-        ]["gate_id"],
+        "tool_router_fp32_attached_remote_origin_classification": (
+            fp32_attached_remote_origin["classification"]
+        ),
+        "tool_router_fp32_attached_remote_origin_gate_passed": (
+            fp32_attached_remote_origin["formal_gate_passed"]
+        ),
+        "tool_router_fp32_attached_remote_origin_evidence_sha256": (
+            TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_SHA256
+        ),
+        "tool_router_fp32_attached_remote_origin_offline_artifact_eligible": (
+            fp32_attached_remote_origin["derived_claims"][
+                "offline_artifact_eligible"
+            ]
+        ),
+        "tool_router_fp32_attached_remote_origin_portable_package_eligible": (
+            fp32_attached_remote_origin["derived_claims"][
+                "portable_package_eligible"
+            ]
+        ),
+        "tool_router_next_gate": fp32_attached_remote_origin["locked_next_action"][
+            "gate_id"
+        ],
     }
     print(json.dumps(result, sort_keys=True, separators=(",", ":")))
     return 0
@@ -3299,6 +3338,125 @@ def _validate_fp32_attached_offline_package_reproducibility(
         != ["remote_revision_origin_unverified"]
     ):
         raise GateError("Tool Router FP32 attached reproducibility claim drift")
+    return evidence
+
+
+def _validate_fp32_attached_remote_origin(
+    reproducibility_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    from fullcycle_bridge.tool_router_fp32_attached_remote_revision_origin_attestation import (
+        PROTOCOL_SOURCE_PATHS,
+        validate_origin_attestation_evidence,
+    )
+
+    prior_derived = reproducibility_evidence.get("derived_claims")
+    if (
+        not isinstance(prior_derived, dict)
+        or reproducibility_evidence.get("formal_gate_passed") is not True
+        or reproducibility_evidence.get("classification")
+        != (
+            "fp32_attached_same_environment_clean_location_behavior_exactly_"
+            "reproduced"
+        )
+        or reproducibility_evidence.get("remaining_blocking_findings")
+        != ["remote_revision_origin_unverified"]
+        or prior_derived.get("remote_revision_origin_attested") is not False
+        or reproducibility_evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError("Tool Router FP32 attached remote-origin upstream drift")
+
+    preregistration_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_PREREGISTRATION_PATH,
+        "Tool Router FP32 attached remote-origin preregistration",
+    )
+    evidence_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_PATH,
+        "Tool Router FP32 attached remote-origin evidence",
+    )
+    manifest_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_MANIFEST_PATH,
+        "Tool Router FP32 attached offline package manifest",
+    )
+    reproducibility_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_OFFLINE_PACKAGE_REPRODUCIBILITY_EVIDENCE_PATH,
+        "Tool Router FP32 attached reproducibility evidence",
+    )
+    protocol_source_payloads = {
+        name: _read_regular_file_once(
+            ROOT / relative,
+            f"Tool Router FP32 attached remote-origin {name}",
+        )
+        for name, relative in PROTOCOL_SOURCE_PATHS.items()
+    }
+    validation = validate_origin_attestation_evidence(
+        preregistration_payload,
+        evidence_payload,
+        expected_preregistration_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_PREREGISTRATION_SHA256
+        ),
+        expected_evidence_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_SHA256
+        ),
+        expected_protocol_freeze_commit=(
+            TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_FREEZE_COMMIT
+        ),
+        manifest_payload=manifest_payload,
+        reproducibility_evidence_payload=reproducibility_payload,
+        protocol_source_payloads=protocol_source_payloads,
+    )
+    expected_validation = {
+        "frozen_gate_valid": True,
+        "classification": (
+            "fp32_attached_github_and_huggingface_hosted_revision_origins_attested"
+        ),
+        "formal_gate_passed": True,
+        "remote_revision_origin_attested": True,
+        "remaining_blocking_findings": [],
+        "next_gate": (
+            "FC-MVP-001-fp32-attached-offline-artifact-eligibility-"
+            "reassessment-v1"
+        ),
+        "offline_artifact_eligible": False,
+        "portable_package_eligible": False,
+        "preferred_offline_candidate": False,
+        "runtime_eligible": False,
+    }
+    if validation != expected_validation:
+        raise GateError("Tool Router FP32 attached remote-origin validation drift")
+
+    evidence = _load_json_payload(
+        evidence_payload,
+        TOOL_ROUTER_FP32_ATTACHED_REMOTE_ORIGIN_EVIDENCE_PATH,
+    )
+    derived = evidence.get("derived_claims")
+    collection = evidence.get("collection")
+    if (
+        not isinstance(derived, dict)
+        or not isinstance(collection, dict)
+        or evidence.get("formal_gate_passed") is not True
+        or evidence.get("remaining_blocking_findings") != []
+        or derived.get("remote_revision_origin_attested") is not True
+        or derived.get("author_identity_or_signature_attested") is not False
+        or derived.get("supply_chain_signature_attested") is not False
+        or derived.get("historical_transparency_log_attested") is not False
+        or derived.get("offline_artifact_eligible") is not False
+        or derived.get("portable_package_eligible") is not False
+        or derived.get("preferred_offline_candidate") is not False
+        or derived.get("serving_readiness_established") is not False
+        or derived.get("artifact_promotion_allowed") is not False
+        or derived.get("merged_artifact_allowed") is not False
+        or derived.get("runtime_eligible") is not False
+        or collection.get("fixed_https_requests") != 5
+        or collection.get("automatic_request_retries") != 0
+        or collection.get("model_or_adapter_lfs_downloaded") is not False
+        or collection.get("large_lfs_payload_bytes_read") != 0
+        or collection.get("model_loaded") is not False
+        or collection.get("generation_calls") != 0
+        or collection.get("package_bytes_written") is not False
+        or collection.get("lfs_signed_url_or_query_stored") is not False
+        or evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError("Tool Router FP32 attached remote-origin claim drift")
     return evidence
 
 

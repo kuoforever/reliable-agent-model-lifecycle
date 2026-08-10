@@ -643,10 +643,38 @@ agent-model-factory/
   portable-package、preferred、serving、promotion、merged-artifact 与 Runtime
   全部仍为 false，也不支持 cross-machine portability、repeat variance 或
   external execution-count attestation。
-- 唯一 active objective 切换为
+- 该 replay gate 当时把唯一 active objective 切换为
   `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`：独立认证 pinned
   remote revision origin；不得把 successful fetch/download 或 manifest hash match
   写成 origin attestation，不得扩展为 promotion、serving 或 Runtime work。
+- `FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1` 已完成：
+  metadata-only protocol 先冻结于
+  `d0f9a6988ef9702c713402bb179d7524e5e12c7f`；17,479-byte preregistration
+  SHA-256 为
+  `0523caa79ab820e4de892e25f7e94e0081c1086e0255e286c6f202bbc382667e`，
+  18,348-byte evidence SHA-256 为
+  `cdde41aed18e2fecccea1833f16cea4fc808eb5d212376c96f3e2763fcef7cfd`。
+- 唯一 accepted observation 使用 5 个固定 HTTPS metadata requests、零自动
+  retry。GitHub repository ID、`eafd3f6...` commit、`175fc22...` tree、18/18
+  package blobs 与 Adapter LFS pointer/batch oid+size 全部精确绑定；Hugging Face
+  `Qwen/Qwen2.5-1.5B-Instruct` 的 `989aa798...` revision、10 个 siblings 与 9/9
+  package files 全部精确绑定。原始 SHA-256 与 Git blob SHA-1 交叉验证。
+- collector 不下载 model/Adapter LFS payload，不读取 large LFS bytes，不加载
+  model，不调用 generation，不写 package bytes，也不保存 signed URL/query。
+  strict recomputation 分类为
+  `fp32_attached_github_and_huggingface_hosted_revision_origins_attested`，
+  `formal_gate_passed=true`、`remote_revision_origin_attested=true`、remaining
+  blockers 为 0。
+- GitHub 明确报告 package commit unsigned，因此 author/signature、supply-chain
+  signature、historical transparency log 仍未建立；cross-machine、offline-artifact、
+  portable、preferred、serving、promotion、merged 与 Runtime 也继续为 false。
+  本地 CPython 3.12.12、3.12.13、3.13.7 unified offline gate 均通过 379
+  tests、审计 33 个 source files；clean PR CI matrix 在 CPython 3.11.15、
+  3.12.13、3.13.14 上独立通过同一 gate。
+- 唯一 active objective 现切换为
+  `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`：只重审
+  offline artifact eligibility，不得自动推导 preferred candidate、promotion、
+  serving 或 Runtime readiness。
 
 ## TOOL-007：输出/序列蒸馏
 

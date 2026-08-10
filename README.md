@@ -381,10 +381,35 @@ The classification is
 The measured replay takes `38.108256999985315` seconds and peaks at
 `6,267,895,296` allocated GPU bytes; all registered resource caps pass. This
 establishes clean-location resolution and exact 20-case behavioral replay only
-in the same recorded environment. `remote_revision_origin_unverified` is the
-sole remaining blocker. Offline-artifact, portable-package, preferred,
+in the same recorded environment. At that gate,
+`remote_revision_origin_unverified` was the sole remaining blocker.
+Offline-artifact, portable-package, preferred,
 serving, promotion, merged-artifact, and Runtime claims remain false. See
 [offline package reproducibility evidence](docs/FC-MVP-001-fp32-attached-offline-package-reproducibility-v1.md).
+
+### FP32 attached remote revision-origin attestation v1
+
+One frozen metadata-only observation binds the package to both hosted
+revision authorities. GitHub resolves repository ID `1315085157` and commit
+`eafd3f646e4ec08dd0a1f76443ccfd416e81fa22` to the exact 18-entry package
+source closure, including the Adapter Git LFS pointer and advertised oid/size.
+Hugging Face resolves `Qwen/Qwen2.5-1.5B-Instruct` revision
+`989aa7980e4cf806f80c7fef2b1adb7bc71aa306` to all ten repository siblings and
+the exact nine package files. Manifest SHA-256 values and independently
+computed Git blob SHA-1 values close both content-address bindings.
+
+The classification is
+`fp32_attached_github_and_huggingface_hosted_revision_origins_attested` and the
+prior `remote_revision_origin_unverified` blocker is closed. The observation
+makes five fixed HTTPS metadata requests, downloads no model or Adapter LFS
+payload, loads no model, makes no generation call, and stores no signed URL or
+query. GitHub reports the package commit as unsigned, so author identity,
+supply-chain signature, and transparency-log claims remain false.
+
+This gate does not automatically grant offline-artifact, portable-package,
+preferred, serving, promotion, merged-artifact, or Runtime eligibility; each
+remains false pending a separate reassessment. See the
+[remote revision-origin evidence](docs/FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1.md).
 
 ### Scale boundary of the current model evidence
 
@@ -410,6 +435,10 @@ The clean-location gate adds one exact same-recorded-environment replay of the
 frozen 20-case raw and compiled outputs. It does not estimate repeat variance
 or establish cross-machine, cross-driver, or cross-library portability.
 
+The origin gate adds content-addressed GitHub and Hugging Face hosted-revision
+bindings. It does not establish author identity, a signed software supply
+chain, a transparency log, or any new behavioral portability result.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -423,11 +452,12 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current work is
-`FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1`. Independently
-attest the pinned remote revision origin while preserving the completed
-same-recorded-environment clean-location replay. A successful fresh fetch and
-download are transport evidence, not remote-origin attestation. Do not treat
-the completed replay as cross-machine portability or promotion evidence. This
-gate must not add data, train, tune against eval answers, change the compiler,
-prompt, generation, precision, execution form, or weights, promote an artifact,
-deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+`FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`.
+Reassess offline artifact eligibility from the completed metadata,
+same-recorded-environment clean-location replay, and hosted revision-origin
+evidence. Do not treat hosted origin as author or supply-chain signature,
+cross-machine behavioral portability, preferred-candidate selection,
+promotion, serving, or Runtime evidence. This gate must not add data, train,
+tune against eval answers, change the compiler, prompt, generation, precision,
+execution form, or weights, promote an artifact, deploy serving, or integrate
+Runtime/Provider/MCP/Desktop.
