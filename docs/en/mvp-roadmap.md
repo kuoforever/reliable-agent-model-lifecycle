@@ -66,5 +66,6 @@ The same evidence can support role-specific narratives:
 - multi-agent/distributed agents.
 
 Each narrative must use only completed evidence recorded in
-[PROJECT_STATUS](../../PROJECT_STATUS.md).
-
+[PROJECT_STATUS](../../PROJECT_STATUS.md). The project-specific, per-item
+[resume evidence index](../career/resume/) provides a JD-oriented view without
+becoming another roadmap or capability owner.
