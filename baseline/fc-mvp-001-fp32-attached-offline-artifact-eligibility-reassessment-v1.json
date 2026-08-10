@@ -1,0 +1,218 @@
+{
+  "evidence_version": 1,
+  "experiment_id": "fc-mvp-001-fp32-attached-offline-artifact-eligibility-reassessment-v1",
+  "gate_id": "FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1",
+  "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+  "candidate_id": "fp32-attached-factorized-lora",
+  "preregistration": {
+    "path": "configs/tool_router_fp32_attached_offline_artifact_eligibility_reassessment_v1.json",
+    "sha256": "sha256:f1fc627d3d20f9c954f93e0cd4c930b22f592c48d2f4af72220c184f2e32c662",
+    "freeze_status": "frozen"
+  },
+  "protocol_freeze_commit": "2a5db8afaf90a3557d6d8d8cd808089d305d83e1",
+  "protocol_sources": {
+    "builder_source": {
+      "path": "scripts/reassess_tool_router_fp32_attached_offline_artifact_eligibility.py",
+      "bytes": 13180,
+      "sha256": "sha256:29a25968306efef47b472d2e0ef0eb4e8a17a6ed3987cdd4e81c4bda044cbcd4"
+    },
+    "contract_source": {
+      "path": "src/fullcycle_bridge/tool_router_fp32_attached_offline_artifact_eligibility_reassessment.py",
+      "bytes": 30480,
+      "sha256": "sha256:958ebf9b1b1a3c3cd37b18318e9572c1c36e502d090772a9e2165b9d1d4d75c3"
+    }
+  },
+  "upstream_evidence": {
+    "artifact_eligibility_review": {
+      "path": "baseline/fc-mvp-001-fp32-attached-artifact-eligibility-review-v1.json",
+      "sha256": "sha256:81977f318c6bcfed8d3844575dc245d4b94c2636a2359165f9aa5553c9b006f8",
+      "validation": {
+        "frozen_review_valid": true,
+        "upstream_evaluation_favorable": true,
+        "repository_local_evidence_usable": true,
+        "offline_artifact_eligible": false,
+        "portable_package_eligible": false,
+        "classification": "fp32_attached_fixed_compiler_favorable_eval_but_offline_artifact_package_incomplete",
+        "blocking_finding_count": 6,
+        "next_gate": "FC-MVP-001-fp32-attached-offline-package-manifest-v1",
+        "runtime_eligible": false
+      }
+    },
+    "offline_package_manifest": {
+      "path": "baseline/fc-mvp-001-fp32-attached-offline-package-manifest-v1.json",
+      "sha256": "sha256:4125f2eef2a4b8f07015169ac7fb77b830514e053a4624aa703e5f5a64943eb0",
+      "validation": {
+        "frozen_manifest_valid": true,
+        "manifest_file_sha256": "sha256:4125f2eef2a4b8f07015169ac7fb77b830514e053a4624aa703e5f5a64943eb0",
+        "metadata_complete": true,
+        "offline_package_identity_complete": true,
+        "attached_package_identity_bound": true,
+        "prior_package_blocker_count_resolved": 6,
+        "eligible_for_clean_location_reproducibility_test": true,
+        "remote_revision_origin_attested": false,
+        "behavioral_reproducibility_established": false,
+        "offline_artifact_eligible": false,
+        "portable_package_eligible": false,
+        "preferred_offline_candidate": false,
+        "serving_readiness_established": false,
+        "artifact_promotion_allowed": false,
+        "merged_artifact_allowed": false,
+        "classification": "fp32_attached_metadata_only_composite_manifest_complete",
+        "remaining_blocking_findings": [
+          "behavioral_reproducibility_unverified",
+          "clean_location_resolution_unverified",
+          "remote_revision_origin_unverified"
+        ],
+        "remaining_blocking_finding_count": 3,
+        "next_gate": "FC-MVP-001-fp32-attached-offline-package-reproducibility-v1",
+        "runtime_eligible": false
+      }
+    },
+    "offline_package_reproducibility": {
+      "path": "baseline/fc-mvp-001-fp32-attached-offline-package-reproducibility-v1.json",
+      "sha256": "sha256:0e0d2174f4723ab42a5c11375cee10a819e32737810f63111d098decc2984044",
+      "validation": {
+        "frozen_gate_valid": true,
+        "classification": "fp32_attached_same_environment_clean_location_behavior_exactly_reproduced",
+        "formal_gate_passed": true,
+        "clean_location_resolution_established": true,
+        "behavioral_reproducibility_established": true,
+        "remaining_blocking_findings": [
+          "remote_revision_origin_unverified"
+        ],
+        "next_gate": "FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1",
+        "runtime_eligible": false
+      }
+    },
+    "remote_revision_origin_attestation": {
+      "path": "baseline/fc-mvp-001-fp32-attached-remote-revision-origin-attestation-v1.json",
+      "sha256": "sha256:cdde41aed18e2fecccea1833f16cea4fc808eb5d212376c96f3e2763fcef7cfd",
+      "validation": {
+        "frozen_gate_valid": true,
+        "classification": "fp32_attached_github_and_huggingface_hosted_revision_origins_attested",
+        "formal_gate_passed": true,
+        "remote_revision_origin_attested": true,
+        "remaining_blocking_findings": [],
+        "next_gate": "FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1",
+        "offline_artifact_eligible": false,
+        "portable_package_eligible": false,
+        "preferred_offline_candidate": false,
+        "runtime_eligible": false
+      }
+    }
+  },
+  "resolved_prior_package_blockers": [
+    "base_model_revision_binding_missing",
+    "composite_manifest_missing",
+    "package_use_and_limitations_documentation_incomplete",
+    "portable_base_model_binding_missing",
+    "required_compiler_binding_missing",
+    "tokenizer_file_manifest_missing"
+  ],
+  "eligibility_decision": {
+    "requirements": {
+      "behavioral_reproducibility_established": true,
+      "clean_location_resolution_established": true,
+      "compiled_quality_evidence_favorable": true,
+      "metadata_complete": true,
+      "offline_package_identity_complete": true,
+      "prior_package_blockers_resolved": true,
+      "remote_revision_origin_attested": true,
+      "repository_local_evidence_usable": true
+    },
+    "blocking_findings": [],
+    "blocking_finding_count": 0,
+    "offline_artifact_eligible": true,
+    "classification": "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible"
+  },
+  "gates": {
+    "behavioral_reproducibility_established": true,
+    "clean_location_resolution_established": true,
+    "compiled_quality_evidence_favorable": true,
+    "metadata_complete": true,
+    "offline_package_identity_complete": true,
+    "prior_package_blockers_resolved": true,
+    "protocol_integrity": true,
+    "remote_revision_origin_attested": true,
+    "repository_local_evidence_usable": true
+  },
+  "classification": "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible",
+  "formal_gate_passed": true,
+  "derived_claims": {
+    "compiled_quality_evidence_favorable": true,
+    "repository_local_evidence_usable": true,
+    "metadata_complete": true,
+    "offline_package_identity_complete": true,
+    "clean_location_resolution_established": true,
+    "behavioral_reproducibility_established": true,
+    "behavioral_reproducibility_scope": "same_recorded_environment_exact_twenty_case_raw_and_compiled_output_reproduction",
+    "remote_revision_origin_attested": true,
+    "remote_revision_origin_scope": "github_and_huggingface_https_hosted_revision_authorities",
+    "offline_artifact_eligible": true,
+    "offline_artifact_eligibility_scope": "fixed_composite_package_with_same_recorded_environment_exact_replay_and_hosted_revision_origin",
+    "portable_package_eligible": false,
+    "cross_machine_reproducibility_established": false,
+    "preferred_offline_candidate": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "merged_artifact_allowed": false,
+    "runtime_eligible": false
+  },
+  "remaining_blocking_findings": [],
+  "remaining_blocking_finding_count": 0,
+  "locked_next_action": {
+    "gate_id": "FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1",
+    "action": "decide preferred offline candidate status from frozen quality, compiler dependency, resource, execution-form, and portability evidence without promotion serving or Runtime integration",
+    "eligible_to_start": true,
+    "classification": "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible",
+    "formal_gate_passed": true,
+    "offline_artifact_eligible": true,
+    "portable_package_eligible": false,
+    "preferred_offline_candidate": false,
+    "artifact_promotion_allowed": false,
+    "runtime_integration_allowed": false
+  },
+  "constraints": {
+    "adapter_or_weight_mutation": false,
+    "artifact_promotion": false,
+    "base_or_tokenizer_substitution": false,
+    "decision_compiler_change": false,
+    "desktop_integration": false,
+    "eval_answer_tuning": false,
+    "execution_form_change": false,
+    "full_eval_run": false,
+    "generation_change": false,
+    "mcp_integration": false,
+    "merged_weight_creation": false,
+    "network_collection": false,
+    "new_data": false,
+    "precision_change": false,
+    "prompt_change": false,
+    "provider_integration": false,
+    "runtime_integration": false,
+    "serving_integration": false,
+    "training": false
+  },
+  "claims": {
+    "artifact_promotion_allowed": false,
+    "author_identity_or_signature_attested": false,
+    "cross_machine_reproducibility_established": false,
+    "historical_transparency_log_attested": false,
+    "merged_artifact_allowed": false,
+    "portable_package_eligible": false,
+    "preferred_offline_candidate": false,
+    "runtime_eligible": false,
+    "serving_readiness_established": false,
+    "supply_chain_signature_attested": false,
+    "offline_artifact_eligible": true,
+    "metadata_only_reassessment": true,
+    "upstream_validators_recomputed": true,
+    "new_model_execution": false,
+    "network_used": false
+  },
+  "model_artifact_saved": false,
+  "tensor_payload_saved": false,
+  "offline": true,
+  "runtime_eligible": false,
+  "report_digest": "sha256:de2efef12eb504d06f7e3cf97b09d6844059f1595e388f8eafcaeb316ef2c7ce"
+}

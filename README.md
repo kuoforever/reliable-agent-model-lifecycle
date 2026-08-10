@@ -406,10 +406,29 @@ payload, loads no model, makes no generation call, and stores no signed URL or
 query. GitHub reports the package commit as unsigned, so author identity,
 supply-chain signature, and transparency-log claims remain false.
 
-This gate does not automatically grant offline-artifact, portable-package,
-preferred, serving, promotion, merged-artifact, or Runtime eligibility; each
-remains false pending a separate reassessment. See the
+At that origin gate, offline-artifact, portable-package, preferred, serving,
+promotion, merged-artifact, and Runtime eligibility remained false pending
+separate decisions. See the
 [remote revision-origin evidence](docs/FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1.md).
+
+### FP32 attached offline artifact eligibility reassessment v1
+
+The frozen metadata-only reassessment recomputes the earlier artifact review,
+composite manifest, clean-location replay, and remote-origin validators. All
+nine preregistered gates pass: the fixed-compiler quality evidence is
+favorable, repository-local evidence is usable, the exact package identity and
+metadata are complete, all six historical package blockers are resolved, the
+same recorded environment exactly reproduces all 20 raw and 20 compiled
+outputs from a clean location, and both hosted revision origins are attested.
+
+The classification is
+`fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible`
+and `offline_artifact_eligible=true`. This is a package eligibility decision,
+not a preferred-candidate or deployment decision. Portable-package,
+cross-machine reproducibility, preferred, serving, promotion, merged-artifact,
+and Runtime claims remain false. The reassessment uses no network, model load,
+generation, training, or new evaluation. See the
+[offline artifact eligibility evidence](docs/FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.md).
 
 ### Scale boundary of the current model evidence
 
@@ -439,6 +458,12 @@ The origin gate adds content-addressed GitHub and Hugging Face hosted-revision
 bindings. It does not establish author identity, a signed software supply
 chain, a transparency log, or any new behavioral portability result.
 
+The eligibility reassessment combines only those frozen evidence layers to
+decide that the exact composite package is eligible as an offline artifact.
+It adds no execution sample and therefore does not estimate variance,
+cross-machine portability, relative candidate preference, serving readiness,
+or production capacity, latency, and cost.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -452,12 +477,12 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current work is
-`FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`.
-Reassess offline artifact eligibility from the completed metadata,
-same-recorded-environment clean-location replay, and hosted revision-origin
-evidence. Do not treat hosted origin as author or supply-chain signature,
-cross-machine behavioral portability, preferred-candidate selection,
-promotion, serving, or Runtime evidence. This gate must not add data, train,
-tune against eval answers, change the compiler, prompt, generation, precision,
-execution form, or weights, promote an artifact, deploy serving, or integrate
-Runtime/Provider/MCP/Desktop.
+`FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`.
+Decide whether the eligible FP32 attached package should be the preferred
+offline candidate by comparing the frozen BF16/FP32 quality, compiler
+dependency, resource, execution-form, and portability evidence. Keep
+portable-package, promotion, serving, merged-artifact, and Runtime claims
+separate and false unless a later gate establishes them. This decision must
+not add data, train, tune against eval answers, change the compiler, prompt,
+generation, precision, execution form, or weights, promote an artifact, deploy
+serving, or integrate Runtime/Provider/MCP/Desktop.
