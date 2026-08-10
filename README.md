@@ -424,11 +424,31 @@ outputs from a clean location, and both hosted revision origins are attested.
 The classification is
 `fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible`
 and `offline_artifact_eligible=true`. This is a package eligibility decision,
-not a preferred-candidate or deployment decision. Portable-package,
-cross-machine reproducibility, preferred, serving, promotion, merged-artifact,
-and Runtime claims remain false. The reassessment uses no network, model load,
-generation, training, or new evaluation. See the
+not a preferred-candidate or deployment decision. At that reassessment gate,
+portable-package, cross-machine reproducibility, preferred, serving,
+promotion, merged-artifact, and Runtime claims remained false. The
+reassessment uses no network, model load, generation, training, or new
+evaluation. See the
 [offline artifact eligibility evidence](docs/FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.md).
+
+### FP32 attached preferred offline candidate decision v1
+
+The frozen categorical decision recomputes the artifact review and offline
+eligibility validators. All 12 gates pass. Relative to the frozen BF16
+compiled reference, FP32 improves argument exact match from `0.20` to `0.25`
+and argument field F1 from `0.2608695652173913` to
+`0.29787234042553196`, with zero compiled regression events and all safety
+checks passing. It remains inside the already registered resource cap.
+
+The classification is
+`fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps`
+and `preferred_offline_candidate=true`. This means preferred only as the next
+offline candidate for portable-package qualification. The raw semantic value
+falls from `0.85` to `0.80`, the compiler remains required, peak allocated GPU
+memory is `1.9896087411587269x` BF16, and only one registered full-eval run
+exists. Portable-package, cross-machine, serving, promotion, merged-artifact,
+and Runtime claims remain false. See the
+[preferred candidate evidence](docs/FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1.md).
 
 ### Scale boundary of the current model evidence
 
@@ -464,6 +484,12 @@ It adds no execution sample and therefore does not estimate variance,
 cross-machine portability, relative candidate preference, serving readiness,
 or production capacity, latency, and cost.
 
+The preference decision adds no execution sample either. It selects the FP32
+package only under its fixed compiler, attached execution form, and registered
+resource caps. It does not turn a single strict case-level improvement into a
+generalization, stable speedup, portable-package, capacity, latency, cost,
+promotion, or deployment claim.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -477,12 +503,11 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current work is
-`FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`.
-Decide whether the eligible FP32 attached package should be the preferred
-offline candidate by comparing the frozen BF16/FP32 quality, compiler
-dependency, resource, execution-form, and portability evidence. Keep
-portable-package, promotion, serving, merged-artifact, and Runtime claims
-separate and false unless a later gate establishes them. This decision must
-not add data, train, tune against eval answers, change the compiler, prompt,
-generation, precision, execution form, or weights, promote an artifact, deploy
-serving, or integrate Runtime/Provider/MCP/Desktop.
+`FC-MVP-001-fp32-attached-portable-package-qualification-v1`.
+Qualify portable-package status for the preferred FP32 attached package with
+explicit cross-machine behavioral and environment evidence. Preference alone
+is not portability evidence. Keep promotion, serving, merged-artifact, and
+Runtime claims separate and false unless a later gate establishes them. This
+qualification must not add data, train, tune against eval answers, change the
+compiler, prompt, generation, precision, execution form, or weights, promote
+an artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.

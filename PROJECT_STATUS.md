@@ -71,29 +71,68 @@ Face revision/file metadata through content-addressed SHA-256 and Git blob
 SHA-1 checks. All ten origin gates pass and the prior origin blocker is closed.
 Offline artifact eligibility reassessment v1 now recomputes all four upstream
 validators; all nine gates pass and the exact composite package is eligible as
-an offline artifact. Author/signature, supply-chain, transparency-log,
-cross-machine, portable, preferred, serving, promotion, merged-artifact, and
-Runtime claims remain false pending separate decisions.
+an offline artifact. Preferred-candidate decision v1 now applies its frozen
+categorical rubric to the BF16/FP32 quality, compiler, resource, execution-form,
+and portability evidence. All 12 gates pass and FP32 is the preferred next
+offline candidate for portable-package qualification. Author/signature,
+supply-chain, transparency-log, cross-machine, portable, serving, promotion,
+merged-artifact, and Runtime claims remain false pending separate decisions.
 
 ## Single active objective
 
-Complete `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`:
+Complete `FC-MVP-001-fp32-attached-portable-package-qualification-v1`:
 
 ```text
-eligible FP32 package + frozen BF16/FP32 evidence
-        -> compare quality, compiler dependency, resources, and execution form
-preferred-candidate decision
-        -> keep portability, promotion, serving, and Runtime decisions separate
+preferred FP32 offline candidate + same-environment exact replay
+        -> collect explicit cross-machine behavior and environment evidence
+portable-package qualification
+        -> keep promotion, serving, and Runtime decisions separate
 ```
 
-Decide whether the eligible FP32 attached package should be the preferred
-offline candidate from the frozen quality, compiler-dependency, resource,
-execution-form, and portability evidence. Preserve the unchanged package and
-all frozen evidence. Do not infer portable-package status, promotion, serving,
-or Runtime readiness from eligibility alone. Do not add data, train, tune
-against eval answers, alter the compiler, prompt, generation, precision,
-execution form, or weights, promote or publish an artifact, deploy serving, or
-integrate Runtime/Provider/MCP/Desktop.
+Qualify portable-package status for the preferred FP32 attached package with
+explicit cross-machine behavior and environment evidence. Preserve the exact
+package, fixed compiler, attached-only execution, and all frozen evidence.
+Preference and same-environment replay are not cross-machine portability. Do
+not infer promotion, serving, or Runtime readiness from preference alone. Do
+not add data, train, tune against eval answers, alter the compiler, prompt,
+generation, precision, execution form, or weights, promote or publish an
+artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+
+The `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1` gate
+completed locally on 2026-08-10. Its outcome-neutral categorical protocol was
+frozen before formal evidence generation at
+`1f9aeecda71ad7f758a905b1eec3dccb3885e10f`. The 5,158-byte preregistration
+has SHA-256
+`75f25ceebb6a9428ad3d92f4ecc778d8725e1d52e32367ff8db3cb2ac3125f21`;
+the 9,619-byte formal evidence has SHA-256
+`02f66ed79edce17803ddc1ed172c35a995be4ee8ed984cdd49b4e24bc5748c55`.
+
+The decision recomputes the frozen artifact review and offline eligibility
+validators. FP32 improves compiled argument exact match from `0.20` to `0.25`
+and argument field F1 from `0.2608695652173913` to
+`0.29787234042553196`; `eval-016.arguments` is the only strict per-example
+improvement. There are zero compiled regression events and all seven safety
+checks pass. Raw semantic validity falls from `0.85` to `0.80`, so the fixed
+compiler remains part of the candidate identity.
+
+Peak allocated GPU memory rises from `3,150,315,520` to `6,267,895,296` bytes,
+a ratio of `1.9896087411587269`, while remaining inside the preregistered cap.
+The one elapsed ratio is `0.9308972201805388`, but stable speedup and repeat
+variance are not established. All 12 registered gates pass with no blocker in
+the preference scope. Strict recomputation derives
+`fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps`,
+`formal_gate_passed=true`, and `preferred_offline_candidate=true` only for the
+next portable-package qualification step.
+
+The gate uses no network, model load, generation, training, or new evaluation.
+Cross-machine reproducibility and portable-package eligibility remain the two
+exact downstream open findings; promotion, serving, merged-artifact, and
+Runtime claims remain false. The unified offline gate passes 403 tests with
+`valid=true` and audits 35 source files on local CPython 3.11.15, 3.12.12, and
+3.13.7. The 12 focused tests, Ruff, strict mypy, py_compile, builder `--check`,
+and `git diff --check` pass. The clean pull-request CI matrix independently
+passes the same gate on CPython 3.11.15, 3.12.13, and 3.13.14.
+[Evidence](docs/FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1.md).
 
 The `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`
 gate completed locally on 2026-08-10. Its outcome-neutral metadata-only
@@ -118,9 +157,10 @@ Strict recomputation derives
 `fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible`,
 `formal_gate_passed=true`, and `offline_artifact_eligible=true`. The gate uses
 no network, model load, generation, training, or new evaluation and saves no
-model or tensor payload. Portable-package, cross-machine reproducibility,
-preferred-candidate, serving, promotion, merged-artifact, and Runtime claims
-remain false. The unified offline gate passes 391 tests with `valid=true` and
+model or tensor payload. At that reassessment gate, portable-package,
+cross-machine reproducibility, preferred-candidate, serving, promotion,
+merged-artifact, and Runtime claims remained false. The unified offline gate
+passes 391 tests with `valid=true` and
 audits 34 source files on local CPython 3.11.15, 3.12.12, and 3.13.7. The 12
 focused tests, Ruff, strict mypy on the typed reassessment scope, py_compile,
 builder `--check`, and `git diff --check` pass. The clean pull-request CI matrix
@@ -669,7 +709,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-003` | Pending review | Explicit-consent rich multimodal capture contract |
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
-| `FC-MVP-001` | In progress | Text Tool Router closed loop; offline artifact eligible, preferred offline candidate decision next |
+| `FC-MVP-001` | In progress | Text Tool Router closed loop; preferred offline candidate selected, portable-package qualification next |
 | `FC-MVP-002` | Pending | Multimodal GUI Action Model |
 
 Detailed technical tasks remain in

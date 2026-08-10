@@ -47,6 +47,7 @@ English companion documents.
 | FP32 attached offline package reproducibility v1 | [FC-MVP-001 FP32 attached offline package reproducibility](FC-MVP-001-fp32-attached-offline-package-reproducibility-v1.md) | English source |
 | FP32 attached remote revision-origin attestation v1 | [FC-MVP-001 FP32 attached remote revision-origin attestation](FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1.md) | English source |
 | FP32 attached offline artifact eligibility reassessment v1 | [FC-MVP-001 FP32 attached offline artifact eligibility reassessment](FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.md) | English source |
+| FP32 attached preferred offline candidate decision v1 | [FC-MVP-001 FP32 attached preferred offline candidate decision](FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1.md) | English source |
 
 ## Development references
 

@@ -205,6 +205,25 @@ TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_EVIDENCE_SHA256 = (
 TOOL_ROUTER_FP32_ATTACHED_OFFLINE_ARTIFACT_REASSESSMENT_FREEZE_COMMIT = (
     "2a5db8afaf90a3557d6d8d8cd808089d305d83e1"
 )
+TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_PREREGISTRATION_PATH = (
+    ROOT
+    / "configs"
+    / "tool_router_fp32_attached_preferred_offline_candidate_decision_v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_PREREGISTRATION_SHA256 = (
+    "sha256:75f25ceebb6a9428ad3d92f4ecc778d8725e1d52e32367ff8db3cb2ac3125f21"
+)
+TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_PATH = (
+    ROOT
+    / "baseline"
+    / "fc-mvp-001-fp32-attached-preferred-offline-candidate-decision-v1.json"
+)
+TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_SHA256 = (
+    "sha256:02f66ed79edce17803ddc1ed172c35a995be4ee8ed984cdd49b4e24bc5748c55"
+)
+TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_FREEZE_COMMIT = (
+    "1f9aeecda71ad7f758a905b1eec3dccb3885e10f"
+)
 SUPPORTED_MINORS = {(3, 11), (3, 12), (3, 13)}
 FORBIDDEN_IMPORT_ROOTS = frozenset(
     {
@@ -292,6 +311,11 @@ def main() -> int:
     fp32_attached_offline_artifact_reassessment = (
         _validate_fp32_attached_offline_artifact_reassessment(
             fp32_attached_remote_origin
+        )
+    )
+    fp32_attached_preferred_candidate = (
+        _validate_fp32_attached_preferred_candidate(
+            fp32_attached_offline_artifact_reassessment
         )
     )
     tests_run = _run_tests()
@@ -524,7 +548,7 @@ def main() -> int:
             fp32_attached_artifact_eligibility["packaging_review"]["blocking_findings"]
         ),
         "tool_router_fp32_attached_preferred_offline_candidate": (
-            fp32_attached_offline_artifact_reassessment["derived_claims"][
+            fp32_attached_preferred_candidate["derived_claims"][
                 "preferred_offline_candidate"
             ]
         ),
@@ -641,7 +665,27 @@ def main() -> int:
                 "portable_package_eligible"
             ]
         ),
-        "tool_router_next_gate": fp32_attached_offline_artifact_reassessment[
+        "tool_router_fp32_attached_preferred_candidate_classification": (
+            fp32_attached_preferred_candidate["classification"]
+        ),
+        "tool_router_fp32_attached_preferred_candidate_gate_passed": (
+            fp32_attached_preferred_candidate["formal_gate_passed"]
+        ),
+        "tool_router_fp32_attached_preferred_candidate_evidence_sha256": (
+            TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_SHA256
+        ),
+        "tool_router_fp32_attached_preferred_candidate_remaining_blocking_findings": (
+            fp32_attached_preferred_candidate["remaining_blocking_findings"]
+        ),
+        "tool_router_fp32_attached_preferred_candidate_downstream_open_findings": (
+            fp32_attached_preferred_candidate["downstream_open_findings"]
+        ),
+        "tool_router_fp32_attached_preferred_candidate_portable_package_eligible": (
+            fp32_attached_preferred_candidate["derived_claims"][
+                "portable_package_eligible"
+            ]
+        ),
+        "tool_router_next_gate": fp32_attached_preferred_candidate[
             "locked_next_action"
         ]["gate_id"],
     }
@@ -3617,6 +3661,134 @@ def _validate_fp32_attached_offline_artifact_reassessment(
     ):
         raise GateError(
             "Tool Router FP32 attached offline-artifact reassessment claim drift"
+        )
+    return evidence
+
+
+def _validate_fp32_attached_preferred_candidate(
+    reassessment_evidence: dict[str, Any],
+) -> dict[str, Any]:
+    from fullcycle_bridge.tool_router_fp32_attached_preferred_offline_candidate_decision import (
+        validate_decision_evidence,
+    )
+    from scripts.decide_tool_router_fp32_attached_preferred_offline_candidate import (
+        load_decision_upstreams,
+        protocol_source_payloads,
+    )
+
+    reassessment_derived = reassessment_evidence.get("derived_claims")
+    if (
+        not isinstance(reassessment_derived, dict)
+        or reassessment_evidence.get("formal_gate_passed") is not True
+        or reassessment_evidence.get("classification")
+        != (
+            "fp32_attached_fixed_compiler_favorable_eval_offline_artifact_"
+            "package_eligible"
+        )
+        or reassessment_evidence.get("remaining_blocking_findings") != []
+        or reassessment_derived.get("offline_artifact_eligible") is not True
+        or reassessment_derived.get("preferred_offline_candidate") is not False
+        or reassessment_derived.get("portable_package_eligible") is not False
+        or reassessment_evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "Tool Router FP32 attached preferred-candidate upstream drift"
+        )
+
+    preregistration_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_PREREGISTRATION_PATH,
+        "Tool Router FP32 attached preferred-candidate preregistration",
+    )
+    evidence_payload = _read_regular_file_once(
+        TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_PATH,
+        "Tool Router FP32 attached preferred-candidate evidence",
+    )
+    upstream_payloads, upstream_validations = load_decision_upstreams()
+    validation = validate_decision_evidence(
+        preregistration_payload,
+        evidence_payload,
+        expected_preregistration_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_PREREGISTRATION_SHA256
+        ),
+        expected_evidence_sha256=(
+            TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_SHA256
+        ),
+        expected_protocol_freeze_commit=(
+            TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_FREEZE_COMMIT
+        ),
+        upstream_payloads=upstream_payloads,
+        upstream_validations=upstream_validations,
+        protocol_source_payloads=protocol_source_payloads(),
+    )
+    expected_validation = {
+        "frozen_gate_valid": True,
+        "classification": (
+            "fp32_attached_preferred_offline_candidate_under_fixed_compiler_"
+            "attached_execution_and_registered_resource_caps"
+        ),
+        "formal_gate_passed": True,
+        "offline_artifact_eligible": True,
+        "preferred_offline_candidate": True,
+        "portable_package_eligible": False,
+        "remaining_blocking_findings": [],
+        "downstream_open_findings": [
+            "cross_machine_reproducibility_unestablished",
+            "portable_package_eligibility_unestablished",
+        ],
+        "next_gate": (
+            "FC-MVP-001-fp32-attached-portable-package-qualification-v1"
+        ),
+        "runtime_eligible": False,
+    }
+    if validation != expected_validation:
+        raise GateError(
+            "Tool Router FP32 attached preferred-candidate validation drift"
+        )
+
+    evidence = _load_json_payload(
+        evidence_payload,
+        TOOL_ROUTER_FP32_ATTACHED_PREFERRED_CANDIDATE_EVIDENCE_PATH,
+    )
+    derived = evidence.get("derived_claims")
+    claims = evidence.get("claims")
+    gates = evidence.get("gates")
+    comparison = evidence.get("comparison")
+    if (
+        not isinstance(derived, dict)
+        or not isinstance(claims, dict)
+        or not isinstance(gates, dict)
+        or not isinstance(comparison, dict)
+        or len(gates) != 12
+        or any(value is not True for value in gates.values())
+        or evidence.get("formal_gate_passed") is not True
+        or evidence.get("remaining_blocking_findings") != []
+        or evidence.get("downstream_open_findings")
+        != [
+            "cross_machine_reproducibility_unestablished",
+            "portable_package_eligibility_unestablished",
+        ]
+        or derived.get("offline_artifact_eligible") is not True
+        or derived.get("preferred_offline_candidate") is not True
+        or derived.get("portable_package_eligible") is not False
+        or derived.get("cross_machine_reproducibility_established") is not False
+        or derived.get("serving_readiness_established") is not False
+        or derived.get("artifact_promotion_allowed") is not False
+        or derived.get("merged_artifact_allowed") is not False
+        or derived.get("runtime_eligible") is not False
+        or comparison.get("execution_form") != "attached_factorized_lora"
+        or comparison.get("portable_package_eligible") is not False
+        or comparison.get("cross_machine_reproducibility_established") is not False
+        or claims.get("metadata_only_decision") is not True
+        or claims.get("upstream_validators_recomputed") is not True
+        or claims.get("new_model_execution") is not False
+        or claims.get("network_used") is not False
+        or claims.get("artifact_promotion_allowed") is not False
+        or evidence.get("model_artifact_saved") is not False
+        or evidence.get("tensor_payload_saved") is not False
+        or evidence.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "Tool Router FP32 attached preferred-candidate claim drift"
         )
     return evidence
 

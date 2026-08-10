@@ -684,18 +684,45 @@ agent-model-factory/
   manifest 解析，9/9 gates 全 true、remaining blockers 为 0，分类为
   `fp32_attached_fixed_compiler_favorable_eval_offline_artifact_package_eligible`，
   `formal_gate_passed=true`、`offline_artifact_eligible=true`。
-- 该结论只关闭 exact composite package 的 offline artifact eligibility；
-  portable-package、cross-machine、preferred、serving、promotion、merged 与
-  Runtime 继续为 false。gate 未使用 network、model load、generation、training
-  或新 eval，也未保存 model/tensor artifact。
+- 该结论只关闭 exact composite package 的 offline artifact eligibility；在该
+  reassessment gate 当时，portable-package、cross-machine、preferred、serving、
+  promotion、merged 与 Runtime 继续为 false。gate 未使用 network、model load、
+  generation、training 或新 eval，也未保存 model/tensor artifact。
 - local CPython 3.11.15、3.12.12、3.13.7 unified offline gate 各通过 391
   tests、`valid=true`、审计 34 个 source files；12 focused tests、Ruff、strict
   mypy、py_compile、builder `--check` 与 diff-check 通过；clean PR CI matrix 在
   CPython 3.11.15、3.12.13、3.13.14 上也独立通过同一 391-test gate。
+- `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1` 已完成：
+  categorical protocol 先冻结于
+  `1f9aeecda71ad7f758a905b1eec3dccb3885e10f`；5,158-byte preregistration
+  SHA-256 为
+  `75f25ceebb6a9428ad3d92f4ecc778d8725e1d52e32367ff8db3cb2ac3125f21`，
+  9,619-byte formal evidence SHA-256 为
+  `02f66ed79edce17803ddc1ed172c35a995be4ee8ed984cdd49b4e24bc5748c55`。
+- 该 decision 重算 artifact review 与 eligibility reassessment validators；FP32
+  compiled argument exact match `0.20 -> 0.25`、argument field F1
+  `0.2608695652173913 -> 0.29787234042553196`，仅
+  `eval-016.arguments` 是 strict case-level improvement，zero compiled regression
+  且 seven safety checks 全通过。raw semantic validity `0.85 -> 0.80`，所以
+  fixed compiler 仍是 candidate identity 的必需部分。
+- peak GPU memory `3,150,315,520 -> 6,267,895,296` bytes，ratio
+  `1.9896087411587269` 且只窄幅通过既有 cap；single elapsed ratio
+  `0.9308972201805388` 不建立 stable speedup。12/12 gates 全 true、preference
+  scope remaining blocker 为 0，分类为
+  `fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps`，
+  `preferred_offline_candidate=true`。
+- preferred 只表示进入 portable-package qualification 的 next offline candidate；
+  cross-machine 与 portable 仍是两个 exact downstream open findings，promotion、
+  serving、merged 与 Runtime 继续为 false。gate 未使用 network、model load、
+  generation、training 或新 eval，也未保存 model/tensor artifact。
+- local CPython 3.11.15、3.12.12、3.13.7 unified offline gate 各通过 403
+  tests、`valid=true`、审计 35 个 source files；12 focused tests、Ruff、strict
+  mypy、py_compile、builder `--check` 与 diff-check 通过；clean PR CI matrix 在
+  CPython 3.11.15、3.12.13、3.13.14 上也独立通过同一 403-test gate。
 - 唯一 active objective 现切换为
-  `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1`：只比较 frozen
-  quality、compiler dependency、resource、execution-form 与 portability evidence，
-  不得自动推导 promotion、serving 或 Runtime readiness。
+  `FC-MVP-001-fp32-attached-portable-package-qualification-v1`：必须以 explicit
+  cross-machine behavior/environment evidence 资格化 portability，不得从 preferred
+  自动推导 promotion、serving 或 Runtime readiness。
 
 ## TOOL-007：输出/序列蒸馏
 

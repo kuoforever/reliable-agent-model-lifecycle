@@ -1,0 +1,117 @@
+{
+  "preregistration_version": 1,
+  "experiment_id": "fc-mvp-001-fp32-attached-preferred-offline-candidate-decision-v1",
+  "gate_id": "FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1",
+  "package_id": "fc-mvp-001-fp32-attached-factorized-lora-package-v1",
+  "candidate_id": "fp32-attached-factorized-lora",
+  "comparison_reference_id": "bf16-attached-v2-compiled-reference",
+  "freeze_status": "frozen",
+  "decision_scope": {
+    "decision": "preferred_offline_candidate_only",
+    "candidate_scope": "exact_eligible_fp32_attached_composite_package_with_fixed_compiler",
+    "reference_scope": "frozen_bf16_attached_v2_compiled_quality_and_resource_reference",
+    "reference_is_not_claimed_offline_artifact_eligible": true,
+    "portable_package_decision": false,
+    "artifact_promotion_decision": false,
+    "serving_or_runtime_decision": false
+  },
+  "selection_policy": {
+    "rubric": "all_categorical_requirements_must_pass",
+    "post_hoc_weighted_score": false,
+    "quality": "at_least_one_strict_compiled_improvement_with_zero_compiled_regression_and_all_frozen_safety_checks",
+    "resources": "reuse_only_the_pre_registered_fp32_remediation_resource_gate_without_new_thresholds",
+    "compiler": "required_fixed_compiler_must_be_package_bound",
+    "execution_form": "attached_factorized_lora_only",
+    "portability": "portable_status_may_remain_false_only_if_explicitly_disclosed_and_deferred_to_a_separate_gate",
+    "limitations": [
+      "raw_semantic_validity_regression_disclosed",
+      "nearly_two_x_peak_memory_disclosed",
+      "stable_speedup_unestablished",
+      "single_registered_full_eval_run_and_no_repeat_variance",
+      "cross_machine_reproducibility_unestablished",
+      "portable_package_eligibility_unestablished"
+    ]
+  },
+  "source_lineage": {
+    "upstream_artifacts": {
+      "artifact_eligibility_review": {
+        "path": "baseline/fc-mvp-001-fp32-attached-artifact-eligibility-review-v1.json",
+        "sha256": "sha256:81977f318c6bcfed8d3844575dc245d4b94c2636a2359165f9aa5553c9b006f8"
+      },
+      "offline_artifact_eligibility_reassessment": {
+        "path": "baseline/fc-mvp-001-fp32-attached-offline-artifact-eligibility-reassessment-v1.json",
+        "sha256": "sha256:0cccb2a7c7cdc24c824ee0ca4606f8c14e9b561473e50e8b31072291357b15ed"
+      }
+    },
+    "protocol_sources": {
+      "builder_source": {
+        "path": "scripts/decide_tool_router_fp32_attached_preferred_offline_candidate.py",
+        "sha256": "sha256:758edd8574babda2b203f74a399fdcb7657af27d8c2a084500547dbc5414dece"
+      },
+      "contract_source": {
+        "path": "src/fullcycle_bridge/tool_router_fp32_attached_preferred_offline_candidate_decision.py",
+        "sha256": "sha256:501f67b49b0e1264c9efa63520a67d393669721f771c5ebbd1e76da218ad04f7"
+      }
+    }
+  },
+  "preference_requirements": [
+    "attached_execution_form_bound",
+    "comparison_reference_bound",
+    "compiled_quality_strictly_improved",
+    "compiled_safety_and_non_regression_passed",
+    "compiler_dependency_bound",
+    "decision_limitations_disclosed",
+    "offline_artifact_eligible",
+    "portability_boundary_acknowledged",
+    "protocol_integrity",
+    "registered_resource_gate_passed",
+    "same_environment_reproducibility_established",
+    "upstream_protocols_valid"
+  ],
+  "outcome_classifications": {
+    "preferred": "fp32_attached_preferred_offline_candidate_under_fixed_compiler_attached_execution_and_registered_resource_caps",
+    "incomplete": "fp32_attached_preferred_offline_candidate_requirements_incomplete"
+  },
+  "outcome_next_actions": {
+    "preferred": {
+      "gate_id": "FC-MVP-001-fp32-attached-portable-package-qualification-v1",
+      "action": "qualify portable-package status with explicit cross-machine behavior and environment evidence while keeping promotion, serving, and Runtime integration prohibited"
+    },
+    "incomplete": {
+      "gate_id": "FC-MVP-001-fp32-attached-preferred-offline-candidate-failure-classification-v1",
+      "action": "classify the unresolved fixed preference requirement before changing any candidate byte or downstream decision"
+    }
+  },
+  "constraints": {
+    "adapter_or_weight_mutation": false,
+    "artifact_promotion": false,
+    "base_or_tokenizer_substitution": false,
+    "decision_compiler_change": false,
+    "desktop_integration": false,
+    "eval_answer_tuning": false,
+    "execution_form_change": false,
+    "full_eval_run": false,
+    "generation_change": false,
+    "mcp_integration": false,
+    "merged_weight_creation": false,
+    "network_collection": false,
+    "new_data": false,
+    "precision_change": false,
+    "prompt_change": false,
+    "provider_integration": false,
+    "runtime_integration": false,
+    "serving_integration": false,
+    "training": false
+  },
+  "claims": {
+    "artifact_promotion_allowed": false,
+    "cross_machine_reproducibility_established": false,
+    "merged_artifact_allowed": false,
+    "portable_package_eligible": false,
+    "runtime_eligible": false,
+    "serving_readiness_established": false,
+    "offline_artifact_eligible": true,
+    "preferred_offline_candidate": false
+  },
+  "runtime_eligible": false
+}
