@@ -120,10 +120,11 @@ remaining origin blockers. GitHub reports the package commit unsigned, so
 author/signature, supply-chain signature, and transparency-log claims remain
 false. Offline-artifact, portable, preferred, serving, promotion, merged, and
 Runtime claims also remain false pending reassessment. The unified offline gate
-passes 379 tests with `valid=true` on local CPython 3.12.12, 3.12.13, and
-3.13.7 and audits 33 source files; the 28 focused tests, Ruff, strict mypy on
-the typed contract/collector, py_compile, and `git diff --check` pass. Python
-3.11 remains delegated to the clean pull-request CI matrix before merge.
+passes 379 tests with `valid=true` and audits 33 source files on local CPython
+3.12.12, 3.12.13, and 3.13.7; the clean pull-request CI matrix independently
+passes the same gate on CPython 3.11.15, 3.12.13, and 3.13.14. The 28 focused
+tests, Ruff, strict mypy on the typed contract/collector, py_compile, and
+`git diff --check` pass.
 [Evidence](docs/FC-MVP-001-fp32-attached-remote-revision-origin-attestation-v1.md).
 
 The `FC-MVP-001-fp32-attached-offline-package-reproducibility-v1` gate

@@ -669,8 +669,8 @@ agent-model-factory/
   signature、historical transparency log 仍未建立；cross-machine、offline-artifact、
   portable、preferred、serving、promotion、merged 与 Runtime 也继续为 false。
   本地 CPython 3.12.12、3.12.13、3.13.7 unified offline gate 均通过 379
-  tests、审计 33 个 source files；Python 3.11 由合并前 clean PR CI matrix
-  验证。
+  tests、审计 33 个 source files；clean PR CI matrix 在 CPython 3.11.15、
+  3.12.13、3.13.14 上独立通过同一 gate。
 - 唯一 active objective 现切换为
   `FC-MVP-001-fp32-attached-offline-artifact-eligibility-reassessment-v1`：只重审
   offline artifact eligibility，不得自动推导 preferred candidate、promotion、

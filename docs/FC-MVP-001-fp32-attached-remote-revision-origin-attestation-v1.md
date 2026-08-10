@@ -124,11 +124,11 @@ protocol source hashes, prior artifacts, all remote identities, all selected
 tree/file identities, both content-binding sets, all gates, the classification,
 and every fail-closed claim.
 
-The unified offline gate passes `379` tests with `valid=true` on local CPython
-3.12.12, 3.12.13, and 3.13.7 and audits 33 source files. The 28 focused tests,
-Ruff, strict mypy on the new typed contract/collector scope, `py_compile`, and
-`git diff --check` pass. Python 3.11 remains delegated to the clean pull-request
-CI matrix before merge.
+The unified offline gate passes `379` tests with `valid=true` and audits 33
+source files on local CPython 3.12.12, 3.12.13, and 3.13.7. The clean
+pull-request CI matrix independently passes the same gate on CPython 3.11.15,
+3.12.13, and 3.13.14. The 28 focused tests, Ruff, strict mypy on the new typed
+contract/collector scope, `py_compile`, and `git diff --check` pass.
 
 ## Decision boundary and next gate
 
