@@ -723,6 +723,27 @@ agent-model-factory/
   `FC-MVP-001-fp32-attached-portable-package-qualification-v1`：必须以 explicit
   cross-machine behavior/environment evidence 资格化 portability，不得从 preferred
   自动推导 promotion、serving 或 Runtime readiness。
+- portable-package qualification protocol 已在任何 target result 前冻结于
+  `f8dc9a62471759282ad2b41673d95acd43bf240f`；7,095-byte preregistration
+  SHA-256 为
+  `eceb47c9c952b8ba056abee48a2d55be797145558ac5efcede69d97b9a834577`。
+  protocol 重用 `eafd3f6...` clean-location replay，只接受一台 operationally
+  distinct native Windows target、locked user-space environment、same GPU class、
+  fixed compiler 与 attached execution；WSL、同机第二路径或第二 virtualenv 均不算
+  cross-machine evidence。
+- target builder 本地采集 Windows MachineGuid 与 NVIDIA GPU UUID 的
+  domain-separated SHA-256，只保存 digest，并把它们绑定新 target replay/evidence
+  bytes；两项 digest 与 combined identity 都必须不同于 controller anchor。该 receipt
+  是 self-observed operational evidence，不是 hardware-backed remote attestation，
+  controller anchor 也不追溯认证 earlier reference execution。
+- frozen protocol 的 13 categorical requirements、18 focused tests、Ruff、strict
+  mypy、py_compile 与 diff-check 均通过；local CPython 3.11.15、3.12.12、3.13.7
+  unified offline gate 各通过 421 tests、`valid=true`、审计 36 个 source files。
+- 当前没有 independent target GPU host 或 repository self-hosted runner，因此未执行
+  target replay、未生成 formal qualification artifact，cross-machine 与
+  portable-package eligibility 继续为 false。唯一下一动作是在一台符合 frozen
+  environment/same-GPU-class 的独立 native Windows 主机执行 runbook；不得推导
+  promotion、serving、merged-artifact 或 Runtime readiness。
 
 ## TOOL-007：输出/序列蒸馏
 

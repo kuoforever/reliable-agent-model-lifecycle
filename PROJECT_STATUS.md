@@ -74,7 +74,9 @@ validators; all nine gates pass and the exact composite package is eligible as
 an offline artifact. Preferred-candidate decision v1 now applies its frozen
 categorical rubric to the BF16/FP32 quality, compiler, resource, execution-form,
 and portability evidence. All 12 gates pass and FP32 is the preferred next
-offline candidate for portable-package qualification. Author/signature,
+offline candidate for portable-package qualification. The qualification
+protocol is now frozen before target execution; no independent target replay
+or formal portable-package result exists. Author/signature,
 supply-chain, transparency-log, cross-machine, portable, serving, promotion,
 merged-artifact, and Runtime claims remain false pending separate decisions.
 
@@ -97,6 +99,33 @@ not infer promotion, serving, or Runtime readiness from preference alone. Do
 not add data, train, tune against eval answers, alter the compiler, prompt,
 generation, precision, execution form, or weights, promote or publish an
 artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+
+The portable-package qualification protocol was frozen before any target
+result at `f8dc9a62471759282ad2b41673d95acd43bf240f`. Its 7,095-byte
+preregistration has SHA-256
+`eceb47c9c952b8ba056abee48a2d55be797145558ac5efcede69d97b9a834577`.
+It reuses the exact clean-location replay gate and requires all 13 categorical
+requirements to pass on one operationally distinct native Windows target
+under the locked user-space environment, same GPU class, fixed compiler, and
+attached execution form.
+
+The target-side receipt stores only domain-separated SHA-256 values for
+Windows MachineGuid and NVIDIA GPU UUID, requires both plus their combined
+identity to differ from the controller anchor, and binds them to the new target
+replay/evidence bytes. The receipt is self-observed operational evidence, not
+hardware-backed remote attestation; the controller anchor is not historical
+attestation of prior reference execution. WSL or a second path on the current
+controller is explicitly ineligible.
+
+The frozen protocol passes 421 tests with `valid=true` and audits 36 source
+files on CPython 3.11.15, 3.12.12, and 3.13.7. The 18 focused tests, Ruff,
+strict mypy on the new contract/builder, py_compile, preregistration
+recomputation, and diff checks pass. No independent target GPU machine or
+repository self-hosted runner was available, so no target replay or formal
+qualification artifact was generated. The exact next action remains executing
+the frozen runbook on one independent qualifying host; cross-machine and
+portable-package claims remain false until that evidence validates.
+[Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
 
 The `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1` gate
 completed locally on 2026-08-10. Its outcome-neutral categorical protocol was
