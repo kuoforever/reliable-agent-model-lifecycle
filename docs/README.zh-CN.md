@@ -2,8 +2,9 @@
 
 English (default): [README.md](README.md)
 
-仓库只保留项目说明、已实现技术证据、后续维护入口和开发过程中持续使用的
-资料。个人学习手册与框架补课记录不属于项目依赖，已移出仓库。
+仓库保留项目说明、已实现技术证据、维护入口和从冻结证据派生的职业学习资料。
+职业与面试材料不是项目依赖或第二进度 tracker；项目顺序和完成状态仍只由
+`PROJECT_STATUS.md` 管理。
 
 ## 项目与维护入口
 
@@ -13,6 +14,8 @@ English (default): [README.md](README.md)
 | [PROJECT_STATUS](../PROJECT_STATUS.md) | 唯一当前目标、顺序和最新验证结果 |
 | [Desktop Runtime 依赖与集成](../Desktop_Runtime_依赖与集成.md) | 跨仓所有权、安全边界和版本 pin |
 | [AGENTS](../AGENTS.md) | Coding agent 工作约束 |
+| [职业与学习中心](career/) | 面试手册、求职证据与教学协作方法 |
+| [完整面试手册](career/interview/) | 面向 ML/DL 基础读者的原理、应用、工程、题库和项目故事 |
 
 ## 已实现技术证据
 

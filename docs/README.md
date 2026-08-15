@@ -16,6 +16,7 @@ English companion documents.
 | Desktop Runtime integration | [English companion](en/desktop-runtime-integration.md) | [Chinese source](../Desktop_Runtime_依赖与集成.md) |
 | Agent instructions | [AGENTS](../AGENTS.md) | English source |
 | Career and learning hub | [Career index](career/) | Chinese-first working material derived from frozen evidence |
+| Interview handbook | [Principles, applications, and engineering](career/interview/) | Chinese-first interview material with explicit implementation boundaries |
 
 ## Implemented technical evidence
 
