@@ -11,6 +11,7 @@ English (default): [README.md](README.md)
 |---|---|
 | [项目状态](PROJECT_STATUS.md) | 当前阶段、唯一活动目标和最新验证结果 |
 | [项目文档索引](docs/README.zh-CN.md) | 已实现技术证据、维护文档和开发资料 |
+| [职业与学习中心](docs/career/) | 完整面试手册、逐项求职证据和教学协作模块 |
 | [待做任务清单](AI_Infra_LLM_Agent_待做任务清单.md) | 详细任务、依赖和 Definition of Done |
 | [Desktop Runtime 依赖与集成](Desktop_Runtime_依赖与集成.md) | 跨仓所有权、安全边界和版本 pin |
 
