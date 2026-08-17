@@ -537,7 +537,7 @@ agent-model-factory/
   `valid=true`、46 source files。
 - `MM-003-small-vlm-post-training-protocol-v1` 已在任何 registered training 前本地
   冻结：17,601 bytes，SHA-256
-  `e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390`。协议固定
+  `9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061`。协议固定
   18 train / 9 validation records、18 张 synthetic PNG、NF4/BF16 QLoRA、seed/
   hyperparameters/caps、Adapter 文件集、fresh independent Adapter load 与不变 MM-002
   九例 eval。case/family/instruction/input/target/screenshot 的 exact overlap 均为空，
@@ -546,7 +546,12 @@ agent-model-factory/
   `Linear4bit` modules、7,372,800 trainable parameters、finite loss 与 nonzero finite
   LoRA gradient，peak allocated/reserved 为 3,941,332,480 / 4,273,995,776 bytes；
   它没有保存 Adapter，不是 training、loadability、quality 或 repeatability 证据。
-- focused 10 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 528-test gates 通过，`valid=true`、47
+- 正式执行前的只读审计发现初版 runner 未把 prereg/source/wheel/input/model/dependency/
+  environment preflight 异常纳入 failure receipt。hardened freeze 在固定 run directory
+  exclusive create 后覆盖全部这些 stage；measured train/eval timer 从该边界持续到
+  post-score resource sampling，evidence persistence 仍 fail-closed 但不进入 elapsed；
+  仍未运行 training、model eval 或 retry。
+- focused 13 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 531-test gates 通过，`valid=true`、47
   source files、4 个 Windows privilege skips。当前所有 training/result/promotion/
   serving/commercial/Runtime claims 仍为 false。
 - 当前唯一动作切换为 `MM-003-small-vlm-post-training-execution-v1`：先合并 frozen

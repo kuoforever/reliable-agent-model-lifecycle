@@ -60,7 +60,7 @@ MM003_POST_TRAINING_PREREGISTRATION_PATH = (
     ROOT / "configs" / "mm003_small_vlm_post_training_protocol_v1.json"
 )
 MM003_POST_TRAINING_PREREGISTRATION_SHA256 = (
-    "sha256:e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390"
+    "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061"
 )
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"

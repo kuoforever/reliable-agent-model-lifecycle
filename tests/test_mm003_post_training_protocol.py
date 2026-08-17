@@ -169,13 +169,203 @@ class MM003PostTrainingProtocolTests(unittest.TestCase):
         self.assertTrue(written["eval_isolation"])
         self.assertEqual(written["train_records"], 18)
 
+    def test_formal_preflight_failure_writes_fail_closed_receipt(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output_dir = root / "work/training-runs/mm003-qlora-sft-v1"
+            with mock.patch.object(runner, "ROOT", root), mock.patch.object(
+                runner,
+                "_load_ml_dependencies",
+            ) as load_ml_dependencies:
+                with self.assertRaises(FileNotFoundError):
+                    runner.execute_frozen_protocol(
+                        model_snapshot=root / "model",
+                        preregistration_path=root / "missing-preregistration.json",
+                        protocol_freeze_commit="a" * 40,
+                        output_dir=output_dir,
+                    )
+            load_ml_dependencies.assert_not_called()
+            self.assertEqual(
+                sorted(path.name for path in output_dir.iterdir()),
+                ["failure.json"],
+            )
+            failure = contract.parse_strict_json_bytes(
+                (output_dir / "failure.json").read_bytes(),
+                location="$.failure",
+            )
+        self.assertEqual(failure["stage"], "preregistration")
+        self.assertEqual(failure["exception_type"], "FileNotFoundError")
+        self.assertIsNone(failure["preregistration_sha256"])
+        self.assertEqual(failure["retry_count"], 0)
+        self.assertFalse(failure["formal_gate_passed"])
+        self.assertTrue(all(value is False for value in failure["claims"].values()))
+        self.assertFalse(failure["runtime_eligible"])
+
+    def test_formal_invocation_rejection_does_not_consume_lifecycle(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output_dir = root / "work/training-runs/mm003-qlora-sft-v1"
+            wrong_output_dir = root / "wrong-output"
+            with mock.patch.object(runner, "ROOT", root):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "protocol freeze commit must be a lowercase 40-hex commit",
+                ):
+                    runner.execute_frozen_protocol(
+                        model_snapshot=root / "model",
+                        preregistration_path=root / "preregistration.json",
+                        protocol_freeze_commit="invalid",
+                        output_dir=output_dir,
+                    )
+                self.assertFalse(output_dir.exists())
+
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "output directory differs from frozen protocol",
+                ):
+                    runner.execute_frozen_protocol(
+                        model_snapshot=root / "model",
+                        preregistration_path=root / "preregistration.json",
+                        protocol_freeze_commit="a" * 40,
+                        output_dir=wrong_output_dir,
+                    )
+                self.assertFalse(output_dir.exists())
+                self.assertFalse(wrong_output_dir.exists())
+
+                output_dir.mkdir(parents=True)
+                marker = output_dir / "user-owned.txt"
+                marker.write_text("preserve", encoding="utf-8")
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "output directory must be absent before model load",
+                ):
+                    runner.execute_frozen_protocol(
+                        model_snapshot=root / "model",
+                        preregistration_path=root / "preregistration.json",
+                        protocol_freeze_commit="a" * 40,
+                        output_dir=output_dir,
+                    )
+                self.assertEqual(marker.read_text(encoding="utf-8"), "preserve")
+                self.assertEqual(list(output_dir.iterdir()), [marker])
+
+    def test_later_stage_failures_write_exact_preregistration_receipt(self) -> None:
+        preregistration_path = ROOT / contract.PREREGISTRATION_PATH
+        preregistration_payload = preregistration_path.read_bytes()
+        tracked_preregistration = contract.parse_strict_json_bytes(
+            preregistration_payload,
+            location="$.preregistration",
+        )
+        expected_sha256 = contract.sha256_bytes(preregistration_payload)
+        for expected_stage in (
+            "training",
+            "independent_adapter_load_and_eval",
+            "resource_accounting",
+            "evidence",
+        ):
+            with self.subTest(stage=expected_stage), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                output_dir = root / "work/training-runs/mm003-qlora-sft-v1"
+                fake_torch = mock.Mock()
+                fake_torch.cuda.synchronize.return_value = None
+                fake_torch.cuda.max_memory_allocated.return_value = 0
+                fake_torch.cuda.max_memory_reserved.return_value = 0
+                with (
+                    mock.patch.object(runner, "ROOT", root),
+                    mock.patch.object(runner, "_validate_protocol_sources"),
+                    mock.patch.object(runner, "_validate_local_dependency_wheel"),
+                    mock.patch.object(
+                        runner,
+                        "load_and_validate_inputs",
+                        return_value=self.inputs,
+                    ),
+                    mock.patch.object(runner, "_validate_preregistered_inputs"),
+                    mock.patch.object(
+                        runner.base_runner,
+                        "model_file_manifest",
+                        return_value=tracked_preregistration["model"]["files"],
+                    ),
+                    mock.patch.object(
+                        runner,
+                        "_load_ml_dependencies",
+                        return_value=(object(), fake_torch),
+                    ),
+                    mock.patch.object(
+                        runner,
+                        "observed_environment",
+                        return_value=contract.LOCKED_ENVIRONMENT,
+                    ),
+                    mock.patch.object(
+                        runner,
+                        "_train_adapter",
+                        return_value={"training": True},
+                    ) as train_adapter,
+                    mock.patch.object(
+                        runner,
+                        "_independent_load_and_eval",
+                        return_value={"evaluation": True},
+                    ) as independent_eval,
+                    mock.patch.object(runner, "build_evidence") as build_evidence,
+                ):
+                    error = RuntimeError(f"injected {expected_stage} failure")
+                    if expected_stage == "training":
+                        train_adapter.side_effect = error
+                    elif expected_stage == "independent_adapter_load_and_eval":
+                        independent_eval.side_effect = error
+                    elif expected_stage == "resource_accounting":
+                        fake_torch.cuda.synchronize.side_effect = error
+                    else:
+                        build_evidence.side_effect = error
+                    with self.assertRaisesRegex(RuntimeError, f"injected {expected_stage}"):
+                        runner.execute_frozen_protocol(
+                            model_snapshot=root / "model",
+                            preregistration_path=preregistration_path,
+                            protocol_freeze_commit="a" * 40,
+                            output_dir=output_dir,
+                        )
+                failure = contract.parse_strict_json_bytes(
+                    (output_dir / "failure.json").read_bytes(),
+                    location="$.failure",
+                )
+                self.assertEqual(failure["stage"], expected_stage)
+                self.assertEqual(failure["exception_type"], "RuntimeError")
+                self.assertEqual(failure["preregistration_sha256"], expected_sha256)
+                self.assertEqual(failure["retry_count"], 0)
+                self.assertFalse(failure["formal_gate_passed"])
+                self.assertFalse(failure["runtime_eligible"])
+
     def test_runner_requires_save_then_fresh_independent_reload(self) -> None:
         source = (ROOT / "scripts/run_mm003_qlora_post_training.py").read_text(
             encoding="utf-8"
         )
+        run_function = source.index("def execute_frozen_protocol(")
+        mkdir = source.index("output_dir.mkdir", run_function)
+        timer_start = source.index("lifecycle_started = time.perf_counter()", mkdir)
         train_call = source.index("training = _train_adapter(")
         eval_call = source.index("evaluation = _independent_load_and_eval(")
+        resource_accounting = source.index(
+            'stage = "resource_accounting"', eval_call
+        )
+        peak_allocated = source.index(
+            "peak_gpu_allocated_bytes = int(torch.cuda.max_memory_allocated())",
+            resource_accounting,
+        )
+        peak_reserved = source.index(
+            "peak_gpu_reserved_bytes = int(torch.cuda.max_memory_reserved())",
+            peak_allocated,
+        )
+        timer_stop = source.index(
+            '"elapsed_seconds": time.perf_counter() - lifecycle_started',
+            peak_reserved,
+        )
+        evidence_stage = source.index('stage = "evidence"', timer_stop)
+        self.assertLess(mkdir, timer_start)
+        self.assertLess(timer_start, train_call)
         self.assertLess(train_call, eval_call)
+        self.assertLess(eval_call, resource_accounting)
+        self.assertLess(resource_accounting, peak_allocated)
+        self.assertLess(peak_allocated, peak_reserved)
+        self.assertLess(peak_reserved, timer_stop)
+        self.assertLess(timer_stop, evidence_stage)
         train_function = source.index("def _train_adapter(")
         save = source.index("model.save_pretrained", train_function)
         delete = source.index("del optimizer, scheduler, model, processor", save)

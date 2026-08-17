@@ -13,7 +13,7 @@ evaluation, resource caps, and failure semantics to be fixed before training.
 
 The 17,601-byte preregistration is
 `configs/mm003_small_vlm_post_training_protocol_v1.json`, with SHA-256
-`e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390`.
+`9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061`.
 It binds ten protocol sources and all 14 files from model revision
 `66285546d2b821cf421d4f5eb2576359d3770cd3`.
 
@@ -92,7 +92,8 @@ tokens from silently entering the loss.
 
 The registered execution is one zero-retry offline lifecycle:
 
-1. Recompute the preregistration, model manifest, fixtures, screenshots,
+1. Validate the invocation, exclusively create the fixed run directory, then
+   recompute the preregistration, model manifest, fixtures, screenshots,
    sources, dependency receipt, and MM-002 isolation audit.
 2. Fresh-load the 4-bit base once, attach trainable LoRA modules, and run one
    three-epoch training execution.
@@ -104,10 +105,19 @@ The registered execution is one zero-retry offline lifecycle:
 5. Fresh-load the same 4-bit base, independently load the saved Adapter with
    `PeftModel.from_pretrained`, and run the unchanged nine-case MM-002 prompt,
    image, compiler, generation, and total-scoring path once.
-6. Persist predictions and evidence. On any exception, write a path-redacted
-   failure receipt and do not retry.
+6. Persist predictions and evidence. After the invocation validates and the
+   run directory is exclusively created, any preflight, training, reload,
+   scoring, or evidence exception writes a stage-specific, path-redacted
+   failure receipt and is never retried. Invalid commit syntax, a different
+   output path, or a pre-existing run directory is rejected before consuming
+   the registered lifecycle.
 
-The total elapsed, peak allocated, and peak reserved caps are 1,800 seconds,
+The measured train/eval lifecycle timer starts immediately after exclusive run
+directory creation and stops after completed scoring and synchronized resource
+sampling. Evidence construction, serialization, and persistence remain inside
+the registered fail-closed lifecycle but are excluded from this elapsed
+measurement so the evidence does not recursively time its own persistence.
+The elapsed, peak allocated, and peak reserved caps are 1,800 seconds,
 16,500,000,000 bytes, and 16,500,000,000 bytes. A formal pass is a measurement
 pass: it establishes that the registered local lifecycle completed and the
 Adapter reloaded. It does not automatically set `quality_improved=true`.
@@ -136,10 +146,11 @@ serving, promotion, and Runtime eligibility.
 
 ## Validation and exact next action
 
-Focused protocol tests pass 10/10. Ruff, `py_compile`, deterministic fixture
+Focused protocol tests pass 13/13. Ruff, `py_compile`, deterministic fixture
 rebuild/check, preregistration recomputation, and `git diff --check` pass. The
-The CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates pass 528 tests with four expected
-Windows privilege skips, `valid=true`, and 47 audited source files.
+CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates pass 531 tests with
+four expected Windows privilege skips, `valid=true`, and 47 audited source
+files.
 
 After this protocol is merged, execute exactly once:
 
