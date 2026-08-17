@@ -137,6 +137,17 @@ are a scorer probe, not a model run; `model_evaluated=false` and all training,
 execution, and Runtime eligibility claims remain false. See the
 [MM-002 review](docs/MM-002-gui-grounding-data-eval-v1.md).
 
+### Local small-VLM baseline protocol v1
+
+`MM-003` now has an outcome-neutral protocol for one local nine-case baseline.
+It pins `Qwen/Qwen2.5-VL-3B-Instruct` at revision
+`66285546d2b821cf421d4f5eb2576359d3770cd3`, all 14 model-file hashes, the
+Transformers BF16/SDPA environment, deterministic UIA/screenshot/fused inputs,
+strict output compilation, resource caps, and fail-closed claims. A blank-image
+compatibility smoke passed, but the formal MM-002 run has not occurred;
+`model_evaluated=false` and `runtime_eligible=false`. See the
+[MM-003 protocol](docs/MM-003-multimodal-gui-action-model-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -550,14 +561,14 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-003-multimodal-gui-action-model-v1`. Freeze an
-outcome-neutral local model/training/evaluation protocol against the unchanged
-MM-002 eval split, then establish a reproducible small-VLM baseline before any
-post-training claim. Compare UIA-only, screenshot-only, and fused inputs while
-recording task metrics, steps, fallback, GPU memory, and latency. Any model
-output remains a candidate for the existing Runtime/Runner/MCP policy path;
-no direct execution authority, serving, promotion, or Runtime eligibility is
-implied.
+The current local work is `MM-003-local-small-vlm-baseline-execution-v1`. The
+outcome-neutral protocol is frozen; execute it once from its merge commit on
+the local RTX 4090 Laptop GPU, with one fresh load, nine ordered calls, zero
+retries, and offline inference. Validate and report overall and per-mode task
+metrics, steps, fallback, GPU memory, and latency without changing the model,
+prompt, compiler, inputs, or caps after seeing output. Every result remains a
+candidate only; no direct execution authority, serving, promotion, commercial
+eligibility, or Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

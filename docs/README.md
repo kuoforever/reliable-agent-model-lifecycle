@@ -28,6 +28,7 @@ English companion documents.
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete; capture remains unimplemented |
 | Multimodal trajectory schema v1 | [MM-001 review](MM-001-multimodal-trajectory-schema-v1.md) | Synthetic text/image topology; no capture or training eligibility |
 | GUI grounding data/eval v1 | [MM-002 review](MM-002-gui-grounding-data-eval-v1.md) | Frozen synthetic eval and scorer; no model result |
+| Local small-VLM baseline protocol v1 | [MM-003 protocol](MM-003-multimodal-gui-action-model-v1.md) | Outcome-neutral protocol frozen; formal nine-case run pending |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

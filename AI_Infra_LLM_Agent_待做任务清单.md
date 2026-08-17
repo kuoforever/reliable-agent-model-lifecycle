@@ -495,12 +495,22 @@ agent-model-factory/
 
 **当前进展（2026-08-17）**
 
-- 前置 MM-001 schema 与 MM-002 frozen synthetic eval/scorer 已完成；尚未评测、
-  训练或准入任何 VLM。
-- 当前唯一动作是冻结 outcome-neutral 的
-  `MM-003-multimodal-gui-action-model-v1` baseline protocol，在不改 eval gold 的
-  前提下选择 0.5B-3B 本地小型 VLM，比较 UIA-only/screenshot-only/fusion，并注册
-  outputs、steps、fallback、显存和 latency。模型输出仍只作为 Runtime candidate。
+- outcome-neutral baseline protocol 已在正式 eval 前冻结：固定
+  `Qwen/Qwen2.5-VL-3B-Instruct` revision
+  `66285546d2b821cf421d4f5eb2576359d3770cd3`、14 个模型文件、
+  Transformers BF16/SDPA 环境、原 MM-002 九例顺序、3×UIA-only / 3×screenshot-only /
+  3×fusion、6 张确定性 synthetic PNG、prompt/compiler、零 retry 与资源上限。
+- 与 eval 无关的 blank-image compatibility smoke 返回 `READY`；它只证明本机 backend
+  可加载/生成，不是 MM-002 model result。当前仍为 `baseline_executed=false`、
+  `model_evaluated=false`、`training=false`、`runtime_eligible=false`。
+- protocol focused 8 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 502-test
+  gates 通过；正式九例尚未执行。模型 `qwen-research` license 仅支持
+  non-commercial research/evaluation，本 gate 不授予 serving、promotion、commercial
+  或 Runtime eligibility。
+- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-execution-v1`：先合并冻结
+  protocol，再按 one fresh load / one full run / nine calls / zero retry 离线执行一次，
+  记录 overall/per-mode 质量、steps、fallback、显存与 latency。模型输出仍只作为
+  Runtime candidate。
 
 ## MM-004：多模态困难负样本
 
