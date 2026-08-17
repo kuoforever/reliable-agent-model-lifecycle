@@ -55,9 +55,10 @@ Therefore `formal_gate_passed=false`, `baseline_executed=false`,
 The failure classification locked
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2`. That separate,
 outcome-neutral protocol is frozen by the repository state containing this
-note; from its merge commit, the single next gate is
-`MM-003-local-small-vlm-baseline-execution-v2`. The recovery protocol changes
-only the scoring/persistence failure boundary:
+note. Its separately preregistered v2 execution later completed once and
+established a negative 9/9-fallback baseline; the current next gate is
+`MM-003-small-vlm-post-training-protocol-v1`. The recovery protocol changes only
+the scoring/persistence failure boundary:
 
 - represent a zero denominator for the prediction-dependent diagnostic as
   explicit `not_applicable`, while core fixed-suite denominators remain

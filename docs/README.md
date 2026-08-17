@@ -30,7 +30,8 @@ English companion documents.
 | GUI grounding data/eval v1 | [MM-002 review](MM-002-gui-grounding-data-eval-v1.md) | Frozen synthetic eval and scorer; no model result |
 | Local small-VLM baseline protocol v1 | [MM-003 protocol](MM-003-multimodal-gui-action-model-v1.md) | Frozen protocol; first formal attempt failed after generation |
 | Local small-VLM baseline failure classification v1 | [MM-003 failure classification](MM-003-local-small-vlm-baseline-failure-classification-v1.md) | Scoring-totality failure bound; no model metric recovered |
-| Local small-VLM recovery protocol v2 | [MM-003 recovery protocol](MM-003-local-small-vlm-baseline-recovery-protocol-v2.md) | Total optional metric + pre-score persistence frozen; v2 execution pending |
+| Local small-VLM recovery protocol v2 | [MM-003 recovery protocol](MM-003-local-small-vlm-baseline-recovery-protocol-v2.md) | Total optional metric + pre-score persistence frozen before execution |
+| Local small-VLM baseline v2 evidence | [MM-003 baseline v2](MM-003-local-small-vlm-baseline-v2.md) | Formal execution gate passed; strict compiler fallback 9/9 and quality 0 |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

@@ -363,6 +363,7 @@ def main() -> int:
     mm003_baseline_protocol = _validate_mm003_baseline_protocol()
     mm003_failure = _validate_mm003_baseline_failure_classification()
     mm003_recovery = _validate_mm003_baseline_recovery_protocol()
+    mm003_baseline_v2 = _validate_mm003_baseline_v2_evidence()
     tests_run = _run_tests()
 
     result = {
@@ -424,9 +425,13 @@ def main() -> int:
         "mm003_baseline_model": mm003_baseline_protocol["model_id"],
         "mm003_baseline_model_revision": mm003_baseline_protocol["model_revision"],
         "mm003_baseline_cases": mm003_baseline_protocol["case_count"],
-        "mm003_baseline_model_evaluated": mm003_baseline_protocol["model_evaluated"],
+        "mm003_baseline_v1_model_evaluated": mm003_baseline_protocol[
+            "model_evaluated"
+        ],
         "mm003_baseline_attempted": mm003_failure["baseline_attempted"],
-        "mm003_baseline_formal_gate_passed": mm003_failure["formal_gate_passed"],
+        "mm003_baseline_v1_formal_gate_passed": mm003_failure[
+            "formal_gate_passed"
+        ],
         "mm003_baseline_failure_classification": mm003_failure["classification"],
         "mm003_baseline_failure_next_gate": mm003_failure["next_gate"],
         "mm003_recovery_protocol_frozen": mm003_recovery["protocol_frozen"],
@@ -434,7 +439,26 @@ def main() -> int:
         "mm003_recovery_optional_metric_total": mm003_recovery[
             "optional_metric_total"
         ],
-        "mm003_baseline_next_gate": mm003_recovery["next_gate"],
+        "mm003_recovery_next_gate": mm003_recovery["next_gate"],
+        "mm003_baseline_v2_formal_gate_passed": mm003_baseline_v2[
+            "formal_gate_passed"
+        ],
+        "mm003_baseline_v2_model_evaluated": mm003_baseline_v2[
+            "model_evaluated"
+        ],
+        "mm003_baseline_formal_gate_passed": mm003_baseline_v2[
+            "formal_gate_passed"
+        ],
+        "mm003_baseline_model_evaluated": mm003_baseline_v2["model_evaluated"],
+        "mm003_baseline_v2_classification": mm003_baseline_v2["classification"],
+        "mm003_baseline_v2_fallback_count": mm003_baseline_v2["fallback_count"],
+        "mm003_baseline_v2_grounding_accuracy": mm003_baseline_v2[
+            "grounding_accuracy"
+        ]["value"],
+        "mm003_baseline_v2_action_accuracy": mm003_baseline_v2[
+            "action_accuracy"
+        ]["value"],
+        "mm003_baseline_next_gate": mm003_baseline_v2["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1829,6 +1853,26 @@ def _validate_mm003_baseline_recovery_protocol() -> dict[str, Any]:
         "optional_metric_total": True,
         "next_gate": next_gate,
     }
+
+
+def _validate_mm003_baseline_v2_evidence() -> dict[str, Any]:
+    from scripts import validate_mm003_baseline_v2_evidence as validator
+
+    try:
+        result = validator.validate_repository(ROOT)
+    except validator.MM003BaselineV2EvidenceError as exc:
+        raise GateError(f"MM-003 v2 baseline evidence invalid: {exc}") from exc
+    if (
+        result["formal_gate_passed"] is not True
+        or result["model_evaluated"] is not True
+        or result["classification"] != "local_small_vlm_baseline_established"
+        or result["case_count"] != 9
+        or result["fallback_count"] != 9
+        or result["runtime_eligible"] is not False
+        or result["next_gate"] != "MM-003-small-vlm-post-training-protocol-v1"
+    ):
+        raise GateError("MM-003 v2 baseline decision mismatch")
+    return result
 
 
 def _validate_named_hashes(artifacts: object) -> None:

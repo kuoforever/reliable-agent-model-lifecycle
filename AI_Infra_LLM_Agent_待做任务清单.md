@@ -520,11 +520,24 @@ agent-model-factory/
   仅为 optional prediction diagnostic 增加 `not_applicable` 零分母语义，并在 scoring
   前 exclusive 持久化 raw/compiled candidates，scoring 异常则写 failure receipt。
 - recovery focused 8 tests 与 CPython 3.12.12 unified 514-test gate 通过，
-  `valid=true`、46 source files；尚无 v2 model result，全部 Runtime/serving/promotion
-  claims 为 false。
-- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-execution-v2`：先合并冻结
-  recovery protocol，再从 merge commit 做 one fresh load / nine ordered calls /
-  zero retry / offline execution，一次验证 success evidence 或 bound failure receipt。
+  `valid=true`、46 source files；这些是 protocol-freeze 时的验证数字。
+- 合并 PR #35 后，`MM-003-local-small-vlm-baseline-execution-v2` 在本机只执行一次：
+  one fresh load / nine ordered calls / zero retry / offline execution，12/12 formal
+  gates 全 true；elapsed `41.921435199998086s`，peak allocated/reserved
+  `11,616,626,688` / `12,010,389,504` bytes，均在 caps 内。
+- 严格 compiler 为 9/9 fallback；Grounding `0/5`、Action `0/9`、Tool `0/5`、
+  Argument `0/5`，三个 observation mode 均 0/3。optional disagreement metric 为
+  `not_applicable`。这是 formal measurement pass 与 negative quality baseline，
+  不是模型质量、promotion 或 Runtime pass。
+- run/predictions/evidence 为 14,715 / 2,058 / 4,680 bytes，SHA-256 分别为
+  `173bb4ab17fa5d6c02323f9cc26e8cddd93525055a712b8f6c5cd5c09cb2a57c`、
+  `57629229e4416cb7562382b57ee6774845dbd4f1da97b73a1e54d2a2f8ea17f7`、
+  `a0e3c2503e5bac13bf979c7721dab4350681a84883d749b94ef3ca204d2166fe`；
+  focused result 4 tests 与 CPython 3.12.12/3.13.7 unified 518-test gates 通过，
+  `valid=true`、46 source files。
+- 当前唯一动作切换为 `MM-003-small-vlm-post-training-protocol-v1`：训练前先冻结并
+  合并 outcome-neutral QLoRA contract，锁定 training-only inputs、seed/config/caps、
+  Adapter outputs/independent load check 与不变 MM-002 eval；eval gold 禁止进入训练。
 
 ## MM-004：多模态困难负样本
 

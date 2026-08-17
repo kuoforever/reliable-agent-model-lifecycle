@@ -153,14 +153,21 @@ and [failure classification](docs/MM-003-local-small-vlm-baseline-failure-classi
 
 ### Local small-VLM baseline recovery protocol v2
 
-`MM-003` now freezes a separate recovery protocol without editing v1 or
+`MM-003` froze a separate recovery protocol without editing v1 or
 changing the model/revision, MM-002 inputs, prompt, compiler, generation, or
 eval answers. The prediction-dependent disagreement diagnostic reports
 explicit `not_applicable` when no prediction supplies both `ref` and `bbox`;
 all core task-metric denominators remain fail-closed. The runner persists raw
 and compiled candidate artifacts before scoring and writes a bound failure
-receipt if scoring raises. No v2 model execution has occurred; see the
-[recovery protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md).
+receipt if scoring raises.
+
+The single merged v2 execution then passed all 12 formal gates with one load,
+nine ordered calls, zero retries, offline inference, and resource compliance.
+All nine strict compilations fell back, so Grounding Accuracy was `0/5` and
+Action Accuracy was `0/9`. This establishes the measurement baseline, not
+model quality or Runtime eligibility. See the
+[recovery protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md)
+and [v2 evidence](docs/MM-003-local-small-vlm-baseline-v2.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -575,14 +582,14 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-003-local-small-vlm-baseline-execution-v2`. Merge
-the frozen recovery protocol unchanged, then execute it once from that merge
-commit on the local RTX 4090 Laptop GPU: one fresh load, nine ordered calls,
-zero retries, and offline inference. Validate the pre-score run/predictions
-artifacts and either success evidence or a scoring-failure receipt. Do not
-change the frozen suite, model/revision, prompt, compiler, generation settings,
-eval answers, or caps after seeing output. No direct execution authority,
-serving, promotion, commercial eligibility, or Runtime eligibility is implied.
+The current local work is `MM-003-small-vlm-post-training-protocol-v1`. Freeze
+the exact outcome-neutral QLoRA training/evaluation contract before training:
+training-only inputs, fixed seed/hyperparameters/checkpoint outputs, independent
+Adapter-load validation, the unchanged frozen MM-002 eval, zero retry, and
+resource caps. Do not train until that protocol merges, do not use eval gold as
+training data, and do not reinterpret the 9/9-fallback zero-shot baseline as a
+promotion decision. No direct execution authority, serving, promotion,
+commercial eligibility, or Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
