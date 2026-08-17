@@ -151,6 +151,17 @@ recovered, no retry occurred, and `model_evaluated=false` and
 `runtime_eligible=false`. See the [MM-003 protocol](docs/MM-003-multimodal-gui-action-model-v1.md)
 and [failure classification](docs/MM-003-local-small-vlm-baseline-failure-classification-v1.md).
 
+### Local small-VLM baseline recovery protocol v2
+
+`MM-003` now freezes a separate recovery protocol without editing v1 or
+changing the model/revision, MM-002 inputs, prompt, compiler, generation, or
+eval answers. The prediction-dependent disagreement diagnostic reports
+explicit `not_applicable` when no prediction supplies both `ref` and `bbox`;
+all core task-metric denominators remain fail-closed. The runner persists raw
+and compiled candidate artifacts before scoring and writes a bound failure
+receipt if scoring raises. No v2 model execution has occurred; see the
+[recovery protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -564,17 +575,14 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is
-`MM-003-local-small-vlm-baseline-recovery-protocol-v2`. The v1 attempt has been
-classified, not retried: it reached scoring after nine calls, then failed on a
-zero denominator for the prediction-dependent disagreement diagnostic before
-writing artifacts. Freeze a separate v2 protocol that represents this metric
-as `not_applicable` when no prediction supplies both `ref` and `bbox`, persists
-raw and compiled outputs before scoring, and writes a scoring-failure receipt.
-Do not change the frozen suite, model/revision, prompt, compiler, generation
-settings, or eval answers; do not run v2 until its protocol is merged. No
-direct execution authority, serving, promotion, commercial eligibility, or
-Runtime eligibility is implied.
+The current local work is `MM-003-local-small-vlm-baseline-execution-v2`. Merge
+the frozen recovery protocol unchanged, then execute it once from that merge
+commit on the local RTX 4090 Laptop GPU: one fresh load, nine ordered calls,
+zero retries, and offline inference. Validate the pre-score run/predictions
+artifacts and either success evidence or a scoring-failure receipt. Do not
+change the frozen suite, model/revision, prompt, compiler, generation settings,
+eval answers, or caps after seeing output. No direct execution authority,
+serving, promotion, commercial eligibility, or Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

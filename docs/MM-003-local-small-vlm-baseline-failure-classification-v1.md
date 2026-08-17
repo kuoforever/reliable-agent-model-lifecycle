@@ -52,10 +52,12 @@ Therefore `formal_gate_passed=false`, `baseline_executed=false`,
 
 ## Locked recovery protocol
 
-The single next gate is
-`MM-003-local-small-vlm-baseline-recovery-protocol-v2`. It must freeze, merge,
-and validate a new outcome-neutral protocol before another model run. The new
-protocol may change only the scoring/persistence failure boundary:
+The failure classification locked
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2`. That separate,
+outcome-neutral protocol is frozen by the repository state containing this
+note; from its merge commit, the single next gate is
+`MM-003-local-small-vlm-baseline-execution-v2`. The recovery protocol changes
+only the scoring/persistence failure boundary:
 
 - represent a zero denominator for the prediction-dependent diagnostic as
   explicit `not_applicable`, while core fixed-suite denominators remain

@@ -50,6 +50,12 @@ MM003_PREREGISTRATION_SHA256 = (
 MM003_FAILURE_CLASSIFICATION_PATH = (
     ROOT / "baseline" / "mm003-qwen2.5-vl-3b-baseline-v1-failure-classification.json"
 )
+MM003_RECOVERY_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "mm003_multimodal_gui_action_model_baseline_v2.json"
+)
+MM003_RECOVERY_PREREGISTRATION_SHA256 = (
+    "sha256:369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -356,6 +362,7 @@ def main() -> int:
     gui_grounding_eval = _validate_gui_grounding_eval()
     mm003_baseline_protocol = _validate_mm003_baseline_protocol()
     mm003_failure = _validate_mm003_baseline_failure_classification()
+    mm003_recovery = _validate_mm003_baseline_recovery_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -421,7 +428,13 @@ def main() -> int:
         "mm003_baseline_attempted": mm003_failure["baseline_attempted"],
         "mm003_baseline_formal_gate_passed": mm003_failure["formal_gate_passed"],
         "mm003_baseline_failure_classification": mm003_failure["classification"],
-        "mm003_baseline_next_gate": mm003_failure["next_gate"],
+        "mm003_baseline_failure_next_gate": mm003_failure["next_gate"],
+        "mm003_recovery_protocol_frozen": mm003_recovery["protocol_frozen"],
+        "mm003_recovery_protocol_sources": mm003_recovery["source_files"],
+        "mm003_recovery_optional_metric_total": mm003_recovery[
+            "optional_metric_total"
+        ],
+        "mm003_baseline_next_gate": mm003_recovery["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1687,6 +1700,134 @@ def _validate_mm003_baseline_failure_classification() -> dict[str, Any]:
         "formal_gate_passed": False,
         "classification": result["failure"]["classification"],
         "next_gate": result["locked_next_action"]["gate_id"],
+    }
+
+
+def _validate_mm003_baseline_recovery_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import gui_grounding_eval_v2 as scorer
+    from fullcycle_bridge import mm003_baseline_protocol as v1_contract
+    from fullcycle_bridge import mm003_baseline_protocol_v2 as contract
+
+    payload = _read_regular_file_once(
+        MM003_RECOVERY_PREREGISTRATION_PATH, "MM-003 recovery preregistration"
+    )
+    if "sha256:" + hashlib.sha256(payload).hexdigest() != (
+        MM003_RECOVERY_PREREGISTRATION_SHA256
+    ):
+        raise GateError("MM-003 recovery preregistration hash mismatch")
+    raw = contract.parse_strict_json_bytes(
+        payload, location="$.mm003_recovery_preregistration"
+    )
+    if not isinstance(raw, dict):
+        raise GateError("MM-003 recovery preregistration must be an object")
+    preregistration = contract.validate_preregistration(raw)
+
+    source_receipts = preregistration["source_lineage"]["protocol_sources"]
+    for name, relative in contract.PROTOCOL_SOURCE_PATHS.items():
+        source_payload = _read_regular_file_once(
+            ROOT / relative, f"MM-003 recovery source {name}"
+        )
+        if source_receipts.get(name) != {
+            "path": relative,
+            "sha256": contract.sha256_bytes(source_payload),
+        }:
+            raise GateError(f"MM-003 recovery source binding mismatch: {name}")
+
+    failure_payload = _read_regular_file_once(
+        ROOT / contract.V1_FAILURE_ARTIFACT_PATH,
+        "MM-003 v1 failure classification",
+    )
+    if preregistration["source_lineage"]["v1_failure_classification"] != {
+        "path": contract.V1_FAILURE_ARTIFACT_PATH,
+        "bytes": len(failure_payload),
+        "sha256": contract.sha256_bytes(failure_payload),
+        "failed_gate_id": "MM-003-local-small-vlm-baseline-execution-v1",
+        "formal_gate_passed": False,
+    }:
+        raise GateError("MM-003 recovery failure-lineage mismatch")
+
+    v1_payload = _read_regular_file_once(
+        MM003_PREREGISTRATION_PATH, "MM-003 v1 preregistration comparison"
+    )
+    v1_raw = v1_contract.parse_strict_json_bytes(
+        v1_payload, location="$.mm003_v1_preregistration"
+    )
+    if not isinstance(v1_raw, dict):
+        raise GateError("MM-003 v1 preregistration must be an object")
+    v1_preregistration = v1_contract.validate_preregistration(v1_raw)
+    if (
+        preregistration["model"] != v1_preregistration["model"]
+        or preregistration["source_lineage"]["mm002_suite"]
+        != v1_preregistration["source_lineage"]["mm002_suite"]
+        or preregistration["source_lineage"]["screenshots"]
+        != v1_preregistration["source_lineage"]["screenshots"]
+    ):
+        raise GateError("MM-003 recovery frozen input drift")
+    for key in ("case_order", "case_modes", "image_policy", "generation", "compiler"):
+        if preregistration["execution_protocol"][key] != v1_preregistration[
+            "execution_protocol"
+        ][key]:
+            raise GateError(f"MM-003 recovery execution drift: {key}")
+
+    suite = _load_json(GUI_GROUNDING_SUITE_PATH)
+    fallback_predictions = {
+        "gui_grounding_prediction_version": 1,
+        "suite_id": suite["suite_id"],
+        "producer": {
+            "kind": "model",
+            "model_id": contract.MODEL_ID,
+            "model_revision": contract.MODEL_REVISION,
+        },
+        "records": [
+            contract.compile_raw_prediction("not-json", case)
+            for case in suite["cases"]
+        ],
+    }
+    report = scorer.score_predictions(suite, fallback_predictions)
+    optional_metric = report["metrics"][
+        "prediction_coordinate_ref_disagreement_rate"
+    ]
+    if (
+        optional_metric
+        != {
+            "correct": 0,
+            "total": 0,
+            "value": None,
+            "status": "not_applicable",
+        }
+        or report["metrics"]["grounding_accuracy"]["total"] != 5
+        or report["metrics"]["action_accuracy"]["total"] != 9
+    ):
+        raise GateError("MM-003 recovery scorer totality mismatch")
+
+    persistence = preregistration["execution_protocol"]["persistence_policy"]
+    recovery = preregistration["recovery_constraints"]
+    if (
+        preregistration["freeze_status"] != "frozen"
+        or persistence
+        != {
+            "output_directory_must_be_absent_before_load": True,
+            "raw_run_written_before_scoring": True,
+            "compiled_predictions_written_before_scoring": True,
+            "writes_are_exclusive": True,
+            "scoring_failure_receipt_required": True,
+            "success_evidence_written_after_scoring": True,
+        }
+        or any(value is not False for value in recovery.values())
+        or preregistration["claims"]["baseline_executed"] is not False
+        or preregistration["claims"]["model_evaluated"] is not False
+        or preregistration["claims"]["runtime_eligible"] is not False
+        or preregistration["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 recovery boundary mismatch")
+    next_gate = preregistration["next_gate_after_freeze"]["gate_id"]
+    if next_gate != contract.EXECUTION_GATE_ID:
+        raise GateError("MM-003 recovery next gate mismatch")
+    return {
+        "protocol_frozen": True,
+        "source_files": len(contract.PROTOCOL_SOURCE_PATHS),
+        "optional_metric_total": True,
+        "next_gate": next_gate,
     }
 
 

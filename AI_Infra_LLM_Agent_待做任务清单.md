@@ -513,10 +513,18 @@ agent-model-factory/
   `runtime_eligible=false`。模型 `qwen-research` license 仅支持
   non-commercial research/evaluation，本 gate 不授予 serving、promotion、commercial
   或 Runtime eligibility。
-- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-recovery-protocol-v2`：保留
-  v1 不变，仅冻结 optional prediction diagnostic 的 `not_applicable` 零分母语义、
-  scoring 前 raw/compiled 持久化及 scoring failure receipt；合并新 protocol 前不得
-  再执行。model/revision、suite、prompt、compiler、generation 与 eval answers 均不变。
+- `MM-003-local-small-vlm-baseline-recovery-protocol-v2` 已在任何 v2 model run 前
+  冻结：13,349 bytes，SHA-256
+  `369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403`。
+  v2 保留 v1 model/revision、suite、screenshots、prompt、compiler、generation 与 caps；
+  仅为 optional prediction diagnostic 增加 `not_applicable` 零分母语义，并在 scoring
+  前 exclusive 持久化 raw/compiled candidates，scoring 异常则写 failure receipt。
+- recovery focused 8 tests 与 CPython 3.12.12 unified 514-test gate 通过，
+  `valid=true`、46 source files；尚无 v2 model result，全部 Runtime/serving/promotion
+  claims 为 false。
+- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-execution-v2`：先合并冻结
+  recovery protocol，再从 merge commit 做 one fresh load / nine ordered calls /
+  zero retry / offline execution，一次验证 success evidence 或 bound failure receipt。
 
 ## MM-004：多模态困难负样本
 

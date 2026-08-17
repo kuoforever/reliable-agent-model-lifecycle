@@ -1,0 +1,365 @@
+{
+  "preregistration_version": 2,
+  "experiment_id": "mm003-qwen2.5-vl-3b-instruct-baseline-v2",
+  "gate_id": "MM-003-multimodal-gui-action-model-recovery-v2",
+  "freeze_status": "frozen",
+  "scope": {
+    "decision": "local_small_vlm_baseline_recovery_measurement_only",
+    "case_count": 9,
+    "observation_mode_counts": {
+      "fused": 3,
+      "screenshot_only": 3,
+      "uia_only": 3
+    },
+    "quality_threshold_registered": false,
+    "post_training": false,
+    "real_content": false,
+    "direct_execution": false,
+    "runtime_change": false
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "architecture": "Qwen2_5_VLForConditionalGeneration",
+    "parameter_band": "0.5B-3B",
+    "license": "qwen-research",
+    "license_scope": "non_commercial_research_or_evaluation_only",
+    "backend": "transformers",
+    "dtype": "bfloat16",
+    "attention_implementation": "sdpa",
+    "local_files_only_during_execution": true,
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 1519,
+        "sha256": "sha256:11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 7387,
+        "sha256": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50"
+      },
+      {
+        "path": "README.md",
+        "bytes": 18276,
+        "sha256": "sha256:0b6da5a154b923da4dc66e416140c9b7f235f9b08fbbcc27fd9df7b586e3150d"
+      },
+      {
+        "path": "chat_template.json",
+        "bytes": 1050,
+        "sha256": "sha256:ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"
+      },
+      {
+        "path": "config.json",
+        "bytes": 1373,
+        "sha256": "sha256:7ed3eed5be6924cc800e8a5e53fc405c1aab1aaf36bad65c33403b36c56827f5"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 216,
+        "sha256": "sha256:533f191cc257b7de37a4fccd0a7a1706d75e1aa660f93efaa54e5a2a9f9aace9"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "sha256": "sha256:599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 3982649232,
+        "sha256": "sha256:41a8895c164b4d32bae6b302f4603fcbc1797f32dafa45c7e9bcda23c6755df8"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 3526688744,
+        "sha256": "sha256:365531ff8752420e89dee707b79d021fb2d6e25abafe486f080555a4fe6972e4"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 65448,
+        "sha256": "sha256:c7dd78a4c6bea60b51332f1baf37b8f8124ecab2c35395a29a29825bf2619768"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "bytes": 350,
+        "sha256": "sha256:f2058c716eef96ccaed1cc1e2d0c08306b62586d535b28d9d08e691b2fab7ca0"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 7031645,
+        "sha256": "sha256:c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 5702,
+        "sha256": "sha256:4abd3520120e266da84c0864fee064d1fb10806f02225911a47253dd38dc5f56"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "sha256:ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ]
+  },
+  "source_lineage": {
+    "mm002_suite": {
+      "path": "fixtures/gui_grounding_eval_v1/valid/suite.json",
+      "file_sha256": "sha256:c59ea8314cad0ae936fadd6648cc270e3332d40115ed1ca6f9c00730c85c7b2e",
+      "canonical_sha256": "sha256:0774ae2c4d835ab613f46344b33ec0dac5ec1bf12d38db72fca2fdde94431b00",
+      "split": "eval",
+      "training_use_prohibited": true,
+      "gold_excluded_from_prompt": true
+    },
+    "mm002_prediction_schema": {
+      "path": "schemas/gui_grounding_predictions_v1.schema.json",
+      "sha256": "sha256:a4ab293cb0831475899d208b06a4a7c2835405a112538695f83ac3a595357b46"
+    },
+    "protocol_sources": {
+      "base_contract": {
+        "path": "src/fullcycle_bridge/mm003_baseline_protocol.py",
+        "sha256": "sha256:e8ed98ed2f90c7001aa93cff15093288cdca3bdb35544216dbdefa648d80e9ef"
+      },
+      "base_runner": {
+        "path": "scripts/run_mm003_multimodal_gui_action_baseline.py",
+        "sha256": "sha256:42cc765d6d698a539123dc341245e7df379bdc67c4d312aaef22131752cf3c84"
+      },
+      "base_scorer": {
+        "path": "src/fullcycle_bridge/gui_grounding_eval.py",
+        "sha256": "sha256:edd7ce34365779b2e23ea1e733077bf194189073aced68d8932d71e57c15f97d"
+      },
+      "recovery_contract": {
+        "path": "src/fullcycle_bridge/mm003_baseline_protocol_v2.py",
+        "sha256": "sha256:7f78be367acba8116692aa2527b88351c4d038c425db8548eed90a9cacbd21f6"
+      },
+      "recovery_runner": {
+        "path": "scripts/run_mm003_multimodal_gui_action_baseline_v2.py",
+        "sha256": "sha256:21780a02d450d6618f602a2d2744ee703df96d08c2221e0740348ccd55292f42"
+      },
+      "recovery_scorer": {
+        "path": "src/fullcycle_bridge/gui_grounding_eval_v2.py",
+        "sha256": "sha256:96c32d1b6ceb32b5b152933e8e82427a5088e7b9cdf2603d3cf5a095355d4aa9"
+      }
+    },
+    "screenshots": [
+      {
+        "case_id": "ground-002",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-002.png",
+        "bytes": 6318,
+        "sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6"
+      },
+      {
+        "case_id": "ground-003",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-003.png",
+        "bytes": 5531,
+        "sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c"
+      },
+      {
+        "case_id": "ground-005",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-005.png",
+        "bytes": 5699,
+        "sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c"
+      },
+      {
+        "case_id": "ground-006",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-006.png",
+        "bytes": 5801,
+        "sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83"
+      },
+      {
+        "case_id": "ground-007",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-007.png",
+        "bytes": 5550,
+        "sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9"
+      },
+      {
+        "case_id": "ground-008",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-008.png",
+        "bytes": 5557,
+        "sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb"
+      }
+    ],
+    "v1_failure_classification": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-baseline-v1-failure-classification.json",
+      "bytes": 4480,
+      "sha256": "sha256:fc8ef58286f425c03e8f20148c1b2b014c29be4468b61f8c0e650f507ec2dce6",
+      "failed_gate_id": "MM-003-local-small-vlm-baseline-execution-v1",
+      "formal_gate_passed": false
+    }
+  },
+  "execution_protocol": {
+    "environment": {
+      "accelerate": "1.3.0",
+      "compute_capability": "8.9",
+      "device": "cuda",
+      "gpu": "NVIDIA GeForce RTX 4090 Laptop GPU",
+      "gpu_vram_bytes": 17170956288,
+      "huggingface_hub": "0.29.3",
+      "nvidia_driver": "596.49",
+      "pillow": "11.3.0",
+      "platform_machine": "AMD64",
+      "platform_release": "11",
+      "platform_system": "Windows",
+      "platform_version": "10.0.26200",
+      "python": "3.12.12",
+      "safetensors": "0.5.3",
+      "tokenizers": "0.21.4",
+      "torch": "2.6.0+cu124",
+      "transformers": "4.49.0"
+    },
+    "fresh_model_loads": 1,
+    "full_eval_runs": 1,
+    "generate_calls": 9,
+    "retry_count": 0,
+    "case_order": [
+      "ground-001",
+      "ground-002",
+      "ground-003",
+      "ground-004",
+      "ground-005",
+      "ground-006",
+      "ground-007",
+      "ground-008",
+      "ground-009"
+    ],
+    "case_modes": {
+      "ground-001": "uia_only",
+      "ground-002": "screenshot_only",
+      "ground-003": "fused",
+      "ground-004": "uia_only",
+      "ground-005": "screenshot_only",
+      "ground-006": "fused",
+      "ground-007": "fused",
+      "ground-008": "screenshot_only",
+      "ground-009": "uia_only"
+    },
+    "history_steps": 0,
+    "prompt_template": "You generate a candidate GUI action for evaluation only.\nYou never execute actions. Use only the supplied synthetic observation.\nReturn exactly one JSON object and no prose with these keys:\ncase_id, disposition, tool, arguments, ref, bbox, reason.\ndisposition is act, reject, or fallback. For act, tool must be click and\narguments must be {\"button\":\"left\"}; provide the required ref and/or bbox.\nFor reject or fallback, tool, arguments, ref, and bbox must be null and reason\nmust be a short snake_case identifier. Never invent unavailable evidence.",
+    "prompt_payload": "filtered_model_input_without_gold_or_raw_screenshot_regions",
+    "image_policy": {
+      "width": 1280,
+      "height": 900,
+      "uia_only_image_count": 0,
+      "screenshot_only_image_count": 3,
+      "fused_image_count": 3,
+      "min_pixels": 200704,
+      "max_pixels": 1003520,
+      "use_fast": false,
+      "full_synthetic_frame": true,
+      "crop_used": false
+    },
+    "generation": {
+      "do_sample": false,
+      "max_new_tokens": 256,
+      "repetition_penalty": 1.05,
+      "temperature": null,
+      "use_cache": true,
+      "seed": 20260817
+    },
+    "compiler": {
+      "json_object_extraction": "first_json_object",
+      "schema_validation": "strict_no_type_coercion",
+      "invalid_output_disposition": "fallback",
+      "invalid_output_reason": "model_output_invalid"
+    },
+    "network_allowed_during_model_materialization": true,
+    "network_allowed_during_execution": false,
+    "outputs": {
+      "run": "baseline/mm003-qwen2.5-vl-3b-baseline-v2-run.json",
+      "predictions": "baseline/mm003-qwen2.5-vl-3b-baseline-v2-predictions.json",
+      "evidence": "baseline/mm003-qwen2.5-vl-3b-baseline-v2.json",
+      "failure": "baseline/mm003-qwen2.5-vl-3b-baseline-v2-failure.json"
+    },
+    "scoring_policy": {
+      "core_suite_denominators": "positive_required",
+      "prediction_coordinate_ref_disagreement_rate_zero_denominator": "not_applicable",
+      "not_applicable_value": null
+    },
+    "persistence_policy": {
+      "output_directory_must_be_absent_before_load": true,
+      "raw_run_written_before_scoring": true,
+      "compiled_predictions_written_before_scoring": true,
+      "writes_are_exclusive": true,
+      "scoring_failure_receipt_required": true,
+      "success_evidence_written_after_scoring": true
+    }
+  },
+  "measurements": {
+    "overall_and_per_mode": [
+      "grounding_accuracy",
+      "mean_iou",
+      "action_accuracy",
+      "tool_accuracy",
+      "argument_exact_match",
+      "stale_ref_rejection",
+      "coordinate_ref_disagreement_rejection"
+    ],
+    "operational": [
+      "candidate_steps",
+      "fallback_rate",
+      "latency_seconds",
+      "peak_gpu_allocated_bytes",
+      "peak_gpu_reserved_bytes"
+    ],
+    "prediction_dependent_diagnostics": [
+      "prediction_coordinate_ref_disagreement_rate"
+    ]
+  },
+  "resource_caps": {
+    "elapsed_seconds": 1200.0,
+    "peak_gpu_allocated_bytes": 16500000000,
+    "peak_gpu_reserved_bytes": 16500000000
+  },
+  "formal_gate": {
+    "requires_protocol_integrity": true,
+    "requires_exact_model_files": true,
+    "requires_exact_synthetic_inputs": true,
+    "requires_locked_environment": true,
+    "requires_one_complete_nine_case_run": true,
+    "requires_zero_retries": true,
+    "requires_offline_execution": true,
+    "requires_resource_caps": true,
+    "requires_prediction_schema_validity": true,
+    "quality_threshold_required": false,
+    "requires_prediction_dependent_metric_totality": true,
+    "requires_prescore_candidate_persistence": true,
+    "requires_scoring_failure_receipt_policy": true
+  },
+  "constraints": {
+    "adapter_created": false,
+    "training": false,
+    "eval_gold_used_for_training": false,
+    "model_output_has_execution_authority": false,
+    "runtime_integration": false,
+    "mcp_integration": false,
+    "serving_integration": false,
+    "promotion_decision": false,
+    "commercial_use_allowed_by_this_gate": false
+  },
+  "claims": {
+    "baseline_executed": false,
+    "model_evaluated": false,
+    "post_training_complete": false,
+    "adapter_loadable": false,
+    "real_content_collected": false,
+    "cross_machine_reproducibility_established": false,
+    "portable_package_eligible": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "runtime_eligible": false
+  },
+  "next_gate_after_freeze": {
+    "gate_id": "MM-003-local-small-vlm-baseline-execution-v2",
+    "action": "execute the newly frozen recovery baseline exactly once with one fresh load, nine ordered calls, zero retries, prescore candidate persistence, and total scoring"
+  },
+  "runtime_eligible": false,
+  "recovery_constraints": {
+    "v1_protocol_or_artifact_rewrite": false,
+    "model_or_revision_change": false,
+    "synthetic_input_change": false,
+    "prompt_change": false,
+    "compiler_change": false,
+    "generation_change": false,
+    "eval_answer_change": false,
+    "quality_threshold_added": false
+  }
+}
