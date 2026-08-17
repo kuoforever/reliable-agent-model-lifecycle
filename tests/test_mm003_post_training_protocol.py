@@ -148,7 +148,10 @@ class MM003PostTrainingProtocolTests(unittest.TestCase):
                 runner.base_runner,
                 "model_file_manifest",
                 return_value=self.model_files,
-            ):
+            ), mock.patch.object(
+                runner,
+                "_validate_local_dependency_wheel",
+            ) as validate_dependency_wheel:
                 written = runner.prepare_protocol(
                     model_snapshot=Path(temporary),
                     output_path=output,
@@ -161,6 +164,7 @@ class MM003PostTrainingProtocolTests(unittest.TestCase):
                     freeze_status="frozen",
                     check=True,
                 )
+        self.assertEqual(validate_dependency_wheel.call_count, 2)
         self.assertEqual(written, checked)
         self.assertTrue(written["eval_isolation"])
         self.assertEqual(written["train_records"], 18)
