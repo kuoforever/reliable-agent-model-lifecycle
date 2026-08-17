@@ -56,6 +56,12 @@ MM003_RECOVERY_PREREGISTRATION_PATH = (
 MM003_RECOVERY_PREREGISTRATION_SHA256 = (
     "sha256:369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403"
 )
+MM003_POST_TRAINING_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "mm003_small_vlm_post_training_protocol_v1.json"
+)
+MM003_POST_TRAINING_PREREGISTRATION_SHA256 = (
+    "sha256:e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -364,6 +370,7 @@ def main() -> int:
     mm003_failure = _validate_mm003_baseline_failure_classification()
     mm003_recovery = _validate_mm003_baseline_recovery_protocol()
     mm003_baseline_v2 = _validate_mm003_baseline_v2_evidence()
+    mm003_post_training = _validate_mm003_post_training_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -459,6 +466,14 @@ def main() -> int:
             "action_accuracy"
         ]["value"],
         "mm003_baseline_next_gate": mm003_baseline_v2["next_gate"],
+        "mm003_post_training_protocol_frozen": mm003_post_training["protocol_frozen"],
+        "mm003_post_training_train_records": mm003_post_training["train_records"],
+        "mm003_post_training_validation_records": mm003_post_training[
+            "validation_records"
+        ],
+        "mm003_post_training_screenshots": mm003_post_training["screenshots"],
+        "mm003_post_training_eval_isolation": mm003_post_training["eval_isolation"],
+        "mm003_post_training_next_gate": mm003_post_training["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1873,6 +1888,83 @@ def _validate_mm003_baseline_v2_evidence() -> dict[str, Any]:
     ):
         raise GateError("MM-003 v2 baseline decision mismatch")
     return result
+
+
+def _validate_mm003_post_training_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm003_post_training_protocol as contract
+    from scripts import run_mm003_qlora_post_training as runner
+
+    payload = _read_regular_file_once(
+        MM003_POST_TRAINING_PREREGISTRATION_PATH,
+        "MM-003 post-training preregistration",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if digest != MM003_POST_TRAINING_PREREGISTRATION_SHA256:
+        raise GateError("MM-003 post-training preregistration hash mismatch")
+    raw = contract.parse_strict_json_bytes(
+        payload, location="$.mm003_post_training_preregistration"
+    )
+    if not isinstance(raw, dict):
+        raise GateError("MM-003 post-training preregistration must be an object")
+    preregistration = contract.validate_preregistration(raw)
+
+    inputs = runner.load_and_validate_inputs()
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        model_files=preregistration["model"]["files"],
+        train_receipt=inputs["train_receipt"],
+        validation_receipt=inputs["validation_receipt"],
+        screenshot_receipts=inputs["training_screenshot_receipts"],
+        eval_screenshot_receipts=inputs["eval_screenshot_receipts"],
+        source_hashes=runner.protocol_source_hashes(),
+        isolation_audit=inputs["isolation_audit"],
+    )
+    if preregistration != expected:
+        raise GateError("MM-003 post-training source or input binding mismatch")
+
+    for name, receipt in (
+        ("baseline_preregistration", contract.BASELINE_V2_PREREGISTRATION),
+        ("negative_baseline", contract.BASELINE_V2_EVIDENCE),
+    ):
+        observed = _read_regular_file_once(
+            ROOT / receipt["path"], f"MM-003 post-training {name}"
+        )
+        if (
+            len(observed) != receipt["bytes"]
+            or "sha256:" + hashlib.sha256(observed).hexdigest() != receipt["sha256"]
+        ):
+            raise GateError(f"MM-003 post-training lineage mismatch: {name}")
+
+    claims = preregistration["claims"]
+    if (
+        preregistration["freeze_status"] != "frozen"
+        or preregistration["formal_gate"]["formal_gate_passed"] is not False
+        or preregistration["formal_gate"]["quality_threshold_required"] is not False
+        or preregistration["training_protocol"]["accepted_training_runs"] != 1
+        or preregistration["training_protocol"]["retry_count"] != 0
+        or preregistration["evaluation_protocol"]["full_eval_runs"] != 1
+        or preregistration["evaluation_protocol"]["generate_calls"] != 9
+        or preregistration["evaluation_protocol"]["retry_count"] != 0
+        or inputs["isolation_audit"]["passed"] is not True
+        or any(
+            value is not False
+            for value in preregistration["authority_contract"].values()
+        )
+        or any(value is not False for value in claims.values())
+        or preregistration["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 post-training protocol boundary mismatch")
+    next_gate = preregistration["next_gate_after_freeze"]["gate_id"]
+    if next_gate != contract.EXECUTION_GATE_ID:
+        raise GateError("MM-003 post-training next gate mismatch")
+    return {
+        "protocol_frozen": True,
+        "train_records": contract.TRAIN_RECORDS,
+        "validation_records": contract.VALIDATION_RECORDS,
+        "screenshots": contract.SCREENSHOT_RECORDS,
+        "eval_isolation": True,
+        "next_gate": next_gate,
+    }
 
 
 def _validate_named_hashes(artifacts: object) -> None:

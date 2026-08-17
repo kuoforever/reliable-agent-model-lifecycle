@@ -535,9 +535,23 @@ agent-model-factory/
   `a0e3c2503e5bac13bf979c7721dab4350681a84883d749b94ef3ca204d2166fe`；
   focused result 4 tests 与 CPython 3.12.12/3.13.7 unified 518-test gates 通过，
   `valid=true`、46 source files。
-- 当前唯一动作切换为 `MM-003-small-vlm-post-training-protocol-v1`：训练前先冻结并
-  合并 outcome-neutral QLoRA contract，锁定 training-only inputs、seed/config/caps、
-  Adapter outputs/independent load check 与不变 MM-002 eval；eval gold 禁止进入训练。
+- `MM-003-small-vlm-post-training-protocol-v1` 已在任何 registered training 前本地
+  冻结：17,601 bytes，SHA-256
+  `e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390`。协议固定
+  18 train / 9 validation records、18 张 synthetic PNG、NF4/BF16 QLoRA、seed/
+  hyperparameters/caps、Adapter 文件集、fresh independent Adapter load 与不变 MM-002
+  九例 eval。case/family/instruction/input/target/screenshot 的 exact overlap 均为空，
+  eval gold 未进入训练。
+- 同正式设置的 eval-independent gradient-checkpointed smoke 识别 414 个
+  `Linear4bit` modules、7,372,800 trainable parameters、finite loss 与 nonzero finite
+  LoRA gradient，peak allocated/reserved 为 3,941,332,480 / 4,273,995,776 bytes；
+  它没有保存 Adapter，不是 training、loadability、quality 或 repeatability 证据。
+- focused 10 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 528-test gates 通过，`valid=true`、47
+  source files、4 个 Windows privilege skips。当前所有 training/result/promotion/
+  serving/commercial/Runtime claims 仍为 false。
+- 当前唯一动作切换为 `MM-003-small-vlm-post-training-execution-v1`：先合并 frozen
+  protocol，再按已注册路径执行一次 QLoRA train/save/fresh reload/unchanged MM-002
+  eval，zero retry；失败不得重试或用未合并代码执行。
 
 ## MM-004：多模态困难负样本
 
