@@ -501,16 +501,22 @@ agent-model-factory/
   Transformers BF16/SDPA 环境、原 MM-002 九例顺序、3×UIA-only / 3×screenshot-only /
   3×fusion、6 张确定性 synthetic PNG、prompt/compiler、零 retry 与资源上限。
 - 与 eval 无关的 blank-image compatibility smoke 返回 `READY`；它只证明本机 backend
-  可加载/生成，不是 MM-002 model result。当前仍为 `baseline_executed=false`、
-  `model_evaluated=false`、`training=false`、`runtime_eligible=false`。
-- protocol focused 8 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 502-test
-  gates 通过；正式九例尚未执行。模型 `qwen-research` license 仅支持
+  可加载/生成，不是 MM-002 model result。v1 正式 attempt 在合并冻结 protocol 后执行
+  一次：control flow 证明 fresh load 与 9 个 generation calls 完成，随后 scorer 因
+  `prediction_coordinate_ref_disagreement_rate` 零分母抛出
+  `EMPTY_METRIC_DENOMINATOR`。runner 尚未写 artifact，raw/compiled output、metrics、
+  latency 与资源数字不可恢复；没有 retry。
+- 4,480-byte failure classification SHA-256 为
+  `fc8ef58286f425c03e8f20148c1b2b014c29be4468b61f8c0e650f507ec2dce6`；focused 4
+  tests 与 unified 506-test gate 通过，`valid=true`、44 source files。
+  `baseline_executed=false`、`model_evaluated=false`、`training=false`、
+  `runtime_eligible=false`。模型 `qwen-research` license 仅支持
   non-commercial research/evaluation，本 gate 不授予 serving、promotion、commercial
   或 Runtime eligibility。
-- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-execution-v1`：先合并冻结
-  protocol，再按 one fresh load / one full run / nine calls / zero retry 离线执行一次，
-  记录 overall/per-mode 质量、steps、fallback、显存与 latency。模型输出仍只作为
-  Runtime candidate。
+- 当前唯一动作切换为 `MM-003-local-small-vlm-baseline-recovery-protocol-v2`：保留
+  v1 不变，仅冻结 optional prediction diagnostic 的 `not_applicable` 零分母语义、
+  scoring 前 raw/compiled 持久化及 scoring failure receipt；合并新 protocol 前不得
+  再执行。model/revision、suite、prompt、compiler、generation 与 eval answers 均不变。
 
 ## MM-004：多模态困难负样本
 

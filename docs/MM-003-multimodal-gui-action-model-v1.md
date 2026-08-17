@@ -12,6 +12,13 @@ No formal model result exists at this protocol gate. In particular,
 `baseline_executed=false`, `model_evaluated=false`, `training=false`, and
 `runtime_eligible=false` remain frozen claims.
 
+After this protocol was merged unchanged, its one registered execution attempt
+reached scoring after all nine generation calls but failed with
+`EMPTY_METRIC_DENOMINATOR`; no result artifact was written and no retry was
+performed. That later outcome is recorded separately in the
+[failure classification](MM-003-local-small-vlm-baseline-failure-classification-v1.md)
+and does not rewrite this preregistration.
+
 ## Model and backend selection
 
 The protocol pins:
@@ -130,6 +137,7 @@ QLoRA training or independent Adapter loading, generalization, real GUI
 capture, direct execution, serving, promotion, commercial eligibility, or
 Runtime readiness.
 
-The exact next action is to merge this protocol unchanged, then execute
-`MM-003-local-small-vlm-baseline-execution-v1` once from the merge commit and
-validate the three registered artifacts.
+That exact action was attempted once after merge and did not pass. The current
+next action is to freeze
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2` without changing the
+model, inputs, prompt, compiler, generation settings, or eval answers.

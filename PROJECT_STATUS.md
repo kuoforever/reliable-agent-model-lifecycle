@@ -93,32 +93,34 @@ verification, and all training/execution/Runtime eligibility claims false.
 `MM-002` now closes the synthetic GUI grounding data/eval review with nine
 family-unique eval cases, two closed schemas, exact rational IoU aggregation,
 and a deliberately imperfect scorer probe. No model was evaluated.
-`MM-003` now has an outcome-neutral local small-VLM baseline protocol frozen
-before formal eval execution. It pins Qwen2.5-VL-3B-Instruct revision
+`MM-003` has an outcome-neutral local small-VLM baseline protocol frozen before
+formal eval execution. It pins Qwen2.5-VL-3B-Instruct revision
 `66285546d2b821cf421d4f5eb2576359d3770cd3`, all 14 model files, the local
 BF16/SDPA environment, deterministic synthetic images, prompt/compiler,
 nine-call order, resource caps, and fail-closed claims. An unrelated blank-image
-compatibility smoke passed; no MM-002 model result exists yet.
+compatibility smoke passed. The single v1 formal attempt later reached scoring
+after nine generation calls but failed with `EMPTY_METRIC_DENOMINATOR` before
+writing artifacts. No retry or MM-002 model result exists.
 
 ## Single active objective
 
-Complete `MM-003-local-small-vlm-baseline-execution-v1`:
+Complete `MM-003-local-small-vlm-baseline-recovery-protocol-v2`:
 
 ```text
-frozen protocol merge commit + exact local model snapshot
-        -> one fresh load / one nine-case run / nine calls / zero retry
-UIA-only vs screenshot-only vs fusion + resource measurements
-        -> validated candidate outputs, never direct execution
+v1 failure receipt + unchanged model/input/prompt/compiler
+        -> optional prediction diagnostic has explicit not_applicable semantics
+raw + compiled outputs persist before scoring; scoring failure writes receipt
+        -> freeze and merge v2 before any new model execution
 ```
 
-Merge the frozen protocol unchanged, then execute its single registered local
-run against the unchanged MM-002 eval split. Record raw and compiled outputs,
-overall and per-mode task success proxies, step count, fallback rate, GPU
-memory, and latency. Do not tune the model, prompt, compiler, synthetic inputs,
-or caps after observing output. Preserve independent Adapter loading as a
-future post-training gate. Do not change Runtime, collect real user content,
-leak eval gold into training, grant model execution authority, or claim
-serving/promotion/Runtime eligibility.
+Freeze a separate v2 recovery protocol without editing any v1 source or
+artifact. Only the scoring/persistence failure boundary may change: a zero
+denominator for the prediction-dependent disagreement diagnostic becomes
+explicitly not applicable, core suite denominators remain fail-closed, raw and
+compiled outputs persist before scoring, and scoring exceptions persist a
+failure receipt. Do not execute another model run until v2 is merged. Do not
+change the model/revision, prompt, compiler, synthetic inputs, generation
+settings, eval answers, Runtime, or any serving/promotion eligibility claim.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -154,7 +156,27 @@ cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
 
-`MM-003-multimodal-gui-action-model-v1` now has its outcome-neutral baseline
+`MM-003-local-small-vlm-baseline-failure-classification-v1` completed locally
+on 2026-08-17. The one registered attempt used merge commit
+`759a4ea2cbc6b45c78451bcbcdf2c26271c7af78`, completed the fresh load and nine
+generation calls by exact control-flow evidence, then failed in
+`score_predictions` with `EMPTY_METRIC_DENOMINATOR at $report.metrics` for
+`prediction_coordinate_ref_disagreement_rate`. No retry occurred. Because v1
+writes only after scoring, its output directory remained absent; raw outputs,
+compiled predictions, latency, resources, and MM-002 metrics are unavailable
+and were not reconstructed.
+
+The 4,480-byte failure classification has SHA-256
+`fc8ef58286f425c03e8f20148c1b2b014c29be4468b61f8c0e650f507ec2dce6`.
+It binds the exact preregistration and v1 contract/runner/scorer hashes;
+`formal_gate_passed=false`, `baseline_executed=false`,
+`model_evaluated=false`, and `runtime_eligible=false`. Focused 4 tests, Ruff,
+artifact recomputation, and the 506-test unified gate pass with `valid=true`
+and 44 audited source files. The exact next gate is
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2`.
+[Evidence](docs/MM-003-local-small-vlm-baseline-failure-classification-v1.md).
+
+`MM-003-multimodal-gui-action-model-v1` has its outcome-neutral baseline
 protocol frozen locally on 2026-08-17. The 11,151-byte preregistration has
 SHA-256
 `0046143f2c8badb5b2eaa809ac4c7abce81d1c0a5156fe2668b4e5cf9668aa10`.
@@ -173,13 +195,13 @@ checks, and deterministic visual-input review pass. CPython 3.11.15, 3.12.12,
 and 3.13.7 each pass the unified 502-test gate with `valid=true`, four Windows
 symlink-privilege skips, and 43 audited source files.
 
-No formal MM-002 model output has been generated: `baseline_executed=false`,
+At that protocol gate no formal MM-002 model output had been generated:
+`baseline_executed=false`,
 `model_evaluated=false`, `training=false`, and `runtime_eligible=false`. The
 `qwen-research` license restricts this gate to non-commercial research or
-evaluation and does not authorize serving or promotion. The exact next gate
-is `MM-003-local-small-vlm-baseline-execution-v1`: merge the frozen protocol,
-then run it once unchanged and validate raw outputs, compiled predictions,
-overall/per-mode quality, fallback, steps, latency, and GPU memory.
+evaluation and does not authorize serving or promotion. Its registered next
+gate was `MM-003-local-small-vlm-baseline-execution-v1`; that attempt is now
+closed as a failed, non-retried execution above.
 [Protocol](docs/MM-003-multimodal-gui-action-model-v1.md).
 
 `MM-002-gui-grounding-data-eval-v1` completed locally on 2026-08-17. The
@@ -877,7 +899,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-003 outcome-neutral protocol frozen, single local baseline execution next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v1 execution failure classified, v2 recovery protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
