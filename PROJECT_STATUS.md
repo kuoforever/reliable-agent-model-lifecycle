@@ -93,25 +93,31 @@ verification, and all training/execution/Runtime eligibility claims false.
 `MM-002` now closes the synthetic GUI grounding data/eval review with nine
 family-unique eval cases, two closed schemas, exact rational IoU aggregation,
 and a deliberately imperfect scorer probe. No model was evaluated.
+`MM-003` now has an outcome-neutral local small-VLM baseline protocol frozen
+before formal eval execution. It pins Qwen2.5-VL-3B-Instruct revision
+`66285546d2b821cf421d4f5eb2576359d3770cd3`, all 14 model files, the local
+BF16/SDPA environment, deterministic synthetic images, prompt/compiler,
+nine-call order, resource caps, and fail-closed claims. An unrelated blank-image
+compatibility smoke passed; no MM-002 model result exists yet.
 
 ## Single active objective
 
-Complete `MM-003-multimodal-gui-action-model-v1`:
+Complete `MM-003-local-small-vlm-baseline-execution-v1`:
 
 ```text
-frozen MM-002 synthetic eval split and deterministic scorer
-        -> outcome-neutral small-VLM baseline protocol
+frozen protocol merge commit + exact local model snapshot
+        -> one fresh load / one nine-case run / nine calls / zero retry
 UIA-only vs screenshot-only vs fusion + resource measurements
-        -> reproducible candidate outputs, never direct execution
+        -> validated candidate outputs, never direct execution
 ```
 
-Freeze an outcome-neutral local model/training/evaluation protocol against the
-unchanged MM-002 eval split, then establish a reproducible 0.5B-3B small-VLM
-baseline before any post-training claim. Compare UIA-only, screenshot-only,
-and fused inputs and record task success proxies, step count, fallback rate,
-GPU memory, and latency. Preserve independent Adapter loading as a future
-post-training gate. Do not change Runtime, collect real user content, leak the
-frozen eval gold into training, grant model execution authority, or claim
+Merge the frozen protocol unchanged, then execute its single registered local
+run against the unchanged MM-002 eval split. Record raw and compiled outputs,
+overall and per-mode task success proxies, step count, fallback rate, GPU
+memory, and latency. Do not tune the model, prompt, compiler, synthetic inputs,
+or caps after observing output. Preserve independent Adapter loading as a
+future post-training gate. Do not change Runtime, collect real user content,
+leak eval gold into training, grant model execution authority, or claim
 serving/promotion/Runtime eligibility.
 
 The previously active
@@ -147,6 +153,34 @@ remains executing the frozen runbook on one independent qualifying host;
 cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
+
+`MM-003-multimodal-gui-action-model-v1` now has its outcome-neutral baseline
+protocol frozen locally on 2026-08-17. The 11,151-byte preregistration has
+SHA-256
+`0046143f2c8badb5b2eaa809ac4c7abce81d1c0a5156fe2668b4e5cf9668aa10`.
+It pins Qwen2.5-VL-3B-Instruct revision
+`66285546d2b821cf421d4f5eb2576359d3770cd3`, all 14 model files, the exact
+local Transformers/BF16/SDPA environment, the unchanged MM-002 suite and
+prediction schema, six deterministic synthetic PNGs, filtered prompts, strict
+compiler, nine-call order, zero retries, and elapsed/CUDA memory caps.
+
+One unrelated blank-image compatibility smoke returned `READY` in
+`4.989717400007066s` with two generated tokens, peak CUDA allocated memory
+`7,953,781,760` bytes, and peak reserved memory `8,311,013,376` bytes. It did
+not load any MM-002 case and is not model-evaluation evidence. The focused
+eight tests, Ruff, strict mypy, py_compile, preregistration/model/image hash
+checks, and deterministic visual-input review pass. CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the unified 502-test gate with `valid=true`, four Windows
+symlink-privilege skips, and 43 audited source files.
+
+No formal MM-002 model output has been generated: `baseline_executed=false`,
+`model_evaluated=false`, `training=false`, and `runtime_eligible=false`. The
+`qwen-research` license restricts this gate to non-commercial research or
+evaluation and does not authorize serving or promotion. The exact next gate
+is `MM-003-local-small-vlm-baseline-execution-v1`: merge the frozen protocol,
+then run it once unchanged and validate raw outputs, compiled predictions,
+overall/per-mode quality, fallback, steps, latency, and GPU memory.
+[Protocol](docs/MM-003-multimodal-gui-action-model-v1.md).
 
 `MM-002-gui-grounding-data-eval-v1` completed locally on 2026-08-17. The
 frozen synthetic-only eval split contains nine unique cases and families
@@ -843,7 +877,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001/MM-002 complete, MM-003 model baseline next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-003 outcome-neutral protocol frozen, single local baseline execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

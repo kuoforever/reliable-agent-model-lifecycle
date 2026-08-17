@@ -41,6 +41,12 @@ GUI_GROUNDING_PREDICTIONS_SCHEMA_PATH = (
     ROOT / "schemas" / "gui_grounding_predictions_v1.schema.json"
 )
 GUI_GROUNDING_REPORT_PATH = ROOT / "baseline" / "mm-002-gui-grounding-data-eval-v1.json"
+MM003_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "mm003_multimodal_gui_action_model_baseline_v1.json"
+)
+MM003_PREREGISTRATION_SHA256 = (
+    "sha256:0046143f2c8badb5b2eaa809ac4c7abce81d1c0a5156fe2668b4e5cf9668aa10"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -345,6 +351,7 @@ def main() -> int:
     lane_b_contract = _validate_lane_b_contract()
     trajectory_contract = _validate_multimodal_trajectory_contract()
     gui_grounding_eval = _validate_gui_grounding_eval()
+    mm003_baseline_protocol = _validate_mm003_baseline_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -402,6 +409,12 @@ def main() -> int:
             "training_eligible"
         ],
         "gui_grounding_next_gate": gui_grounding_eval["next_gate"],
+        "mm003_baseline_protocol_frozen": mm003_baseline_protocol["protocol_frozen"],
+        "mm003_baseline_model": mm003_baseline_protocol["model_id"],
+        "mm003_baseline_model_revision": mm003_baseline_protocol["model_revision"],
+        "mm003_baseline_cases": mm003_baseline_protocol["case_count"],
+        "mm003_baseline_model_evaluated": mm003_baseline_protocol["model_evaluated"],
+        "mm003_baseline_next_gate": mm003_baseline_protocol["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1548,6 +1561,94 @@ def _validate_gui_grounding_eval() -> dict[str, Any]:
         "metrics": report["metrics"],
         "model_evaluated": False,
         "training_eligible": False,
+        "next_gate": next_gate,
+    }
+
+
+def _validate_mm003_baseline_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm003_baseline_protocol as contract
+    from fullcycle_bridge.gui_grounding_eval import load_suite_file, sha256_json
+
+    preregistration_payload = _read_regular_file_once(
+        MM003_PREREGISTRATION_PATH, "MM-003 preregistration"
+    )
+    if "sha256:" + hashlib.sha256(preregistration_payload).hexdigest() != (
+        MM003_PREREGISTRATION_SHA256
+    ):
+        raise GateError("MM-003 preregistration hash mismatch")
+    preregistration_raw = contract.parse_strict_json_bytes(
+        preregistration_payload, location="$.mm003_preregistration"
+    )
+    if not isinstance(preregistration_raw, dict):
+        raise GateError("MM-003 preregistration must be an object")
+    preregistration = contract.validate_preregistration(preregistration_raw)
+
+    suite_payload = _read_regular_file_once(
+        GUI_GROUNDING_SUITE_PATH, "MM-003 frozen suite"
+    )
+    suite = load_suite_file(GUI_GROUNDING_SUITE_PATH.resolve())
+    if (
+        contract.sha256_bytes(suite_payload) != contract.MM002_SUITE_FILE_SHA256
+        or sha256_json(suite) != contract.MM002_SUITE_CANONICAL_SHA256
+    ):
+        raise GateError("MM-003 frozen suite binding mismatch")
+    schema_payload = _read_regular_file_once(
+        GUI_GROUNDING_PREDICTIONS_SCHEMA_PATH, "MM-003 prediction schema"
+    )
+    if contract.sha256_bytes(schema_payload) != contract.MM002_SCHEMA_SHA256:
+        raise GateError("MM-003 prediction schema binding mismatch")
+
+    source_receipts = preregistration["source_lineage"]["protocol_sources"]
+    for name, relative in contract.PROTOCOL_SOURCE_PATHS.items():
+        payload = _read_regular_file_once(ROOT / relative, f"MM-003 source {name}")
+        receipt = source_receipts.get(name)
+        if not isinstance(receipt, dict) or receipt != {
+            "path": relative,
+            "sha256": contract.sha256_bytes(payload),
+        }:
+            raise GateError(f"MM-003 protocol source binding mismatch: {name}")
+
+    cases = {case["case_id"]: case for case in suite["cases"]}
+    screenshot_receipts = preregistration["source_lineage"]["screenshots"]
+    if len(screenshot_receipts) != 6:
+        raise GateError("MM-003 screenshot receipt count mismatch")
+    for receipt in screenshot_receipts:
+        case_id = receipt.get("case_id")
+        if case_id not in contract.SCREENSHOT_CASES:
+            raise GateError("MM-003 screenshot case mismatch")
+        payload = _read_regular_file_once(
+            ROOT / receipt["path"], f"MM-003 screenshot {case_id}"
+        )
+        if (
+            payload != contract.render_case_png(cases[case_id])
+            or len(payload) != receipt["bytes"]
+            or contract.sha256_bytes(payload) != receipt["sha256"]
+        ):
+            raise GateError(f"MM-003 screenshot binding mismatch: {case_id}")
+
+    if (
+        preregistration["freeze_status"] != "frozen"
+        or preregistration["execution_protocol"]["generate_calls"] != 9
+        or preregistration["execution_protocol"]["retry_count"] != 0
+        or preregistration["formal_gate"]["quality_threshold_required"] is not False
+        or preregistration["constraints"]["training"] is not False
+        or preregistration["constraints"]["model_output_has_execution_authority"]
+        is not False
+        or preregistration["claims"]["baseline_executed"] is not False
+        or preregistration["claims"]["model_evaluated"] is not False
+        or preregistration["claims"]["runtime_eligible"] is not False
+        or preregistration["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 protocol boundary mismatch")
+    next_gate = preregistration["next_gate_after_freeze"]["gate_id"]
+    if next_gate != "MM-003-local-small-vlm-baseline-execution-v1":
+        raise GateError("MM-003 next gate mismatch")
+    return {
+        "protocol_frozen": True,
+        "model_id": preregistration["model"]["repo_id"],
+        "model_revision": preregistration["model"]["revision"],
+        "case_count": preregistration["scope"]["case_count"],
+        "model_evaluated": False,
         "next_gate": next_gate,
     }
 
