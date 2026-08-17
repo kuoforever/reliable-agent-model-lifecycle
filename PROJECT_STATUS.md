@@ -100,27 +100,29 @@ BF16/SDPA environment, deterministic synthetic images, prompt/compiler,
 nine-call order, resource caps, and fail-closed claims. An unrelated blank-image
 compatibility smoke passed. The single v1 formal attempt later reached scoring
 after nine generation calls but failed with `EMPTY_METRIC_DENOMINATOR` before
-writing artifacts. No retry or MM-002 model result exists.
+writing artifacts. No retry or MM-002 model result exists. A separate v2
+recovery protocol now freezes total optional-metric semantics and pre-score
+candidate persistence without changing the model, inputs, prompt, compiler,
+generation, or eval answers; no v2 model run has occurred.
 
 ## Single active objective
 
-Complete `MM-003-local-small-vlm-baseline-recovery-protocol-v2`:
+Complete `MM-003-local-small-vlm-baseline-execution-v2`:
 
 ```text
-v1 failure receipt + unchanged model/input/prompt/compiler
-        -> optional prediction diagnostic has explicit not_applicable semantics
-raw + compiled outputs persist before scoring; scoring failure writes receipt
-        -> freeze and merge v2 before any new model execution
+merged v2 freeze commit + exact unchanged local model snapshot
+        -> one fresh load / one nine-case run / nine calls / zero retry
+pre-score raw + compiled persistence -> total scoring or bound failure receipt
+        -> validated candidate evidence, never direct execution
 ```
 
-Freeze a separate v2 recovery protocol without editing any v1 source or
-artifact. Only the scoring/persistence failure boundary may change: a zero
-denominator for the prediction-dependent disagreement diagnostic becomes
-explicitly not applicable, core suite denominators remain fail-closed, raw and
-compiled outputs persist before scoring, and scoring exceptions persist a
-failure receipt. Do not execute another model run until v2 is merged. Do not
+Merge the frozen v2 protocol unchanged, then execute its one registered local
+run from the merge commit. Require the output directory to be absent before
+load, persist raw run and compiled predictions before scoring, and validate
+either success evidence or a bound scoring-failure receipt. Do not retry v2 or
 change the model/revision, prompt, compiler, synthetic inputs, generation
-settings, eval answers, Runtime, or any serving/promotion eligibility claim.
+settings, eval answers, caps, Runtime, or any serving/promotion eligibility
+claim after observing output.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -155,6 +157,24 @@ remains executing the frozen runbook on one independent qualifying host;
 cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
+
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
+2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
+SHA-256
+`369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403`.
+It binds the unchanged v1 model/input/prompt/compiler/generation facts, six
+base/recovery sources, and the exact v1 failure artifact. Only the auxiliary
+prediction disagreement diagnostic gains explicit `not_applicable` semantics
+for a zero denominator; all core denominators remain positive-required. The
+runner writes exclusive raw run and compiled prediction artifacts before
+scoring and writes a failure receipt if scoring raises.
+
+Focused 8 tests, Ruff, strict mypy, `py_compile`, model/source hash checks, and
+preregistration recomputation pass. CPython 3.12.12 passes the unified 514-test
+gate with `valid=true` and 46 audited source files. No v2 run or model metric
+exists; all training/promotion/Runtime claims remain false. The exact next gate
+is `MM-003-local-small-vlm-baseline-execution-v2` after protocol merge.
+[Protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md).
 
 `MM-003-local-small-vlm-baseline-failure-classification-v1` completed locally
 on 2026-08-17. The one registered attempt used merge commit
@@ -899,7 +919,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v1 execution failure classified, v2 recovery protocol next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v2 recovery protocol frozen, single v2 local execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

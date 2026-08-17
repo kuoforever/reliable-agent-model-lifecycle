@@ -137,7 +137,9 @@ QLoRA training or independent Adapter loading, generalization, real GUI
 capture, direct execution, serving, promotion, commercial eligibility, or
 Runtime readiness.
 
-That exact action was attempted once after merge and did not pass. The current
-next action is to freeze
-`MM-003-local-small-vlm-baseline-recovery-protocol-v2` without changing the
-model, inputs, prompt, compiler, generation settings, or eval answers.
+That exact action was attempted once after merge and did not pass. A separate
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2` has since frozen the
+outcome-neutral scoring and persistence recovery without changing the model,
+inputs, prompt, compiler, generation settings, or eval answers. The current
+next action is the single registered
+`MM-003-local-small-vlm-baseline-execution-v2` after that protocol merges.
