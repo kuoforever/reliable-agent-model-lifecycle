@@ -112,26 +112,32 @@ delegated `pt-*` records to the MM-002-only `ground-*` case registry. The exact
 raw failure receipt and deterministic 27-record static reproduction are now
 classified; no Adapter, training metric, MM-002 post-training result, quality,
 serving, promotion, or Runtime claim exists.
+A separate v2 recovery protocol is now frozen locally before model execution.
+It preserves the v1 model/data/targets/training/eval/caps/authority boundary,
+binds a post-training-only renderer and all 27 prompt receipts before model
+load, and moves the exact next gate to one zero-retry execution-v2 lifecycle
+only after the protocol merges.
 
 ## Single active objective
 
-Complete `MM-003-small-vlm-post-training-recovery-protocol-v2`:
+Complete `MM-003-small-vlm-post-training-execution-v2` after the recovery
+protocol merges:
 
 ```text
-v1 failure receipt + unchanged model/data/targets/hyperparameters/eval
-        -> separate post-training pt-* prompt projection and 27-case preflight
-new v2 gate/experiment/output + merged outcome-neutral freeze
-        -> only then permit one new zero-retry recovery execution
+merged recovery-v2 freeze + absent dedicated v2 output directory
+        -> one exact offline QLoRA train/save/fresh-reload/MM-002 eval lifecycle
+zero retry + outcome-neutral 13-gate evidence
+        -> result review without inferring quality or promotion
 ```
 
-Freeze a separate v2 recovery protocol without editing any v1 protocol,
-receipt, or run directory. Only the failed prompt boundary may change: use a
-post-training-specific case/mode registry, render and bind all 27 prompts
-before dependency or model load, and keep target/family/repeat/raw-region data
-out of the prompt. Preserve the exact model/revision, training and validation
-fixtures, targets, seed, QLoRA hyperparameters, independent Adapter reload,
-MM-002 eval, caps, and authority boundaries. Do not execute a v2 model run
-until the recovery protocol is merged; it is a new gate, not a v1 retry.
+Do not execute until the recovery protocol is merged and the repository is at
+that merged freeze. Use only the exact complete `mm003-model` snapshot, verify
+the fixed v2 output directory is absent, and invoke the registered runner once
+with zero retry. The v1 failure directory is immutable and must not be deleted,
+reused, or treated as retryable. Whatever result exists must be reviewed under
+the frozen outcome-neutral rubric; a formal measurement pass alone cannot
+establish quality improvement, repeatability, serving, promotion, or Runtime
+eligibility.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -238,6 +244,46 @@ pass with `valid=true`, four expected Windows privilege skips, and 48 audited
 source files. The exact next gate is
 `MM-003-small-vlm-post-training-recovery-protocol-v2`.
 [Evidence](docs/MM-003-small-vlm-post-training-failure-classification-v1.md).
+
+`MM-003-small-vlm-post-training-recovery-protocol-v2` froze locally on
+2026-08-17 before any v2 model or GPU execution. Its 26,553-byte
+preregistration has SHA-256
+`02e36d5981e0ed4ac90bfdb3c5cc9c9e1f78ff29ff927020b0a41ebb27f55c0e`.
+It exact-binds the v1 preregistration, raw failure receipt, derived
+classification, and all ten v1 protocol-source receipts. A recursive,
+type-strict leaf comparator permits exactly 12 registered replacements, two
+named v2 source additions, and four closed new sections; every unlisted
+change/addition/removal or container replacement fails closed.
+
+The separate post-training case/mode registry covers all 18 train plus 9
+validation records without mutating the baseline `ground-*` registry. The
+projector explicitly constructs only case/mode/instruction/tools/observation
+fields, excludes family/repeat/target/raw screenshot-region data, and retains
+registered PNGs as separate processor image inputs. All 27 prompts are rendered
+and receipt-bound before dependency import, CUDA access, or model load. Their
+domain-separated aggregate digest is
+`sha256:bcbf8e87674ce2a668bdfe54ff4ecaba2e6db36899fc4e7c563867d1e2e9e102`.
+
+The model/revision and 14-file snapshot, dependency wheel and lock, fixtures,
+targets, seed, NF4/BF16 QLoRA hyperparameters, independent Adapter reload,
+unchanged MM-002 eval, resource caps, and authority boundary remain identical
+to v1. The versioned runner uses a dedicated v2 output directory, sanitized
+failure diagnostics, zero retry, and a new prompt-totality gate for 13 required
+formal gates. At freeze, all training/Adapter/eval/quality/repeatability/
+portability/serving/promotion/Runtime claims remain false.
+Failed formal evidence records no success next gate; only an all-true formal
+measurement may route to result-review-v2.
+
+Focused 23 tests pass on CPython 3.11.15, 3.12.12, and 3.13.7. All three
+interpreters also pass the unified 560-test gate with `valid=true`, four
+expected Windows privilege skips, and 49 audited source files. Exact
+preregistration recomputation, Ruff, `py_compile`, scoped strict mypy on the
+typed v2 contract, and `git diff --check` pass. No model or GPU was loaded and
+the fixed v2 output directory remains absent. After this freeze merges, the
+exact next gate is `MM-003-small-vlm-post-training-execution-v2`; if that
+one-shot measurement passes, its success-only next gate is
+`MM-003-small-vlm-post-training-result-review-v2`.
+[Protocol](docs/MM-003-small-vlm-post-training-recovery-protocol-v2.md).
 
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
 2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
@@ -1026,7 +1072,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; zero-shot baseline established, QLoRA v1 failure classified, recovery protocol v2 next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; zero-shot baseline established, QLoRA v1 failure classified, recovery protocol v2 frozen, execution-v2 next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
