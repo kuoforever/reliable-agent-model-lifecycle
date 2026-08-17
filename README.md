@@ -101,9 +101,19 @@ desktop, or network layers. See [FC-BRIDGE-001](docs/en/FC-BRIDGE-001.md).
 
 The offline Runtime dependency is frozen locally at
 `324ff2fb5911e332ddb5c5f90eb41296e8faf7a9`; the exact contract and preflight
-pin is retained in `baseline/runtime-freeze-v1.json`. Lane B rich capture is
-not part of that freeze and remains deferred, separately reviewed, and off by
-default.
+pin is retained in `baseline/runtime-freeze-v1.json`.
+
+### Lane B consent/capture/security contract v1
+
+`FC-BRIDGE-003` completes the local contract review for a separate,
+disabled-by-default rich-episode lane. Its strict standard-library validator
+requires explicit run-scoped consent, a visible indicator, local sanitization
+and image redaction before write, content-addressed references, Runtime-only
+dispatch authority, state-based verification, and complete deletion receipts.
+The frozen fixture remains quarantine-only and training-ineligible. No capture
+adapter, real episode, real deletion, dataset license, Runtime change, or
+training eligibility is claimed. See the
+[Lane B v1 review](docs/FC-BRIDGE-003-lane-b-consent-capture-security-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -500,6 +510,12 @@ to the target replay artifacts, and is explicitly not hardware-backed remote
 attestation. No independent target execution has occurred, so cross-machine
 reproducibility and portable-package eligibility remain false.
 
+That frozen portable-package gate is deferred until an operationally distinct
+native Windows target with the locked RTX 4090 Laptop GPU class is available.
+The exact resume point remains commit
+`f8dc9a62471759282ad2b41673d95acd43bf240f`; local controller evidence cannot
+replace the required cross-machine replay.
+
 ## Reproducible offline gate
 
 ```powershell
@@ -512,19 +528,16 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current work is
-`FC-MVP-001-fp32-attached-portable-package-qualification-v1`.
-Qualify portable-package status for the preferred FP32 attached package with
-explicit cross-machine behavioral and environment evidence. Preference alone
-is not portability evidence. Keep promotion, serving, merged-artifact, and
-Runtime claims separate and false unless a later gate establishes them. This
-qualification must not add data, train, tune against eval answers, change the
-compiler, prompt, generation, precision, execution form, or weights, promote
-an artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+The current local work is `MM-001-multimodal-trajectory-schema-v1`. Define one
+strict, versioned schema shared by text-only and image-grounded trajectories.
+Each record must bind Runtime, model, policy, and environment versions; link
+pre-action and post-action observations; represent tool/ref/bbox/risk/
+approval/fallback/evidence fields without granting execution authority; and
+remain compatible with the reviewed Lane B quarantine contract. This gate is
+schema and synthetic-fixture work only: it must not implement capture, collect
+real user content, alter Runtime, or make data training-eligible.
 
-The protocol is frozen, but the formal gate is not complete. The exact next
-action is to run the frozen materialization/replay/qualification sequence on
-one operationally distinct native Windows machine satisfying the locked
-environment and same GPU class. WSL or another path on the controller does not
-qualify. See the
+The portable-package qualification remains frozen and deferred, not passed.
+Its exact resume action is still the independent native Windows target replay
+defined by the
 [portable-package qualification protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).

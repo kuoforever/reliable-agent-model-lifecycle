@@ -420,6 +420,25 @@ agent-model-factory/
 - 动作前观察与动作后观察可以关联
 - 模型输出不包含任何直接执行权限
 
+**当前进展（2026-08-17）**
+
+- 前置 `FC-BRIDGE-003` Lane B consent/capture/security contract v1 已完成本地
+  contract review：显式 run-scoped consent、可见指示、独立 storage、写前脱敏和
+  图像遮罩、content-addressed references、Runtime-only dispatch authority、
+  state verifier 与完整 deletion receipt 均已进入 strict validator、closed schema
+  和 synthetic fixtures。
+- 该完成项只关闭 contract review；capture adapter、真实 episode、真实 deletion、
+  dataset split、license、training eligibility 与 Runtime integration 均未实现或未
+  批准，Lane B 继续默认关闭且 `training_eligible=false`。
+- 当前唯一动作是 `MM-001-multimodal-trajectory-schema-v1`：在本仓库用 synthetic
+  fixture 定义兼容 text/image 的版本化 trajectory schema，并绑定
+  runtime/model/policy/environment、pre/post observation、candidate、Runtime
+  decision 和 verifier evidence；模型输出不得获得直接执行权限。
+- `FC-MVP-001-fp32-attached-portable-package-qualification-v1` 保持冻结并 defer；
+  其恢复点仍是 `f8dc9a62471759282ad2b41673d95acd43bf240f` 上的独立原生 Windows
+  目标机 runbook，本机/WSL negative control 不构成 cross-machine 或 portable
+  证据。
+
 ## MM-002：GUI Grounding 数据与评测
 
 构造：

@@ -1,0 +1,39 @@
+{
+  "review_id": "FC-BRIDGE-003",
+  "review_date": "2026-08-17",
+  "lane_b_bundle_version": 1,
+  "lane_b_consent_version": 1,
+  "lane_b_episode_version": 1,
+  "lane_b_deletion_receipt_version": 1,
+  "runtime_freeze_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+  "schema": {
+    "path": "schemas/lane_b_capture_bundle_v1.schema.json",
+    "bytes": 23929,
+    "sha256": "sha256:634089a84a3d9f63ede12ab8bd0ce905b03a8891dfaf2dedd547a73f2ee49368"
+  },
+  "valid_fixture": {
+    "path": "fixtures/lane_b_v1/valid/minimal-bundle.json",
+    "bytes": 11820,
+    "sha256": "sha256:c0d90c1b355e902c730a1048cdd5baec03f73d174c662389943d2d4649909074"
+  },
+  "invalid_fixtures": {
+    "malformed.json": "MALFORMED_JSON",
+    "missing-consent.json": "MISSING_FIELD",
+    "unexpected-field.json": "UNKNOWN_FIELD",
+    "unknown-version.json": "UNSUPPORTED_VERSION"
+  },
+  "review_outcome": {
+    "contract_review_complete": true,
+    "lane_b_disabled_by_default": true,
+    "automatic_lane_a_export_changed": false,
+    "runtime_repository_changed": false,
+    "capture_adapter_implemented": false,
+    "real_episode_collected": false,
+    "real_deletion_executed": false,
+    "dataset_split_assigned": false,
+    "license_approved": false,
+    "training_eligible": false,
+    "runtime_eligible": false
+  },
+  "next_gate": "MM-001-multimodal-trajectory-schema-v1"
+}

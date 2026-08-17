@@ -1,0 +1,305 @@
+{
+  "lane_b_bundle_version": 1,
+  "consent": {
+    "lane_b_consent_version": 1,
+    "consent_id": "consent_fixture_001",
+    "session_id": "session_fixture_001",
+    "decision": "granted",
+    "operator_action": {
+      "granted_at_utc": "2026-08-17T08:00:00Z",
+      "expires_at_utc": "2026-08-17T10:00:00Z",
+      "visible_indicator_acknowledged": true
+    },
+    "scope": {
+      "data_classes": [
+        "sanitized_instruction",
+        "uia_document_ocr_observation",
+        "screenshot_or_crop_reference",
+        "model_candidate_action",
+        "runtime_policy_or_approval_decision",
+        "tool_result_and_post_action_observation",
+        "state_verifier_label"
+      ],
+      "purposes": [
+        "multimodal_training_and_evaluation_review"
+      ],
+      "application_scope": [
+        "synthetic_fixture"
+      ],
+      "network_upload_allowed": false
+    },
+    "capture_controls": {
+      "disabled_by_default": true,
+      "run_scoped": true,
+      "separate_adapter": true,
+      "separate_storage_namespace": true,
+      "visible_indicator_required": true,
+      "local_sanitization_before_write": true,
+      "image_redaction_before_write": true,
+      "content_addressed_artifacts": true,
+      "deletion_supported": true,
+      "automatic_runtime_export": false,
+      "background_capture": false
+    },
+    "retention": {
+      "policy_id": "retention_fixture_30d",
+      "max_days": 30,
+      "delete_by_utc": "2026-09-16T08:00:00Z",
+      "operator_delete_on_request": true
+    },
+    "forbidden_content": {
+      "api_keys_or_tokens": true,
+      "assigned_secret_plaintext": true,
+      "memory_database": true,
+      "continuation_data": true,
+      "cooperative_control_record": true,
+      "authority_handoff_or_resume_state": true,
+      "unredacted_sensitive_content": true
+    },
+    "authority": {
+      "model_output_is_authority": false,
+      "grants_execution_permission": false,
+      "runtime_policy_bypass_allowed": false,
+      "runner_mcp_desktop_bypass_allowed": false,
+      "state_verifier_required": true
+    }
+  },
+  "episode": {
+    "lane_b_episode_version": 1,
+    "episode_id": "episode_fixture_001",
+    "consent_binding": {
+      "consent_id": "consent_fixture_001",
+      "session_id": "session_fixture_001",
+      "consent_sha256": "sha256:2203fa3921404872ee29e2da66794754dbd95d6426b3875aa2e5ee9f414273c0"
+    },
+    "data_class": "explicit_consent_rich_training_episode",
+    "training_use": "quarantine_review_only",
+    "capture": {
+      "captured_at_utc": "2026-08-17T08:30:00Z",
+      "adapter_id": "fullcycle_lane_b_capture_v1",
+      "storage_namespace": "lane-b/session_fixture_001",
+      "indicator_visible": true,
+      "sanitization_completed_before_write": true,
+      "image_redaction_completed_before_write": true,
+      "automatic_runtime_export": false,
+      "network_upload_used": false,
+      "source_safe_trace_modified": false
+    },
+    "versions": {
+      "runtime_git_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+      "agent_contract_version": "0.1.0",
+      "driver_contract_version": "1.0.0",
+      "policy_version": "policy-fixture-v1",
+      "environment_id": "windows-synthetic-fixture-v1",
+      "model_id": "fixture-model",
+      "model_revision": "fixture-revision",
+      "lane_b_consent_version": 1,
+      "lane_b_episode_version": 1
+    },
+    "artifacts": [
+      {
+        "artifact_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "role": "sanitized_instruction",
+        "media_type": "text/plain",
+        "bytes": 38,
+        "content_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "role": "pre_action_observation",
+        "media_type": "application/json",
+        "bytes": 128,
+        "content_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "role": "screenshot_or_crop",
+        "media_type": "image/png",
+        "bytes": 68,
+        "content_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "sanitized": true,
+        "image_redacted": true
+      },
+      {
+        "artifact_id": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "role": "uia_document_ocr",
+        "media_type": "application/json",
+        "bytes": 96,
+        "content_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "role": "model_candidate_action",
+        "media_type": "application/json",
+        "bytes": 160,
+        "content_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "role": "runtime_policy_decision",
+        "media_type": "application/json",
+        "bytes": 96,
+        "content_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "role": "tool_result",
+        "media_type": "application/json",
+        "bytes": 80,
+        "content_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "role": "post_action_observation",
+        "media_type": "application/json",
+        "bytes": 128,
+        "content_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "sanitized": true,
+        "image_redacted": false
+      },
+      {
+        "artifact_id": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "role": "state_verifier_evidence",
+        "media_type": "application/json",
+        "bytes": 72,
+        "content_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "sanitized": true,
+        "image_redacted": false
+      }
+    ],
+    "steps": [
+      {
+        "sequence": 1,
+        "pre_observation_ref": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "candidate_action": {
+          "record_ref": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "next_tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "bbox": [
+            10,
+            20,
+            110,
+            60
+          ],
+          "ref": "control_fixture_submit",
+          "risk_level": "low",
+          "requires_approval": false,
+          "confidence": 0.95,
+          "should_reject": false,
+          "should_fallback": false,
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+            "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+            "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+          ],
+          "execution_authority": "none"
+        },
+        "runtime_decision": {
+          "record_ref": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "policy_decision": "allow",
+          "approval_state": "not_required",
+          "dispatched": true,
+          "runtime_is_authority": true
+        },
+        "tool_result_ref": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "post_observation_ref": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "verifier": {
+          "source": "state_based",
+          "label": "success",
+          "evidence_refs": [
+            "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+            "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+          ],
+          "model_self_report_used": false
+        }
+      }
+    ],
+    "governance": {
+      "dataset_split": "unassigned",
+      "license_status": "pending_review",
+      "training_eligible": false,
+      "human_review_required": true,
+      "retention_enforced": true,
+      "deletion_supported": true
+    }
+  },
+  "deletion_receipt": {
+    "lane_b_deletion_receipt_version": 1,
+    "deletion_id": "deletion_fixture_001",
+    "consent_id": "consent_fixture_001",
+    "session_id": "session_fixture_001",
+    "episode_id": "episode_fixture_001",
+    "episode_sha256": "sha256:de801af4ff9dbbcd9f7a01161921a34242b5aed2bc056c06321019e504aea948",
+    "requested_at_utc": "2026-08-17T09:00:00Z",
+    "completed_at_utc": "2026-08-17T09:01:00Z",
+    "reason": "fixture_cleanup",
+    "artifacts": [
+      {
+        "artifact_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "content_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "content_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "content_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "content_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "content_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "content_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "content_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "content_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "status": "deleted"
+      },
+      {
+        "artifact_id": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "content_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "status": "deleted"
+      }
+    ],
+    "storage_namespace_deleted": true,
+    "remaining_artifact_count": 0,
+    "verifier": {
+      "source": "local_storage_state_verifier",
+      "raw_content_retained": false,
+      "deletion_verified": true
+    }
+  }
+}

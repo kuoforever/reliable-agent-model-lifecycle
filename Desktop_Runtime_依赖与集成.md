@@ -81,7 +81,7 @@ Lane B 不得把 Runtime 的安全 Trace 改成秘密富日志。
 | `GDA-FC-001` | Runtime | Complete | manifest v1 和 redacted run export v1 已实现并通过离线门禁 |
 | `FC-BRIDGE-001` | Full Cycle | Complete | 严格 consumer、合法/非法 fixture 和兼容性失败行为已通过离线验证 |
 | `FC-BRIDGE-002` | Full Cycle | Complete | Lane A 已确定性映射到版本化 Reliability/Verifier Dataset v1 |
-| `FC-BRIDGE-003` | Full Cycle | Pending review | 设计 Lane B consent/capture/security contract |
+| `FC-BRIDGE-003` | Full Cycle | Complete locally | Lane B v1 consent/capture/security contract review；capture 未实现 |
 | `FC-BRIDGE-004` | Both | Complete locally | Pin Runtime commit、contract version 和兼容性测试 |
 
 ### ID 对照
@@ -168,7 +168,11 @@ Runtime 在 CPython 3.13.7 上的 clean release preflight 通过 `1566 passed,
 build/install；报告 SHA-256 为
 `dc78f08030b4d3c4fac255a91fb7badf2b06fdb0eb0c487073e1f825260c6d0e`。
 这只关闭离线 Runtime freeze，不新增 provider、desktop、application 或 release
-证据。Lane B 明确 defer 到 `FC-BRIDGE-003` 独立评审，默认关闭。
+证据。Lane B 的 `FC-BRIDGE-003` v1 consent/capture/security contract review 已于
+2026-08-17 在 Full Cycle 仓库以 strict validator、closed schema 和 synthetic
+fixtures 完成；它继续默认关闭，且 capture adapter、真实 episode/deletion、
+dataset/license/training eligibility 与 Runtime integration 均未实现或未批准。
+Runtime 仓库及 Lane A fixture 在该评审中均未修改。
 
 ## 新会话入口
 
