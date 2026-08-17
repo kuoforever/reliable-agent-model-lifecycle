@@ -78,6 +78,10 @@ not drifted since `8ace897`, so the immutable fixture needs no change.
 branch-reachable Runtime commit
 `324ff2fb5911e332ddb5c5f90eb41296e8faf7a9`. Its CPython 3.13.7 clean release
 preflight passed `1566` tests with `8` skips, all independent offline gates,
-and clean wheel build/install. Lane B is explicitly deferred to the separate
-`FC-BRIDGE-003` consent, security, and privacy review and remains disabled by
-default. This does not add provider, desktop, application, or release evidence.
+and clean wheel build/install. The Full Cycle repository completed the local
+`FC-BRIDGE-003` Lane B v1 consent/capture/security contract review on
+2026-08-17 with a strict validator, closed schema, and synthetic fixtures.
+Lane B remains disabled by default: no capture adapter, real episode/deletion,
+dataset/license approval, training eligibility, or Runtime integration exists.
+The review changed neither the Runtime repository nor the immutable Lane A
+fixture and adds no provider, desktop, application, or release evidence.

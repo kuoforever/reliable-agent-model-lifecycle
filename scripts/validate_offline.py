@@ -17,6 +17,10 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 TESTS = ROOT / "tests"
+LANE_B_FIXTURE_ROOT = ROOT / "fixtures" / "lane_b_v1"
+LANE_B_METADATA_PATH = LANE_B_FIXTURE_ROOT / "fixture-metadata.json"
+LANE_B_VALID_BUNDLE_PATH = LANE_B_FIXTURE_ROOT / "valid" / "minimal-bundle.json"
+LANE_B_SCHEMA_PATH = ROOT / "schemas" / "lane_b_capture_bundle_v1.schema.json"
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -318,6 +322,7 @@ def main() -> int:
             fp32_attached_offline_artifact_reassessment
         )
     )
+    lane_b_contract = _validate_lane_b_contract()
     tests_run = _run_tests()
 
     result = {
@@ -332,6 +337,19 @@ def main() -> int:
         "tests_run": tests_run,
         "manifest_digest": bridge_summary.manifest_digest,
         "dataset_records": record_count,
+        "lane_b_contract_review_complete": lane_b_contract["contract_review_complete"],
+        "lane_b_bundle_version": lane_b_contract["bundle_version"],
+        "lane_b_consent_version": lane_b_contract["consent_version"],
+        "lane_b_episode_version": lane_b_contract["episode_version"],
+        "lane_b_deletion_receipt_version": lane_b_contract["deletion_receipt_version"],
+        "lane_b_artifact_references": lane_b_contract["artifact_count"],
+        "lane_b_steps": lane_b_contract["step_count"],
+        "lane_b_deletion_verified": lane_b_contract["deletion_verified"],
+        "lane_b_training_eligible": lane_b_contract["training_eligible"],
+        "lane_b_capture_adapter_implemented": lane_b_contract[
+            "capture_adapter_implemented"
+        ],
+        "lane_b_next_gate": lane_b_contract["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1067,6 +1085,104 @@ def _validate_fixed_outputs() -> tuple[
         failure_classification,
         decision_compilation,
     )
+
+
+def _validate_lane_b_contract() -> dict[str, Any]:
+    from fullcycle_bridge.lane_b import (
+        LaneBValidationError,
+        validate_bundle_file,
+    )
+
+    metadata = _load_json(LANE_B_METADATA_PATH)
+    expected_versions = {
+        "lane_b_bundle_version": 1,
+        "lane_b_consent_version": 1,
+        "lane_b_episode_version": 1,
+        "lane_b_deletion_receipt_version": 1,
+    }
+    for key, expected in expected_versions.items():
+        if metadata.get(key) != expected:
+            raise GateError(f"Lane B metadata version mismatch: {key}")
+    if metadata.get("review_id") != "FC-BRIDGE-003":
+        raise GateError("Lane B review ID mismatch")
+    if metadata.get("runtime_freeze_commit") != (
+        "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9"
+    ):
+        raise GateError("Lane B Runtime freeze binding mismatch")
+
+    for key, expected_path in {
+        "schema": LANE_B_SCHEMA_PATH,
+        "valid_fixture": LANE_B_VALID_BUNDLE_PATH,
+    }.items():
+        record = metadata.get(key)
+        if not isinstance(record, dict):
+            raise GateError(f"Lane B metadata record missing: {key}")
+        expected_relative = expected_path.relative_to(ROOT).as_posix()
+        payload = _read_regular_file_once(expected_path, f"Lane B {key}")
+        if (
+            record.get("path") != expected_relative
+            or record.get("bytes") != len(payload)
+            or record.get("sha256") != "sha256:" + hashlib.sha256(payload).hexdigest()
+        ):
+            raise GateError(f"Lane B metadata binding mismatch: {key}")
+
+    schema = _load_json(LANE_B_SCHEMA_PATH)
+    if (
+        schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema"
+        or schema.get("additionalProperties") is not False
+        or schema.get("properties", {}).get("lane_b_bundle_version", {}).get("const")
+        != 1
+    ):
+        raise GateError("Lane B schema boundary mismatch")
+
+    summary = validate_bundle_file(LANE_B_VALID_BUNDLE_PATH.resolve())
+    invalid_fixtures = metadata.get("invalid_fixtures")
+    if not isinstance(invalid_fixtures, dict) or not invalid_fixtures:
+        raise GateError("Lane B invalid fixture metadata missing")
+    for filename, expected_code in invalid_fixtures.items():
+        if not isinstance(filename, str) or not isinstance(expected_code, str):
+            raise GateError("Lane B invalid fixture metadata malformed")
+        try:
+            validate_bundle_file((LANE_B_FIXTURE_ROOT / "invalid" / filename).resolve())
+        except LaneBValidationError as exc:
+            if exc.code != expected_code:
+                raise GateError(
+                    f"Lane B invalid fixture code mismatch: {filename}"
+                ) from exc
+        else:
+            raise GateError(f"Lane B invalid fixture passed: {filename}")
+
+    expected_outcome = {
+        "contract_review_complete": True,
+        "lane_b_disabled_by_default": True,
+        "automatic_lane_a_export_changed": False,
+        "runtime_repository_changed": False,
+        "capture_adapter_implemented": False,
+        "real_episode_collected": False,
+        "real_deletion_executed": False,
+        "dataset_split_assigned": False,
+        "license_approved": False,
+        "training_eligible": False,
+        "runtime_eligible": False,
+    }
+    if metadata.get("review_outcome") != expected_outcome:
+        raise GateError("Lane B review outcome mismatch")
+    next_gate = metadata.get("next_gate")
+    if next_gate != "MM-001-multimodal-trajectory-schema-v1":
+        raise GateError("Lane B next gate mismatch")
+    return {
+        "contract_review_complete": True,
+        "bundle_version": summary.bundle_version,
+        "consent_version": metadata["lane_b_consent_version"],
+        "episode_version": metadata["lane_b_episode_version"],
+        "deletion_receipt_version": metadata["lane_b_deletion_receipt_version"],
+        "artifact_count": summary.artifact_count,
+        "step_count": summary.step_count,
+        "deletion_verified": summary.deletion_verified,
+        "training_eligible": summary.training_eligible,
+        "capture_adapter_implemented": False,
+        "next_gate": next_gate,
+    }
 
 
 def _validate_named_hashes(artifacts: object) -> None:

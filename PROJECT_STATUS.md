@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-10.
+> Updated: 2026-08-17.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -79,26 +79,40 @@ protocol is now frozen before target execution; no independent target replay
 or formal portable-package result exists. Author/signature,
 supply-chain, transparency-log, cross-machine, portable, serving, promotion,
 merged-artifact, and Runtime claims remain false pending separate decisions.
+Local negative controls on the controller confirm that the portable protocol
+fails closed when machine identity is not distinct; that gate is deferred at
+its frozen `f8dc9a62471759282ad2b41673d95acd43bf240f` resume point until a
+qualifying independent native Windows host is available. `FC-BRIDGE-003` now
+completes the separate Lane B v1 consent/capture/security contract review with
+a strict validator, closed schema, synthetic fixtures, and deletion binding.
+Lane B remains disabled, quarantine-only, and training-ineligible; no capture
+adapter or Runtime change exists.
 
 ## Single active objective
 
-Complete `FC-MVP-001-fp32-attached-portable-package-qualification-v1`:
+Complete `MM-001-multimodal-trajectory-schema-v1`:
 
 ```text
-preferred FP32 offline candidate + same-environment exact replay
-        -> collect explicit cross-machine behavior and environment evidence
-portable-package qualification
-        -> keep promotion, serving, and Runtime decisions separate
+reviewed Lane B consent/capture/security contract
+        -> one strict versioned text + image trajectory schema
+pre/post observations + candidate + Runtime decision + verifier evidence
+        -> no model execution authority and no real capture
 ```
 
-Qualify portable-package status for the preferred FP32 attached package with
-explicit cross-machine behavior and environment evidence. Preserve the exact
-package, fixed compiler, attached-only execution, and all frozen evidence.
-Preference and same-environment replay are not cross-machine portability. Do
-not infer promotion, serving, or Runtime readiness from preference alone. Do
-not add data, train, tune against eval answers, alter the compiler, prompt,
-generation, precision, execution form, or weights, promote or publish an
-artifact, deploy serving, or integrate Runtime/Provider/MCP/Desktop.
+Define a strict versioned multimodal trajectory schema compatible with both
+text-only and image-grounded records. Each trajectory must bind Runtime,
+model, policy, and environment versions; connect pre-action and post-action
+observations; represent tool, arguments, bbox/ref, risk, approval, confidence,
+rejection/fallback, and evidence; and preserve Runtime as the only dispatch
+authority. Use synthetic fixtures only. Do not implement capture, collect real
+user content, change the Runtime repository, assign dataset splits/licenses,
+train a model, or promote Lane B data.
+
+The previously active
+`FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
+frozen and deferred. Resume it only by executing its existing runbook on one
+operationally distinct native Windows host satisfying the locked environment
+and same GPU class; local controller paths and WSL remain ineligible.
 
 The portable-package qualification protocol was frozen before any target
 result at `f8dc9a62471759282ad2b41673d95acd43bf240f`. Its 7,095-byte
@@ -122,10 +136,39 @@ files on CPython 3.11.15, 3.12.12, and 3.13.7. The 18 focused tests, Ruff,
 strict mypy on the new contract/builder, py_compile, preregistration
 recomputation, and diff checks pass. No independent target GPU machine or
 repository self-hosted runner was available, so no target replay or formal
-qualification artifact was generated. The exact next action remains executing
-the frozen runbook on one independent qualifying host; cross-machine and
-portable-package claims remain false until that evidence validates.
+qualification artifact was generated. The exact portable-gate resume action
+remains executing the frozen runbook on one independent qualifying host;
+cross-machine and portable-package claims remain false until that evidence
+validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
+
+The `FC-BRIDGE-003` Lane B v1 consent/capture/security contract review
+completed locally on 2026-08-17. The standard-library validator accepts one
+closed review bundle containing separately versioned explicit consent,
+quarantined episode, and deletion-receipt records. It requires visible,
+run-scoped consent; bounded application/retention scope; separate storage;
+sanitization and image-redaction declarations completed before write;
+content-addressed artifact references; Runtime-only dispatch authority;
+state-based verification; and deletion coverage for every artifact.
+
+The 23,929-byte Draft 2020-12 schema has SHA-256
+`634089a84a3d9f63ede12ab8bd0ce905b03a8891dfaf2dedd547a73f2ee49368`.
+The 11,820-byte synthetic valid fixture has SHA-256
+`c0d90c1b355e902c730a1048cdd5baec03f73d174c662389943d2d4649909074`;
+it contains nine artifact references and one transition, and its synthetic
+deletion receipt covers all nine. The unified CPython 3.11.15, 3.12.12, and
+3.13.7 gates each pass 442 tests with `valid=true` and audit 38 source files;
+the focused 21-test suite, Ruff, strict mypy, and `py_compile` pass. Windows
+symlink probes account for two unified and one focused privilege skips. The
+final no-dependency wheel build contains both Lane B modules and the
+`fullcycle-lane-b` console entry point.
+
+This closes only the contract review. `capture_adapter_implemented=false`,
+`real_episode_collected=false`, `real_deletion_executed=false`,
+`dataset_split_assigned=false`, `license_approved=false`,
+`training_eligible=false`, and `runtime_eligible=false`. The exact next gate is
+`MM-001-multimodal-trajectory-schema-v1`.
+[Evidence](docs/FC-BRIDGE-003-lane-b-consent-capture-security-v1.md).
 
 The `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1` gate
 completed locally on 2026-08-10. Its outcome-neutral categorical protocol was
@@ -713,8 +756,9 @@ The Runtime clean preflight passed `1566` tests with `8` skips on CPython
 The coordinated consumer offline gate passed `53 tests`, all seven frozen
 artifact hashes, and exact bridge/dataset reproduction on Python 3.13.7; Ruff
 passed and mypy reported no issues in 21 source/script files.
-The old `8ace897` fixture pin remains immutable generation provenance. Lane B
-is explicitly deferred to `FC-BRIDGE-003` and remains disabled by default.
+The old `8ace897` fixture pin remains immutable generation provenance. At that
+freeze, Lane B was explicitly deferred to `FC-BRIDGE-003`; its later contract
+review did not change the freeze or enable capture.
 
 `FC-MVP-000` local gates completed on 2026-07-28 at implementation commit
 `01167034d797d4d6855b1ba916b60564d29ba210`: Python 3.11.15, 3.12.12, and
@@ -735,11 +779,11 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-PM-000` | Complete | Project structure, MVP roadmap, scenario matrix, Project H, cross-repo management |
 | `FC-BRIDGE-001` | Complete | Strict manifest/run-export consumer and offline compatibility fixtures |
 | `FC-BRIDGE-002` | Complete | Lane A reliability/Verifier dataset mapping |
-| `FC-BRIDGE-003` | Pending review | Explicit-consent rich multimodal capture contract |
+| `FC-BRIDGE-003` | Complete locally | Lane B v1 explicit-consent capture/security contract review; capture remains unimplemented |
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
-| `FC-MVP-001` | In progress | Text Tool Router closed loop; preferred offline candidate selected, portable-package qualification next |
-| `FC-MVP-002` | Pending | Multimodal GUI Action Model |
+| `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001 trajectory schema next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
@@ -782,10 +826,11 @@ single active objective.
 - Runtime owns execution safety; Reliable Agent Model Lifecycle owns models and
   datasets.
 - Automatic Runtime export is redacted reliability evidence only.
-- Rich multimodal episodes require explicit consent and a separate review.
+- Rich multimodal episodes require explicit consent; the v1 contract review is
+  complete, while capture, governance approval, and training use remain open.
 - Runtime freeze commit `324ff2fb5911e332ddb5c5f90eb41296e8faf7a9`
-  is pinned by `baseline/runtime-freeze-v1.json`; Lane B was deferred without
-  changing the immutable Lane A fixture provenance.
+  is pinned by `baseline/runtime-freeze-v1.json`; the later Lane B contract
+  review did not change the immutable Lane A fixture provenance.
 - Multi-Agent is formal Project H but does not block the first closed loop.
 - Runtime Lane A producer v1 passed `1428` tests plus Ruff, mypy, docs, wheel
   build/install, and offline release gates, then PR #219 passed the Python

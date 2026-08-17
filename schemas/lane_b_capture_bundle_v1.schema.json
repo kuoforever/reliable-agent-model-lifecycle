@@ -1,0 +1,962 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.fullcycle.invalid/schemas/lane_b_capture_bundle_v1.schema.json",
+  "title": "Explicit-consent Lane B quarantine review bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lane_b_bundle_version",
+    "consent",
+    "episode",
+    "deletion_receipt"
+  ],
+  "properties": {
+    "lane_b_bundle_version": {
+      "const": 1
+    },
+    "consent": {
+      "$ref": "#/$defs/consent"
+    },
+    "episode": {
+      "$ref": "#/$defs/episode"
+    },
+    "deletion_receipt": {
+      "$ref": "#/$defs/deletionReceipt"
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "boundedString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_b_consent_version",
+        "consent_id",
+        "session_id",
+        "decision",
+        "operator_action",
+        "scope",
+        "capture_controls",
+        "retention",
+        "forbidden_content",
+        "authority"
+      ],
+      "properties": {
+        "lane_b_consent_version": {
+          "const": 1
+        },
+        "consent_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "session_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "decision": {
+          "const": "granted"
+        },
+        "operator_action": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "granted_at_utc",
+            "expires_at_utc",
+            "visible_indicator_acknowledged"
+          ],
+          "properties": {
+            "granted_at_utc": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "expires_at_utc": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "visible_indicator_acknowledged": {
+              "const": true
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "data_classes",
+            "purposes",
+            "application_scope",
+            "network_upload_allowed"
+          ],
+          "properties": {
+            "data_classes": {
+              "const": [
+                "sanitized_instruction",
+                "uia_document_ocr_observation",
+                "screenshot_or_crop_reference",
+                "model_candidate_action",
+                "runtime_policy_or_approval_decision",
+                "tool_result_and_post_action_observation",
+                "state_verifier_label"
+              ]
+            },
+            "purposes": {
+              "const": [
+                "multimodal_training_and_evaluation_review"
+              ]
+            },
+            "application_scope": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/boundedString"
+              }
+            },
+            "network_upload_allowed": {
+              "const": false
+            }
+          }
+        },
+        "capture_controls": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "disabled_by_default",
+            "run_scoped",
+            "separate_adapter",
+            "separate_storage_namespace",
+            "visible_indicator_required",
+            "local_sanitization_before_write",
+            "image_redaction_before_write",
+            "content_addressed_artifacts",
+            "deletion_supported",
+            "automatic_runtime_export",
+            "background_capture"
+          ],
+          "properties": {
+            "disabled_by_default": {
+              "const": true
+            },
+            "run_scoped": {
+              "const": true
+            },
+            "separate_adapter": {
+              "const": true
+            },
+            "separate_storage_namespace": {
+              "const": true
+            },
+            "visible_indicator_required": {
+              "const": true
+            },
+            "local_sanitization_before_write": {
+              "const": true
+            },
+            "image_redaction_before_write": {
+              "const": true
+            },
+            "content_addressed_artifacts": {
+              "const": true
+            },
+            "deletion_supported": {
+              "const": true
+            },
+            "automatic_runtime_export": {
+              "const": false
+            },
+            "background_capture": {
+              "const": false
+            }
+          }
+        },
+        "retention": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "policy_id",
+            "max_days",
+            "delete_by_utc",
+            "operator_delete_on_request"
+          ],
+          "properties": {
+            "policy_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "max_days": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 90
+            },
+            "delete_by_utc": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "operator_delete_on_request": {
+              "const": true
+            }
+          }
+        },
+        "forbidden_content": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "api_keys_or_tokens",
+            "assigned_secret_plaintext",
+            "memory_database",
+            "continuation_data",
+            "cooperative_control_record",
+            "authority_handoff_or_resume_state",
+            "unredacted_sensitive_content"
+          ],
+          "properties": {
+            "api_keys_or_tokens": {
+              "const": true
+            },
+            "assigned_secret_plaintext": {
+              "const": true
+            },
+            "memory_database": {
+              "const": true
+            },
+            "continuation_data": {
+              "const": true
+            },
+            "cooperative_control_record": {
+              "const": true
+            },
+            "authority_handoff_or_resume_state": {
+              "const": true
+            },
+            "unredacted_sensitive_content": {
+              "const": true
+            }
+          }
+        },
+        "authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model_output_is_authority",
+            "grants_execution_permission",
+            "runtime_policy_bypass_allowed",
+            "runner_mcp_desktop_bypass_allowed",
+            "state_verifier_required"
+          ],
+          "properties": {
+            "model_output_is_authority": {
+              "const": false
+            },
+            "grants_execution_permission": {
+              "const": false
+            },
+            "runtime_policy_bypass_allowed": {
+              "const": false
+            },
+            "runner_mcp_desktop_bypass_allowed": {
+              "const": false
+            },
+            "state_verifier_required": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "episode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_b_episode_version",
+        "episode_id",
+        "consent_binding",
+        "data_class",
+        "training_use",
+        "capture",
+        "versions",
+        "artifacts",
+        "steps",
+        "governance"
+      ],
+      "properties": {
+        "lane_b_episode_version": {
+          "const": 1
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "consent_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "consent_id",
+            "session_id",
+            "consent_sha256"
+          ],
+          "properties": {
+            "consent_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "session_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "consent_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        },
+        "data_class": {
+          "const": "explicit_consent_rich_training_episode"
+        },
+        "training_use": {
+          "const": "quarantine_review_only"
+        },
+        "capture": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "captured_at_utc",
+            "adapter_id",
+            "storage_namespace",
+            "indicator_visible",
+            "sanitization_completed_before_write",
+            "image_redaction_completed_before_write",
+            "automatic_runtime_export",
+            "network_upload_used",
+            "source_safe_trace_modified"
+          ],
+          "properties": {
+            "captured_at_utc": {
+              "$ref": "#/$defs/timestamp"
+            },
+            "adapter_id": {
+              "$ref": "#/$defs/identifier"
+            },
+            "storage_namespace": {
+              "type": "string",
+              "pattern": "^lane-b/[a-z0-9][a-z0-9._/-]{0,255}$"
+            },
+            "indicator_visible": {
+              "const": true
+            },
+            "sanitization_completed_before_write": {
+              "const": true
+            },
+            "image_redaction_completed_before_write": {
+              "const": true
+            },
+            "automatic_runtime_export": {
+              "const": false
+            },
+            "network_upload_used": {
+              "const": false
+            },
+            "source_safe_trace_modified": {
+              "const": false
+            }
+          }
+        },
+        "versions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "runtime_git_commit",
+            "agent_contract_version",
+            "driver_contract_version",
+            "policy_version",
+            "environment_id",
+            "model_id",
+            "model_revision",
+            "lane_b_consent_version",
+            "lane_b_episode_version"
+          ],
+          "properties": {
+            "runtime_git_commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            "agent_contract_version": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "driver_contract_version": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "policy_version": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "environment_id": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "model_id": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "model_revision": {
+              "$ref": "#/$defs/boundedString"
+            },
+            "lane_b_consent_version": {
+              "const": 1
+            },
+            "lane_b_episode_version": {
+              "const": 1
+            }
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "$ref": "#/$defs/artifact"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/step"
+          }
+        },
+        "governance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dataset_split",
+            "license_status",
+            "training_eligible",
+            "human_review_required",
+            "retention_enforced",
+            "deletion_supported"
+          ],
+          "properties": {
+            "dataset_split": {
+              "const": "unassigned"
+            },
+            "license_status": {
+              "const": "pending_review"
+            },
+            "training_eligible": {
+              "const": false
+            },
+            "human_review_required": {
+              "const": true
+            },
+            "retention_enforced": {
+              "const": true
+            },
+            "deletion_supported": {
+              "const": true
+            }
+          }
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "role",
+        "media_type",
+        "bytes",
+        "content_sha256",
+        "sanitized",
+        "image_redacted"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/sha256"
+        },
+        "role": {
+          "enum": [
+            "sanitized_instruction",
+            "uia_document_ocr",
+            "screenshot_or_crop",
+            "model_candidate_action",
+            "runtime_policy_decision",
+            "tool_result",
+            "pre_action_observation",
+            "post_action_observation",
+            "state_verifier_evidence"
+          ]
+        },
+        "media_type": {
+          "enum": [
+            "application/json",
+            "text/plain",
+            "image/png",
+            "image/jpeg"
+          ]
+        },
+        "bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16777216
+        },
+        "content_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "sanitized": {
+          "const": true
+        },
+        "image_redacted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence",
+        "pre_observation_ref",
+        "candidate_action",
+        "runtime_decision",
+        "tool_result_ref",
+        "post_observation_ref",
+        "verifier"
+      ],
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "pre_observation_ref": {
+          "$ref": "#/$defs/sha256"
+        },
+        "candidate_action": {
+          "$ref": "#/$defs/candidateAction"
+        },
+        "runtime_decision": {
+          "$ref": "#/$defs/runtimeDecision"
+        },
+        "tool_result_ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/sha256"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "post_observation_ref": {
+          "$ref": "#/$defs/sha256"
+        },
+        "verifier": {
+          "$ref": "#/$defs/verifier"
+        }
+      }
+    },
+    "candidateAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_ref",
+        "next_tool",
+        "arguments",
+        "bbox",
+        "ref",
+        "risk_level",
+        "requires_approval",
+        "confidence",
+        "should_reject",
+        "should_fallback",
+        "evidence_refs",
+        "execution_authority"
+      ],
+      "properties": {
+        "record_ref": {
+          "$ref": "#/$defs/sha256"
+        },
+        "next_tool": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/boundedString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "arguments": {
+          "type": "object",
+          "maxProperties": 20,
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "integer",
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "bbox": {
+          "oneOf": [
+            {
+              "type": "array",
+              "minItems": 4,
+              "maxItems": 4,
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ref": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/boundedString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "requires_approval": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "should_reject": {
+          "type": "boolean"
+        },
+        "should_fallback": {
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sha256"
+          }
+        },
+        "execution_authority": {
+          "const": "none"
+        }
+      },
+      "allOf": [
+        {
+          "not": {
+            "required": [
+              "should_reject",
+              "should_fallback"
+            ],
+            "properties": {
+              "should_reject": {
+                "const": true
+              },
+              "should_fallback": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "anyOf": [
+              {
+                "properties": {
+                  "should_reject": {
+                    "const": true
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "should_fallback": {
+                    "const": true
+                  }
+                }
+              }
+            ]
+          },
+          "then": {
+            "properties": {
+              "next_tool": {
+                "type": "null"
+              },
+              "arguments": {
+                "maxProperties": 0
+              },
+              "bbox": {
+                "type": "null"
+              },
+              "ref": {
+                "type": "null"
+              },
+              "requires_approval": {
+                "const": false
+              }
+            }
+          }
+        }
+      ]
+    },
+    "runtimeDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_ref",
+        "policy_decision",
+        "approval_state",
+        "dispatched",
+        "runtime_is_authority"
+      ],
+      "properties": {
+        "record_ref": {
+          "$ref": "#/$defs/sha256"
+        },
+        "policy_decision": {
+          "enum": [
+            "allow",
+            "deny",
+            "approval_required",
+            "reobserve",
+            "defer"
+          ]
+        },
+        "approval_state": {
+          "enum": [
+            "not_required",
+            "pending",
+            "approved",
+            "denied"
+          ]
+        },
+        "dispatched": {
+          "type": "boolean"
+        },
+        "runtime_is_authority": {
+          "const": true
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "policy_decision": {
+              "const": "allow"
+            },
+            "approval_state": {
+              "enum": [
+                "not_required",
+                "approved"
+              ]
+            },
+            "dispatched": {
+              "const": true
+            }
+          }
+        },
+        {
+          "properties": {
+            "policy_decision": {
+              "const": "deny"
+            },
+            "approval_state": {
+              "enum": [
+                "not_required",
+                "denied"
+              ]
+            },
+            "dispatched": {
+              "const": false
+            }
+          }
+        },
+        {
+          "properties": {
+            "policy_decision": {
+              "const": "approval_required"
+            },
+            "approval_state": {
+              "const": "pending"
+            },
+            "dispatched": {
+              "const": false
+            }
+          }
+        },
+        {
+          "properties": {
+            "policy_decision": {
+              "enum": [
+                "reobserve",
+                "defer"
+              ]
+            },
+            "approval_state": {
+              "const": "not_required"
+            },
+            "dispatched": {
+              "const": false
+            }
+          }
+        }
+      ]
+    },
+    "verifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "label",
+        "evidence_refs",
+        "model_self_report_used"
+      ],
+      "properties": {
+        "source": {
+          "const": "state_based"
+        },
+        "label": {
+          "enum": [
+            "success",
+            "failure",
+            "unknown"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/sha256"
+          }
+        },
+        "model_self_report_used": {
+          "const": false
+        }
+      }
+    },
+    "deletionReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lane_b_deletion_receipt_version",
+        "deletion_id",
+        "consent_id",
+        "session_id",
+        "episode_id",
+        "episode_sha256",
+        "requested_at_utc",
+        "completed_at_utc",
+        "reason",
+        "artifacts",
+        "storage_namespace_deleted",
+        "remaining_artifact_count",
+        "verifier"
+      ],
+      "properties": {
+        "lane_b_deletion_receipt_version": {
+          "const": 1
+        },
+        "deletion_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "consent_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "session_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "episode_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "requested_at_utc": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "completed_at_utc": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "reason": {
+          "enum": [
+            "fixture_cleanup",
+            "operator_request",
+            "retention_expiry"
+          ]
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artifact_id",
+              "content_sha256",
+              "status"
+            ],
+            "properties": {
+              "artifact_id": {
+                "$ref": "#/$defs/sha256"
+              },
+              "content_sha256": {
+                "$ref": "#/$defs/sha256"
+              },
+              "status": {
+                "const": "deleted"
+              }
+            }
+          }
+        },
+        "storage_namespace_deleted": {
+          "const": true
+        },
+        "remaining_artifact_count": {
+          "const": 0
+        },
+        "verifier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "raw_content_retained",
+            "deletion_verified"
+          ],
+          "properties": {
+            "source": {
+              "const": "local_storage_state_verifier"
+            },
+            "raw_content_retained": {
+              "const": false
+            },
+            "deletion_verified": {
+              "const": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
