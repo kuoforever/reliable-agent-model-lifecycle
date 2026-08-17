@@ -140,6 +140,7 @@ Runtime readiness.
 That exact action was attempted once after merge and did not pass. A separate
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` has since frozen the
 outcome-neutral scoring and persistence recovery without changing the model,
-inputs, prompt, compiler, generation settings, or eval answers. The current
-next action is the single registered
-`MM-003-local-small-vlm-baseline-execution-v2` after that protocol merges.
+inputs, prompt, compiler, generation settings, or eval answers. That separately
+preregistered v2 execution later completed once and established a negative
+9/9-fallback baseline. The current next action is
+`MM-003-small-vlm-post-training-protocol-v1`.

@@ -1,0 +1,92 @@
+{
+  "gui_grounding_prediction_version": 1,
+  "suite_id": "mm002-synthetic-eval-v1",
+  "producer": {
+    "kind": "model",
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3"
+  },
+  "records": [
+    {
+      "case_id": "ground-001",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-002",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-003",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-004",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-005",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-006",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-007",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-008",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    },
+    {
+      "case_id": "ground-009",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "model_output_invalid"
+    }
+  ]
+}

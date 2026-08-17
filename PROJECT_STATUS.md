@@ -101,28 +101,29 @@ nine-call order, resource caps, and fail-closed claims. An unrelated blank-image
 compatibility smoke passed. The single v1 formal attempt later reached scoring
 after nine generation calls but failed with `EMPTY_METRIC_DENOMINATOR` before
 writing artifacts. No retry or MM-002 model result exists. A separate v2
-recovery protocol now freezes total optional-metric semantics and pre-score
+recovery protocol froze total optional-metric semantics and pre-score
 candidate persistence without changing the model, inputs, prompt, compiler,
-generation, or eval answers; no v2 model run has occurred.
+generation, or eval answers. Its single merged v2 execution has since passed
+the formal measurement gate while producing 9/9 compiler fallbacks and zero
+task accuracy.
 
 ## Single active objective
 
-Complete `MM-003-local-small-vlm-baseline-execution-v2`:
+Complete `MM-003-small-vlm-post-training-protocol-v1`:
 
 ```text
-merged v2 freeze commit + exact unchanged local model snapshot
-        -> one fresh load / one nine-case run / nine calls / zero retry
-pre-score raw + compiled persistence -> total scoring or bound failure receipt
-        -> validated candidate evidence, never direct execution
+frozen negative baseline + training-only reviewed inputs
+        -> preregister exact QLoRA seed/config/caps and Adapter outputs
+unchanged MM-002 eval + independent Adapter-load gate + zero retry
+        -> freeze and merge before any training, never direct execution
 ```
 
-Merge the frozen v2 protocol unchanged, then execute its one registered local
-run from the merge commit. Require the output directory to be absent before
-load, persist raw run and compiled predictions before scoring, and validate
-either success evidence or a bound scoring-failure receipt. Do not retry v2 or
-change the model/revision, prompt, compiler, synthetic inputs, generation
-settings, eval answers, caps, Runtime, or any serving/promotion eligibility
-claim after observing output.
+Freeze a separate outcome-neutral post-training protocol before any training.
+Bind reviewed training-only inputs, exact QLoRA configuration and seed, resource
+caps, checkpoint/Adapter artifacts, an independent Adapter-load check, and the
+unchanged frozen MM-002 eval. Eval gold must remain excluded from training. Do
+not modify or rerun the v2 baseline, start training before merge, or add Runtime,
+serving, commercial-use, or promotion claims.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -171,10 +172,36 @@ scoring and writes a failure receipt if scoring raises.
 
 Focused 8 tests, Ruff, strict mypy, `py_compile`, model/source hash checks, and
 preregistration recomputation pass. CPython 3.12.12 passes the unified 514-test
-gate with `valid=true` and 46 audited source files. No v2 run or model metric
-exists; all training/promotion/Runtime claims remain false. The exact next gate
-is `MM-003-local-small-vlm-baseline-execution-v2` after protocol merge.
+gate with `valid=true` and 46 audited source files. At protocol freeze, no v2
+run or model metric existed and the exact next gate was
+`MM-003-local-small-vlm-baseline-execution-v2`.
 [Protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md).
+
+`MM-003-local-small-vlm-baseline-execution-v2` completed once locally on
+2026-08-17 against the tree of merge commit
+`9702c92c37f18c32a7458cbb2fa3c6d2e75e0490`. One fresh load produced nine
+ordered calls with zero retries and no execution network. All 12 formal gates
+passed; elapsed time was `41.921435199998086` seconds, peak CUDA allocated was
+`11,616,626,688` bytes, and peak reserved was `12,010,389,504` bytes, all
+within registered caps.
+
+The strict compiler produced 9/9 fallbacks. Grounding was `0/5`, Action `0/9`,
+Tool `0/5`, and Argument `0/5`; every observation mode was `0/3` with 3/3
+fallback. The auxiliary disagreement metric was explicitly `not_applicable`.
+This is a passed measurement gate and a negative quality baseline, not a model
+quality pass. The run/predictions/evidence artifacts are respectively
+14,715/2,058/4,680 bytes with SHA-256
+`173bb4ab17fa5d6c02323f9cc26e8cddd93525055a712b8f6c5cd5c09cb2a57c`,
+`57629229e4416cb7562382b57ee6774845dbd4f1da97b73a1e54d2a2f8ea17f7`, and
+`a0e3c2503e5bac13bf979c7721dab4350681a84883d749b94ef3ca204d2166fe`.
+
+Four focused result tests and the CPython 3.12.12/3.13.7 unified 518-test gates
+pass with `valid=true` and 46 audited source files. `baseline_executed=true` and
+`model_evaluated=true` are limited to this synthetic baseline; training,
+Adapter loadability, promotion, serving, cross-machine, commercial, and Runtime
+claims remain false. The exact next gate is
+`MM-003-small-vlm-post-training-protocol-v1`.
+[Evidence](docs/MM-003-local-small-vlm-baseline-v2.md).
 
 `MM-003-local-small-vlm-baseline-failure-classification-v1` completed locally
 on 2026-08-17. The one registered attempt used merge commit
@@ -919,7 +946,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v2 recovery protocol frozen, single v2 local execution next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; formal zero-shot baseline established at 9/9 fallback, post-training protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

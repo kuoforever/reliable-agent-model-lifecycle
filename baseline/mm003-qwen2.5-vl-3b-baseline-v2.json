@@ -1,0 +1,174 @@
+{
+  "evidence_version": 2,
+  "experiment_id": "mm003-qwen2.5-vl-3b-instruct-baseline-v2",
+  "gate_id": "MM-003-multimodal-gui-action-model-recovery-v2",
+  "protocol_freeze_commit": "9702c92c37f18c32a7458cbb2fa3c6d2e75e0490",
+  "preregistration": {
+    "bytes": 13349,
+    "sha256": "sha256:369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403"
+  },
+  "prescore_artifacts": {
+    "run": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-baseline-v2-run.json",
+      "bytes": 14715,
+      "sha256": "sha256:173bb4ab17fa5d6c02323f9cc26e8cddd93525055a712b8f6c5cd5c09cb2a57c"
+    },
+    "predictions": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-baseline-v2-predictions.json",
+      "bytes": 2058,
+      "sha256": "sha256:57629229e4416cb7562382b57ee6774845dbd4f1da97b73a1e54d2a2f8ea17f7"
+    }
+  },
+  "gates": {
+    "protocol_integrity": true,
+    "exact_model_files": true,
+    "exact_synthetic_inputs": true,
+    "locked_environment": true,
+    "one_complete_nine_case_run": true,
+    "zero_retries": true,
+    "offline_execution": true,
+    "resource_caps": true,
+    "prediction_schema_validity": true,
+    "prediction_dependent_metric_totality": true,
+    "prescore_candidate_persistence": true,
+    "scoring_failure_receipt_policy": true
+  },
+  "formal_gate_passed": true,
+  "classification": "local_small_vlm_baseline_established",
+  "quality": {
+    "overall": {
+      "grounding_accuracy": {
+        "correct": 0,
+        "total": 5,
+        "value": 0.0
+      },
+      "mean_iou": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+      },
+      "action_accuracy": {
+        "correct": 0,
+        "total": 9,
+        "value": 0.0
+      },
+      "tool_accuracy": {
+        "correct": 0,
+        "total": 5,
+        "value": 0.0
+      },
+      "argument_exact_match": {
+        "correct": 0,
+        "total": 5,
+        "value": 0.0
+      },
+      "stale_ref_rejection": {
+        "correct": 0,
+        "total": 2,
+        "value": 0.0
+      },
+      "coordinate_ref_disagreement_rejection": {
+        "correct": 0,
+        "total": 1,
+        "value": 0.0
+      },
+      "prediction_coordinate_ref_disagreement_rate": {
+        "correct": 0,
+        "total": 0,
+        "value": null,
+        "status": "not_applicable"
+      }
+    },
+    "by_observation_mode": {
+      "uia_only": {
+        "cases": 3,
+        "task_success_proxy": {
+          "correct": 0,
+          "total": 3,
+          "value": 0.0
+        },
+        "candidate_steps": 3,
+        "fallback_rate": {
+          "count": 3,
+          "total": 3,
+          "value": 1.0
+        },
+        "latency_seconds": {
+          "total": 10.079646800018963,
+          "mean": 3.359882266672988
+        }
+      },
+      "screenshot_only": {
+        "cases": 3,
+        "task_success_proxy": {
+          "correct": 0,
+          "total": 3,
+          "value": 0.0
+        },
+        "candidate_steps": 3,
+        "fallback_rate": {
+          "count": 3,
+          "total": 3,
+          "value": 1.0
+        },
+        "latency_seconds": {
+          "total": 12.708641099990928,
+          "mean": 4.236213699996976
+        }
+      },
+      "fused": {
+        "cases": 3,
+        "task_success_proxy": {
+          "correct": 0,
+          "total": 3,
+          "value": 0.0
+        },
+        "candidate_steps": 3,
+        "fallback_rate": {
+          "count": 3,
+          "total": 3,
+          "value": 1.0
+        },
+        "latency_seconds": {
+          "total": 14.840661599999294,
+          "mean": 4.946887199999765
+        }
+      }
+    }
+  },
+  "resources": {
+    "elapsed_seconds": 41.921435199998086,
+    "gpu_allocated_before_bytes": 0,
+    "gpu_reserved_before_bytes": 0,
+    "gpu_allocated_after_bytes": 7638659072,
+    "gpu_reserved_after_bytes": 12010389504,
+    "peak_gpu_allocated_bytes": 11616626688,
+    "peak_gpu_reserved_bytes": 12010389504
+  },
+  "compiler": {
+    "fallback_count": 9,
+    "fallback_rate": 1.0
+  },
+  "claims": {
+    "baseline_executed": true,
+    "model_evaluated": true,
+    "post_training_complete": false,
+    "adapter_loadable": false,
+    "real_content_collected": false,
+    "cross_machine_reproducibility_established": false,
+    "portable_package_eligible": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "runtime_eligible": false
+  },
+  "limitations": {
+    "synthetic_eval_only": true,
+    "single_local_run": true,
+    "quality_threshold_registered": false,
+    "commercial_use_allowed_by_model_license": false,
+    "direct_execution_tested": false,
+    "runtime_integration_tested": false
+  },
+  "next_gate": "MM-003-small-vlm-post-training-protocol-v1",
+  "runtime_eligible": false
+}

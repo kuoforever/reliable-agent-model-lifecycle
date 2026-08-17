@@ -1,6 +1,6 @@
 # MM-003 local small-VLM baseline recovery protocol v2
 
-> **Decision: FROZEN LOCALLY — merge before the one registered v2 execution.**
+> **Decision: FROZEN BEFORE EXECUTION — later executed once after merge.**
 
 ## Scope
 
@@ -74,7 +74,8 @@ and source hashing, and preregistration byte recomputation pass. The unified
 offline gate passes 514 tests with `valid=true` and 46 audited source files on
 CPython 3.12.12; PR CI must independently cover 3.11, 3.12, and 3.13.
 
-The single next gate is `MM-003-local-small-vlm-baseline-execution-v2`. After
-this protocol is merged unchanged, execute it once from the merge commit with
-one fresh load, nine ordered calls, zero retries, and offline inference. A v2
-run is a newly preregistered experiment, not a retry of v1.
+At freeze, the single next gate was
+`MM-003-local-small-vlm-baseline-execution-v2`. It later executed once after
+merge with one fresh load, nine ordered calls, zero retries, and offline
+inference. See the [v2 evidence](MM-003-local-small-vlm-baseline-v2.md). The
+current next gate is `MM-003-small-vlm-post-training-protocol-v1`.

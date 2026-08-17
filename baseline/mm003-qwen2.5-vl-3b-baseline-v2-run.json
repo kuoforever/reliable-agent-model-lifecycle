@@ -1,0 +1,371 @@
+{
+  "run_artifact_version": 2,
+  "experiment_id": "mm003-qwen2.5-vl-3b-instruct-baseline-v2",
+  "gate_id": "MM-003-multimodal-gui-action-model-recovery-v2",
+  "captured_at_utc": "2026-08-17T07:04:52Z",
+  "protocol": {
+    "preregistration_sha256": "sha256:369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403",
+    "freeze_commit": "9702c92c37f18c32a7458cbb2fa3c6d2e75e0490"
+  },
+  "model_resolution": {
+    "repo_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 1519,
+        "sha256": "sha256:11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 7387,
+        "sha256": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50"
+      },
+      {
+        "path": "README.md",
+        "bytes": 18276,
+        "sha256": "sha256:0b6da5a154b923da4dc66e416140c9b7f235f9b08fbbcc27fd9df7b586e3150d"
+      },
+      {
+        "path": "chat_template.json",
+        "bytes": 1050,
+        "sha256": "sha256:ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"
+      },
+      {
+        "path": "config.json",
+        "bytes": 1373,
+        "sha256": "sha256:7ed3eed5be6924cc800e8a5e53fc405c1aab1aaf36bad65c33403b36c56827f5"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 216,
+        "sha256": "sha256:533f191cc257b7de37a4fccd0a7a1706d75e1aa660f93efaa54e5a2a9f9aace9"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "sha256": "sha256:599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 3982649232,
+        "sha256": "sha256:41a8895c164b4d32bae6b302f4603fcbc1797f32dafa45c7e9bcda23c6755df8"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 3526688744,
+        "sha256": "sha256:365531ff8752420e89dee707b79d021fb2d6e25abafe486f080555a4fe6972e4"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 65448,
+        "sha256": "sha256:c7dd78a4c6bea60b51332f1baf37b8f8124ecab2c35395a29a29825bf2619768"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "bytes": 350,
+        "sha256": "sha256:f2058c716eef96ccaed1cc1e2d0c08306b62586d535b28d9d08e691b2fab7ca0"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 7031645,
+        "sha256": "sha256:c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 5702,
+        "sha256": "sha256:4abd3520120e266da84c0864fee064d1fb10806f02225911a47253dd38dc5f56"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "sha256:ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ]
+  },
+  "inputs": {
+    "suite_file_sha256": "sha256:c59ea8314cad0ae936fadd6648cc270e3332d40115ed1ca6f9c00730c85c7b2e",
+    "suite_canonical_sha256": "sha256:0774ae2c4d835ab613f46344b33ec0dac5ec1bf12d38db72fca2fdde94431b00",
+    "screenshots": [
+      {
+        "case_id": "ground-002",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-002.png",
+        "bytes": 6318,
+        "sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6"
+      },
+      {
+        "case_id": "ground-003",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-003.png",
+        "bytes": 5531,
+        "sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c"
+      },
+      {
+        "case_id": "ground-005",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-005.png",
+        "bytes": 5699,
+        "sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c"
+      },
+      {
+        "case_id": "ground-006",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-006.png",
+        "bytes": 5801,
+        "sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83"
+      },
+      {
+        "case_id": "ground-007",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-007.png",
+        "bytes": 5550,
+        "sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9"
+      },
+      {
+        "case_id": "ground-008",
+        "path": "fixtures/mm003_baseline_v1/screenshots/ground-008.png",
+        "bytes": 5557,
+        "sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb"
+      }
+    ]
+  },
+  "environment": {
+    "accelerate": "1.3.0",
+    "compute_capability": "8.9",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4090 Laptop GPU",
+    "gpu_vram_bytes": 17170956288,
+    "huggingface_hub": "0.29.3",
+    "nvidia_driver": "596.49",
+    "pillow": "11.3.0",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26200",
+    "python": "3.12.12",
+    "safetensors": "0.5.3",
+    "tokenizers": "0.21.4",
+    "torch": "2.6.0+cu124",
+    "transformers": "4.49.0"
+  },
+  "execution": {
+    "fresh_model_loads": 1,
+    "full_eval_runs": 1,
+    "generate_calls": 9,
+    "retry_count": 0,
+    "network_used": false,
+    "generation_completed": true
+  },
+  "persistence": {
+    "stage": "pre_score_candidates",
+    "raw_run_written_before_scoring": true,
+    "compiled_predictions_written_before_scoring": true,
+    "writes_are_exclusive": true,
+    "scoring_failure_receipt_required": true
+  },
+  "cases": [
+    {
+      "case_id": "ground-001",
+      "observation_mode": "uia_only",
+      "prompt_sha256": "sha256:e5949a79f2aef29c5b5b456b55e28dcd6e409d1d397d753dae69aabcfd3b3c3a",
+      "screenshot_sha256": null,
+      "raw_output": "{\n  \"act\": \"click\",\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"ref-save\",\n  \"bbox\": [100, 100, 300, 200],\n  \"reason\": \"activate_save_control\"\n}",
+      "raw_output_sha256": "sha256:af9a50ce8ac3dd492dd782d79235d5265b730463aa277a565102eb100da16d2b",
+      "compiled_prediction": {
+        "case_id": "ground-001",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 72,
+      "latency_seconds": 3.743977999998606
+    },
+    {
+      "case_id": "ground-002",
+      "observation_mode": "screenshot_only",
+      "prompt_sha256": "sha256:cca67cb88fd7aa5d36d455edb6e0cc10a0cbe40209a4151b8cb9049b44366011",
+      "screenshot_sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6",
+      "raw_output": "{\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"CONFIRM\",\n  \"bbox\": [100, 100, 300, 300],\n  \"reason\": \"clicking on the Confirm button\"\n}",
+      "raw_output_sha256": "sha256:004ebe791269462a9076d039157dcc7625370ff8b38ec36362d11476666c534d",
+      "compiled_prediction": {
+        "case_id": "ground-002",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 68,
+      "latency_seconds": 5.164585899998201
+    },
+    {
+      "case_id": "ground-003",
+      "observation_mode": "fused",
+      "prompt_sha256": "sha256:1f86e6ac337fab7346110bd02a374b13b6f77420483d7e0794d656911c28f4e1",
+      "screenshot_sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c",
+      "raw_output": "{\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"ref-export\",\n  \"bbox\": [40, 40, 180, 120],\n  \"reason\": \"click on the export button to proceed with exporting the data.\"\n}",
+      "raw_output_sha256": "sha256:e93b24648799d001ad341dd0e6ee5c9e4f9723aedb87f988f7b4ad4e8a1022cb",
+      "compiled_prediction": {
+        "case_id": "ground-003",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 71,
+      "latency_seconds": 5.082119500002591
+    },
+    {
+      "case_id": "ground-004",
+      "observation_mode": "uia_only",
+      "prompt_sha256": "sha256:00965314aa2c2188325f76655c48795a8477dc1f9a6c5ff56b4884c36f70582a",
+      "screenshot_sha256": null,
+      "raw_output": "{\n  \"act\": \"click\",\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"ref-submit-old\",\n  \"bbox\": [600, 600, 760, 690],\n  \"reason\": \"click_submit_button\"\n}",
+      "raw_output_sha256": "sha256:b7137c00327a4e057937bf0ff107dbda3a12dd40d3f172ba71307ac133f392c7",
+      "compiled_prediction": {
+        "case_id": "ground-004",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 73,
+      "latency_seconds": 3.0625436000118498
+    },
+    {
+      "case_id": "ground-005",
+      "observation_mode": "screenshot_only",
+      "prompt_sha256": "sha256:c104f9d14d1c5b0a3cd2254cafc817195e13ccce335457cf803c5ab733a2f0e3",
+      "screenshot_sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c",
+      "raw_output": "{\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"reason\": \"select delete button visually confirmed\"\n}",
+      "raw_output_sha256": "sha256:c06b5ce3f1ac12eefedef2a17ab7697084bda3f40457c4bc0879e7949dd98561",
+      "compiled_prediction": {
+        "case_id": "ground-005",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 35,
+      "latency_seconds": 3.454244699998526
+    },
+    {
+      "case_id": "ground-006",
+      "observation_mode": "fused",
+      "prompt_sha256": "sha256:61abdc1f9fdb3214077367d97ac378679a7ff38f61fb2691e0890c891cbcfd62",
+      "screenshot_sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83",
+      "raw_output": "{\n  \"act\": \"click\",\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"ref-report\",\n  \"bbox\": [300, 420, 620, 500],\n  \"reason\": \"click on report item\"\n}",
+      "raw_output_sha256": "sha256:cbb676af292fb90cc4102bfcd42447e55e8fdae64e7fcb5d311acb44cdb9461c",
+      "compiled_prediction": {
+        "case_id": "ground-006",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 73,
+      "latency_seconds": 4.925549899999169
+    },
+    {
+      "case_id": "ground-007",
+      "observation_mode": "fused",
+      "prompt_sha256": "sha256:ab6250938571956ad204912d6ce334c7dff9283d0b4781da13ee98bfa434a3c3",
+      "screenshot_sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9",
+      "raw_output": "{\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"next\"\n  },\n  \"ref\": \"ref-next\",\n  \"bbox\": [735, 652, 861, 726],\n  \"reason\": \"proceed\"\n}",
+      "raw_output_sha256": "sha256:c5c5847048cc842850ec59e945a2524a9840d271a9fa1124a4cdcc93dd94fb0c",
+      "compiled_prediction": {
+        "case_id": "ground-007",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 64,
+      "latency_seconds": 4.832992199997534
+    },
+    {
+      "case_id": "ground-008",
+      "observation_mode": "screenshot_only",
+      "prompt_sha256": "sha256:f188efcc225954ddfcab1d4a32f54fe8f639e9c8b8273b7dcad5aea736247ceb",
+      "screenshot_sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb",
+      "raw_output": "{\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"PIN\",\n  \"bbox\": [834, 125, 886, 179]\n}",
+      "raw_output_sha256": "sha256:e9a1ee23ec6b58b8128ae26b50e9cf3d3bdbdf257b3c627186b910a02e7cffdf",
+      "compiled_prediction": {
+        "case_id": "ground-008",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 55,
+      "latency_seconds": 4.089810499994201
+    },
+    {
+      "case_id": "ground-009",
+      "observation_mode": "uia_only",
+      "prompt_sha256": "sha256:a350882158985ec9bc3ed62627e19fa5c8759be905f7b612a36453bdc545f0d1",
+      "screenshot_sha256": null,
+      "raw_output": "{\n  \"act\": \"click\",\n  \"tool\": \"click\",\n  \"arguments\": {\n    \"button\": \"left\"\n  },\n  \"ref\": \"ref-refresh-old\",\n  \"bbox\": [50, 220, 260, 280],\n  \"reason\": \"refresh_button_click\"\n}",
+      "raw_output_sha256": "sha256:29c3001a7297bf5f615574ecb35d3e4d4e4b2386b27bd7b9f3d590174a0c9bd8",
+      "compiled_prediction": {
+        "case_id": "ground-009",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "model_output_invalid"
+      },
+      "compiler_fallback": true,
+      "candidate_steps": 1,
+      "generated_tokens": 72,
+      "latency_seconds": 3.273125200008508
+    }
+  ],
+  "resources": {
+    "elapsed_seconds": 41.921435199998086,
+    "gpu_allocated_before_bytes": 0,
+    "gpu_reserved_before_bytes": 0,
+    "gpu_allocated_after_bytes": 7638659072,
+    "gpu_reserved_after_bytes": 12010389504,
+    "peak_gpu_allocated_bytes": 11616626688,
+    "peak_gpu_reserved_bytes": 12010389504
+  },
+  "claims": {
+    "candidate_outputs_only": true,
+    "baseline_executed": false,
+    "model_evaluated": false,
+    "direct_execution": false,
+    "training_performed": false,
+    "real_content_used": false,
+    "runtime_eligible": false
+  }
+}
