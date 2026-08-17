@@ -88,4 +88,5 @@ deletion on real data; GUI grounding quality; model training or execution;
 dataset split or license approval; cross-machine reproducibility; portable
 packaging; serving, promotion, or Runtime eligibility.
 
-The exact next local gate is `MM-002-gui-grounding-data-eval-v1`.
+At this review's completion, the exact next local gate was
+`MM-002-gui-grounding-data-eval-v1`; that gate has since completed.

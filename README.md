@@ -126,6 +126,17 @@ adapter, real episode, dataset approval, training, execution, Runtime change,
 or cross-machine claim is included. See the
 [MM-001 review](docs/MM-001-multimodal-trajectory-schema-v1.md).
 
+### GUI grounding data and evaluation v1
+
+`MM-002` freezes nine synthetic, family-unique eval cases spanning ref/bbox/
+fused grounding, UIA/screenshot/fused observations, clean/missing/noisy OCR,
+and moved/occluded/stale/disagreement perturbations. Its standard-library
+scorer reports exact grounding, IoU, action, tool, argument, stale-ref, and
+coordinate/ref disagreement metrics. The deliberately imperfect predictions
+are a scorer probe, not a model run; `model_evaluated=false` and all training,
+execution, and Runtime eligibility claims remain false. See the
+[MM-002 review](docs/MM-002-gui-grounding-data-eval-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -539,13 +550,14 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-002-gui-grounding-data-eval-v1`. Build a
-reviewed synthetic evaluation set and deterministic scorer covering ref and
-bbox grounding, UIA-only/screenshot-only/fused observations, OCR absence or
-noise, moved or occluded controls, stale refs, and coordinate/ref disagreement.
-Report Grounding Accuracy/IoU, Action Accuracy, Tool/Argument Accuracy, and
-stale-ref rejection without implementing capture, collecting real user
-content, changing Runtime, training a model, or making data training-eligible.
+The current local work is `MM-003-multimodal-gui-action-model-v1`. Freeze an
+outcome-neutral local model/training/evaluation protocol against the unchanged
+MM-002 eval split, then establish a reproducible small-VLM baseline before any
+post-training claim. Compare UIA-only, screenshot-only, and fused inputs while
+recording task metrics, steps, fallback, GPU memory, and latency. Any model
+output remains a candidate for the existing Runtime/Runner/MCP policy path;
+no direct execution authority, serving, promotion, or Runtime eligibility is
+implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

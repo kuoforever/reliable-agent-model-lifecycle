@@ -1,0 +1,35 @@
+{
+  "report_version": 1,
+  "suite_id": "mm002-synthetic-eval-v1",
+  "suite_sha256": "sha256:0774ae2c4d835ab613f46344b33ec0dac5ec1bf12d38db72fca2fdde94431b00",
+  "predictions_sha256": "sha256:c00ac7d6e2e9dc033f664f46d26030ef1bf959f8273413d50c7f96d863a3c2a9",
+  "case_count": 9,
+  "producer_kind": "synthetic_probe",
+  "metrics": {
+    "grounding_accuracy": {"correct": 4, "total": 5, "value": 0.8},
+    "mean_iou": {"numerator": 19, "denominator": 20, "value": 0.95},
+    "action_accuracy": {"correct": 6, "total": 9, "value": 0.6666666666666666},
+    "tool_accuracy": {"correct": 5, "total": 5, "value": 1.0},
+    "argument_exact_match": {"correct": 4, "total": 5, "value": 0.8},
+    "stale_ref_rejection": {"correct": 1, "total": 2, "value": 0.5},
+    "coordinate_ref_disagreement_rejection": {"correct": 0, "total": 1, "value": 0.0},
+    "prediction_coordinate_ref_disagreement_rate": {"correct": 2, "total": 3, "value": 0.6666666666666666}
+  },
+  "coverage": {
+    "observation_modes": ["fused", "screenshot_only", "uia_only"],
+    "capabilities": ["bbox_grounding", "fused_grounding", "ref_grounding"],
+    "ocr_conditions": ["clean", "missing", "noisy"],
+    "perturbations": ["coordinate_ref_disagreement", "moved", "none", "occluded", "stale_ref"]
+  },
+  "claims": {
+    "synthetic_eval_only": true,
+    "synthetic_probe_only": true,
+    "model_predictions_declared": false,
+    "model_evaluated": false,
+    "real_content_collected": false,
+    "capture_adapter_implemented": false,
+    "training_eligible": false,
+    "execution_eligible": false,
+    "runtime_eligible": false
+  }
+}

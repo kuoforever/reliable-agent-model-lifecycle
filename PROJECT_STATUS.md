@@ -90,26 +90,29 @@ adapter or Runtime change exists. `MM-001` now closes the synthetic multimodal
 trajectory schema review: text-only and image-grounded fixtures share one
 strict v1 topology with Runtime-only dispatch authority, state-based
 verification, and all training/execution/Runtime eligibility claims false.
+`MM-002` now closes the synthetic GUI grounding data/eval review with nine
+family-unique eval cases, two closed schemas, exact rational IoU aggregation,
+and a deliberately imperfect scorer probe. No model was evaluated.
 
 ## Single active objective
 
-Complete `MM-002-gui-grounding-data-eval-v1`:
+Complete `MM-003-multimodal-gui-action-model-v1`:
 
 ```text
-reviewed synthetic multimodal trajectory schema v1
-        -> reviewed synthetic GUI grounding evaluation set
-ref/bbox + UIA/screenshot/fusion + OCR/stale/occlusion cases
-        -> deterministic scorer and frozen metrics, no model training
+frozen MM-002 synthetic eval split and deterministic scorer
+        -> outcome-neutral small-VLM baseline protocol
+UIA-only vs screenshot-only vs fusion + resource measurements
+        -> reproducible candidate outputs, never direct execution
 ```
 
-Build a reviewed synthetic GUI grounding evaluation set and deterministic
-scorer compatible with trajectory schema v1. Cover ref and bbox grounding,
-UIA-only, screenshot-only, and fused observations, missing/noisy OCR, moved or
-occluded controls, stale refs, and coordinate/ref disagreement. Freeze and
-report Grounding Accuracy/IoU, Action Accuracy, Tool/Argument Accuracy, and
-stale-ref rejection. Do not implement capture, collect real user content,
-change the Runtime repository, assign training splits/licenses, train a model,
-or promote Lane B data.
+Freeze an outcome-neutral local model/training/evaluation protocol against the
+unchanged MM-002 eval split, then establish a reproducible 0.5B-3B small-VLM
+baseline before any post-training claim. Compare UIA-only, screenshot-only,
+and fused inputs and record task success proxies, step count, fallback rate,
+GPU memory, and latency. Preserve independent Adapter loading as a future
+post-training gate. Do not change Runtime, collect real user content, leak the
+frozen eval gold into training, grant model execution authority, or claim
+serving/promotion/Runtime eligibility.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -145,6 +148,30 @@ cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
 
+`MM-002-gui-grounding-data-eval-v1` completed locally on 2026-08-17. The
+frozen synthetic-only eval split contains nine unique cases and families
+covering ref/bbox/fused grounding, UIA/screenshot/fused observations,
+clean/missing/noisy OCR, and none/moved/occluded/stale/disagreement
+perturbations. Gold stays structurally separate from model input and training
+use is prohibited. Two closed Draft 2020-12 schemas, a strict validator,
+deterministic scorer, CLI, and frozen report are bound by bytes and SHA-256.
+
+The deliberately imperfect synthetic probe scores Grounding Accuracy `4/5`,
+mean IoU `19/20`, Action Accuracy `6/9`, Tool Accuracy `5/5`, Argument Exact
+Match `4/5`, stale-ref rejection `1/2`, coordinate/ref disagreement rejection
+`0/1`, and prediction disagreement rate `2/3`. These are scorer test vectors,
+not model results: `model_evaluated=false`, `training_eligible=false`,
+`execution_eligible=false`, and `runtime_eligible=false`.
+
+The unified CPython 3.11.15, 3.12.12, and 3.13.7 gates each pass 494 tests
+with `valid=true` and audit 42 source files. The focused 26-test suite, Ruff,
+strict mypy, `py_compile`, independent JSON Schema checks, frozen report
+recomputation, and artifact hash checks pass. A final no-dependency wheel
+contains both GUI grounding modules and the `fullcycle-gui-grounding-eval`
+entry point. The exact next gate is
+`MM-003-multimodal-gui-action-model-v1`.
+[Evidence](docs/MM-002-gui-grounding-data-eval-v1.md).
+
 `MM-001-multimodal-trajectory-schema-v1` completed locally on 2026-08-17.
 Its strict standard-library validator and closed Draft 2020-12 schema accept
 one shared v1 topology for synthetic text-only and image-grounded records.
@@ -170,7 +197,8 @@ This closes only the synthetic schema review. Capture, real episodes, dataset
 split/license approval, GUI grounding quality, model training/execution,
 cross-machine, portable-package, serving, promotion, and Runtime eligibility
 remain unestablished or false. The exact next gate is
-`MM-002-gui-grounding-data-eval-v1`.
+recorded historically as `MM-002-gui-grounding-data-eval-v1`; that gate has
+since completed.
 [Evidence](docs/MM-001-multimodal-trajectory-schema-v1.md).
 
 The `FC-BRIDGE-003` Lane B v1 consent/capture/security contract review
@@ -815,7 +843,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001 schema complete, MM-002 grounding eval next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001/MM-002 complete, MM-003 model baseline next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

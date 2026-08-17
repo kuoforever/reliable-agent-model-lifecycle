@@ -28,6 +28,19 @@ TRAJECTORY_IMAGE_FIXTURE_PATH = (
     TRAJECTORY_FIXTURE_ROOT / "valid" / "image-grounded.json"
 )
 TRAJECTORY_SCHEMA_PATH = ROOT / "schemas" / "multimodal_trajectory_v1.schema.json"
+GUI_GROUNDING_FIXTURE_ROOT = ROOT / "fixtures" / "gui_grounding_eval_v1"
+GUI_GROUNDING_METADATA_PATH = GUI_GROUNDING_FIXTURE_ROOT / "fixture-metadata.json"
+GUI_GROUNDING_SUITE_PATH = GUI_GROUNDING_FIXTURE_ROOT / "valid" / "suite.json"
+GUI_GROUNDING_PREDICTIONS_PATH = (
+    GUI_GROUNDING_FIXTURE_ROOT / "valid" / "synthetic-probe-predictions.json"
+)
+GUI_GROUNDING_SUITE_SCHEMA_PATH = (
+    ROOT / "schemas" / "gui_grounding_eval_suite_v1.schema.json"
+)
+GUI_GROUNDING_PREDICTIONS_SCHEMA_PATH = (
+    ROOT / "schemas" / "gui_grounding_predictions_v1.schema.json"
+)
+GUI_GROUNDING_REPORT_PATH = ROOT / "baseline" / "mm-002-gui-grounding-data-eval-v1.json"
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -331,6 +344,7 @@ def main() -> int:
     )
     lane_b_contract = _validate_lane_b_contract()
     trajectory_contract = _validate_multimodal_trajectory_contract()
+    gui_grounding_eval = _validate_gui_grounding_eval()
     tests_run = _run_tests()
 
     result = {
@@ -378,6 +392,16 @@ def main() -> int:
             "real_episode_collected"
         ],
         "multimodal_trajectory_next_gate": trajectory_contract["next_gate"],
+        "gui_grounding_data_eval_review_complete": gui_grounding_eval[
+            "review_complete"
+        ],
+        "gui_grounding_case_count": gui_grounding_eval["case_count"],
+        "gui_grounding_metrics": gui_grounding_eval["metrics"],
+        "gui_grounding_model_evaluated": gui_grounding_eval["model_evaluated"],
+        "gui_grounding_training_eligible": gui_grounding_eval[
+            "training_eligible"
+        ],
+        "gui_grounding_next_gate": gui_grounding_eval["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1361,6 +1385,169 @@ def _validate_multimodal_trajectory_contract() -> dict[str, Any]:
         "training_eligible": False,
         "execution_eligible": False,
         "real_episode_collected": False,
+        "next_gate": next_gate,
+    }
+
+
+def _validate_gui_grounding_eval() -> dict[str, Any]:
+    from fullcycle_bridge.gui_grounding_eval import (
+        GuiGroundingValidationError,
+        load_predictions_file,
+        load_suite_file,
+        score_predictions,
+    )
+
+    metadata = _load_json(GUI_GROUNDING_METADATA_PATH)
+    expected_versions = {
+        "gui_grounding_eval_version": 1,
+        "gui_grounding_prediction_version": 1,
+        "report_version": 1,
+    }
+    for key, expected in expected_versions.items():
+        if metadata.get(key) != expected:
+            raise GateError(f"MM-002 metadata version mismatch: {key}")
+    if metadata.get("review_id") != "MM-002":
+        raise GateError("MM-002 review ID mismatch")
+    if metadata.get("runtime_freeze_commit") != (
+        "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9"
+    ):
+        raise GateError("MM-002 Runtime freeze binding mismatch")
+    if metadata.get("multimodal_trajectory_schema_merge_commit") != (
+        "3e5908a7ba92d00facb48847915834c1f8fbca30"
+    ):
+        raise GateError("MM-002 trajectory schema commit binding mismatch")
+    trajectory_schema_payload = _read_regular_file_once(
+        TRAJECTORY_SCHEMA_PATH, "MM-002 trajectory schema"
+    )
+    trajectory_schema_sha256 = (
+        "sha256:" + hashlib.sha256(trajectory_schema_payload).hexdigest()
+    )
+    if metadata.get("multimodal_trajectory_schema_sha256") != (
+        trajectory_schema_sha256
+    ):
+        raise GateError("MM-002 trajectory schema hash binding mismatch")
+
+    expected_paths = {
+        "suite_schema": GUI_GROUNDING_SUITE_SCHEMA_PATH,
+        "predictions_schema": GUI_GROUNDING_PREDICTIONS_SCHEMA_PATH,
+        "suite": GUI_GROUNDING_SUITE_PATH,
+        "predictions": GUI_GROUNDING_PREDICTIONS_PATH,
+        "report": GUI_GROUNDING_REPORT_PATH,
+    }
+    artifacts = metadata.get("artifacts")
+    if not isinstance(artifacts, dict) or set(artifacts) != set(expected_paths):
+        raise GateError("MM-002 artifact metadata mismatch")
+    for key, expected_path in expected_paths.items():
+        record = artifacts.get(key)
+        if not isinstance(record, dict):
+            raise GateError(f"MM-002 artifact metadata missing: {key}")
+        payload = _read_regular_file_once(expected_path, f"MM-002 {key}")
+        if (
+            record.get("path") != expected_path.relative_to(ROOT).as_posix()
+            or record.get("bytes") != len(payload)
+            or record.get("sha256")
+            != "sha256:" + hashlib.sha256(payload).hexdigest()
+        ):
+            raise GateError(f"MM-002 artifact binding mismatch: {key}")
+
+    suite_schema = _load_json(GUI_GROUNDING_SUITE_SCHEMA_PATH)
+    predictions_schema = _load_json(GUI_GROUNDING_PREDICTIONS_SCHEMA_PATH)
+    if (
+        suite_schema.get("$schema")
+        != "https://json-schema.org/draft/2020-12/schema"
+        or suite_schema.get("additionalProperties") is not False
+        or suite_schema.get("properties", {})
+        .get("gui_grounding_eval_version", {})
+        .get("const")
+        != 1
+        or predictions_schema.get("$schema")
+        != "https://json-schema.org/draft/2020-12/schema"
+        or predictions_schema.get("additionalProperties") is not False
+        or predictions_schema.get("properties", {})
+        .get("gui_grounding_prediction_version", {})
+        .get("const")
+        != 1
+    ):
+        raise GateError("MM-002 schema boundary mismatch")
+
+    suite = load_suite_file(GUI_GROUNDING_SUITE_PATH.resolve())
+    predictions = load_predictions_file(GUI_GROUNDING_PREDICTIONS_PATH.resolve())
+    report = score_predictions(suite, predictions)
+    if report != _load_json(GUI_GROUNDING_REPORT_PATH):
+        raise GateError("MM-002 frozen report recomputation mismatch")
+    if report.get("metrics") != metadata.get("expected_metrics"):
+        raise GateError("MM-002 expected metrics mismatch")
+    if report.get("coverage") != {
+        "observation_modes": ["fused", "screenshot_only", "uia_only"],
+        "capabilities": ["bbox_grounding", "fused_grounding", "ref_grounding"],
+        "ocr_conditions": ["clean", "missing", "noisy"],
+        "perturbations": [
+            "coordinate_ref_disagreement",
+            "moved",
+            "none",
+            "occluded",
+            "stale_ref",
+        ],
+    }:
+        raise GateError("MM-002 coverage mismatch")
+
+    invalid_fixtures = metadata.get("invalid_fixtures")
+    if not isinstance(invalid_fixtures, dict) or not invalid_fixtures:
+        raise GateError("MM-002 invalid fixture metadata missing")
+    for filename, expected_code in invalid_fixtures.items():
+        if not isinstance(filename, str) or not isinstance(expected_code, str):
+            raise GateError("MM-002 invalid fixture metadata malformed")
+        try:
+            load_suite_file((GUI_GROUNDING_FIXTURE_ROOT / "invalid" / filename).resolve())
+        except GuiGroundingValidationError as exc:
+            if exc.code != expected_code:
+                raise GateError(
+                    f"MM-002 invalid fixture code mismatch: {filename}"
+                ) from exc
+        else:
+            raise GateError(f"MM-002 invalid fixture passed: {filename}")
+
+    expected_outcome = {
+        "data_eval_review_complete": True,
+        "case_count": 9,
+        "family_count": 9,
+        "synthetic_eval_only": True,
+        "synthetic_probe_only": True,
+        "model_predictions_declared": False,
+        "model_evaluated": False,
+        "real_content_collected": False,
+        "capture_adapter_implemented": False,
+        "runtime_repository_changed": False,
+        "dataset_split": "eval",
+        "training_use_prohibited": True,
+        "training_eligible": False,
+        "execution_eligible": False,
+        "runtime_eligible": False,
+    }
+    if metadata.get("review_outcome") != expected_outcome:
+        raise GateError("MM-002 review outcome mismatch")
+    claims = report.get("claims")
+    if not isinstance(claims, dict) or claims != {
+        "synthetic_eval_only": True,
+        "synthetic_probe_only": True,
+        "model_predictions_declared": False,
+        "model_evaluated": False,
+        "real_content_collected": False,
+        "capture_adapter_implemented": False,
+        "training_eligible": False,
+        "execution_eligible": False,
+        "runtime_eligible": False,
+    }:
+        raise GateError("MM-002 report claim mismatch")
+    next_gate = metadata.get("next_gate")
+    if next_gate != "MM-003-multimodal-gui-action-model-v1":
+        raise GateError("MM-002 next gate mismatch")
+    return {
+        "review_complete": True,
+        "case_count": report["case_count"],
+        "metrics": report["metrics"],
+        "model_evaluated": False,
+        "training_eligible": False,
         "next_gate": next_gate,
     }
 

@@ -436,7 +436,8 @@ agent-model-factory/
   dataset split/license、GUI grounding 质量、训练/执行、Runtime integration、
   cross-machine 与 portable claims 均未建立，`training_eligible=false`、
   `execution_eligible=false`、`runtime_eligible=false`。
-- 当前唯一动作切换为 `MM-002-gui-grounding-data-eval-v1`。
+- 该 review 完成时下一动作切换为
+  `MM-002-gui-grounding-data-eval-v1`；该 gate 现已完成。
 - `FC-MVP-001-fp32-attached-portable-package-qualification-v1` 保持冻结并 defer；
   其恢复点仍是 `f8dc9a62471759282ad2b41673d95acd43bf240f` 上的独立原生 Windows
   目标机 runbook，本机/WSL negative control 不构成 cross-machine 或 portable
@@ -462,11 +463,18 @@ agent-model-factory/
 
 **当前进展（2026-08-17）**
 
-- 前置 `MM-001` synthetic text/image trajectory schema v1 已完成并保持
-  Runtime-only dispatch authority；尚无真实 capture、训练数据或模型结果。
-- 当前唯一动作是冻结 `MM-002-gui-grounding-data-eval-v1` 的 synthetic case
-  taxonomy、deterministic scorer、metrics 与 leakage/split 边界，然后生成 reviewed
-  fixtures 和 fail-closed evidence。不得将 planned eval 当成已测模型能力。
+- `MM-002-gui-grounding-data-eval-v1` 已完成本地 synthetic data/eval review：9 个
+  case/family 覆盖 ref/bbox/fused grounding、UIA/screenshot/fused observation、
+  clean/missing/noisy OCR 及 moved/occluded/stale/disagreement；gold 与 model input
+  结构分离，split 固定为 eval 且禁止训练使用。
+- synthetic probe 指标为 Grounding `4/5`、mean IoU `19/20`、Action `6/9`、
+  Tool `5/5`、Argument `4/5`、stale-ref rejection `1/2`、disagreement rejection
+  `0/1`、prediction disagreement `2/3`。这些只验证 scorer，不是模型结果；
+  `model_evaluated=false`。
+- 三个 CPython 版本统一门禁均为 494 tests、`valid=true`、42 source files；
+  focused 26 tests、Ruff、strict mypy、`py_compile`、两份 JSON Schema、report
+  recomputation 与 hashes 通过。训练/执行/Runtime eligibility 继续为 false。
+- 当前唯一动作切换为 `MM-003-multimodal-gui-action-model-v1`。
 
 ## MM-003：图文 GUI Action Model
 
@@ -484,6 +492,15 @@ agent-model-factory/
 - 固定 GUI 任务集可重复运行
 - 有任务成功率、步骤数、回退率、显存和延迟报告
 - 所有动作仍经过既有 Runtime/Runner/MCP 边界
+
+**当前进展（2026-08-17）**
+
+- 前置 MM-001 schema 与 MM-002 frozen synthetic eval/scorer 已完成；尚未评测、
+  训练或准入任何 VLM。
+- 当前唯一动作是冻结 outcome-neutral 的
+  `MM-003-multimodal-gui-action-model-v1` baseline protocol，在不改 eval gold 的
+  前提下选择 0.5B-3B 本地小型 VLM，比较 UIA-only/screenshot-only/fusion，并注册
+  outputs、steps、fallback、显存和 latency。模型输出仍只作为 Runtime candidate。
 
 ## MM-004：多模态困难负样本
 

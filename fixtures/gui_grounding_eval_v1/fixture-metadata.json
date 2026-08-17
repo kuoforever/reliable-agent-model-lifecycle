@@ -1,0 +1,51 @@
+{
+  "review_id": "MM-002",
+  "review_date": "2026-08-17",
+  "gui_grounding_eval_version": 1,
+  "gui_grounding_prediction_version": 1,
+  "report_version": 1,
+  "runtime_freeze_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+  "multimodal_trajectory_schema_sha256": "sha256:2109dcd2b06e01bda30ea19bc548cb34031811319e23f0bce5dd91a60c32964c",
+  "multimodal_trajectory_schema_merge_commit": "3e5908a7ba92d00facb48847915834c1f8fbca30",
+  "artifacts": {
+    "suite_schema": {"path": "schemas/gui_grounding_eval_suite_v1.schema.json", "bytes": 7417, "sha256": "sha256:3d19ab18e53c94e3061cc713b9c56a5ac779429b7742486636eb5d35b076be43"},
+    "predictions_schema": {"path": "schemas/gui_grounding_predictions_v1.schema.json", "bytes": 2602, "sha256": "sha256:a4ab293cb0831475899d208b06a4a7c2835405a112538695f83ac3a595357b46"},
+    "suite": {"path": "fixtures/gui_grounding_eval_v1/valid/suite.json", "bytes": 13097, "sha256": "sha256:c59ea8314cad0ae936fadd6648cc270e3332d40115ed1ca6f9c00730c85c7b2e"},
+    "predictions": {"path": "fixtures/gui_grounding_eval_v1/valid/synthetic-probe-predictions.json", "bytes": 1613, "sha256": "sha256:1a0ea1005290a5d3fafddfa147d6b3fe79f211a9298e0cf326aec6b176e2dd42"},
+    "report": {"path": "baseline/mm-002-gui-grounding-data-eval-v1.json", "bytes": 1592, "sha256": "sha256:b25611cff7febbaccc01657423ef2d237bf7bd53f3d886b4e4b201fcf49bc2cc"}
+  },
+  "invalid_fixtures": {
+    "malformed.json": "MALFORMED_JSON",
+    "duplicate-key.json": "DUPLICATE_JSON_KEY",
+    "missing-fields.json": "MISSING_FIELD",
+    "nonfinite.json": "NONFINITE_NUMBER"
+  },
+  "expected_metrics": {
+    "grounding_accuracy": {"correct": 4, "total": 5, "value": 0.8},
+    "mean_iou": {"numerator": 19, "denominator": 20, "value": 0.95},
+    "action_accuracy": {"correct": 6, "total": 9, "value": 0.6666666666666666},
+    "tool_accuracy": {"correct": 5, "total": 5, "value": 1.0},
+    "argument_exact_match": {"correct": 4, "total": 5, "value": 0.8},
+    "stale_ref_rejection": {"correct": 1, "total": 2, "value": 0.5},
+    "coordinate_ref_disagreement_rejection": {"correct": 0, "total": 1, "value": 0.0},
+    "prediction_coordinate_ref_disagreement_rate": {"correct": 2, "total": 3, "value": 0.6666666666666666}
+  },
+  "review_outcome": {
+    "data_eval_review_complete": true,
+    "case_count": 9,
+    "family_count": 9,
+    "synthetic_eval_only": true,
+    "synthetic_probe_only": true,
+    "model_predictions_declared": false,
+    "model_evaluated": false,
+    "real_content_collected": false,
+    "capture_adapter_implemented": false,
+    "runtime_repository_changed": false,
+    "dataset_split": "eval",
+    "training_use_prohibited": true,
+    "training_eligible": false,
+    "execution_eligible": false,
+    "runtime_eligible": false
+  },
+  "next_gate": "MM-003-multimodal-gui-action-model-v1"
+}
