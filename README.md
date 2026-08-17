@@ -189,6 +189,23 @@ post-training metric, quality, serving, promotion, or Runtime result exists.
 See the [post-training protocol](docs/MM-003-small-vlm-post-training-protocol-v1.md)
 and [failure classification](docs/MM-003-small-vlm-post-training-failure-classification-v1.md).
 
+### Local small-VLM QLoRA post-training recovery protocol v2
+
+`MM-003` now freezes a separate recovery lifecycle without editing v1. A
+closed recursive-leaf comparator permits exactly 12 registered identity,
+output, gate, and next-action changes; all model, data, target, training,
+reload, eval, cap, claim, and authority facts remain fixed. Ten v1 source
+receipts remain exact and only the versioned recovery contract and runner are
+added.
+
+A post-training-only registry renders all 27 `pt-*` prompts before dependency
+import, CUDA access, or model load. Per-record byte/hash receipts and a fixed
+aggregate digest bind their order and contents, while family/repeat/target/raw
+region fields remain excluded. The baseline `ground-*` registry is unchanged.
+The recovery protocol remains outcome-neutral: no v2 training, Adapter,
+evaluation, quality, promotion, serving, or Runtime result exists yet. See the
+[recovery protocol](docs/MM-003-small-vlm-post-training-recovery-protocol-v2.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -603,16 +620,17 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current local work is
-`MM-003-small-vlm-post-training-recovery-protocol-v2`. The merged v1 execution
-was consumed with zero retry and failed before its first model forward; it must
-not be rerun. Freeze a separate outcome-neutral v2 protocol with its own gate,
-experiment, output directory, post-training-specific prompt projection, and
-complete 27-record prompt preflight before any v2 execution. Preserve the
-model, data, targets, hyperparameters, unchanged MM-002 eval, and authority
-boundaries. Do not use eval gold as training data or reinterpret protocol
-compliance as a promotion decision. No direct execution authority,
-repeatability, cross-machine reproducibility, serving, promotion, commercial
-eligibility, or Runtime eligibility is implied.
+`MM-003-small-vlm-post-training-execution-v2`. Its separate 26,553-byte
+recovery protocol is frozen locally with exact v1 lineage, 27 prompt receipts,
+13 formal gates, and a dedicated v2 output directory; it must merge before any
+formal model run. The merged v1 execution was consumed with zero retry and must
+not be rerun. After the v2 freeze merges, invoke the exact `mm003-model`
+snapshot lifecycle once with zero retry, then review whatever training,
+Adapter, unchanged MM-002 evaluation, and resource evidence actually exists.
+Do not use eval gold as training data or reinterpret protocol compliance as a
+promotion decision. No direct execution authority, repeatability,
+cross-machine reproducibility, serving, promotion, commercial eligibility, or
+Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

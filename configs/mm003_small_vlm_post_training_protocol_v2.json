@@ -1,0 +1,726 @@
+{
+  "preregistration_version": 2,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2",
+  "gate_id": "MM-003-small-vlm-post-training-recovery-protocol-v2",
+  "freeze_status": "frozen",
+  "decision": "outcome_neutral_qlora_training_and_measurement_recovery_protocol",
+  "authority_contract": {
+    "model_output_has_execution_authority": false,
+    "direct_desktop_execution": false,
+    "runtime_policy_or_approval_bypass": false,
+    "runtime_integration_changed": false
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "license": "qwen-research",
+    "license_scope": "non_commercial_research_or_evaluation_only",
+    "architecture": "Qwen2_5_VLForConditionalGeneration",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 1519,
+        "sha256": "sha256:11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 7387,
+        "sha256": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50"
+      },
+      {
+        "path": "README.md",
+        "bytes": 18276,
+        "sha256": "sha256:0b6da5a154b923da4dc66e416140c9b7f235f9b08fbbcc27fd9df7b586e3150d"
+      },
+      {
+        "path": "chat_template.json",
+        "bytes": 1050,
+        "sha256": "sha256:ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"
+      },
+      {
+        "path": "config.json",
+        "bytes": 1373,
+        "sha256": "sha256:7ed3eed5be6924cc800e8a5e53fc405c1aab1aaf36bad65c33403b36c56827f5"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 216,
+        "sha256": "sha256:533f191cc257b7de37a4fccd0a7a1706d75e1aa660f93efaa54e5a2a9f9aace9"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "sha256": "sha256:599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 3982649232,
+        "sha256": "sha256:41a8895c164b4d32bae6b302f4603fcbc1797f32dafa45c7e9bcda23c6755df8"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 3526688744,
+        "sha256": "sha256:365531ff8752420e89dee707b79d021fb2d6e25abafe486f080555a4fe6972e4"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 65448,
+        "sha256": "sha256:c7dd78a4c6bea60b51332f1baf37b8f8124ecab2c35395a29a29825bf2619768"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "bytes": 350,
+        "sha256": "sha256:f2058c716eef96ccaed1cc1e2d0c08306b62586d535b28d9d08e691b2fab7ca0"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 7031645,
+        "sha256": "sha256:c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 5702,
+        "sha256": "sha256:4abd3520120e266da84c0864fee064d1fb10806f02225911a47253dd38dc5f56"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "sha256:ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ]
+  },
+  "source_lineage": {
+    "protocol_sources": {
+      "base_contract_v1": {
+        "path": "src/fullcycle_bridge/mm003_baseline_protocol.py",
+        "sha256": "sha256:e8ed98ed2f90c7001aa93cff15093288cdca3bdb35544216dbdefa648d80e9ef"
+      },
+      "base_contract_v2": {
+        "path": "src/fullcycle_bridge/mm003_baseline_protocol_v2.py",
+        "sha256": "sha256:7f78be367acba8116692aa2527b88351c4d038c425db8548eed90a9cacbd21f6"
+      },
+      "base_runner_v2": {
+        "path": "scripts/run_mm003_multimodal_gui_action_baseline_v2.py",
+        "sha256": "sha256:21780a02d450d6618f602a2d2744ee703df96d08c2221e0740348ccd55292f42"
+      },
+      "base_scorer_v1": {
+        "path": "src/fullcycle_bridge/gui_grounding_eval.py",
+        "sha256": "sha256:edd7ce34365779b2e23ea1e733077bf194189073aced68d8932d71e57c15f97d"
+      },
+      "base_scorer_v2": {
+        "path": "src/fullcycle_bridge/gui_grounding_eval_v2.py",
+        "sha256": "sha256:96c32d1b6ceb32b5b152933e8e82427a5088e7b9cdf2603d3cf5a095355d4aa9"
+      },
+      "fixture_builder": {
+        "path": "scripts/build_mm003_post_training_fixture.py",
+        "sha256": "sha256:34d5d149e9f5f611009dd8a34bf316f511d65bf234dd31447015aa200a4fe210"
+      },
+      "post_training_contract": {
+        "path": "src/fullcycle_bridge/mm003_post_training_protocol.py",
+        "sha256": "sha256:c824f6a759712e6555380751541a902e2dad9af547491d85a8efe708cb14c63b"
+      },
+      "post_training_runner": {
+        "path": "scripts/run_mm003_qlora_post_training.py",
+        "sha256": "sha256:7eff900285cccd0fa16d8bcede5cf2921d796009fa2c48ed550d2bb6722127a7"
+      },
+      "qlora_backend_smoke": {
+        "path": "scripts/smoke_mm003_qlora_backend.py",
+        "sha256": "sha256:1e6ab628cec96ef2656ae379d32781d2b1c9be0736182571c1e0ab9712e6580b"
+      },
+      "training_lock": {
+        "path": "requirements/mm003_qlora_training.lock",
+        "sha256": "sha256:792d70759560681a4d7c60ae2e4831a422b3825f5308f1124a804ffbb6563c42"
+      },
+      "post_training_contract_v2": {
+        "path": "src/fullcycle_bridge/mm003_post_training_protocol_v2.py",
+        "sha256": "sha256:6fad583d6e83a273f490da1aa77b002e7d16b6bd356955feaa239ea4d6455dc7"
+      },
+      "post_training_runner_v2": {
+        "path": "scripts/run_mm003_qlora_post_training_v2.py",
+        "sha256": "sha256:2a86ac6bdf365dc99ab28c3823be073169bc9d5cc974c20b0d85f43052d723af"
+      }
+    },
+    "negative_baseline": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-baseline-v2.json",
+      "bytes": 4680,
+      "sha256": "sha256:a0e3c2503e5bac13bf979c7721dab4350681a84883d749b94ef3ca204d2166fe",
+      "classification": "local_small_vlm_baseline_established",
+      "quality_result": "negative_baseline"
+    },
+    "baseline_preregistration": {
+      "path": "configs/mm003_multimodal_gui_action_model_baseline_v2.json",
+      "bytes": 13349,
+      "sha256": "sha256:369c813dee44b14c6022eb90739bcd37f9f8de472e60a8cee88682454d135403"
+    },
+    "training_data": {
+      "path": "fixtures/mm003_post_training_v1/train.json",
+      "bytes": 28934,
+      "sha256": "sha256:f9c0fc8cf7d8eff791ceb301046fbf2e3ab42602e0b93bd5d7d833f4bc526dc0"
+    },
+    "validation_data": {
+      "path": "fixtures/mm003_post_training_v1/validation.json",
+      "bytes": 14985,
+      "sha256": "sha256:c4e13964290b391994d885ca868dc7fb6a1f8a669a9348012ac6c910cc50ac06"
+    },
+    "training_screenshots": [
+      {
+        "case_id": "pt-train-004",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-004.png",
+        "bytes": 1590,
+        "sha256": "sha256:2377be56f703b0371461a35609eb37f21cf88ce4513147e89b90c54acc09123a"
+      },
+      {
+        "case_id": "pt-train-005",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-005.png",
+        "bytes": 1582,
+        "sha256": "sha256:9af0df53a79633f5f7629ae33488dfb8ab677a0c9b391952eb6d5b7601872789"
+      },
+      {
+        "case_id": "pt-train-006",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-006.png",
+        "bytes": 1937,
+        "sha256": "sha256:2d9ffa1c051caacc4784fe9d96561fe7a2206ab0dcff8780d1d0593b07689c1d"
+      },
+      {
+        "case_id": "pt-train-007",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-007.png",
+        "bytes": 1736,
+        "sha256": "sha256:15b75a1298cb1b03fdf7268c30736978546031f984b9abe327a130b9486e1f0a"
+      },
+      {
+        "case_id": "pt-train-008",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-008.png",
+        "bytes": 1577,
+        "sha256": "sha256:d8385d2b82abc5a91fecaecde29f3d598897de8ff338c7667ca43156344a6636"
+      },
+      {
+        "case_id": "pt-train-009",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-009.png",
+        "bytes": 1580,
+        "sha256": "sha256:c5db848c4148c1e9987055f3ccbfff72c6f9c1b9e4ba86ee3bd224862c87dff9"
+      },
+      {
+        "case_id": "pt-train-013",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-013.png",
+        "bytes": 1580,
+        "sha256": "sha256:cae06573fc04fae383e1dc532821e033c9fb2feb13c3e3abce368077d2cdb1ad"
+      },
+      {
+        "case_id": "pt-train-014",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-014.png",
+        "bytes": 1591,
+        "sha256": "sha256:0642585f8aeaeec3fa62533d1095b669606be7cb216958605ad097b4ed6d5107"
+      },
+      {
+        "case_id": "pt-train-015",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-015.png",
+        "bytes": 1574,
+        "sha256": "sha256:3b2ef7873d8cf26bac414374f271a18d73bd8550223ece15a811281c9809d499"
+      },
+      {
+        "case_id": "pt-train-016",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-016.png",
+        "bytes": 1956,
+        "sha256": "sha256:e578ae515cc72186b23ad723e12a5c44585cca2d157cdc01cea2dcfb87a3c1a9"
+      },
+      {
+        "case_id": "pt-train-017",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-017.png",
+        "bytes": 1768,
+        "sha256": "sha256:968fbb5b87d5ab90b2333970ead85f63666d0f40991a892f5453d91c6e14c286"
+      },
+      {
+        "case_id": "pt-train-018",
+        "path": "fixtures/mm003_post_training_v1/screenshots/train/pt-train-018.png",
+        "bytes": 1582,
+        "sha256": "sha256:cc320c283167807bacd5037e448d665c934f01fcdaa3e68f700ce3446bc4397d"
+      },
+      {
+        "case_id": "pt-validation-004",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-004.png",
+        "bytes": 1636,
+        "sha256": "sha256:1e902f372c5b96b86a7839c201fdfaef732a5cb8092c1e9e4b90c59eadef0676"
+      },
+      {
+        "case_id": "pt-validation-005",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-005.png",
+        "bytes": 1628,
+        "sha256": "sha256:fa0261f6755a00b167a94c4482c9872c4c05ac39f30dcb32e91ef875fbc2c2f5"
+      },
+      {
+        "case_id": "pt-validation-006",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-006.png",
+        "bytes": 1985,
+        "sha256": "sha256:b87eeb85c67f160201830be95769352be11ca63bf22aefd946c5cd30d6e03a69"
+      },
+      {
+        "case_id": "pt-validation-007",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-007.png",
+        "bytes": 1787,
+        "sha256": "sha256:6e9e1c2ad5a519a566b9a82b4b42f475ad5e964d781ee75242a699d10b3edc0c"
+      },
+      {
+        "case_id": "pt-validation-008",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-008.png",
+        "bytes": 1634,
+        "sha256": "sha256:41e8abaff406a96b0903c48025ee699cbadb6cc2aa306c6fb143c3216b2dfb3a"
+      },
+      {
+        "case_id": "pt-validation-009",
+        "path": "fixtures/mm003_post_training_v1/screenshots/validation/pt-validation-009.png",
+        "bytes": 1634,
+        "sha256": "sha256:04965ae2e2f9ba81d12d75b6517a9776d4927fad359d7639256d71794bf5d501"
+      }
+    ],
+    "unchanged_mm002_eval": {
+      "path": "fixtures/gui_grounding_eval_v1/valid/suite.json",
+      "file_sha256": "sha256:c59ea8314cad0ae936fadd6648cc270e3332d40115ed1ca6f9c00730c85c7b2e",
+      "canonical_sha256": "sha256:0774ae2c4d835ab613f46344b33ec0dac5ec1bf12d38db72fca2fdde94431b00",
+      "case_order": [
+        "ground-001",
+        "ground-002",
+        "ground-003",
+        "ground-004",
+        "ground-005",
+        "ground-006",
+        "ground-007",
+        "ground-008",
+        "ground-009"
+      ],
+      "screenshots": [
+        {
+          "case_id": "ground-002",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-002.png",
+          "bytes": 6318,
+          "sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6"
+        },
+        {
+          "case_id": "ground-003",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-003.png",
+          "bytes": 5531,
+          "sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c"
+        },
+        {
+          "case_id": "ground-005",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-005.png",
+          "bytes": 5699,
+          "sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c"
+        },
+        {
+          "case_id": "ground-006",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-006.png",
+          "bytes": 5801,
+          "sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83"
+        },
+        {
+          "case_id": "ground-007",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-007.png",
+          "bytes": 5550,
+          "sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9"
+        },
+        {
+          "case_id": "ground-008",
+          "path": "fixtures/mm003_baseline_v1/screenshots/ground-008.png",
+          "bytes": 5557,
+          "sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb"
+        }
+      ]
+    },
+    "eval_isolation": {
+      "eval_case_count": 9,
+      "overlaps": {
+        "case_ids": [],
+        "family_ids": [],
+        "instructions": [],
+        "model_inputs": [],
+        "targets": [],
+        "screenshots": [],
+        "train_validation_families": []
+      },
+      "passed": true,
+      "train_records": 18,
+      "validation_records": 9
+    },
+    "bitsandbytes_wheel": {
+      "path": "work/dependency-cache/mm003-qlora-bnb-0.50.1/bitsandbytes-0.50.1-py3-none-win_amd64.whl",
+      "bytes": 37961070,
+      "sha256": "sha256:86f76e8a3278fbbfc3fa0d79d1c4e706ebc214babd57f0ea30e2da509bbdaad5"
+    },
+    "v1_failure_lineage": {
+      "v1_preregistration": {
+        "path": "configs/mm003_small_vlm_post_training_protocol_v1.json",
+        "bytes": 17601,
+        "sha256": "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061"
+      },
+      "v1_failure_receipt": {
+        "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v1-failure.json",
+        "bytes": 897,
+        "sha256": "sha256:8c82455b406c66a038deaaadeb9251b9eb626145a5f31d36b04d5ad7d10c72d9"
+      },
+      "v1_failure_classification": {
+        "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v1-failure-classification.json",
+        "bytes": 15877,
+        "sha256": "sha256:66b9e8352caacd1a10e750a222ce2a0a7994df385e23e31dbc76a68b6109aef6",
+        "report_digest": "sha256:85fddade5e6a3c665771c6cb74c5e610f003817b3eddf5a21f1b2a070ea1dd53"
+      }
+    }
+  },
+  "environment": {
+    "accelerate": "1.3.0",
+    "compute_capability": "8.9",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4090 Laptop GPU",
+    "gpu_vram_bytes": 17170956288,
+    "huggingface_hub": "0.29.3",
+    "nvidia_driver": "596.49",
+    "pillow": "11.3.0",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26200",
+    "python": "3.12.12",
+    "safetensors": "0.5.3",
+    "tokenizers": "0.21.4",
+    "torch": "2.6.0+cu124",
+    "transformers": "4.49.0",
+    "bitsandbytes": "0.50.1"
+  },
+  "compatibility_smoke": {
+    "completed_before_freeze": true,
+    "eval_data_used": false,
+    "adapter_saved": false,
+    "linear_4bit_modules": 414,
+    "trainable_parameters": 7372800,
+    "gradient_checkpointing": true,
+    "finite_loss": true,
+    "nonzero_finite_lora_gradient": true,
+    "peak_cuda_allocated_bytes": 3941332480,
+    "peak_cuda_reserved_bytes": 4273995776
+  },
+  "training_protocol": {
+    "seed": 20260817,
+    "quantization": {
+      "load_in_4bit": true,
+      "type": "nf4",
+      "double_quant": true,
+      "compute_dtype": "bfloat16"
+    },
+    "lora": {
+      "rank": 16,
+      "alpha": 32,
+      "dropout": 0.05,
+      "bias": "none",
+      "target_modules": [
+        "q_proj",
+        "k_proj",
+        "v_proj",
+        "o_proj"
+      ]
+    },
+    "optimizer": "adamw",
+    "learning_rate": 0.0002,
+    "weight_decay": 0.0,
+    "scheduler": "cosine",
+    "warmup_ratio": 0.1,
+    "epochs": 3,
+    "micro_batch_size": 1,
+    "gradient_accumulation_steps": 3,
+    "effective_batch_size": 3,
+    "gradient_checkpointing": true,
+    "max_grad_norm": 1.0,
+    "train_on_prompt": false,
+    "image_policy": {
+      "min_pixels": 200704,
+      "max_pixels": 1003520,
+      "use_fast": false
+    },
+    "network_used": false,
+    "accepted_training_runs": 1,
+    "retry_count": 0
+  },
+  "evaluation_protocol": {
+    "fresh_base_loads_after_training": 1,
+    "independent_adapter_loads": 1,
+    "full_eval_runs": 1,
+    "generate_calls": 9,
+    "retry_count": 0,
+    "network_used": false,
+    "suite_prompt_compiler_generation_unchanged": true,
+    "quality_threshold_required": false
+  },
+  "outputs": {
+    "adapter_directory": "work/training-runs/mm003-qlora-sft-v2/adapter",
+    "required_adapter_files": [
+      "README.md",
+      "adapter_config.json",
+      "adapter_model.safetensors"
+    ],
+    "training_run": "work/training-runs/mm003-qlora-sft-v2/training-run.json",
+    "predictions": "work/training-runs/mm003-qlora-sft-v2/mm002-predictions.json",
+    "evidence": "work/training-runs/mm003-qlora-sft-v2/evidence.json",
+    "failure": "work/training-runs/mm003-qlora-sft-v2/failure.json",
+    "writes_are_exclusive": true
+  },
+  "resource_caps": {
+    "elapsed_seconds": 1800.0,
+    "peak_gpu_allocated_bytes": 16500000000,
+    "peak_gpu_reserved_bytes": 16500000000
+  },
+  "formal_gate": {
+    "required_gates": [
+      "protocol_integrity",
+      "exact_model_files",
+      "locked_environment",
+      "training_fixture_integrity",
+      "post_training_prompt_projection_totality",
+      "eval_isolation",
+      "offline_single_training_run",
+      "adapter_artifact_integrity",
+      "independent_adapter_load",
+      "unchanged_mm002_eval",
+      "total_scoring",
+      "resource_caps",
+      "fail_closed_claims"
+    ],
+    "quality_threshold_required": false,
+    "formal_gate_passed": false
+  },
+  "claims": {
+    "training_executed": false,
+    "adapter_created": false,
+    "adapter_independently_loadable": false,
+    "model_evaluated": false,
+    "quality_improved": false,
+    "repeatability_established": false,
+    "cross_machine_reproducibility": false,
+    "portable_artifact": false,
+    "commercial_use_eligible": false,
+    "serving_eligible": false,
+    "promotion_eligible": false,
+    "runtime_eligible": false
+  },
+  "next_gate_after_freeze": {
+    "gate_id": "MM-003-small-vlm-post-training-execution-v2",
+    "action": "execute the separately frozen v2 QLoRA lifecycle exactly once, save the Adapter, independently reload base plus Adapter, and run the unchanged nine-case MM-002 evaluation with zero retries"
+  },
+  "runtime_eligible": false,
+  "prompt_projection": {
+    "registry_records": 27,
+    "case_ids_and_modes_from_tracked_fixtures": true,
+    "case_modes": {
+      "pt-train-001": "uia_only",
+      "pt-train-002": "uia_only",
+      "pt-train-003": "uia_only",
+      "pt-train-004": "screenshot_only",
+      "pt-train-005": "screenshot_only",
+      "pt-train-006": "screenshot_only",
+      "pt-train-007": "fused",
+      "pt-train-008": "fused",
+      "pt-train-009": "fused",
+      "pt-train-010": "uia_only",
+      "pt-train-011": "uia_only",
+      "pt-train-012": "uia_only",
+      "pt-train-013": "screenshot_only",
+      "pt-train-014": "screenshot_only",
+      "pt-train-015": "screenshot_only",
+      "pt-train-016": "fused",
+      "pt-train-017": "fused",
+      "pt-train-018": "fused",
+      "pt-validation-001": "uia_only",
+      "pt-validation-002": "uia_only",
+      "pt-validation-003": "uia_only",
+      "pt-validation-004": "screenshot_only",
+      "pt-validation-005": "screenshot_only",
+      "pt-validation-006": "screenshot_only",
+      "pt-validation-007": "fused",
+      "pt-validation-008": "fused",
+      "pt-validation-009": "fused"
+    },
+    "payload_root_fields": [
+      "case_id",
+      "observation_mode",
+      "instruction",
+      "available_tools",
+      "observation"
+    ],
+    "forbidden_source_fields": [
+      "family_id",
+      "training_repeat_group",
+      "target",
+      "model_input.observation.screenshot_regions"
+    ],
+    "baseline_ground_case_registry_unchanged": true,
+    "all_prompts_before_dependency_or_model_load": true
+  },
+  "prompt_receipts": {
+    "records": [
+      {
+        "case_id": "pt-train-001",
+        "observation_mode": "uia_only",
+        "bytes": 482,
+        "sha256": "sha256:271304df0fb884c802b8c7f883b89137d8567b9e4dc66ff7320e689cb5f7e77b"
+      },
+      {
+        "case_id": "pt-train-002",
+        "observation_mode": "uia_only",
+        "bytes": 481,
+        "sha256": "sha256:6db804202dd079857d7df016f4dedd75ce693806b1460fc48a83591c987811d8"
+      },
+      {
+        "case_id": "pt-train-003",
+        "observation_mode": "uia_only",
+        "bytes": 480,
+        "sha256": "sha256:d24bc2c080565934c700917226c6a7c920d7b00a4eb85c315218910d43efcdab"
+      },
+      {
+        "case_id": "pt-train-004",
+        "observation_mode": "screenshot_only",
+        "bytes": 274,
+        "sha256": "sha256:96b02b2d9f3aab05217c975328dccb48e765bf4f6233d4f0d55d2ab329de374d"
+      },
+      {
+        "case_id": "pt-train-005",
+        "observation_mode": "screenshot_only",
+        "bytes": 275,
+        "sha256": "sha256:007804f3eb8471de887e1bb6d5a9c4d96533741dce4ca56e90a9da67afa9c03f"
+      },
+      {
+        "case_id": "pt-train-006",
+        "observation_mode": "screenshot_only",
+        "bytes": 272,
+        "sha256": "sha256:db668bc77c5e7c6e838b24020dc8aad2a85d3681a12efc5c0d12cd6f2e7b6c06"
+      },
+      {
+        "case_id": "pt-train-007",
+        "observation_mode": "fused",
+        "bytes": 491,
+        "sha256": "sha256:6c6344cd32192880d4d1503239d4648290966ffe40f4706075bfe9ea1b3511c9"
+      },
+      {
+        "case_id": "pt-train-008",
+        "observation_mode": "fused",
+        "bytes": 490,
+        "sha256": "sha256:b18e8e7d96d85d6f60f0f520a76e209e7e3deff7736e2d9bf827585b0fd22cdf"
+      },
+      {
+        "case_id": "pt-train-009",
+        "observation_mode": "fused",
+        "bytes": 490,
+        "sha256": "sha256:f1843c7a21a7b8d54b2dfbfd524b69c835efe6fded378da6e44b8aaf6cf0e078"
+      },
+      {
+        "case_id": "pt-train-010",
+        "observation_mode": "uia_only",
+        "bytes": 483,
+        "sha256": "sha256:006a60b6b2f54bd3a693b10d67090c074eea86bf26d9a7ecb813f34da447dc57"
+      },
+      {
+        "case_id": "pt-train-011",
+        "observation_mode": "uia_only",
+        "bytes": 481,
+        "sha256": "sha256:7f8535362507f5ffed3c4ca4283e3a4c51ee7a189530a43fcf919c89c70c9ee0"
+      },
+      {
+        "case_id": "pt-train-012",
+        "observation_mode": "uia_only",
+        "bytes": 479,
+        "sha256": "sha256:888f88614d663abfe258a3e27feec4114ac5e69efd91506b9988920a3ebbb773"
+      },
+      {
+        "case_id": "pt-train-013",
+        "observation_mode": "screenshot_only",
+        "bytes": 273,
+        "sha256": "sha256:ad01e15850f74240d89516c88be6de3d2951146c0afb60b2c2783474d17c25cb"
+      },
+      {
+        "case_id": "pt-train-014",
+        "observation_mode": "screenshot_only",
+        "bytes": 275,
+        "sha256": "sha256:6a7237fc054be2a32e635e15ebdde955a776305386f256c04a5d62896c9c33cd"
+      },
+      {
+        "case_id": "pt-train-015",
+        "observation_mode": "screenshot_only",
+        "bytes": 273,
+        "sha256": "sha256:ab08e2610b7425bd5a880a6a69e40d61f7c6c270472050b95ebd55177dc1613f"
+      },
+      {
+        "case_id": "pt-train-016",
+        "observation_mode": "fused",
+        "bytes": 491,
+        "sha256": "sha256:48e3e85327be5739bb078ee5f26f2df82dec125bb50ce42bb6478e750f8689f9"
+      },
+      {
+        "case_id": "pt-train-017",
+        "observation_mode": "fused",
+        "bytes": 492,
+        "sha256": "sha256:1254e38af4d0d31be7a720bfb0e185511cdd6a45f3eb842e692b28c1b81f8384"
+      },
+      {
+        "case_id": "pt-train-018",
+        "observation_mode": "fused",
+        "bytes": 488,
+        "sha256": "sha256:988f57b20dc4f323bb4555c301564b684aa4662f0e3681e44008902584437a6d"
+      },
+      {
+        "case_id": "pt-validation-001",
+        "observation_mode": "uia_only",
+        "bytes": 487,
+        "sha256": "sha256:509733f25885fd48c5adcd43d7e529a7a9f2dbcebc62459c02e229c9cc382472"
+      },
+      {
+        "case_id": "pt-validation-002",
+        "observation_mode": "uia_only",
+        "bytes": 486,
+        "sha256": "sha256:539dd08ffeea9b603b226a6c86fdd504426b0e86d9bf7857ee7047bfcf28cc9e"
+      },
+      {
+        "case_id": "pt-validation-003",
+        "observation_mode": "uia_only",
+        "bytes": 485,
+        "sha256": "sha256:79eb6937eeb5576dcd1e97ee8a02378d65164d401e474f9f23ca211d18237172"
+      },
+      {
+        "case_id": "pt-validation-004",
+        "observation_mode": "screenshot_only",
+        "bytes": 279,
+        "sha256": "sha256:ef943be85cc01a694d7da0b243dd23c595182bc8a787640df20307ba49669db0"
+      },
+      {
+        "case_id": "pt-validation-005",
+        "observation_mode": "screenshot_only",
+        "bytes": 280,
+        "sha256": "sha256:c259815e2675f0547bf75264d51f0dffc8aafe35de53ecc7ed6621cf0089a819"
+      },
+      {
+        "case_id": "pt-validation-006",
+        "observation_mode": "screenshot_only",
+        "bytes": 277,
+        "sha256": "sha256:be5f7d317af919bdbe4e379d9a4dd984fcccae5f713077c93a05bee98d2ce526"
+      },
+      {
+        "case_id": "pt-validation-007",
+        "observation_mode": "fused",
+        "bytes": 496,
+        "sha256": "sha256:fa91820cf7ecfbecc47f39d22f61640de5915d2c89373389812bcb70e3b1244d"
+      },
+      {
+        "case_id": "pt-validation-008",
+        "observation_mode": "fused",
+        "bytes": 495,
+        "sha256": "sha256:a802431ca6044ed9fe19e8dcbbb024e5505677c7700140d90b51c3c3be0152be"
+      },
+      {
+        "case_id": "pt-validation-009",
+        "observation_mode": "fused",
+        "bytes": 495,
+        "sha256": "sha256:e3a44d47ac9090e1ef58e951e2337975f89671472d53bf5e1139c403a0762ddd"
+      }
+    ],
+    "aggregate_sha256": "sha256:bcbf8e87674ce2a668bdfe54ff4ecaba2e6db36899fc4e7c563867d1e2e9e102"
+  },
+  "success_next_gate_after_execution": {
+    "gate_id": "MM-003-small-vlm-post-training-result-review-v2",
+    "action": "review the outcome-neutral v2 training, Adapter, independent reload, unchanged MM-002 evaluation, and resource evidence without inferring promotion"
+  }
+}

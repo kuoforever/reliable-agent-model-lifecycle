@@ -67,6 +67,12 @@ MM003_POST_TRAINING_FAILURE_CLASSIFICATION_PATH = (
     / "baseline"
     / "mm003-qwen2.5-vl-3b-qlora-sft-v1-failure-classification.json"
 )
+MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "mm003_small_vlm_post_training_protocol_v2.json"
+)
+MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_SHA256 = (
+    "sha256:02e36d5981e0ed4ac90bfdb3c5cc9c9e1f78ff29ff927020b0a41ebb27f55c0e"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -379,6 +385,9 @@ def main() -> int:
     mm003_post_training_failure = (
         _validate_mm003_post_training_failure_classification()
     )
+    mm003_post_training_recovery = (
+        _validate_mm003_post_training_recovery_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -495,6 +504,21 @@ def main() -> int:
             "receipt_sha256"
         ],
         "mm003_post_training_next_gate": mm003_post_training_failure["next_gate"],
+        "mm003_post_training_recovery_protocol_frozen": (
+            mm003_post_training_recovery["protocol_frozen"]
+        ),
+        "mm003_post_training_recovery_source_files": (
+            mm003_post_training_recovery["source_files"]
+        ),
+        "mm003_post_training_recovery_prompt_receipts": (
+            mm003_post_training_recovery["prompt_receipts"]
+        ),
+        "mm003_post_training_recovery_replacements": (
+            mm003_post_training_recovery["exact_value_replacements"]
+        ),
+        "mm003_post_training_recovery_next_gate": (
+            mm003_post_training_recovery["next_gate"]
+        ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -2054,6 +2078,94 @@ def _validate_mm003_post_training_failure_classification() -> dict[str, Any]:
         "classification": result["failure"]["classification"],
         "receipt_sha256": result["failure_receipt"]["sha256"],
         "next_gate": result["locked_next_action"]["gate_id"],
+    }
+
+
+def _validate_mm003_post_training_recovery_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm003_post_training_protocol_v2 as contract
+    from scripts import run_mm003_qlora_post_training_v2 as runner
+
+    payload = _read_regular_file_once(
+        MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_PATH,
+        "MM-003 post-training recovery preregistration",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != 26_553
+        or digest != MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_SHA256
+    ):
+        raise GateError("MM-003 post-training recovery preregistration hash mismatch")
+    raw = contract.parse_strict_json_bytes(
+        payload, location="$.mm003_post_training_recovery_preregistration"
+    )
+    if not isinstance(raw, dict):
+        raise GateError(
+            "MM-003 post-training recovery preregistration must be an object"
+        )
+    inputs = runner.load_and_validate_inputs()
+    lineage = runner._load_recovery_lineage()
+    trusted_source_hashes = runner.protocol_source_hashes()
+    preregistration = contract.validate_preregistration(
+        raw,
+        v1_preregistration=lineage["v1_preregistration"],
+        train=inputs["train"],
+        validation=inputs["validation"],
+        source_hashes=trusted_source_hashes,
+    )
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        v1_preregistration=lineage["v1_preregistration"],
+        source_hashes=trusted_source_hashes,
+        train=inputs["train"],
+        validation=inputs["validation"],
+    )
+    if preregistration != expected or contract.artifact_json_bytes(expected) != payload:
+        raise GateError("MM-003 post-training recovery preregistration drift")
+    delta = contract.validate_recovery_delta(
+        lineage["v1_preregistration"],
+        preregistration,
+        train=inputs["train"],
+        validation=inputs["validation"],
+        source_hashes=trusted_source_hashes,
+    )
+    prompt_preflight = contract.validate_prompt_preflight(
+        preregistration,
+        train=inputs["train"],
+        validation=inputs["validation"],
+    )
+    claims = preregistration["claims"]
+    if (
+        preregistration["freeze_status"] != "frozen"
+        or preregistration["formal_gate"]["required_gates"]
+        != contract.REQUIRED_GATES
+        or preregistration["formal_gate"]["formal_gate_passed"] is not False
+        or preregistration["formal_gate"]["quality_threshold_required"] is not False
+        or len(preregistration["source_lineage"]["protocol_sources"]) != 12
+        or len(preregistration["prompt_receipts"]["records"]) != 27
+        or prompt_preflight["records_checked"] != 27
+        or prompt_preflight["receipts_matched"] is not True
+        or len(delta["exact_value_replacements"]) != 12
+        or len(delta["preserved_protocol_sources"]) != 10
+        or len(delta["added_protocol_sources"]) != 2
+        or len(delta["authorized_new_sections"]) != 4
+        or any(
+            value is not False
+            for value in preregistration["authority_contract"].values()
+        )
+        or any(value is not False for value in claims.values())
+        or preregistration["runtime_eligible"] is not False
+        or preregistration["next_gate_after_freeze"]["gate_id"]
+        != contract.EXECUTION_GATE_ID
+        or preregistration["success_next_gate_after_execution"]["gate_id"]
+        != contract.SUCCESS_NEXT_GATE_ID
+    ):
+        raise GateError("MM-003 post-training recovery protocol boundary mismatch")
+    return {
+        "protocol_frozen": True,
+        "source_files": len(contract.PROTOCOL_SOURCE_PATHS),
+        "prompt_receipts": len(preregistration["prompt_receipts"]["records"]),
+        "exact_value_replacements": len(delta["exact_value_replacements"]),
+        "next_gate": preregistration["next_gate_after_freeze"]["gate_id"],
     }
 
 

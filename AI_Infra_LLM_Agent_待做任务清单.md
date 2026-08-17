@@ -573,6 +573,30 @@ agent-model-factory/
   `MM-003-small-vlm-post-training-recovery-protocol-v2`：保持 v1 不变，冻结独立
   `pt-*` prompt projection、27-case preflight/prompt receipts、新 gate/experiment/
   output dir；合并前不得执行 v2，且 v2 不是 v1 retry。
+- `MM-003-small-vlm-post-training-recovery-protocol-v2` 已在任何 v2 model/GPU run
+  前本地冻结：26,553 bytes，SHA-256
+  `02e36d5981e0ed4ac90bfdb3c5cc9c9e1f78ff29ff927020b0a41ebb27f55c0e`。
+  recursive type-strict leaf comparator 保留 v1 完整 lineage 与十个 source receipts，
+  只允许 12 个 exact replacements、两个具名 v2 sources、四个 closed new sections；
+  candidate 不能用自报 source hash、new section 或伪 v1 base 自证。
+- post-training-only registry 覆盖 18 train + 9 validation；27 个 prompt 在 dependency
+  import、CUDA/model load 前逐条绑定 bytes/SHA，aggregate 为
+  `sha256:bcbf8e87674ce2a668bdfe54ff4ecaba2e6db36899fc4e7c563867d1e2e9e102`。
+  family/repeat/target/raw screenshot regions 不进入文本 prompt，registered PNG 仍作为
+  独立 processor image；baseline `ground-*` registry 未修改。
+- recovery focused 23 tests 在 CPython 3.11.15/3.12.12/3.13.7 各自通过；三版本
+  unified 560-test gates 全部 `valid=true`，4 个 expected Windows privilege skips、49
+  source files。Ruff、`py_compile`、typed v2 contract scoped strict mypy、preregistration
+  recomputation/`prepare --check` 与 `git diff --check` 通过；没有加载模型/GPU，v2
+  output dir 仍不存在。
+- recovery protocol 合并后的唯一下一动作是
+  `MM-003-small-vlm-post-training-execution-v2`：使用 exact complete `mm003-model`
+  snapshot 与专用 v2 output dir，仅运行一次、zero retry。v1 failure dir 不得删除、
+  复用或重跑；execution-v2 通过后才进入
+  `MM-003-small-vlm-post-training-result-review-v2`，protocol pass 本身不代表 quality、
+  serving、promotion 或 Runtime eligibility。
+  任一 formal gate 为 false 时 evidence 的 `next_gate=null`，不得进入 success-only
+  result review。
 
 ## MM-004：多模态困难负样本
 
