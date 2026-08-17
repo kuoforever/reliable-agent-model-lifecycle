@@ -167,7 +167,7 @@ validates.
 
 `MM-003-small-vlm-post-training-protocol-v1` froze locally on 2026-08-17
 before any registered training. Its 17,601-byte preregistration has SHA-256
-`e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390` and
+`9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061` and
 binds ten protocol sources, the exact 14-file model snapshot, a dedicated
 dependency lock, and the 37,961,070-byte bitsandbytes 0.50.1 Win64 wheel with
 SHA-256
@@ -187,10 +187,21 @@ parameters, finite loss, nonzero finite LoRA gradients, and peak CUDA
 allocated/reserved 3,941,332,480 / 4,273,995,776 bytes. This is backend
 compatibility only, not training or model quality evidence.
 
-Focused 10 tests, deterministic fixture rebuild/check, Ruff, `py_compile`,
-preregistration recomputation, and `git diff --check` pass. CPython 3.12.12
-all pass the unified 528-test gate with `valid=true`, four expected Windows
-privilege skips, and 47 audited source files. Training, Adapter creation and
+Before any formal training invocation, a read-only execution audit found that
+the initial runner's failure receipt covered training and later stages but not
+the registered preflight. The hardened freeze exclusively creates the fixed
+run directory before preregistration/source/wheel/input/model/dependency/
+environment checks, records a stage-specific fail-closed receipt for any later
+exception, and starts the measured train/eval timer at that boundary. The timer
+stops after synchronized post-score resource sampling; evidence construction,
+serialization, and persistence remain fail-closed but are explicitly outside
+that elapsed metric. CLI syntax, output-path, and pre-existing-directory
+rejection remain outside the consumed lifecycle.
+
+Focused 13 tests, deterministic fixture rebuild/check, Ruff, `py_compile`,
+preregistration recomputation, and `git diff --check` pass. CPython 3.11.15,
+3.12.12, and 3.13.7 all pass the unified 531-test gate with `valid=true`, four
+expected Windows privilege skips, and 47 audited source files. Training, Adapter creation and
 loadability, model evaluation, quality improvement, repeatability,
 cross-machine reproducibility, portability, commercial use, serving,
 promotion, and Runtime claims remain false. The exact next gate is

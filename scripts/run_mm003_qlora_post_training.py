@@ -138,34 +138,44 @@ def execute_frozen_protocol(
     if output_dir.exists():
         raise RuntimeError("output directory must be absent before model load")
 
-    preregistration_payload = base_runner._read_regular_file(
-        preregistration_path, "post-training preregistration", 4 * 1024 * 1024
-    )
-    raw = contract.parse_strict_json_bytes(
-        preregistration_payload, location="$.preregistration"
-    )
-    if not isinstance(raw, dict):
-        raise RuntimeError("post-training preregistration must be an object")
-    preregistration = contract.validate_preregistration(raw)
-    _validate_protocol_sources(preregistration)
-    _validate_local_dependency_wheel()
-    inputs = load_and_validate_inputs()
-    _validate_preregistered_inputs(preregistration, inputs)
-    model_manifest = base_runner.model_file_manifest(model_snapshot)
-    if model_manifest != preregistration["model"]["files"]:
-        raise RuntimeError("model snapshot differs from frozen manifest")
-
-    _enable_offline_execution()
-    dependencies = _load_ml_dependencies()
-    torch = dependencies[1]
-    environment = observed_environment(torch)
-    if environment != contract.LOCKED_ENVIRONMENT:
-        raise RuntimeError(f"locked environment mismatch: {environment!r}")
-
     output_dir.mkdir(parents=True, exist_ok=False)
     lifecycle_started = time.perf_counter()
-    stage = "training"
+    stage = "preregistration"
+    preregistration_payload: bytes | None = None
     try:
+        preregistration_payload = base_runner._read_regular_file(
+            preregistration_path, "post-training preregistration", 4 * 1024 * 1024
+        )
+        raw = contract.parse_strict_json_bytes(
+            preregistration_payload, location="$.preregistration"
+        )
+        if not isinstance(raw, dict):
+            raise RuntimeError("post-training preregistration must be an object")
+        preregistration = contract.validate_preregistration(raw)
+
+        stage = "protocol_sources"
+        _validate_protocol_sources(preregistration)
+        stage = "dependency_wheel"
+        _validate_local_dependency_wheel()
+        stage = "inputs"
+        inputs = load_and_validate_inputs()
+        stage = "preregistered_inputs"
+        _validate_preregistered_inputs(preregistration, inputs)
+        stage = "model_manifest"
+        model_manifest = base_runner.model_file_manifest(model_snapshot)
+        if model_manifest != preregistration["model"]["files"]:
+            raise RuntimeError("model snapshot differs from frozen manifest")
+
+        stage = "dependency_import"
+        _enable_offline_execution()
+        dependencies = _load_ml_dependencies()
+        torch = dependencies[1]
+        stage = "locked_environment"
+        environment = observed_environment(torch)
+        if environment != contract.LOCKED_ENVIRONMENT:
+            raise RuntimeError(f"locked environment mismatch: {environment!r}")
+
+        stage = "training"
         training = _train_adapter(
             dependencies=dependencies,
             model_snapshot=model_snapshot,
@@ -186,11 +196,14 @@ def execute_frozen_protocol(
             eval_suite=inputs["eval_suite"],
             eval_screenshot_receipts=inputs["eval_screenshot_receipts"],
         )
+        stage = "resource_accounting"
         torch.cuda.synchronize()
+        peak_gpu_allocated_bytes = int(torch.cuda.max_memory_allocated())
+        peak_gpu_reserved_bytes = int(torch.cuda.max_memory_reserved())
         lifecycle_resources = {
             "elapsed_seconds": time.perf_counter() - lifecycle_started,
-            "peak_gpu_allocated_bytes": int(torch.cuda.max_memory_allocated()),
-            "peak_gpu_reserved_bytes": int(torch.cuda.max_memory_reserved()),
+            "peak_gpu_allocated_bytes": peak_gpu_allocated_bytes,
+            "peak_gpu_reserved_bytes": peak_gpu_reserved_bytes,
         }
         stage = "evidence"
         evidence = build_evidence(
@@ -225,7 +238,11 @@ def execute_frozen_protocol(
             "experiment_id": contract.EXPERIMENT_ID,
             "gate_id": contract.EXECUTION_GATE_ID,
             "protocol_freeze_commit": protocol_freeze_commit,
-            "preregistration_sha256": contract.sha256_bytes(preregistration_payload),
+            "preregistration_sha256": (
+                contract.sha256_bytes(preregistration_payload)
+                if preregistration_payload is not None
+                else None
+            ),
             "stage": stage,
             "exception_type": type(exc).__name__,
             "retry_count": 0,

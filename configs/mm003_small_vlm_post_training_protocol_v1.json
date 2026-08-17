@@ -121,7 +121,7 @@
       },
       "post_training_runner": {
         "path": "scripts/run_mm003_qlora_post_training.py",
-        "sha256": "sha256:8d4e35d6d02c3d5e2855a1dae5fe17b9b112f53cb49935c0a68a22ee1bd9d741"
+        "sha256": "sha256:7eff900285cccd0fa16d8bcede5cf2921d796009fa2c48ed550d2bb6722127a7"
       },
       "qlora_backend_smoke": {
         "path": "scripts/smoke_mm003_qlora_backend.py",
