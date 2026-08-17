@@ -1,0 +1,298 @@
+{
+  "multimodal_trajectory_schema_version": 1,
+  "trajectory_id": "trajectory_image_fixture_001",
+  "modality": "image_grounded",
+  "provenance": {
+    "source": "synthetic_fixture",
+    "real_capture": false,
+    "lane_b_bundle_ref": null,
+    "lane_b_episode_ref": null,
+    "automatic_lane_a_export_used": false
+  },
+  "versions": {
+    "runtime_git_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+    "agent_contract_version": "0.1.0",
+    "driver_contract_version": "1.0.0",
+    "policy_version": "fixture-policy-v1",
+    "environment_id": "synthetic-image-environment-v1",
+    "model_id": "synthetic-multimodal-action-model",
+    "model_revision": "fixture-v1",
+    "multimodal_trajectory_schema_version": 1,
+    "compatible_lane_b_bundle_version": 1,
+    "compatible_lane_b_episode_version": 1
+  },
+  "artifacts": [
+    {
+      "artifact_id": "sha256:2121212121212121212121212121212121212121212121212121212121212121",
+      "role": "sanitized_instruction",
+      "media_type": "text/plain",
+      "bytes": 48,
+      "content_sha256": "sha256:2121212121212121212121212121212121212121212121212121212121212121",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "role": "available_tool_schema",
+      "media_type": "application/json",
+      "bytes": 144,
+      "content_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2323232323232323232323232323232323232323232323232323232323232323",
+      "role": "policy_context",
+      "media_type": "application/json",
+      "bytes": 104,
+      "content_sha256": "sha256:2323232323232323232323232323232323232323232323232323232323232323",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2424242424242424242424242424242424242424242424242424242424242424",
+      "role": "model_candidate_action",
+      "media_type": "application/json",
+      "bytes": 160,
+      "content_sha256": "sha256:2424242424242424242424242424242424242424242424242424242424242424",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2525252525252525252525252525252525252525252525252525252525252525",
+      "role": "runtime_policy_decision",
+      "media_type": "application/json",
+      "bytes": 96,
+      "content_sha256": "sha256:2525252525252525252525252525252525252525252525252525252525252525",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2626262626262626262626262626262626262626262626262626262626262626",
+      "role": "tool_result",
+      "media_type": "application/json",
+      "bytes": 80,
+      "content_sha256": "sha256:2626262626262626262626262626262626262626262626262626262626262626",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2727272727272727272727272727272727272727272727272727272727272727",
+      "role": "uia_tree",
+      "media_type": "application/json",
+      "bytes": 136,
+      "content_sha256": "sha256:2727272727272727272727272727272727272727272727272727272727272727",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2828282828282828282828282828282828282828282828282828282828282828",
+      "role": "state_verifier_evidence",
+      "media_type": "application/json",
+      "bytes": 64,
+      "content_sha256": "sha256:2828282828282828282828282828282828282828282828282828282828282828",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2929292929292929292929292929292929292929292929292929292929292929",
+      "role": "uia_tree",
+      "media_type": "application/json",
+      "bytes": 172,
+      "content_sha256": "sha256:2929292929292929292929292929292929292929292929292929292929292929",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a",
+      "role": "screenshot_or_crop",
+      "media_type": "image/png",
+      "bytes": 4096,
+      "content_sha256": "sha256:2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a",
+      "sanitized": true,
+      "image_redacted": true
+    },
+    {
+      "artifact_id": "sha256:2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+      "role": "ocr_text",
+      "media_type": "text/plain",
+      "bytes": 88,
+      "content_sha256": "sha256:2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+      "role": "model_candidate_action",
+      "media_type": "application/json",
+      "bytes": 208,
+      "content_sha256": "sha256:2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+      "role": "runtime_policy_decision",
+      "media_type": "application/json",
+      "bytes": 112,
+      "content_sha256": "sha256:2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+      "role": "tool_result",
+      "media_type": "application/json",
+      "bytes": 80,
+      "content_sha256": "sha256:2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f",
+      "role": "uia_tree",
+      "media_type": "application/json",
+      "bytes": 176,
+      "content_sha256": "sha256:2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:3030303030303030303030303030303030303030303030303030303030303030",
+      "role": "screenshot_or_crop",
+      "media_type": "image/png",
+      "bytes": 4096,
+      "content_sha256": "sha256:3030303030303030303030303030303030303030303030303030303030303030",
+      "sanitized": true,
+      "image_redacted": true
+    },
+    {
+      "artifact_id": "sha256:3131313131313131313131313131313131313131313131313131313131313131",
+      "role": "state_verifier_evidence",
+      "media_type": "application/json",
+      "bytes": 72,
+      "content_sha256": "sha256:3131313131313131313131313131313131313131313131313131313131313131",
+      "sanitized": true,
+      "image_redacted": false
+    }
+  ],
+  "inputs": {
+    "instruction_ref": "sha256:2121212121212121212121212121212121212121212121212121212121212121",
+    "available_tools": [
+      {
+        "name": "click",
+        "argument_schema_ref": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "supports_bbox": true,
+        "supports_ref": true,
+        "risk_levels": [
+          "low",
+          "medium"
+        ]
+      }
+    ],
+    "policy_context_ref": "sha256:2323232323232323232323232323232323232323232323232323232323232323",
+    "previous_steps": [
+      {
+        "sequence": 1,
+        "candidate_action_ref": "sha256:2424242424242424242424242424242424242424242424242424242424242424",
+        "runtime_decision_ref": "sha256:2525252525252525252525252525252525252525252525252525252525252525",
+        "dispatched": true,
+        "tool_result_ref": "sha256:2626262626262626262626262626262626262626262626262626262626262626",
+        "post_observation_refs": [
+          "sha256:2727272727272727272727272727272727272727272727272727272727272727"
+        ],
+        "verifier_evidence_refs": [
+          "sha256:2727272727272727272727272727272727272727272727272727272727272727",
+          "sha256:2828282828282828282828282828282828282828282828282828282828282828"
+        ],
+        "outcome": "success"
+      }
+    ]
+  },
+  "observations": [
+    {
+      "observation_id": "observation_image_pre_002",
+      "stage": "pre_action",
+      "uia_refs": [
+        "sha256:2929292929292929292929292929292929292929292929292929292929292929"
+      ],
+      "document_text_refs": [],
+      "ocr_refs": [
+        "sha256:2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b"
+      ],
+      "image_refs": [
+        "sha256:2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a"
+      ]
+    },
+    {
+      "observation_id": "observation_image_post_002",
+      "stage": "post_action",
+      "uia_refs": [
+        "sha256:2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f"
+      ],
+      "document_text_refs": [],
+      "ocr_refs": [],
+      "image_refs": [
+        "sha256:3030303030303030303030303030303030303030303030303030303030303030"
+      ]
+    }
+  ],
+  "transition": {
+    "sequence": 2,
+    "pre_observation_id": "observation_image_pre_002",
+    "candidate_action": {
+      "record_ref": "sha256:2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+      "next_tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "bbox": [
+        40,
+        80,
+        240,
+        140
+      ],
+      "ref": "control_fixture_confirm",
+      "risk_level": "medium",
+      "requires_approval": false,
+      "confidence": 0.92,
+      "should_reject": false,
+      "should_fallback": false,
+      "evidence_refs": [
+        "sha256:2929292929292929292929292929292929292929292929292929292929292929",
+        "sha256:2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a",
+        "sha256:2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b"
+      ],
+      "execution_authority": "none"
+    },
+    "runtime_decision": {
+      "record_ref": "sha256:2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+      "policy_context_ref": "sha256:2323232323232323232323232323232323232323232323232323232323232323",
+      "policy_decision": "allow",
+      "approval_state": "not_required",
+      "dispatched": true,
+      "runtime_is_authority": true
+    },
+    "tool_result_ref": "sha256:2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+    "post_observation_id": "observation_image_post_002",
+    "verifier": {
+      "source": "state_based",
+      "label": "success",
+      "evidence_refs": [
+        "sha256:2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f",
+        "sha256:3030303030303030303030303030303030303030303030303030303030303030",
+        "sha256:3131313131313131313131313131313131313131313131313131313131313131"
+      ],
+      "model_self_report_used": false
+    }
+  },
+  "governance": {
+    "synthetic_only": true,
+    "lane_b_capture_required_for_real_data": true,
+    "dataset_split": "unassigned",
+    "license_status": "pending_review",
+    "training_eligible": false,
+    "execution_eligible": false,
+    "human_review_required": true
+  }
+}

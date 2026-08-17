@@ -115,6 +115,17 @@ adapter, real episode, real deletion, dataset license, Runtime change, or
 training eligibility is claimed. See the
 [Lane B v1 review](docs/FC-BRIDGE-003-lane-b-consent-capture-security-v1.md).
 
+### Multimodal trajectory schema v1
+
+`MM-001` defines one strict, versioned topology for synthetic text-only and
+image-grounded trajectories. Records bind Runtime/model/policy/environment,
+pre/post observations, previous results, candidate tool/arguments/ref/bbox,
+risk/approval/fallback/evidence, the Runtime decision, and state-based
+verification. Runtime remains the only dispatch authority. No capture
+adapter, real episode, dataset approval, training, execution, Runtime change,
+or cross-machine claim is included. See the
+[MM-001 review](docs/MM-001-multimodal-trajectory-schema-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -528,14 +539,13 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-001-multimodal-trajectory-schema-v1`. Define one
-strict, versioned schema shared by text-only and image-grounded trajectories.
-Each record must bind Runtime, model, policy, and environment versions; link
-pre-action and post-action observations; represent tool/ref/bbox/risk/
-approval/fallback/evidence fields without granting execution authority; and
-remain compatible with the reviewed Lane B quarantine contract. This gate is
-schema and synthetic-fixture work only: it must not implement capture, collect
-real user content, alter Runtime, or make data training-eligible.
+The current local work is `MM-002-gui-grounding-data-eval-v1`. Build a
+reviewed synthetic evaluation set and deterministic scorer covering ref and
+bbox grounding, UIA-only/screenshot-only/fused observations, OCR absence or
+noise, moved or occluded controls, stale refs, and coordinate/ref disagreement.
+Report Grounding Accuracy/IoU, Action Accuracy, Tool/Argument Accuracy, and
+stale-ref rejection without implementing capture, collecting real user
+content, changing Runtime, training a model, or making data training-eligible.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

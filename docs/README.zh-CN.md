@@ -24,6 +24,7 @@ English (default): [README.md](README.md)
 | Runtime bridge consumer | [FC-BRIDGE-001](FC-BRIDGE-001.md) | Complete |
 | Lane A reliability dataset | [ADR-0001](adr/ADR-0001-lane-a-reliability-dataset-v1.md) | Complete |
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete；真实采集仍未实现 |
+| 多模态轨迹 Schema v1 | [MM-001 review](MM-001-multimodal-trajectory-schema-v1.md) | Synthetic text/image topology；不含采集或训练准入 |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |

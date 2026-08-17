@@ -1,0 +1,207 @@
+{
+  "multimodal_trajectory_schema_version": 1,
+  "trajectory_id": "trajectory_text_fixture_001",
+  "modality": "text_only",
+  "provenance": {
+    "source": "synthetic_fixture",
+    "real_capture": false,
+    "lane_b_bundle_ref": null,
+    "lane_b_episode_ref": null,
+    "automatic_lane_a_export_used": false
+  },
+  "versions": {
+    "runtime_git_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+    "agent_contract_version": "0.1.0",
+    "driver_contract_version": "1.0.0",
+    "policy_version": "fixture-policy-v1",
+    "environment_id": "synthetic-text-environment-v1",
+    "model_id": "synthetic-action-model",
+    "model_revision": "fixture-v1",
+    "multimodal_trajectory_schema_version": 1,
+    "compatible_lane_b_bundle_version": 1,
+    "compatible_lane_b_episode_version": 1
+  },
+  "artifacts": [
+    {
+      "artifact_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "role": "sanitized_instruction",
+      "media_type": "text/plain",
+      "bytes": 42,
+      "content_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1212121212121212121212121212121212121212121212121212121212121212",
+      "role": "available_tool_schema",
+      "media_type": "application/json",
+      "bytes": 128,
+      "content_sha256": "sha256:1212121212121212121212121212121212121212121212121212121212121212",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1313131313131313131313131313131313131313131313131313131313131313",
+      "role": "policy_context",
+      "media_type": "application/json",
+      "bytes": 96,
+      "content_sha256": "sha256:1313131313131313131313131313131313131313131313131313131313131313",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1414141414141414141414141414141414141414141414141414141414141414",
+      "role": "uia_tree",
+      "media_type": "application/json",
+      "bytes": 160,
+      "content_sha256": "sha256:1414141414141414141414141414141414141414141414141414141414141414",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1515151515151515151515151515151515151515151515151515151515151515",
+      "role": "document_text",
+      "media_type": "text/plain",
+      "bytes": 80,
+      "content_sha256": "sha256:1515151515151515151515151515151515151515151515151515151515151515",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+      "role": "model_candidate_action",
+      "media_type": "application/json",
+      "bytes": 192,
+      "content_sha256": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1717171717171717171717171717171717171717171717171717171717171717",
+      "role": "runtime_policy_decision",
+      "media_type": "application/json",
+      "bytes": 112,
+      "content_sha256": "sha256:1717171717171717171717171717171717171717171717171717171717171717",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1818181818181818181818181818181818181818181818181818181818181818",
+      "role": "tool_result",
+      "media_type": "application/json",
+      "bytes": 72,
+      "content_sha256": "sha256:1818181818181818181818181818181818181818181818181818181818181818",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1919191919191919191919191919191919191919191919191919191919191919",
+      "role": "uia_tree",
+      "media_type": "application/json",
+      "bytes": 164,
+      "content_sha256": "sha256:1919191919191919191919191919191919191919191919191919191919191919",
+      "sanitized": true,
+      "image_redacted": false
+    },
+    {
+      "artifact_id": "sha256:1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+      "role": "state_verifier_evidence",
+      "media_type": "application/json",
+      "bytes": 64,
+      "content_sha256": "sha256:1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+      "sanitized": true,
+      "image_redacted": false
+    }
+  ],
+  "inputs": {
+    "instruction_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "available_tools": [
+      {
+        "name": "click",
+        "argument_schema_ref": "sha256:1212121212121212121212121212121212121212121212121212121212121212",
+        "supports_bbox": false,
+        "supports_ref": true,
+        "risk_levels": [
+          "low",
+          "medium"
+        ]
+      }
+    ],
+    "policy_context_ref": "sha256:1313131313131313131313131313131313131313131313131313131313131313",
+    "previous_steps": []
+  },
+  "observations": [
+    {
+      "observation_id": "observation_text_pre_001",
+      "stage": "pre_action",
+      "uia_refs": [
+        "sha256:1414141414141414141414141414141414141414141414141414141414141414"
+      ],
+      "document_text_refs": [
+        "sha256:1515151515151515151515151515151515151515151515151515151515151515"
+      ],
+      "ocr_refs": [],
+      "image_refs": []
+    },
+    {
+      "observation_id": "observation_text_post_001",
+      "stage": "post_action",
+      "uia_refs": [
+        "sha256:1919191919191919191919191919191919191919191919191919191919191919"
+      ],
+      "document_text_refs": [],
+      "ocr_refs": [],
+      "image_refs": []
+    }
+  ],
+  "transition": {
+    "sequence": 1,
+    "pre_observation_id": "observation_text_pre_001",
+    "candidate_action": {
+      "record_ref": "sha256:1616161616161616161616161616161616161616161616161616161616161616",
+      "next_tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "bbox": null,
+      "ref": "control_fixture_submit",
+      "risk_level": "low",
+      "requires_approval": false,
+      "confidence": 0.96,
+      "should_reject": false,
+      "should_fallback": false,
+      "evidence_refs": [
+        "sha256:1414141414141414141414141414141414141414141414141414141414141414"
+      ],
+      "execution_authority": "none"
+    },
+    "runtime_decision": {
+      "record_ref": "sha256:1717171717171717171717171717171717171717171717171717171717171717",
+      "policy_context_ref": "sha256:1313131313131313131313131313131313131313131313131313131313131313",
+      "policy_decision": "allow",
+      "approval_state": "not_required",
+      "dispatched": true,
+      "runtime_is_authority": true
+    },
+    "tool_result_ref": "sha256:1818181818181818181818181818181818181818181818181818181818181818",
+    "post_observation_id": "observation_text_post_001",
+    "verifier": {
+      "source": "state_based",
+      "label": "success",
+      "evidence_refs": [
+        "sha256:1919191919191919191919191919191919191919191919191919191919191919",
+        "sha256:1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a"
+      ],
+      "model_self_report_used": false
+    }
+  },
+  "governance": {
+    "synthetic_only": true,
+    "lane_b_capture_required_for_real_data": true,
+    "dataset_split": "unassigned",
+    "license_status": "pending_review",
+    "training_eligible": false,
+    "execution_eligible": false,
+    "human_review_required": true
+  }
+}

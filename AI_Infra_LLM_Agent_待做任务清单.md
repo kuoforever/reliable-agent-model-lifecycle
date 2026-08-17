@@ -422,18 +422,21 @@ agent-model-factory/
 
 **当前进展（2026-08-17）**
 
-- 前置 `FC-BRIDGE-003` Lane B consent/capture/security contract v1 已完成本地
-  contract review：显式 run-scoped consent、可见指示、独立 storage、写前脱敏和
-  图像遮罩、content-addressed references、Runtime-only dispatch authority、
-  state verifier 与完整 deletion receipt 均已进入 strict validator、closed schema
-  和 synthetic fixtures。
-- 该完成项只关闭 contract review；capture adapter、真实 episode、真实 deletion、
-  dataset split、license、training eligibility 与 Runtime integration 均未实现或未
-  批准，Lane B 继续默认关闭且 `training_eligible=false`。
-- 当前唯一动作是 `MM-001-multimodal-trajectory-schema-v1`：在本仓库用 synthetic
-  fixture 定义兼容 text/image 的版本化 trajectory schema，并绑定
-  runtime/model/policy/environment、pre/post observation、candidate、Runtime
-  decision 和 verifier evidence；模型输出不得获得直接执行权限。
+- `MM-001-multimodal-trajectory-schema-v1` 已完成本地 synthetic schema review。
+  text-only（10 artifacts、0 previous step）与 image-grounded（17 artifacts、1
+  previous step）fixture 共享严格 v1 topology，并绑定 Runtime/model/policy/
+  environment、pre/post observation、candidate、Runtime decision、tool result 与
+  state verifier；Runtime 是唯一 dispatch authority。
+- 21,091-byte schema SHA-256 为 `2109dcd2...c32964c`；7,387-byte text fixture
+  为 `9162a2e3...07706`；11,145-byte image fixture 为
+  `89c45460...5963`。三个 CPython 版本统一门禁均为 468 tests、`valid=true`、
+  40 source files；focused 26 tests、Ruff、strict mypy、`py_compile`、JSON Schema
+  和 metadata hash 检查通过。
+- 该完成项只关闭 synthetic schema review；capture adapter、真实 episode、
+  dataset split/license、GUI grounding 质量、训练/执行、Runtime integration、
+  cross-machine 与 portable claims 均未建立，`training_eligible=false`、
+  `execution_eligible=false`、`runtime_eligible=false`。
+- 当前唯一动作切换为 `MM-002-gui-grounding-data-eval-v1`。
 - `FC-MVP-001-fp32-attached-portable-package-qualification-v1` 保持冻结并 defer；
   其恢复点仍是 `f8dc9a62471759282ad2b41673d95acd43bf240f` 上的独立原生 Windows
   目标机 runbook，本机/WSL negative control 不构成 cross-machine 或 portable
@@ -456,6 +459,14 @@ agent-model-factory/
 - Tool / Argument Accuracy
 - stale-ref rejection
 - coordinate/ref disagreement
+
+**当前进展（2026-08-17）**
+
+- 前置 `MM-001` synthetic text/image trajectory schema v1 已完成并保持
+  Runtime-only dispatch authority；尚无真实 capture、训练数据或模型结果。
+- 当前唯一动作是冻结 `MM-002-gui-grounding-data-eval-v1` 的 synthetic case
+  taxonomy、deterministic scorer、metrics 与 leakage/split 边界，然后生成 reviewed
+  fixtures 和 fail-closed evidence。不得将 planned eval 当成已测模型能力。
 
 ## MM-003：图文 GUI Action Model
 

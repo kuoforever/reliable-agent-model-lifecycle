@@ -86,27 +86,30 @@ qualifying independent native Windows host is available. `FC-BRIDGE-003` now
 completes the separate Lane B v1 consent/capture/security contract review with
 a strict validator, closed schema, synthetic fixtures, and deletion binding.
 Lane B remains disabled, quarantine-only, and training-ineligible; no capture
-adapter or Runtime change exists.
+adapter or Runtime change exists. `MM-001` now closes the synthetic multimodal
+trajectory schema review: text-only and image-grounded fixtures share one
+strict v1 topology with Runtime-only dispatch authority, state-based
+verification, and all training/execution/Runtime eligibility claims false.
 
 ## Single active objective
 
-Complete `MM-001-multimodal-trajectory-schema-v1`:
+Complete `MM-002-gui-grounding-data-eval-v1`:
 
 ```text
-reviewed Lane B consent/capture/security contract
-        -> one strict versioned text + image trajectory schema
-pre/post observations + candidate + Runtime decision + verifier evidence
-        -> no model execution authority and no real capture
+reviewed synthetic multimodal trajectory schema v1
+        -> reviewed synthetic GUI grounding evaluation set
+ref/bbox + UIA/screenshot/fusion + OCR/stale/occlusion cases
+        -> deterministic scorer and frozen metrics, no model training
 ```
 
-Define a strict versioned multimodal trajectory schema compatible with both
-text-only and image-grounded records. Each trajectory must bind Runtime,
-model, policy, and environment versions; connect pre-action and post-action
-observations; represent tool, arguments, bbox/ref, risk, approval, confidence,
-rejection/fallback, and evidence; and preserve Runtime as the only dispatch
-authority. Use synthetic fixtures only. Do not implement capture, collect real
-user content, change the Runtime repository, assign dataset splits/licenses,
-train a model, or promote Lane B data.
+Build a reviewed synthetic GUI grounding evaluation set and deterministic
+scorer compatible with trajectory schema v1. Cover ref and bbox grounding,
+UIA-only, screenshot-only, and fused observations, missing/noisy OCR, moved or
+occluded controls, stale refs, and coordinate/ref disagreement. Freeze and
+report Grounding Accuracy/IoU, Action Accuracy, Tool/Argument Accuracy, and
+stale-ref rejection. Do not implement capture, collect real user content,
+change the Runtime repository, assign training splits/licenses, train a model,
+or promote Lane B data.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -142,6 +145,34 @@ cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
 
+`MM-001-multimodal-trajectory-schema-v1` completed locally on 2026-08-17.
+Its strict standard-library validator and closed Draft 2020-12 schema accept
+one shared v1 topology for synthetic text-only and image-grounded records.
+Both fixtures bind the frozen Runtime, Lane B versions, model, policy,
+environment, pre/post observations, candidate action, Runtime decision, tool
+result, and state verifier. Candidate outputs carry no execution authority;
+Runtime remains the sole dispatch authority.
+
+The 21,091-byte schema has SHA-256
+`2109dcd2b06e01bda30ea19bc548cb34031811319e23f0bce5dd91a60c32964c`.
+The 7,387-byte text fixture has SHA-256
+`9162a2e322961434532b320670bacca3267bfe8cd4f5f823a177361ff5207706`
+and ten artifacts. The 11,145-byte image fixture has SHA-256
+`89c45460a6ffd4804f9ef855680fd74be18321afa89e94842bffb6ba833f5963`,
+17 artifacts, and one bound previous step. Four invalid fixtures pin parser
+failures. The unified CPython 3.11.15, 3.12.12, and 3.13.7 gates each pass 468
+tests with `valid=true` and audit 40 source files; the focused 26-test suite,
+Ruff, strict mypy, `py_compile`, independent JSON Schema checks, and metadata
+hash recomputation pass. A final no-dependency wheel contains both trajectory
+modules and the `fullcycle-trajectory` entry point.
+
+This closes only the synthetic schema review. Capture, real episodes, dataset
+split/license approval, GUI grounding quality, model training/execution,
+cross-machine, portable-package, serving, promotion, and Runtime eligibility
+remain unestablished or false. The exact next gate is
+`MM-002-gui-grounding-data-eval-v1`.
+[Evidence](docs/MM-001-multimodal-trajectory-schema-v1.md).
+
 The `FC-BRIDGE-003` Lane B v1 consent/capture/security contract review
 completed locally on 2026-08-17. The standard-library validator accepts one
 closed review bundle containing separately versioned explicit consent,
@@ -167,7 +198,8 @@ This closes only the contract review. `capture_adapter_implemented=false`,
 `real_episode_collected=false`, `real_deletion_executed=false`,
 `dataset_split_assigned=false`, `license_approved=false`,
 `training_eligible=false`, and `runtime_eligible=false`. The exact next gate is
-`MM-001-multimodal-trajectory-schema-v1`.
+recorded historically as `MM-001-multimodal-trajectory-schema-v1`; that gate
+has since completed.
 [Evidence](docs/FC-BRIDGE-003-lane-b-consent-capture-security-v1.md).
 
 The `FC-MVP-001-fp32-attached-preferred-offline-candidate-decision-v1` gate
@@ -783,7 +815,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001 trajectory schema next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-001 schema complete, MM-002 grounding eval next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

@@ -21,6 +21,13 @@ LANE_B_FIXTURE_ROOT = ROOT / "fixtures" / "lane_b_v1"
 LANE_B_METADATA_PATH = LANE_B_FIXTURE_ROOT / "fixture-metadata.json"
 LANE_B_VALID_BUNDLE_PATH = LANE_B_FIXTURE_ROOT / "valid" / "minimal-bundle.json"
 LANE_B_SCHEMA_PATH = ROOT / "schemas" / "lane_b_capture_bundle_v1.schema.json"
+TRAJECTORY_FIXTURE_ROOT = ROOT / "fixtures" / "multimodal_trajectory_v1"
+TRAJECTORY_METADATA_PATH = TRAJECTORY_FIXTURE_ROOT / "fixture-metadata.json"
+TRAJECTORY_TEXT_FIXTURE_PATH = TRAJECTORY_FIXTURE_ROOT / "valid" / "text-only.json"
+TRAJECTORY_IMAGE_FIXTURE_PATH = (
+    TRAJECTORY_FIXTURE_ROOT / "valid" / "image-grounded.json"
+)
+TRAJECTORY_SCHEMA_PATH = ROOT / "schemas" / "multimodal_trajectory_v1.schema.json"
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -323,6 +330,7 @@ def main() -> int:
         )
     )
     lane_b_contract = _validate_lane_b_contract()
+    trajectory_contract = _validate_multimodal_trajectory_contract()
     tests_run = _run_tests()
 
     result = {
@@ -350,6 +358,26 @@ def main() -> int:
             "capture_adapter_implemented"
         ],
         "lane_b_next_gate": lane_b_contract["next_gate"],
+        "multimodal_trajectory_schema_review_complete": trajectory_contract[
+            "schema_review_complete"
+        ],
+        "multimodal_trajectory_schema_version": trajectory_contract["schema_version"],
+        "multimodal_trajectory_modalities": trajectory_contract["modalities"],
+        "multimodal_trajectory_text_artifacts": trajectory_contract["text_artifacts"],
+        "multimodal_trajectory_image_artifacts": trajectory_contract["image_artifacts"],
+        "multimodal_trajectory_image_previous_steps": trajectory_contract[
+            "image_previous_steps"
+        ],
+        "multimodal_trajectory_training_eligible": trajectory_contract[
+            "training_eligible"
+        ],
+        "multimodal_trajectory_execution_eligible": trajectory_contract[
+            "execution_eligible"
+        ],
+        "multimodal_trajectory_real_episode_collected": trajectory_contract[
+            "real_episode_collected"
+        ],
+        "multimodal_trajectory_next_gate": trajectory_contract["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1181,6 +1209,158 @@ def _validate_lane_b_contract() -> dict[str, Any]:
         "deletion_verified": summary.deletion_verified,
         "training_eligible": summary.training_eligible,
         "capture_adapter_implemented": False,
+        "next_gate": next_gate,
+    }
+
+
+def _validate_multimodal_trajectory_contract() -> dict[str, Any]:
+    from fullcycle_bridge.multimodal_trajectory import (
+        TrajectoryValidationError,
+        validate_trajectory_file,
+    )
+
+    metadata = _load_json(TRAJECTORY_METADATA_PATH)
+    expected_versions = {
+        "multimodal_trajectory_schema_version": 1,
+        "compatible_lane_b_bundle_version": 1,
+        "compatible_lane_b_episode_version": 1,
+    }
+    for key, expected in expected_versions.items():
+        if metadata.get(key) != expected:
+            raise GateError(f"MM-001 metadata version mismatch: {key}")
+    if metadata.get("review_id") != "MM-001":
+        raise GateError("MM-001 review ID mismatch")
+    if metadata.get("runtime_freeze_commit") != (
+        "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9"
+    ):
+        raise GateError("MM-001 Runtime freeze binding mismatch")
+    if metadata.get("lane_b_contract_merge_commit") != (
+        "d1a8e787951c52c7650b23c71ea3df2b6a9ee00d"
+    ):
+        raise GateError("MM-001 Lane B contract binding mismatch")
+
+    records = {
+        "schema": (metadata.get("schema"), TRAJECTORY_SCHEMA_PATH),
+        "text_only": (
+            metadata.get("valid_fixtures", {}).get("text_only"),
+            TRAJECTORY_TEXT_FIXTURE_PATH,
+        ),
+        "image_grounded": (
+            metadata.get("valid_fixtures", {}).get("image_grounded"),
+            TRAJECTORY_IMAGE_FIXTURE_PATH,
+        ),
+    }
+    for key, (record, expected_path) in records.items():
+        if not isinstance(record, dict):
+            raise GateError(f"MM-001 metadata record missing: {key}")
+        expected_relative = expected_path.relative_to(ROOT).as_posix()
+        payload = _read_regular_file_once(expected_path, f"MM-001 {key}")
+        if (
+            record.get("path") != expected_relative
+            or record.get("bytes") != len(payload)
+            or record.get("sha256") != "sha256:" + hashlib.sha256(payload).hexdigest()
+        ):
+            raise GateError(f"MM-001 metadata binding mismatch: {key}")
+
+    schema = _load_json(TRAJECTORY_SCHEMA_PATH)
+    schema_properties = schema.get("properties", {})
+    versions_schema = schema.get("$defs", {}).get("versions", {})
+    if (
+        schema.get("$schema") != "https://json-schema.org/draft/2020-12/schema"
+        or schema.get("additionalProperties") is not False
+        or schema_properties.get("multimodal_trajectory_schema_version", {}).get(
+            "const"
+        )
+        != 1
+        or versions_schema.get("additionalProperties") is not False
+    ):
+        raise GateError("MM-001 schema boundary mismatch")
+
+    text_summary = validate_trajectory_file(TRAJECTORY_TEXT_FIXTURE_PATH.resolve())
+    image_summary = validate_trajectory_file(TRAJECTORY_IMAGE_FIXTURE_PATH.resolve())
+    expected_summaries = {
+        "text_only": {
+            "schema_version": 1,
+            "modality": "text_only",
+            "artifact_count": 10,
+            "available_tool_count": 1,
+            "previous_step_count": 0,
+            "transition_sequence": 1,
+            "dispatched": True,
+            "verifier_label": "success",
+            "training_eligible": False,
+            "execution_eligible": False,
+        },
+        "image_grounded": {
+            "schema_version": 1,
+            "modality": "image_grounded",
+            "artifact_count": 17,
+            "available_tool_count": 1,
+            "previous_step_count": 1,
+            "transition_sequence": 2,
+            "dispatched": True,
+            "verifier_label": "success",
+            "training_eligible": False,
+            "execution_eligible": False,
+        },
+    }
+    for key, summary in {
+        "text_only": text_summary,
+        "image_grounded": image_summary,
+    }.items():
+        observed = summary.to_dict()
+        observed.pop("trajectory_id")
+        if observed != expected_summaries[key]:
+            raise GateError(f"MM-001 valid fixture summary mismatch: {key}")
+
+    invalid_fixtures = metadata.get("invalid_fixtures")
+    if not isinstance(invalid_fixtures, dict) or not invalid_fixtures:
+        raise GateError("MM-001 invalid fixture metadata missing")
+    for filename, expected_code in invalid_fixtures.items():
+        if not isinstance(filename, str) or not isinstance(expected_code, str):
+            raise GateError("MM-001 invalid fixture metadata malformed")
+        try:
+            validate_trajectory_file(
+                (TRAJECTORY_FIXTURE_ROOT / "invalid" / filename).resolve()
+            )
+        except TrajectoryValidationError as exc:
+            if exc.code != expected_code:
+                raise GateError(
+                    f"MM-001 invalid fixture code mismatch: {filename}"
+                ) from exc
+        else:
+            raise GateError(f"MM-001 invalid fixture passed: {filename}")
+
+    expected_outcome = {
+        "schema_review_complete": True,
+        "text_only_fixture_validated": True,
+        "image_grounded_fixture_validated": True,
+        "shared_versioned_topology": True,
+        "synthetic_only": True,
+        "runtime_repository_changed": False,
+        "capture_adapter_implemented": False,
+        "real_episode_collected": False,
+        "dataset_split_assigned": False,
+        "license_approved": False,
+        "training_eligible": False,
+        "execution_eligible": False,
+        "runtime_eligible": False,
+    }
+    if metadata.get("review_outcome") != expected_outcome:
+        raise GateError("MM-001 review outcome mismatch")
+    next_gate = metadata.get("next_gate")
+    if next_gate != "MM-002-gui-grounding-data-eval-v1":
+        raise GateError("MM-001 next gate mismatch")
+    return {
+        "schema_review_complete": True,
+        "schema_version": text_summary.schema_version,
+        "modalities": [text_summary.modality, image_summary.modality],
+        "text_artifacts": text_summary.artifact_count,
+        "image_artifacts": image_summary.artifact_count,
+        "image_previous_steps": image_summary.previous_step_count,
+        "training_eligible": False,
+        "execution_eligible": False,
+        "real_episode_collected": False,
         "next_gate": next_gate,
     }
 
