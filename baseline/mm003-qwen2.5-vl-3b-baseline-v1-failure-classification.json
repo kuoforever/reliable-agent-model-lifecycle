@@ -1,0 +1,112 @@
+{
+  "failure_classification_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-instruct-baseline-v1",
+  "failed_gate_id": "MM-003-local-small-vlm-baseline-execution-v1",
+  "receipt_captured_at_utc": "2026-08-17T06:00:39Z",
+  "protocol": {
+    "definition_gate_id": "MM-003-multimodal-gui-action-model-v1",
+    "freeze_commit": "759a4ea2cbc6b45c78451bcbcdf2c26271c7af78",
+    "preregistration": {
+      "path": "configs/mm003_multimodal_gui_action_model_baseline_v1.json",
+      "bytes": 11151,
+      "sha256": "sha256:0046143f2c8badb5b2eaa809ac4c7abce81d1c0a5156fe2668b4e5cf9668aa10"
+    }
+  },
+  "source_bindings": {
+    "contract": {
+      "path": "src/fullcycle_bridge/mm003_baseline_protocol.py",
+      "bytes": 29420,
+      "sha256": "sha256:e8ed98ed2f90c7001aa93cff15093288cdca3bdb35544216dbdefa648d80e9ef"
+    },
+    "runner": {
+      "path": "scripts/run_mm003_multimodal_gui_action_baseline.py",
+      "bytes": 31983,
+      "sha256": "sha256:42cc765d6d698a539123dc341245e7df379bdc67c4d312aaef22131752cf3c84"
+    },
+    "scorer": {
+      "path": "src/fullcycle_bridge/gui_grounding_eval.py",
+      "bytes": 36709,
+      "sha256": "sha256:edd7ce34365779b2e23ea1e733077bf194189073aced68d8932d71e57c15f97d"
+    }
+  },
+  "attempt": {
+    "attempt_ordinal": 1,
+    "fresh_model_load_completed": true,
+    "full_eval_run_completed": false,
+    "generation_calls_completed": 9,
+    "generation_progress_basis": "traceback reached score_predictions after the exhaustive frozen nine-case loop",
+    "scoring_started": true,
+    "operator_retry_count": 0,
+    "artifacts_written": false,
+    "output_directory_absent_after_failure": true
+  },
+  "failure": {
+    "classification": "post_generation_scoring_empty_optional_metric_denominator",
+    "category": "scoring_contract_totality",
+    "exception_type": "fullcycle_bridge.gui_grounding_eval.GuiGroundingValidationError",
+    "code": "EMPTY_METRIC_DENOMINATOR",
+    "location": "$report.metrics",
+    "metric": "prediction_coordinate_ref_disagreement_rate",
+    "trigger": "no compiled prediction supplied both a non-null ref and bbox",
+    "core_suite_denominator_failure": false,
+    "cuda_or_model_load_failure": false
+  },
+  "recoverability": {
+    "raw_model_outputs": false,
+    "compiled_predictions": false,
+    "per_case_latency": false,
+    "aggregate_resources": false,
+    "mm002_metrics": false,
+    "reason": "the v1 runner writes all three artifacts only after scoring; process-local results were not persisted before the exception"
+  },
+  "evidence_policy": {
+    "control_flow_inference_explicit": true,
+    "external_process_trace_attested": false,
+    "raw_outputs_available": false,
+    "eval_answer_tuning": false,
+    "prompt_changed_after_observation": false,
+    "compiler_changed_after_observation": false,
+    "model_or_revision_changed": false,
+    "training_performed": false,
+    "runtime_connected": false,
+    "desktop_connected": false
+  },
+  "formal_gate_passed": false,
+  "claims": {
+    "baseline_execution_attempted": true,
+    "baseline_executed": false,
+    "model_evaluated": false,
+    "post_training_complete": false,
+    "adapter_loadable": false,
+    "real_content_collected": false,
+    "cross_machine_reproducibility_established": false,
+    "portable_package_eligible": false,
+    "serving_readiness_established": false,
+    "artifact_promotion_allowed": false,
+    "runtime_eligible": false
+  },
+  "locked_next_action": {
+    "gate_id": "MM-003-local-small-vlm-baseline-recovery-protocol-v2",
+    "action": "freeze a new outcome-neutral protocol that represents a zero denominator for the prediction-dependent diagnostic as not applicable and persists raw and compiled outputs before scoring",
+    "acceptance": {
+      "v1_failure_receipt_bound": true,
+      "optional_metric_zero_denominator_is_not_applicable": true,
+      "raw_outputs_persist_before_scoring": true,
+      "compiled_predictions_persist_before_scoring": true,
+      "scoring_failure_receipt_persisted": true,
+      "new_run_requires_new_merged_freeze_commit": true
+    },
+    "constraints": {
+      "v1_artifacts_rewritten": false,
+      "eval_answers_changed": false,
+      "synthetic_inputs_changed": false,
+      "prompt_changed": false,
+      "compiler_changed": false,
+      "model_or_revision_changed": false,
+      "training": false,
+      "runtime_integration": false
+    }
+  },
+  "runtime_eligible": false,
+  "report_digest": "sha256:41f06fb7f7d7a2d586dab8f50118143e5e58d39069ccc54a8339811f48649316"
+}

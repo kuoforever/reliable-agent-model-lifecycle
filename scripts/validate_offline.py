@@ -47,6 +47,9 @@ MM003_PREREGISTRATION_PATH = (
 MM003_PREREGISTRATION_SHA256 = (
     "sha256:0046143f2c8badb5b2eaa809ac4c7abce81d1c0a5156fe2668b4e5cf9668aa10"
 )
+MM003_FAILURE_CLASSIFICATION_PATH = (
+    ROOT / "baseline" / "mm003-qwen2.5-vl-3b-baseline-v1-failure-classification.json"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -352,6 +355,7 @@ def main() -> int:
     trajectory_contract = _validate_multimodal_trajectory_contract()
     gui_grounding_eval = _validate_gui_grounding_eval()
     mm003_baseline_protocol = _validate_mm003_baseline_protocol()
+    mm003_failure = _validate_mm003_baseline_failure_classification()
     tests_run = _run_tests()
 
     result = {
@@ -414,7 +418,10 @@ def main() -> int:
         "mm003_baseline_model_revision": mm003_baseline_protocol["model_revision"],
         "mm003_baseline_cases": mm003_baseline_protocol["case_count"],
         "mm003_baseline_model_evaluated": mm003_baseline_protocol["model_evaluated"],
-        "mm003_baseline_next_gate": mm003_baseline_protocol["next_gate"],
+        "mm003_baseline_attempted": mm003_failure["baseline_attempted"],
+        "mm003_baseline_formal_gate_passed": mm003_failure["formal_gate_passed"],
+        "mm003_baseline_failure_classification": mm003_failure["classification"],
+        "mm003_baseline_next_gate": mm003_failure["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1650,6 +1657,36 @@ def _validate_mm003_baseline_protocol() -> dict[str, Any]:
         "case_count": preregistration["scope"]["case_count"],
         "model_evaluated": False,
         "next_gate": next_gate,
+    }
+
+
+def _validate_mm003_baseline_failure_classification() -> dict[str, Any]:
+    from fullcycle_bridge import mm003_baseline_failure_classification as failure
+    from fullcycle_bridge import mm003_baseline_protocol as protocol
+
+    payload = _read_regular_file_once(
+        MM003_FAILURE_CLASSIFICATION_PATH, "MM-003 failure classification"
+    )
+    raw = protocol.parse_strict_json_bytes(
+        payload, location="$.mm003_failure_classification"
+    )
+    if not isinstance(raw, dict):
+        raise GateError("MM-003 failure classification must be an object")
+    result = failure.validate_failure_classification(ROOT, raw)
+    if (
+        result["formal_gate_passed"] is not False
+        or result["claims"]["baseline_execution_attempted"] is not True
+        or result["claims"]["baseline_executed"] is not False
+        or result["claims"]["model_evaluated"] is not False
+        or result["claims"]["runtime_eligible"] is not False
+        or result["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 failure-classification boundary mismatch")
+    return {
+        "baseline_attempted": True,
+        "formal_gate_passed": False,
+        "classification": result["failure"]["classification"],
+        "next_gate": result["locked_next_action"]["gate_id"],
     }
 
 

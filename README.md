@@ -144,9 +144,12 @@ It pins `Qwen/Qwen2.5-VL-3B-Instruct` at revision
 `66285546d2b821cf421d4f5eb2576359d3770cd3`, all 14 model-file hashes, the
 Transformers BF16/SDPA environment, deterministic UIA/screenshot/fused inputs,
 strict output compilation, resource caps, and fail-closed claims. A blank-image
-compatibility smoke passed, but the formal MM-002 run has not occurred;
-`model_evaluated=false` and `runtime_eligible=false`. See the
-[MM-003 protocol](docs/MM-003-multimodal-gui-action-model-v1.md).
+compatibility smoke passed. The first formal attempt later completed nine
+generation calls but failed in scoring because a prediction-dependent metric
+had no applicable `ref`+`bbox` pair. No result artifact or model metric was
+recovered, no retry occurred, and `model_evaluated=false` and
+`runtime_eligible=false`. See the [MM-003 protocol](docs/MM-003-multimodal-gui-action-model-v1.md)
+and [failure classification](docs/MM-003-local-small-vlm-baseline-failure-classification-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -561,14 +564,17 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-003-local-small-vlm-baseline-execution-v1`. The
-outcome-neutral protocol is frozen; execute it once from its merge commit on
-the local RTX 4090 Laptop GPU, with one fresh load, nine ordered calls, zero
-retries, and offline inference. Validate and report overall and per-mode task
-metrics, steps, fallback, GPU memory, and latency without changing the model,
-prompt, compiler, inputs, or caps after seeing output. Every result remains a
-candidate only; no direct execution authority, serving, promotion, commercial
-eligibility, or Runtime eligibility is implied.
+The current local work is
+`MM-003-local-small-vlm-baseline-recovery-protocol-v2`. The v1 attempt has been
+classified, not retried: it reached scoring after nine calls, then failed on a
+zero denominator for the prediction-dependent disagreement diagnostic before
+writing artifacts. Freeze a separate v2 protocol that represents this metric
+as `not_applicable` when no prediction supplies both `ref` and `bbox`, persists
+raw and compiled outputs before scoring, and writes a scoring-failure receipt.
+Do not change the frozen suite, model/revision, prompt, compiler, generation
+settings, or eval answers; do not run v2 until its protocol is merged. No
+direct execution authority, serving, promotion, commercial eligibility, or
+Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
