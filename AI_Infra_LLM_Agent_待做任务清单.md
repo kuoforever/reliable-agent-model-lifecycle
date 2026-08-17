@@ -550,13 +550,29 @@ agent-model-factory/
   environment preflight 异常纳入 failure receipt。hardened freeze 在固定 run directory
   exclusive create 后覆盖全部这些 stage；measured train/eval timer 从该边界持续到
   post-score resource sampling，evidence persistence 仍 fail-closed 但不进入 elapsed；
-  仍未运行 training、model eval 或 retry。
+  在该 freeze/merge 时仍未运行 training、model eval 或 retry。
 - focused 13 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 531-test gates 通过，`valid=true`、47
-  source files、4 个 Windows privilege skips。当前所有 training/result/promotion/
-  serving/commercial/Runtime claims 仍为 false。
-- 当前唯一动作切换为 `MM-003-small-vlm-post-training-execution-v1`：先合并 frozen
-  protocol，再按已注册路径执行一次 QLoRA train/save/fresh reload/unchanged MM-002
-  eval，zero retry；失败不得重试或用未合并代码执行。
+  source files、4 个 Windows privilege skips。这些是 v1 protocol freeze 的验证数字。
+- 合并 PR #38 后，`MM-003-small-vlm-post-training-execution-v1` 在本机仅调用一次。
+  exact preflight 通过后，runner 在 `training` stage 的首条冻结记录
+  `pt-train-018/fused` 上抛出 `MM003ProtocolError`；zero retry，输出目录仅有
+  897-byte `failure.json`，SHA-256
+  `8c82455b406c66a038deaaadeb9251b9eb626145a5f31d36b04d5ad7d10c72d9`。
+  Adapter/training-run/predictions/evidence 均不存在，12 项结果/部署 claims 全 false。
+- `MM-003-small-vlm-post-training-failure-classification-v1` 已绑定 freeze
+  `a882e6096a87e475511890be9fc804a468143868`、17,601-byte preregistration、十个
+  source receipts 与 raw failure receipt。model-free 静态复现显示全部 27 个 `pt-*`
+  record 都因 training renderer 错用仅接受 `ground-*` 的 baseline registry 而触发
+  `CASE_MODE_MISMATCH at $.case`；不是 fixture mode、CUDA、checkpoint、optimizer 或
+  scoring failure。15,877-byte classification SHA-256 为
+  `66b9e8352caacd1a10e750a222ce2a0a7994df385e23e31dbc76a68b6109aef6`；它直接读取
+  两个 tracked fixture receipt，并锁定 v1 完整等价子树、v2 允许差异 whitelist 及
+  protocol/execution/experiment/output/success-next 精确身份。
+- failure focused 6 tests 与 CPython 3.11.15/3.12.12/3.13.7 unified 537-test gates
+  通过，`valid=true`、48 source files、4 个 Windows privilege skips。当前唯一动作切换为
+  `MM-003-small-vlm-post-training-recovery-protocol-v2`：保持 v1 不变，冻结独立
+  `pt-*` prompt projection、27-case preflight/prompt receipts、新 gate/experiment/
+  output dir；合并前不得执行 v2，且 v2 不是 v1 retry。
 
 ## MM-004：多模态困难负样本
 

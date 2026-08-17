@@ -1,7 +1,7 @@
 # MM-003 small-VLM post-training protocol v1
 
-> Status: frozen locally before any registered training execution; merge this
-> protocol before running `MM-003-small-vlm-post-training-execution-v1`.
+> Status: merged and consumed by one registered execution with zero retry; the
+> v1 failure is classified and this protocol must not be executed again.
 
 ## Decision
 
@@ -152,14 +152,22 @@ CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates pass 531 tests with
 four expected Windows privilege skips, `valid=true`, and 47 audited source
 files.
 
-After this protocol is merged, execute exactly once:
+This protocol was merged and executed exactly once with freeze commit
+`a882e6096a87e475511890be9fc804a468143868`:
 
 ```powershell
 .\work\training-env\Scripts\python.exe scripts\run_mm003_qlora_post_training.py run `
   --model-snapshot <exact-pinned-local-snapshot> `
-  --protocol-freeze-commit <merged-protocol-commit> `
+  --protocol-freeze-commit a882e6096a87e475511890be9fc804a468143868 `
   --output-dir <repo-root>\work\training-runs\mm003-qlora-sft-v1
 ```
 
-Do not run that command from an unmerged tree, substitute eval data, retry a
-failed formal attempt, or treat candidate model output as execution authority.
+The run failed in the training stage before the first model forward because
+the training input renderer delegated `pt-*` records to the baseline-only
+`ground-*` case registry. The 897-byte failure receipt records zero retries,
+`formal_gate_passed=false`, and all result/eligibility claims false. Do not run
+that command again, delete the v1 failure directory, substitute eval data, or
+treat candidate model output as execution authority. See the
+[v1 failure classification](MM-003-small-vlm-post-training-failure-classification-v1.md).
+The exact next gate is a separately frozen
+`MM-003-small-vlm-post-training-recovery-protocol-v2`.

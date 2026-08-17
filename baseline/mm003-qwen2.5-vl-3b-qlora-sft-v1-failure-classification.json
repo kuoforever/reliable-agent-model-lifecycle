@@ -1,0 +1,402 @@
+{
+  "failure_classification_version": 1,
+  "classification_gate_id": "MM-003-small-vlm-post-training-failure-classification-v1",
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v1",
+  "failed_gate_id": "MM-003-small-vlm-post-training-execution-v1",
+  "protocol": {
+    "definition_gate_id": "MM-003-small-vlm-post-training-protocol-v1",
+    "freeze_commit": "a882e6096a87e475511890be9fc804a468143868",
+    "preregistration": {
+      "path": "configs/mm003_small_vlm_post_training_protocol_v1.json",
+      "bytes": 17601,
+      "sha256": "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061"
+    }
+  },
+  "source_bindings": {
+    "base_contract_v1": {
+      "path": "src/fullcycle_bridge/mm003_baseline_protocol.py",
+      "bytes": 29420,
+      "sha256": "sha256:e8ed98ed2f90c7001aa93cff15093288cdca3bdb35544216dbdefa648d80e9ef"
+    },
+    "base_contract_v2": {
+      "path": "src/fullcycle_bridge/mm003_baseline_protocol_v2.py",
+      "bytes": 9510,
+      "sha256": "sha256:7f78be367acba8116692aa2527b88351c4d038c425db8548eed90a9cacbd21f6"
+    },
+    "base_runner_v2": {
+      "path": "scripts/run_mm003_multimodal_gui_action_baseline_v2.py",
+      "bytes": 27552,
+      "sha256": "sha256:21780a02d450d6618f602a2d2744ee703df96d08c2221e0740348ccd55292f42"
+    },
+    "base_scorer_v1": {
+      "path": "src/fullcycle_bridge/gui_grounding_eval.py",
+      "bytes": 36709,
+      "sha256": "sha256:edd7ce34365779b2e23ea1e733077bf194189073aced68d8932d71e57c15f97d"
+    },
+    "base_scorer_v2": {
+      "path": "src/fullcycle_bridge/gui_grounding_eval_v2.py",
+      "bytes": 7269,
+      "sha256": "sha256:96c32d1b6ceb32b5b152933e8e82427a5088e7b9cdf2603d3cf5a095355d4aa9"
+    },
+    "fixture_builder": {
+      "path": "scripts/build_mm003_post_training_fixture.py",
+      "bytes": 1975,
+      "sha256": "sha256:34d5d149e9f5f611009dd8a34bf316f511d65bf234dd31447015aa200a4fe210"
+    },
+    "post_training_contract": {
+      "path": "src/fullcycle_bridge/mm003_post_training_protocol.py",
+      "bytes": 27189,
+      "sha256": "sha256:c824f6a759712e6555380751541a902e2dad9af547491d85a8efe708cb14c63b"
+    },
+    "post_training_runner": {
+      "path": "scripts/run_mm003_qlora_post_training.py",
+      "bytes": 38378,
+      "sha256": "sha256:7eff900285cccd0fa16d8bcede5cf2921d796009fa2c48ed550d2bb6722127a7"
+    },
+    "qlora_backend_smoke": {
+      "path": "scripts/smoke_mm003_qlora_backend.py",
+      "bytes": 8653,
+      "sha256": "sha256:1e6ab628cec96ef2656ae379d32781d2b1c9be0736182571c1e0ab9712e6580b"
+    },
+    "training_lock": {
+      "path": "requirements/mm003_qlora_training.lock",
+      "bytes": 333,
+      "sha256": "sha256:792d70759560681a4d7c60ae2e4831a422b3825f5308f1124a804ffbb6563c42"
+    }
+  },
+  "failure_receipt": {
+    "source_path": "work/training-runs/mm003-qlora-sft-v1/failure.json",
+    "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v1-failure.json",
+    "bytes": 897,
+    "sha256": "sha256:8c82455b406c66a038deaaadeb9251b9eb626145a5f31d36b04d5ad7d10c72d9",
+    "directory_entries_observed": [
+      "failure.json"
+    ],
+    "content": {
+      "failure_version": 1,
+      "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v1",
+      "gate_id": "MM-003-small-vlm-post-training-execution-v1",
+      "protocol_freeze_commit": "a882e6096a87e475511890be9fc804a468143868",
+      "preregistration_sha256": "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061",
+      "stage": "training",
+      "exception_type": "MM003ProtocolError",
+      "retry_count": 0,
+      "formal_gate_passed": false,
+      "claims": {
+        "training_executed": false,
+        "adapter_created": false,
+        "adapter_independently_loadable": false,
+        "model_evaluated": false,
+        "quality_improved": false,
+        "repeatability_established": false,
+        "cross_machine_reproducibility": false,
+        "portable_artifact": false,
+        "commercial_use_eligible": false,
+        "serving_eligible": false,
+        "promotion_eligible": false,
+        "runtime_eligible": false
+      },
+      "runtime_eligible": false
+    }
+  },
+  "attempt": {
+    "attempt_ordinal": 1,
+    "registered_lifecycle_consumed": true,
+    "registered_preflight_completed_by_control_flow": true,
+    "training_stage_entered": true,
+    "operator_retry_count": 0,
+    "model_and_lora_setup_reached_by_control_flow": true,
+    "training_records_encoded_by_control_flow": 0,
+    "model_forward_calls_by_control_flow": 0,
+    "backward_calls_by_control_flow": 0,
+    "optimizer_steps_completed_by_control_flow": 0,
+    "eval_generate_calls_by_control_flow": 0,
+    "model_load_completion_attested": false,
+    "optimizer_step_evidence_available": false,
+    "adapter_artifacts_written": false,
+    "training_run_artifact_written": false,
+    "predictions_artifact_written": false,
+    "evidence_artifact_written": false
+  },
+  "failure": {
+    "classification": "pre_forward_training_prompt_eval_case_registry_mismatch",
+    "category": "training_prompt_contract_totality",
+    "exception_type": "MM003ProtocolError",
+    "receipt_exception_code_available": false,
+    "receipt_exception_location_available": false,
+    "static_reproduction": {
+      "training_seed": 20260817,
+      "epoch_one_shuffle_seed": 20260818,
+      "first_case_id": "pt-train-018",
+      "first_record_zero_based_index": 17,
+      "first_case_observation_mode": "fused",
+      "records_checked": 27,
+      "records_failed": 27,
+      "exception_type": "MM003ProtocolError",
+      "code": "CASE_MODE_MISMATCH",
+      "location": "$.case",
+      "baseline_registered_case_count": 9,
+      "post_training_ids_in_baseline_registry": 0,
+      "tracked_fixture_receipts_verified": 2,
+      "model_or_gpu_used": false
+    },
+    "trigger": "the post-training renderer delegated pt-* records to the MM-002 ground-* CASE_MODES registry",
+    "training_fixture_mode_invalid": false,
+    "cuda_or_checkpoint_failure": false,
+    "model_forward_failure": false,
+    "optimizer_failure": false,
+    "scoring_failure": false
+  },
+  "recoverability": {
+    "failure_receipt": true,
+    "deterministic_root_cause": true,
+    "adapter": false,
+    "training_metrics": false,
+    "post_training_predictions": false,
+    "mm002_metrics": false,
+    "reason": "the first frozen training record failed before processor encoding, forward, backward, optimizer step, Adapter save, or eval"
+  },
+  "evidence_policy": {
+    "exact_failure_receipt_available": true,
+    "local_source_receipt_verified_at_classification": true,
+    "clean_validation_uses_tracked_canonical_copy": true,
+    "formal_terminal_trace_persisted": false,
+    "static_root_cause_reproduction_without_model": true,
+    "control_flow_inference_explicit": true,
+    "model_load_completion_attested": false,
+    "optimizer_step_attested": false,
+    "eval_answer_tuning": false,
+    "model_or_revision_changed": false,
+    "training_data_changed": false,
+    "runtime_connected": false,
+    "desktop_connected": false
+  },
+  "formal_gate_passed": false,
+  "claims": {
+    "post_training_execution_attempted": true,
+    "training_executed": false,
+    "adapter_created": false,
+    "adapter_independently_loadable": false,
+    "model_evaluated": false,
+    "quality_improved": false,
+    "repeatability_established": false,
+    "cross_machine_reproducibility": false,
+    "portable_artifact": false,
+    "commercial_use_eligible": false,
+    "serving_eligible": false,
+    "promotion_eligible": false,
+    "runtime_eligible": false
+  },
+  "locked_next_action": {
+    "gate_id": "MM-003-small-vlm-post-training-recovery-protocol-v2",
+    "execution_gate_id": "MM-003-small-vlm-post-training-execution-v2",
+    "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2",
+    "output_directory": "work/training-runs/mm003-qlora-sft-v2",
+    "success_next_gate_id": "MM-003-small-vlm-post-training-result-review-v2",
+    "action": "freeze a separate outcome-neutral v2 protocol with a post-training-specific prompt projection and complete 27-record prompt preflight before any dependency or model load",
+    "acceptance": {
+      "v1_failure_receipt_bound": true,
+      "v1_execution_not_retried": true,
+      "baseline_ground_case_registry_unchanged": true,
+      "post_training_case_registry_is_separate": true,
+      "all_27_prompts_render_during_preflight": true,
+      "prompt_projection_excludes_gold_and_raw_regions": true,
+      "prompt_receipts_frozen": true,
+      "new_gate_experiment_and_output_directory": true,
+      "new_run_requires_new_merged_freeze_commit": true
+    },
+    "lineage_requirements": {
+      "v1_preregistration": {
+        "path": "configs/mm003_small_vlm_post_training_protocol_v1.json",
+        "bytes": 17601,
+        "sha256": "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061"
+      },
+      "v1_failure_receipt": {
+        "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v1-failure.json",
+        "bytes": 897,
+        "sha256": "sha256:8c82455b406c66a038deaaadeb9251b9eb626145a5f31d36b04d5ad7d10c72d9"
+      },
+      "v1_failure_classification": {
+        "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v1-failure-classification.json",
+        "file_receipt_required_at_v2_freeze": true,
+        "report_digest_required_at_v2_freeze": true
+      },
+      "v1_protocol_source_receipts": [
+        "base_contract_v1",
+        "base_contract_v2",
+        "base_runner_v2",
+        "base_scorer_v1",
+        "base_scorer_v2",
+        "fixture_builder",
+        "post_training_contract",
+        "post_training_runner",
+        "qlora_backend_smoke",
+        "training_lock"
+      ]
+    },
+    "v1_sections_exactly_preserved": [
+      "authority_contract",
+      "model",
+      "source_lineage.negative_baseline",
+      "source_lineage.baseline_preregistration",
+      "source_lineage.training_data",
+      "source_lineage.validation_data",
+      "source_lineage.training_screenshots",
+      "source_lineage.unchanged_mm002_eval",
+      "source_lineage.eval_isolation",
+      "source_lineage.bitsandbytes_wheel",
+      "environment",
+      "compatibility_smoke",
+      "training_protocol",
+      "evaluation_protocol",
+      "outputs.required_adapter_files",
+      "outputs.writes_are_exclusive",
+      "resource_caps",
+      "formal_gate.quality_threshold_required",
+      "claims",
+      "runtime_eligible"
+    ],
+    "allowed_difference_policy": {
+      "comparison_base": "configs/mm003_small_vlm_post_training_protocol_v1.json",
+      "comparison_unit": "recursive_json_leaf",
+      "arrays_compared_atomically": true,
+      "unlisted_existing_leaf_values_must_be_identical": true,
+      "unlisted_v1_fields_may_be_removed": false,
+      "unlisted_v2_fields_may_be_added": false,
+      "listed_container_replacement_authorized": false,
+      "whitelist_diff_test_required": true
+    },
+    "required_v2_values": {
+      "preregistration_version": 2,
+      "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2",
+      "gate_id": "MM-003-small-vlm-post-training-recovery-protocol-v2",
+      "decision": "outcome_neutral_qlora_training_and_measurement_recovery_protocol",
+      "outputs.adapter_directory": "work/training-runs/mm003-qlora-sft-v2/adapter",
+      "outputs.training_run": "work/training-runs/mm003-qlora-sft-v2/training-run.json",
+      "outputs.predictions": "work/training-runs/mm003-qlora-sft-v2/mm002-predictions.json",
+      "outputs.evidence": "work/training-runs/mm003-qlora-sft-v2/evidence.json",
+      "outputs.failure": "work/training-runs/mm003-qlora-sft-v2/failure.json",
+      "formal_gate.required_gates": [
+        "protocol_integrity",
+        "exact_model_files",
+        "locked_environment",
+        "training_fixture_integrity",
+        "post_training_prompt_projection_totality",
+        "eval_isolation",
+        "offline_single_training_run",
+        "adapter_artifact_integrity",
+        "independent_adapter_load",
+        "unchanged_mm002_eval",
+        "total_scoring",
+        "resource_caps",
+        "fail_closed_claims"
+      ],
+      "next_gate_after_freeze.gate_id": "MM-003-small-vlm-post-training-execution-v2",
+      "next_gate_after_freeze.action": "execute the separately frozen v2 QLoRA lifecycle exactly once, save the Adapter, independently reload base plus Adapter, and run the unchanged nine-case MM-002 evaluation with zero retries",
+      "success_next_gate_after_execution": {
+        "gate_id": "MM-003-small-vlm-post-training-result-review-v2",
+        "action": "review the outcome-neutral v2 training, Adapter, independent reload, unchanged MM-002 evaluation, and resource evidence without inferring promotion"
+      }
+    },
+    "allowed_v2_differences": {
+      "exact_value_replacements": [
+        "preregistration_version",
+        "experiment_id",
+        "gate_id",
+        "decision",
+        "outputs.adapter_directory",
+        "outputs.training_run",
+        "outputs.predictions",
+        "outputs.evidence",
+        "outputs.failure",
+        "formal_gate.required_gates",
+        "next_gate_after_freeze.gate_id",
+        "next_gate_after_freeze.action"
+      ],
+      "source_lineage.protocol_sources": {
+        "v1_receipts_exactly_preserved": [
+          "base_contract_v1",
+          "base_contract_v2",
+          "base_runner_v2",
+          "base_scorer_v1",
+          "base_scorer_v2",
+          "fixture_builder",
+          "post_training_contract",
+          "post_training_runner",
+          "qlora_backend_smoke",
+          "training_lock"
+        ],
+        "required_additions": {
+          "post_training_contract_v2": {
+            "path": "src/fullcycle_bridge/mm003_post_training_protocol_v2.py",
+            "sha256_required": true
+          },
+          "post_training_runner_v2": {
+            "path": "scripts/run_mm003_qlora_post_training_v2.py",
+            "sha256_required": true
+          }
+        },
+        "other_additions_removals_or_replacements_allowed": false
+      },
+      "authorized_new_sections": {
+        "source_lineage.v1_failure_lineage": {
+          "closed_schema": true,
+          "required_receipts": [
+            "v1_preregistration",
+            "v1_failure_receipt",
+            "v1_failure_classification"
+          ],
+          "exact_file_receipts_required": true
+        },
+        "prompt_projection": {
+          "closed_schema": true,
+          "deterministic_builder_recomputation_required": true,
+          "registry_records": 27,
+          "case_ids_and_modes_from_tracked_fixtures": true,
+          "payload_root_fields": [
+            "case_id",
+            "observation_mode",
+            "instruction",
+            "available_tools",
+            "observation"
+          ],
+          "forbidden_source_fields": [
+            "family_id",
+            "training_repeat_group",
+            "target",
+            "model_input.observation.screenshot_regions"
+          ],
+          "baseline_ground_case_registry_unchanged": true,
+          "all_prompts_before_dependency_or_model_load": true
+        },
+        "prompt_receipts": {
+          "closed_schema": true,
+          "deterministic_builder_recomputation_required": true,
+          "per_case_receipts": 27,
+          "per_case_fields": [
+            "case_id",
+            "observation_mode",
+            "bytes",
+            "sha256"
+          ],
+          "aggregate_digest_required": true
+        },
+        "success_next_gate_after_execution": {
+          "exact_value_required": true
+        }
+      }
+    },
+    "constraints": {
+      "v1_failure_directory_deleted": false,
+      "v1_failure_receipt_rewritten": false,
+      "v1_execution_retried": false,
+      "eval_answers_changed": false,
+      "model_or_revision_changed": false,
+      "training_data_changed": false,
+      "hyperparameters_changed": false,
+      "runtime_integration": false
+    }
+  },
+  "runtime_eligible": false,
+  "report_digest": "sha256:85fddade5e6a3c665771c6cb74c5e610f003817b3eddf5a21f1b2a070ea1dd53"
+}

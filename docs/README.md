@@ -33,6 +33,7 @@ English companion documents.
 | Local small-VLM recovery protocol v2 | [MM-003 recovery protocol](MM-003-local-small-vlm-baseline-recovery-protocol-v2.md) | Total optional metric + pre-score persistence frozen before execution |
 | Local small-VLM baseline v2 evidence | [MM-003 baseline v2](MM-003-local-small-vlm-baseline-v2.md) | Formal execution gate passed; strict compiler fallback 9/9 and quality 0 |
 | Local small-VLM QLoRA post-training protocol v1 | [MM-003 post-training protocol](MM-003-small-vlm-post-training-protocol-v1.md) | Training-only fixtures, exact QLoRA pins, independent Adapter reload, and unchanged eval frozen before training |
+| Local small-VLM QLoRA post-training failure classification v1 | [MM-003 post-training failure classification](MM-003-small-vlm-post-training-failure-classification-v1.md) | Pre-forward prompt-registry mismatch bound; v1 consumed with no retry or result |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |
