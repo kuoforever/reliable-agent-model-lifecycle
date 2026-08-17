@@ -105,25 +105,31 @@ recovery protocol froze total optional-metric semantics and pre-score
 candidate persistence without changing the model, inputs, prompt, compiler,
 generation, or eval answers. Its single merged v2 execution has since passed
 the formal measurement gate while producing 9/9 compiler fallbacks and zero
-task accuracy.
+task accuracy. A separate QLoRA post-training protocol is now frozen locally
+before any registered training. It binds reviewed training-only fixtures, an
+exact NF4/LoRA environment and seed, resource caps, Adapter artifacts, a fresh
+independent Adapter reload, and the unchanged MM-002 eval. Exact-identity
+isolation finds no eval overlap; training and result claims remain false.
 
 ## Single active objective
 
-Complete `MM-003-small-vlm-post-training-protocol-v1`:
+Complete `MM-003-small-vlm-post-training-execution-v1`:
 
 ```text
-frozen negative baseline + training-only reviewed inputs
-        -> preregister exact QLoRA seed/config/caps and Adapter outputs
-unchanged MM-002 eval + independent Adapter-load gate + zero retry
-        -> freeze and merge before any training, never direct execution
+merged frozen post-training protocol + exact local model/dependencies
+        -> one QLoRA train/save lifecycle with zero retry
+delete training lifecycle + fresh base and independent Adapter load
+        -> unchanged nine-case MM-002 eval + evidence, never direct execution
 ```
 
-Freeze a separate outcome-neutral post-training protocol before any training.
-Bind reviewed training-only inputs, exact QLoRA configuration and seed, resource
-caps, checkpoint/Adapter artifacts, an independent Adapter-load check, and the
-unchanged frozen MM-002 eval. Eval gold must remain excluded from training. Do
-not modify or rerun the v2 baseline, start training before merge, or add Runtime,
-serving, commercial-use, or promotion claims.
+Merge the already frozen outcome-neutral post-training protocol before any
+registered training, then execute it exactly once locally. The run must use the
+exact training-only inputs and QLoRA pins, write the Adapter, delete the
+training lifecycle, independently reload base plus Adapter, and run the
+unchanged frozen MM-002 eval. Eval gold remains excluded from training. Do not
+modify or rerun the v2 baseline, retry a failed formal run, or add Runtime,
+serving, commercial-use, quality-improvement, repeatability, or promotion
+claims without their separate evidence.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -158,6 +164,39 @@ remains executing the frozen runbook on one independent qualifying host;
 cross-machine and portable-package claims remain false until that evidence
 validates.
 [Protocol](docs/FC-MVP-001-fp32-attached-portable-package-qualification-v1.md).
+
+`MM-003-small-vlm-post-training-protocol-v1` froze locally on 2026-08-17
+before any registered training. Its 17,601-byte preregistration has SHA-256
+`e965d240bff9195daca2b2945ca91a567fc8b3f97f929e689aa79aff18292390` and
+binds ten protocol sources, the exact 14-file model snapshot, a dedicated
+dependency lock, and the 37,961,070-byte bitsandbytes 0.50.1 Win64 wheel with
+SHA-256
+`86f76e8a3278fbbfc3fa0d79d1c4e706ebc214babd57f0ea30e2da509bbdaad5`.
+
+The deterministic training-only inputs contain 18 train and 9 validation
+records across the full three observation modes × three dispositions grid,
+plus 18 unique synthetic screenshots. Exact-identity isolation against the
+unchanged nine-case MM-002 eval reports empty case/family/instruction/input/
+target/screenshot overlap sets; train and validation families are also
+disjoint. All 27 targets compile exactly under the frozen strict compiler.
+
+The local compatibility smoke uses the registered NF4, BF16 compute, rank-16
+LoRA, and non-reentrant gradient-checkpointing path without eval data or an
+Adapter save. It records 414 `Linear4bit` modules, 7,372,800 trainable
+parameters, finite loss, nonzero finite LoRA gradients, and peak CUDA
+allocated/reserved 3,941,332,480 / 4,273,995,776 bytes. This is backend
+compatibility only, not training or model quality evidence.
+
+Focused 10 tests, deterministic fixture rebuild/check, Ruff, `py_compile`,
+preregistration recomputation, and `git diff --check` pass. CPython 3.12.12
+all pass the unified 528-test gate with `valid=true`, four expected Windows
+privilege skips, and 47 audited source files. Training, Adapter creation and
+loadability, model evaluation, quality improvement, repeatability,
+cross-machine reproducibility, portability, commercial use, serving,
+promotion, and Runtime claims remain false. The exact next gate is
+`MM-003-small-vlm-post-training-execution-v1`, and it may run only after the
+frozen protocol merges.
+[Protocol](docs/MM-003-small-vlm-post-training-protocol-v1.md).
 
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
 2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
@@ -946,7 +985,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; formal zero-shot baseline established at 9/9 fallback, post-training protocol next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; zero-shot baseline established, QLoRA protocol frozen, one post-training execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

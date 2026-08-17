@@ -169,6 +169,23 @@ model quality or Runtime eligibility. See the
 [recovery protocol](docs/MM-003-local-small-vlm-baseline-recovery-protocol-v2.md)
 and [v2 evidence](docs/MM-003-local-small-vlm-baseline-v2.md).
 
+### Local small-VLM QLoRA post-training protocol v1
+
+`MM-003` now freezes the post-training contract before any registered
+training. Deterministic reviewed fixtures provide 18 train and 9 validation
+records across the complete `uia_only / screenshot_only / fused × act /
+reject / fallback` grid, plus 18 synthetic screenshots. Exact-identity audits
+show no overlap with the frozen MM-002 case, family, instruction, complete
+input, target, or screenshot sets.
+
+The protocol pins a local 4-bit NF4 QLoRA lifecycle, seed and hyperparameters,
+the bitsandbytes wheel, resource caps, exact Adapter filenames, and a fresh
+base-plus-Adapter reload before the unchanged nine-case eval. An unrelated
+gradient-checkpointed backward smoke passed locally, but no registered
+training, Adapter, post-training metric, repeatability, quality improvement,
+serving, promotion, or Runtime result exists yet. See the
+[post-training protocol](docs/MM-003-small-vlm-post-training-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -582,14 +599,14 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-003-small-vlm-post-training-protocol-v1`. Freeze
-the exact outcome-neutral QLoRA training/evaluation contract before training:
-training-only inputs, fixed seed/hyperparameters/checkpoint outputs, independent
-Adapter-load validation, the unchanged frozen MM-002 eval, zero retry, and
-resource caps. Do not train until that protocol merges, do not use eval gold as
-training data, and do not reinterpret the 9/9-fallback zero-shot baseline as a
-promotion decision. No direct execution authority, serving, promotion,
-commercial eligibility, or Runtime eligibility is implied.
+The current local work is `MM-003-small-vlm-post-training-execution-v1`. The
+outcome-neutral protocol is frozen locally and must merge before execution.
+After merge, run the registered QLoRA train/save/fresh-reload/unchanged-MM-002
+eval lifecycle exactly once with zero retries. Do not use eval gold as training
+data or reinterpret either protocol compliance or a future metric change as a
+promotion decision. No direct execution authority, repeatability,
+cross-machine reproducibility, serving, promotion, commercial eligibility, or
+Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

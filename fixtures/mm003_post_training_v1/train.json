@@ -1,0 +1,1209 @@
+{
+  "mm003_post_training_dataset_version": 1,
+  "dataset_id": "mm003-reviewed-synthetic-train-v1",
+  "provenance": {
+    "source": "deterministic_reviewed_synthetic_fixture",
+    "synthetic_only": true,
+    "real_content": false,
+    "capture_adapter_used": false,
+    "automatic_lane_a_export_used": false,
+    "mm002_eval_gold_used": false,
+    "model_output_has_execution_authority": false,
+    "runtime_dispatch_required": true
+  },
+  "split_policy": {
+    "split": "train",
+    "optimizer_use": true,
+    "validation_only": false,
+    "family_disjoint_from_mm002_eval": true,
+    "content_disjoint_from_mm002_eval": true,
+    "target_disjoint_from_mm002_eval": true,
+    "screenshot_disjoint_from_mm002_eval": true
+  },
+  "records": [
+    {
+      "case_id": "pt-train-001",
+      "family_id": "pt-train-family-001",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t01 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t01",
+              "role": "button",
+              "name": "OPEN t01",
+              "state": "enabled",
+              "bbox": [
+                63,
+                109,
+                195,
+                171
+              ]
+            },
+            {
+              "ref": "ref-close-t01",
+              "role": "button",
+              "name": "CLOSE t01",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN t01 CLOSE t01",
+          "grounding_cue": {
+            "ref": "ref-open-t01",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-001",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-t01",
+        "bbox": null,
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-002",
+      "family_id": "pt-train-family-002",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t02 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t02",
+              "role": "button",
+              "name": "OPEN t02",
+              "state": "stale",
+              "bbox": [
+                92,
+                146,
+                224,
+                208
+              ]
+            },
+            {
+              "ref": "ref-close-t02",
+              "role": "button",
+              "name": "CLOSE t02",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN t02 CLOSE t02",
+          "grounding_cue": {
+            "ref": "ref-open-t02",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-002",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-003",
+      "family_id": "pt-train-family-003",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t03 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t03",
+              "role": "button",
+              "name": "OPEN t03",
+              "state": "stale",
+              "bbox": [
+                121,
+                183,
+                253,
+                245
+              ]
+            },
+            {
+              "ref": "ref-close-t03",
+              "role": "button",
+              "name": "CLOSE t03",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OTHER t03 CLOSE t03",
+          "grounding_cue": {
+            "ref": "ref-open-t03",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-003",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-train-004",
+      "family_id": "pt-train-family-004",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t04 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t04",
+              "bbox": [
+                150,
+                220,
+                282,
+                282
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t04",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t04 CLOSE t04",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              150,
+              220,
+              282,
+              282
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-004",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          150,
+          220,
+          282,
+          282
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-005",
+      "family_id": "pt-train-family-005",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t05 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t05",
+              "bbox": [
+                179,
+                257,
+                311,
+                319
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE t05",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t05 CLOSE t05",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              179,
+              257,
+              311,
+              319
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-005",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-006",
+      "family_id": "pt-train-family-006",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t06 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OTHER t06",
+              "bbox": [
+                38,
+                104,
+                170,
+                166
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t06",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER t06 CLOSE t06",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              38,
+              104,
+              170,
+              166
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-006",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-train-007",
+      "family_id": "pt-train-family-007",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t07 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t07",
+              "role": "button",
+              "name": "OPEN t07",
+              "state": "enabled",
+              "bbox": [
+                67,
+                141,
+                199,
+                203
+              ]
+            },
+            {
+              "ref": "ref-close-t07",
+              "role": "button",
+              "name": "CLOSE t07",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t07",
+              "bbox": [
+                67,
+                141,
+                199,
+                203
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t07",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t07 CLOSE t07",
+          "grounding_cue": {
+            "ref": "ref-open-t07",
+            "bbox": [
+              67,
+              141,
+              199,
+              203
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-007",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-t07",
+        "bbox": [
+          67,
+          141,
+          199,
+          203
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-008",
+      "family_id": "pt-train-family-008",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t08 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t08",
+              "role": "button",
+              "name": "OPEN t08",
+              "state": "stale",
+              "bbox": [
+                96,
+                178,
+                228,
+                240
+              ]
+            },
+            {
+              "ref": "ref-close-t08",
+              "role": "button",
+              "name": "CLOSE t08",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t08",
+              "bbox": [
+                96,
+                178,
+                228,
+                240
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE t08",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t08 CLOSE t08",
+          "grounding_cue": {
+            "ref": "ref-open-t08",
+            "bbox": [
+              96,
+              178,
+              228,
+              240
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-008",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-009",
+      "family_id": "pt-train-family-009",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t09 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t09",
+              "role": "button",
+              "name": "OPEN t09",
+              "state": "stale",
+              "bbox": [
+                125,
+                215,
+                257,
+                277
+              ]
+            },
+            {
+              "ref": "ref-close-t09",
+              "role": "button",
+              "name": "CLOSE t09",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OTHER t09",
+              "bbox": [
+                125,
+                215,
+                257,
+                277
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t09",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER t09 CLOSE t09",
+          "grounding_cue": {
+            "ref": "ref-open-t09",
+            "bbox": [
+              125,
+              215,
+              257,
+              277
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-009",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-train-010",
+      "family_id": "pt-train-family-010",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t10 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t10",
+              "role": "button",
+              "name": "OPEN t10",
+              "state": "enabled",
+              "bbox": [
+                154,
+                252,
+                286,
+                314
+              ]
+            },
+            {
+              "ref": "ref-close-t10",
+              "role": "button",
+              "name": "CLOSE t10",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN t10 CLOSE t10",
+          "grounding_cue": {
+            "ref": "ref-open-t10",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-010",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-t10",
+        "bbox": null,
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-011",
+      "family_id": "pt-train-family-011",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t11 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t11",
+              "role": "button",
+              "name": "OPEN t11",
+              "state": "stale",
+              "bbox": [
+                183,
+                99,
+                315,
+                161
+              ]
+            },
+            {
+              "ref": "ref-close-t11",
+              "role": "button",
+              "name": "CLOSE t11",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN t11 CLOSE t11",
+          "grounding_cue": {
+            "ref": "ref-open-t11",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-011",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-012",
+      "family_id": "pt-train-family-012",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t12 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t12",
+              "role": "button",
+              "name": "OPEN t12",
+              "state": "stale",
+              "bbox": [
+                42,
+                136,
+                174,
+                198
+              ]
+            },
+            {
+              "ref": "ref-close-t12",
+              "role": "button",
+              "name": "CLOSE t12",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OTHER t12 CLOSE t12",
+          "grounding_cue": {
+            "ref": "ref-open-t12",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-012",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-train-013",
+      "family_id": "pt-train-family-013",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t13 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t13",
+              "bbox": [
+                71,
+                173,
+                203,
+                235
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t13",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t13 CLOSE t13",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              71,
+              173,
+              203,
+              235
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-013",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          71,
+          173,
+          203,
+          235
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-014",
+      "family_id": "pt-train-family-014",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t14 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t14",
+              "bbox": [
+                100,
+                210,
+                232,
+                272
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE t14",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t14 CLOSE t14",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              100,
+              210,
+              232,
+              272
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-014",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-015",
+      "family_id": "pt-train-family-015",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t15 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OTHER t15",
+              "bbox": [
+                129,
+                247,
+                261,
+                309
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t15",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER t15 CLOSE t15",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              129,
+              247,
+              261,
+              309
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-015",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-train-016",
+      "family_id": "pt-train-family-016",
+      "observation_mode": "fused",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN t16 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t16",
+              "role": "button",
+              "name": "OPEN t16",
+              "state": "enabled",
+              "bbox": [
+                158,
+                94,
+                290,
+                156
+              ]
+            },
+            {
+              "ref": "ref-close-t16",
+              "role": "button",
+              "name": "CLOSE t16",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t16",
+              "bbox": [
+                158,
+                94,
+                290,
+                156
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t16",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t16 CLOSE t16",
+          "grounding_cue": {
+            "ref": "ref-open-t16",
+            "bbox": [
+              158,
+              94,
+              290,
+              156
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-016",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-t16",
+        "bbox": [
+          158,
+          94,
+          290,
+          156
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-train-017",
+      "family_id": "pt-train-family-017",
+      "observation_mode": "fused",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN t17 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t17",
+              "role": "button",
+              "name": "OPEN t17",
+              "state": "stale",
+              "bbox": [
+                187,
+                131,
+                319,
+                193
+              ]
+            },
+            {
+              "ref": "ref-close-t17",
+              "role": "button",
+              "name": "CLOSE t17",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN t17",
+              "bbox": [
+                187,
+                131,
+                319,
+                193
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE t17",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN t17 CLOSE t17",
+          "grounding_cue": {
+            "ref": "ref-open-t17",
+            "bbox": [
+              187,
+              131,
+              319,
+              193
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-017",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-train-018",
+      "family_id": "pt-train-family-018",
+      "observation_mode": "fused",
+      "training_repeat_group": 2,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN t18 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-t18",
+              "role": "button",
+              "name": "OPEN t18",
+              "state": "stale",
+              "bbox": [
+                46,
+                168,
+                178,
+                230
+              ]
+            },
+            {
+              "ref": "ref-close-t18",
+              "role": "button",
+              "name": "CLOSE t18",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OTHER t18",
+              "bbox": [
+                46,
+                168,
+                178,
+                230
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE t18",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER t18 CLOSE t18",
+          "grounding_cue": {
+            "ref": "ref-open-t18",
+            "bbox": [
+              46,
+              168,
+              178,
+              230
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-train-018",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    }
+  ]
+}

@@ -1,0 +1,617 @@
+{
+  "mm003_post_training_dataset_version": 1,
+  "dataset_id": "mm003-reviewed-synthetic-validation-v1",
+  "provenance": {
+    "source": "deterministic_reviewed_synthetic_fixture",
+    "synthetic_only": true,
+    "real_content": false,
+    "capture_adapter_used": false,
+    "automatic_lane_a_export_used": false,
+    "mm002_eval_gold_used": false,
+    "model_output_has_execution_authority": false,
+    "runtime_dispatch_required": true
+  },
+  "split_policy": {
+    "split": "validation",
+    "optimizer_use": false,
+    "validation_only": true,
+    "family_disjoint_from_mm002_eval": true,
+    "content_disjoint_from_mm002_eval": true,
+    "target_disjoint_from_mm002_eval": true,
+    "screenshot_disjoint_from_mm002_eval": true
+  },
+  "records": [
+    {
+      "case_id": "pt-validation-001",
+      "family_id": "pt-validation-family-001",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN v01 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v01",
+              "role": "button",
+              "name": "OPEN v01",
+              "state": "enabled",
+              "bbox": [
+                63,
+                109,
+                195,
+                171
+              ]
+            },
+            {
+              "ref": "ref-close-v01",
+              "role": "button",
+              "name": "CLOSE v01",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN v01 CLOSE v01",
+          "grounding_cue": {
+            "ref": "ref-open-v01",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-001",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-v01",
+        "bbox": null,
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-validation-002",
+      "family_id": "pt-validation-family-002",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN v02 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v02",
+              "role": "button",
+              "name": "OPEN v02",
+              "state": "stale",
+              "bbox": [
+                92,
+                146,
+                224,
+                208
+              ]
+            },
+            {
+              "ref": "ref-close-v02",
+              "role": "button",
+              "name": "CLOSE v02",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OPEN v02 CLOSE v02",
+          "grounding_cue": {
+            "ref": "ref-open-v02",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-002",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-validation-003",
+      "family_id": "pt-validation-family-003",
+      "observation_mode": "uia_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN v03 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v03",
+              "role": "button",
+              "name": "OPEN v03",
+              "state": "stale",
+              "bbox": [
+                121,
+                183,
+                253,
+                245
+              ]
+            },
+            {
+              "ref": "ref-close-v03",
+              "role": "button",
+              "name": "CLOSE v03",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "OTHER v03 CLOSE v03",
+          "grounding_cue": {
+            "ref": "ref-open-v03",
+            "bbox": null
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-003",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-validation-004",
+      "family_id": "pt-validation-family-004",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN v04 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN v04",
+              "bbox": [
+                150,
+                220,
+                282,
+                282
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE v04",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN v04 CLOSE v04",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              150,
+              220,
+              282,
+              282
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-004",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          150,
+          220,
+          282,
+          282
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-validation-005",
+      "family_id": "pt-validation-family-005",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN v05 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OPEN v05",
+              "bbox": [
+                179,
+                257,
+                311,
+                319
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE v05",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN v05 CLOSE v05",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              179,
+              257,
+              311,
+              319
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-005",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-validation-006",
+      "family_id": "pt-validation-family-006",
+      "observation_mode": "screenshot_only",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN v06 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {
+              "label": "OTHER v06",
+              "bbox": [
+                38,
+                104,
+                170,
+                166
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE v06",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER v06 CLOSE v06",
+          "grounding_cue": {
+            "ref": null,
+            "bbox": [
+              38,
+              104,
+              170,
+              166
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-006",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    },
+    {
+      "case_id": "pt-validation-007",
+      "family_id": "pt-validation-family-007",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the reviewed synthetic OPEN v07 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v07",
+              "role": "button",
+              "name": "OPEN v07",
+              "state": "enabled",
+              "bbox": [
+                67,
+                141,
+                199,
+                203
+              ]
+            },
+            {
+              "ref": "ref-close-v07",
+              "role": "button",
+              "name": "CLOSE v07",
+              "state": "enabled",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN v07",
+              "bbox": [
+                67,
+                141,
+                199,
+                203
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE v07",
+              "bbox": [
+                268,
+                264,
+                412,
+                312
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN v07 CLOSE v07",
+          "grounding_cue": {
+            "ref": "ref-open-v07",
+            "bbox": [
+              67,
+              141,
+              199,
+              203
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-007",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-open-v07",
+        "bbox": [
+          67,
+          141,
+          199,
+          203
+        ],
+        "reason": null
+      }
+    },
+    {
+      "case_id": "pt-validation-008",
+      "family_id": "pt-validation-family-008",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the expired synthetic OPEN v08 reference.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v08",
+              "role": "button",
+              "name": "OPEN v08",
+              "state": "stale",
+              "bbox": [
+                96,
+                178,
+                228,
+                240
+              ]
+            },
+            {
+              "ref": "ref-close-v08",
+              "role": "button",
+              "name": "CLOSE v08",
+              "state": "enabled",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OPEN v08",
+              "bbox": [
+                96,
+                178,
+                228,
+                240
+              ],
+              "occluded": true
+            },
+            {
+              "label": "CLOSE v08",
+              "bbox": [
+                268,
+                210,
+                412,
+                258
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OPEN v08 CLOSE v08",
+          "grounding_cue": {
+            "ref": "ref-open-v08",
+            "bbox": [
+              96,
+              178,
+              228,
+              240
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-008",
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    },
+    {
+      "case_id": "pt-validation-009",
+      "family_id": "pt-validation-family-009",
+      "observation_mode": "fused",
+      "training_repeat_group": 1,
+      "model_input": {
+        "instruction": "Activate the absent synthetic OPEN v09 control.",
+        "available_tools": [
+          "click"
+        ],
+        "observation": {
+          "uia_controls": [
+            {
+              "ref": "ref-open-v09",
+              "role": "button",
+              "name": "OPEN v09",
+              "state": "stale",
+              "bbox": [
+                125,
+                215,
+                257,
+                277
+              ]
+            },
+            {
+              "ref": "ref-close-v09",
+              "role": "button",
+              "name": "CLOSE v09",
+              "state": "enabled",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ]
+            }
+          ],
+          "screenshot_regions": [
+            {
+              "label": "OTHER v09",
+              "bbox": [
+                125,
+                215,
+                257,
+                277
+              ],
+              "occluded": false
+            },
+            {
+              "label": "CLOSE v09",
+              "bbox": [
+                268,
+                318,
+                412,
+                366
+              ],
+              "occluded": false
+            }
+          ],
+          "ocr_text": "OTHER v09 CLOSE v09",
+          "grounding_cue": {
+            "ref": "ref-open-v09",
+            "bbox": [
+              125,
+              215,
+              257,
+              277
+            ]
+          }
+        }
+      },
+      "target": {
+        "case_id": "pt-validation-009",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_grounding"
+      }
+    }
+  ]
+}
