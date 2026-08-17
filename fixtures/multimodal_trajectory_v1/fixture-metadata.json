@@ -1,0 +1,48 @@
+{
+  "review_id": "MM-001",
+  "review_date": "2026-08-17",
+  "multimodal_trajectory_schema_version": 1,
+  "compatible_lane_b_bundle_version": 1,
+  "compatible_lane_b_episode_version": 1,
+  "runtime_freeze_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+  "lane_b_contract_merge_commit": "d1a8e787951c52c7650b23c71ea3df2b6a9ee00d",
+  "schema": {
+    "path": "schemas/multimodal_trajectory_v1.schema.json",
+    "bytes": 21091,
+    "sha256": "sha256:2109dcd2b06e01bda30ea19bc548cb34031811319e23f0bce5dd91a60c32964c"
+  },
+  "valid_fixtures": {
+    "text_only": {
+      "path": "fixtures/multimodal_trajectory_v1/valid/text-only.json",
+      "bytes": 7387,
+      "sha256": "sha256:9162a2e322961434532b320670bacca3267bfe8cd4f5f823a177361ff5207706"
+    },
+    "image_grounded": {
+      "path": "fixtures/multimodal_trajectory_v1/valid/image-grounded.json",
+      "bytes": 11145,
+      "sha256": "sha256:89c45460a6ffd4804f9ef855680fd74be18321afa89e94842bffb6ba833f5963"
+    }
+  },
+  "invalid_fixtures": {
+    "malformed.json": "MALFORMED_JSON",
+    "missing-fields.json": "MISSING_FIELD",
+    "duplicate-key.json": "DUPLICATE_JSON_KEY",
+    "nonfinite.json": "NONFINITE_NUMBER"
+  },
+  "review_outcome": {
+    "schema_review_complete": true,
+    "text_only_fixture_validated": true,
+    "image_grounded_fixture_validated": true,
+    "shared_versioned_topology": true,
+    "synthetic_only": true,
+    "runtime_repository_changed": false,
+    "capture_adapter_implemented": false,
+    "real_episode_collected": false,
+    "dataset_split_assigned": false,
+    "license_approved": false,
+    "training_eligible": false,
+    "execution_eligible": false,
+    "runtime_eligible": false
+  },
+  "next_gate": "MM-002-gui-grounding-data-eval-v1"
+}

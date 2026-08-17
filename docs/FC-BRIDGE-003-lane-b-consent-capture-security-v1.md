@@ -103,4 +103,5 @@ collected, that a dataset split or license was approved, or that any episode
 is eligible for training. It adds no model, serving, deployment, promotion,
 or Runtime eligibility claim.
 
-The exact next local gate is `MM-001-multimodal-trajectory-schema-v1`.
+At this review's completion, the exact next local gate was
+`MM-001-multimodal-trajectory-schema-v1`; that gate has since completed.
