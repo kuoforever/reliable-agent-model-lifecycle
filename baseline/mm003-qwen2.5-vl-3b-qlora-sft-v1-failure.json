@@ -1,0 +1,26 @@
+{
+  "failure_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v1",
+  "gate_id": "MM-003-small-vlm-post-training-execution-v1",
+  "protocol_freeze_commit": "a882e6096a87e475511890be9fc804a468143868",
+  "preregistration_sha256": "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061",
+  "stage": "training",
+  "exception_type": "MM003ProtocolError",
+  "retry_count": 0,
+  "formal_gate_passed": false,
+  "claims": {
+    "training_executed": false,
+    "adapter_created": false,
+    "adapter_independently_loadable": false,
+    "model_evaluated": false,
+    "quality_improved": false,
+    "repeatability_established": false,
+    "cross_machine_reproducibility": false,
+    "portable_artifact": false,
+    "commercial_use_eligible": false,
+    "serving_eligible": false,
+    "promotion_eligible": false,
+    "runtime_eligible": false
+  },
+  "runtime_eligible": false
+}

@@ -62,6 +62,11 @@ MM003_POST_TRAINING_PREREGISTRATION_PATH = (
 MM003_POST_TRAINING_PREREGISTRATION_SHA256 = (
     "sha256:9dfd180f24a86814fc32c5ebbfca07a31f713c8387f85ec3212dc538647cb061"
 )
+MM003_POST_TRAINING_FAILURE_CLASSIFICATION_PATH = (
+    ROOT
+    / "baseline"
+    / "mm003-qwen2.5-vl-3b-qlora-sft-v1-failure-classification.json"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -371,6 +376,9 @@ def main() -> int:
     mm003_recovery = _validate_mm003_baseline_recovery_protocol()
     mm003_baseline_v2 = _validate_mm003_baseline_v2_evidence()
     mm003_post_training = _validate_mm003_post_training_protocol()
+    mm003_post_training_failure = (
+        _validate_mm003_post_training_failure_classification()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -473,7 +481,20 @@ def main() -> int:
         ],
         "mm003_post_training_screenshots": mm003_post_training["screenshots"],
         "mm003_post_training_eval_isolation": mm003_post_training["eval_isolation"],
-        "mm003_post_training_next_gate": mm003_post_training["next_gate"],
+        "mm003_post_training_protocol_next_gate": mm003_post_training["next_gate"],
+        "mm003_post_training_execution_attempted": mm003_post_training_failure[
+            "execution_attempted"
+        ],
+        "mm003_post_training_v1_formal_gate_passed": mm003_post_training_failure[
+            "formal_gate_passed"
+        ],
+        "mm003_post_training_failure_classification": mm003_post_training_failure[
+            "classification"
+        ],
+        "mm003_post_training_failure_receipt_sha256": mm003_post_training_failure[
+            "receipt_sha256"
+        ],
+        "mm003_post_training_next_gate": mm003_post_training_failure["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -1964,6 +1985,75 @@ def _validate_mm003_post_training_protocol() -> dict[str, Any]:
         "screenshots": contract.SCREENSHOT_RECORDS,
         "eval_isolation": True,
         "next_gate": next_gate,
+    }
+
+
+def _validate_mm003_post_training_failure_classification() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm003_post_training_failure_classification as failure,
+    )
+    from fullcycle_bridge import mm003_post_training_protocol as contract
+
+    payload = _read_regular_file_once(
+        MM003_POST_TRAINING_FAILURE_CLASSIFICATION_PATH,
+        "MM-003 post-training failure classification",
+    )
+    raw = contract.parse_strict_json_bytes(
+        payload,
+        location="$.mm003_post_training_failure_classification",
+    )
+    if not isinstance(raw, dict):
+        raise GateError("MM-003 post-training failure classification must be an object")
+    result = failure.validate_failure_classification(ROOT, raw)
+    claims = result["claims"]
+    reproduction = result["failure"]["static_reproduction"]
+    if (
+        result["formal_gate_passed"] is not False
+        or claims["post_training_execution_attempted"] is not True
+        or any(
+            value is not False
+            for name, value in claims.items()
+            if name != "post_training_execution_attempted"
+        )
+        or result["failure_receipt"]["sha256"]
+        != failure.FAILURE_RECEIPT_SHA256
+        or result["failure_receipt"]["directory_entries_observed"]
+        != ["failure.json"]
+        or reproduction["first_case_id"] != "pt-train-018"
+        or reproduction["records_checked"] != 27
+        or reproduction["records_failed"] != 27
+        or reproduction["code"] != "CASE_MODE_MISMATCH"
+        or reproduction["tracked_fixture_receipts_verified"] != 2
+        or result["locked_next_action"]["gate_id"] != failure.NEXT_GATE_ID
+        or result["locked_next_action"]["execution_gate_id"]
+        != failure.RECOVERY_EXECUTION_GATE_ID
+        or result["locked_next_action"]["experiment_id"]
+        != failure.RECOVERY_EXPERIMENT_ID
+        or result["locked_next_action"]["output_directory"]
+        != failure.RECOVERY_OUTPUT_DIRECTORY
+        or result["locked_next_action"]["success_next_gate_id"]
+        != failure.RECOVERY_SUCCESS_NEXT_GATE_ID
+        or result["locked_next_action"]["allowed_difference_policy"][
+            "unlisted_existing_leaf_values_must_be_identical"
+        ]
+        is not True
+        or result["locked_next_action"]["allowed_v2_differences"][
+            "source_lineage.protocol_sources"
+        ]["other_additions_removals_or_replacements_allowed"]
+        is not False
+        or result["locked_next_action"]["required_v2_values"][
+            "outputs.failure"
+        ]
+        != f"{failure.RECOVERY_OUTPUT_DIRECTORY}/failure.json"
+        or result["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 post-training failure boundary mismatch")
+    return {
+        "execution_attempted": True,
+        "formal_gate_passed": False,
+        "classification": result["failure"]["classification"],
+        "receipt_sha256": result["failure_receipt"]["sha256"],
+        "next_gate": result["locked_next_action"]["gate_id"],
     }
 
 

@@ -180,11 +180,14 @@ input, target, or screenshot sets.
 
 The protocol pins a local 4-bit NF4 QLoRA lifecycle, seed and hyperparameters,
 the bitsandbytes wheel, resource caps, exact Adapter filenames, and a fresh
-base-plus-Adapter reload before the unchanged nine-case eval. An unrelated
-gradient-checkpointed backward smoke passed locally, but no registered
-training, Adapter, post-training metric, repeatability, quality improvement,
-serving, promotion, or Runtime result exists yet. See the
-[post-training protocol](docs/MM-003-small-vlm-post-training-protocol-v1.md).
+base-plus-Adapter reload before the unchanged nine-case eval. Its single
+merged v1 execution was consumed with zero retry and failed before the first
+model forward: the training renderer incorrectly sent `pt-*` records through
+the MM-002-only `ground-*` case registry. The exact raw receipt and a
+model-free 27-record root-cause reproduction are tracked; no Adapter,
+post-training metric, quality, serving, promotion, or Runtime result exists.
+See the [post-training protocol](docs/MM-003-small-vlm-post-training-protocol-v1.md)
+and [failure classification](docs/MM-003-small-vlm-post-training-failure-classification-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -599,14 +602,17 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is `MM-003-small-vlm-post-training-execution-v1`. The
-outcome-neutral protocol is frozen locally and must merge before execution.
-After merge, run the registered QLoRA train/save/fresh-reload/unchanged-MM-002
-eval lifecycle exactly once with zero retries. Do not use eval gold as training
-data or reinterpret either protocol compliance or a future metric change as a
-promotion decision. No direct execution authority, repeatability,
-cross-machine reproducibility, serving, promotion, commercial eligibility, or
-Runtime eligibility is implied.
+The current local work is
+`MM-003-small-vlm-post-training-recovery-protocol-v2`. The merged v1 execution
+was consumed with zero retry and failed before its first model forward; it must
+not be rerun. Freeze a separate outcome-neutral v2 protocol with its own gate,
+experiment, output directory, post-training-specific prompt projection, and
+complete 27-record prompt preflight before any v2 execution. Preserve the
+model, data, targets, hyperparameters, unchanged MM-002 eval, and authority
+boundaries. Do not use eval gold as training data or reinterpret protocol
+compliance as a promotion decision. No direct execution authority,
+repeatability, cross-machine reproducibility, serving, promotion, commercial
+eligibility, or Runtime eligibility is implied.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
