@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/fullcycle/gui-grounding-eval-suite-v1.schema.json",
+  "title": "MM-002 synthetic GUI grounding evaluation suite v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gui_grounding_eval_version", "suite_id", "provenance", "bindings", "split_policy", "thresholds", "cases"],
+  "properties": {
+    "gui_grounding_eval_version": {"const": 1},
+    "suite_id": {"$ref": "#/$defs/identifier"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "synthetic_only", "real_content", "capture_adapter_used", "automatic_lane_a_export_used", "training_eligible"],
+      "properties": {
+        "source": {"const": "reviewed_synthetic_fixture"},
+        "synthetic_only": {"const": true},
+        "real_content": {"const": false},
+        "capture_adapter_used": {"const": false},
+        "automatic_lane_a_export_used": {"const": false},
+        "training_eligible": {"const": false}
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["multimodal_trajectory_schema_version", "multimodal_trajectory_schema_sha256", "runtime_git_commit", "policy_version", "environment_id"],
+      "properties": {
+        "multimodal_trajectory_schema_version": {"const": 1},
+        "multimodal_trajectory_schema_sha256": {"const": "sha256:2109dcd2b06e01bda30ea19bc548cb34031811319e23f0bce5dd91a60c32964c"},
+        "runtime_git_commit": {"const": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9"},
+        "policy_version": {"$ref": "#/$defs/nonemptyString"},
+        "environment_id": {"$ref": "#/$defs/nonemptyString"}
+      }
+    },
+    "split_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["split", "frozen", "gold_separated_from_model_input", "training_use_prohibited", "family_disjoint"],
+      "properties": {
+        "split": {"const": "eval"},
+        "frozen": {"const": true},
+        "gold_separated_from_model_input": {"const": true},
+        "training_use_prohibited": {"const": true},
+        "family_disjoint": {"const": true}
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bbox_iou"],
+      "properties": {"bbox_iou": {"const": 0.5}}
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/case"}
+    }
+  },
+  "$defs": {
+    "identifier": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]{0,95}$"},
+    "nonemptyString": {"type": "string", "minLength": 1, "maxLength": 2048},
+    "bbox": {
+      "type": "array",
+      "prefixItems": [
+        {"type": "integer", "minimum": 0, "maximum": 4096},
+        {"type": "integer", "minimum": 0, "maximum": 4096},
+        {"type": "integer", "minimum": 0, "maximum": 4096},
+        {"type": "integer", "minimum": 0, "maximum": 4096}
+      ],
+      "items": false,
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "nullableBbox": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/bbox"}]},
+    "nullableIdentifier": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/identifier"}]},
+    "argumentValue": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "arguments": {
+      "type": "object",
+      "maxProperties": 16,
+      "propertyNames": {"$ref": "#/$defs/identifier"},
+      "additionalProperties": {"$ref": "#/$defs/argumentValue"}
+    },
+    "uiaControl": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "role", "name", "state", "bbox"],
+      "properties": {
+        "ref": {"$ref": "#/$defs/identifier"},
+        "role": {"$ref": "#/$defs/nonemptyString"},
+        "name": {"$ref": "#/$defs/nonemptyString"},
+        "state": {"enum": ["enabled", "disabled", "stale"]},
+        "bbox": {"$ref": "#/$defs/nullableBbox"}
+      }
+    },
+    "screenshotRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["region_id", "label", "bbox", "occluded"],
+      "properties": {
+        "region_id": {"$ref": "#/$defs/identifier"},
+        "label": {"$ref": "#/$defs/nonemptyString"},
+        "bbox": {"$ref": "#/$defs/bbox"},
+        "occluded": {"type": "boolean"}
+      }
+    },
+    "groundingCue": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ref", "bbox"],
+      "properties": {
+        "ref": {"$ref": "#/$defs/nullableIdentifier"},
+        "bbox": {"$ref": "#/$defs/nullableBbox"}
+      }
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uia_controls", "screenshot_regions", "ocr_text", "grounding_cue"],
+      "properties": {
+        "uia_controls": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/uiaControl"}},
+        "screenshot_regions": {"type": "array", "maxItems": 32, "items": {"$ref": "#/$defs/screenshotRegion"}},
+        "ocr_text": {"type": "string", "maxLength": 2048},
+        "grounding_cue": {"$ref": "#/$defs/groundingCue"}
+      }
+    },
+    "modelInput": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["instruction", "available_tools", "observation"],
+      "properties": {
+        "instruction": {"$ref": "#/$defs/nonemptyString"},
+        "available_tools": {"type": "array", "minItems": 1, "maxItems": 16, "uniqueItems": true, "items": {"$ref": "#/$defs/identifier"}},
+        "observation": {"$ref": "#/$defs/observation"}
+      }
+    },
+    "catalogTarget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target_id", "ref", "bbox"],
+      "properties": {
+        "target_id": {"$ref": "#/$defs/identifier"},
+        "ref": {"$ref": "#/$defs/identifier"},
+        "bbox": {"$ref": "#/$defs/bbox"}
+      }
+    },
+    "gold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disposition", "tool", "arguments", "ref", "bbox", "target_id", "reason", "target_catalog"],
+      "properties": {
+        "disposition": {"enum": ["act", "reject", "fallback"]},
+        "tool": {"$ref": "#/$defs/nullableIdentifier"},
+        "arguments": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/arguments"}]},
+        "ref": {"$ref": "#/$defs/nullableIdentifier"},
+        "bbox": {"$ref": "#/$defs/nullableBbox"},
+        "target_id": {"$ref": "#/$defs/nullableIdentifier"},
+        "reason": {"$ref": "#/$defs/nullableIdentifier"},
+        "target_catalog": {"type": "array", "minItems": 1, "maxItems": 32, "items": {"$ref": "#/$defs/catalogTarget"}}
+      }
+    },
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["case_id", "family_id", "capability", "observation_mode", "ocr_condition", "perturbation", "model_input", "gold"],
+      "properties": {
+        "case_id": {"$ref": "#/$defs/identifier"},
+        "family_id": {"$ref": "#/$defs/identifier"},
+        "capability": {"enum": ["ref_grounding", "bbox_grounding", "fused_grounding"]},
+        "observation_mode": {"enum": ["uia_only", "screenshot_only", "fused"]},
+        "ocr_condition": {"enum": ["clean", "missing", "noisy"]},
+        "perturbation": {"enum": ["none", "moved", "occluded", "stale_ref", "coordinate_ref_disagreement"]},
+        "model_input": {"$ref": "#/$defs/modelInput"},
+        "gold": {"$ref": "#/$defs/gold"}
+      }
+    }
+  }
+}

@@ -25,6 +25,7 @@ English (default): [README.md](README.md)
 | Lane A reliability dataset | [ADR-0001](adr/ADR-0001-lane-a-reliability-dataset-v1.md) | Complete |
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete；真实采集仍未实现 |
 | 多模态轨迹 Schema v1 | [MM-001 review](MM-001-multimodal-trajectory-schema-v1.md) | Synthetic text/image topology；不含采集或训练准入 |
+| GUI Grounding 数据/评测 v1 | [MM-002 review](MM-002-gui-grounding-data-eval-v1.md) | 冻结 synthetic eval 与 scorer；不含模型结果 |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |

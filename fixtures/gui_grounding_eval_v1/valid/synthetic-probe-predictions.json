@@ -1,0 +1,16 @@
+{
+  "gui_grounding_prediction_version": 1,
+  "suite_id": "mm002-synthetic-eval-v1",
+  "producer": {"kind": "synthetic_probe", "model_id": null, "model_revision": null},
+  "records": [
+    {"case_id": "ground-001", "disposition": "act", "tool": "click", "arguments": {"button": "left"}, "ref": "ref-save", "bbox": null, "reason": null},
+    {"case_id": "ground-002", "disposition": "act", "tool": "click", "arguments": {"button": "left"}, "ref": null, "bbox": [100, 100, 260, 300], "reason": null},
+    {"case_id": "ground-003", "disposition": "act", "tool": "click", "arguments": {"button": "left"}, "ref": "ref-export", "bbox": [40, 40, 180, 120], "reason": null},
+    {"case_id": "ground-004", "disposition": "reject", "tool": null, "arguments": null, "ref": null, "bbox": null, "reason": "stale_ref"},
+    {"case_id": "ground-005", "disposition": "fallback", "tool": null, "arguments": null, "ref": null, "bbox": null, "reason": "insufficient_visual_evidence"},
+    {"case_id": "ground-006", "disposition": "act", "tool": "click", "arguments": {"button": "left"}, "ref": "ref-summary", "bbox": [300, 420, 620, 500], "reason": null},
+    {"case_id": "ground-007", "disposition": "act", "tool": "click", "arguments": {"button": "left"}, "ref": "ref-next", "bbox": [640, 700, 780, 780], "reason": null},
+    {"case_id": "ground-008", "disposition": "act", "tool": "click", "arguments": {"button": "right"}, "ref": null, "bbox": [900, 120, 980, 200], "reason": null},
+    {"case_id": "ground-009", "disposition": "fallback", "tool": null, "arguments": null, "ref": null, "bbox": null, "reason": "stale_ref"}
+  ]
+}

@@ -1,0 +1,346 @@
+{
+  "gui_grounding_eval_version": 1,
+  "suite_id": "mm002-synthetic-eval-v1",
+  "provenance": {
+    "source": "reviewed_synthetic_fixture",
+    "synthetic_only": true,
+    "real_content": false,
+    "capture_adapter_used": false,
+    "automatic_lane_a_export_used": false,
+    "training_eligible": false
+  },
+  "bindings": {
+    "multimodal_trajectory_schema_version": 1,
+    "multimodal_trajectory_schema_sha256": "sha256:2109dcd2b06e01bda30ea19bc548cb34031811319e23f0bce5dd91a60c32964c",
+    "runtime_git_commit": "324ff2fb5911e332ddb5c5f90eb41296e8faf7a9",
+    "policy_version": "synthetic-policy-v1",
+    "environment_id": "synthetic-windows-gui-v1"
+  },
+  "split_policy": {
+    "split": "eval",
+    "frozen": true,
+    "gold_separated_from_model_input": true,
+    "training_use_prohibited": true,
+    "family_disjoint": true
+  },
+  "thresholds": {
+    "bbox_iou": 0.5
+  },
+  "cases": [
+    {
+      "case_id": "ground-001",
+      "family_id": "settings-save-ref",
+      "capability": "ref_grounding",
+      "observation_mode": "uia_only",
+      "ocr_condition": "clean",
+      "perturbation": "none",
+      "model_input": {
+        "instruction": "Activate the synthetic Save control in Settings.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-save", "role": "button", "name": "Save", "state": "enabled", "bbox": [100, 100, 300, 200]},
+            {"ref": "ref-cancel", "role": "button", "name": "Cancel", "state": "enabled", "bbox": [320, 100, 520, 200]}
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "Save Cancel",
+          "grounding_cue": {"ref": "ref-save", "bbox": null}
+        }
+      },
+      "gold": {
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {"button": "left"},
+        "ref": "ref-save",
+        "bbox": null,
+        "target_id": "target-save",
+        "reason": null,
+        "target_catalog": [
+          {"target_id": "target-save", "ref": "ref-save", "bbox": [100, 100, 300, 200]},
+          {"target_id": "target-cancel", "ref": "ref-cancel", "bbox": [320, 100, 520, 200]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-002",
+      "family_id": "dialog-confirm-bbox",
+      "capability": "bbox_grounding",
+      "observation_mode": "screenshot_only",
+      "ocr_condition": "clean",
+      "perturbation": "none",
+      "model_input": {
+        "instruction": "Click the synthetic Confirm region.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {"region_id": "region-confirm", "label": "Confirm", "bbox": [100, 100, 300, 300], "occluded": false},
+            {"region_id": "region-back", "label": "Back", "bbox": [340, 100, 540, 300], "occluded": false}
+          ],
+          "ocr_text": "Confirm Back",
+          "grounding_cue": {"ref": null, "bbox": [100, 100, 300, 300]}
+        }
+      },
+      "gold": {
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {"button": "left"},
+        "ref": null,
+        "bbox": [100, 100, 300, 300],
+        "target_id": "target-confirm",
+        "reason": null,
+        "target_catalog": [
+          {"target_id": "target-confirm", "ref": "ref-confirm", "bbox": [100, 100, 300, 300]},
+          {"target_id": "target-back", "ref": "ref-back", "bbox": [340, 100, 540, 300]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-003",
+      "family_id": "toolbar-export-fused",
+      "capability": "fused_grounding",
+      "observation_mode": "fused",
+      "ocr_condition": "clean",
+      "perturbation": "none",
+      "model_input": {
+        "instruction": "Use the synthetic Export control.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-export", "role": "button", "name": "Export", "state": "enabled", "bbox": [40, 40, 180, 120]},
+            {"ref": "ref-import", "role": "button", "name": "Import", "state": "enabled", "bbox": [200, 40, 340, 120]}
+          ],
+          "screenshot_regions": [
+            {"region_id": "region-export", "label": "Export", "bbox": [40, 40, 180, 120], "occluded": false},
+            {"region_id": "region-import", "label": "Import", "bbox": [200, 40, 340, 120], "occluded": false}
+          ],
+          "ocr_text": "Export Import",
+          "grounding_cue": {"ref": "ref-export", "bbox": [40, 40, 180, 120]}
+        }
+      },
+      "gold": {
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {"button": "left"},
+        "ref": "ref-export",
+        "bbox": [40, 40, 180, 120],
+        "target_id": "target-export",
+        "reason": null,
+        "target_catalog": [
+          {"target_id": "target-export", "ref": "ref-export", "bbox": [40, 40, 180, 120]},
+          {"target_id": "target-import", "ref": "ref-import", "bbox": [200, 40, 340, 120]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-004",
+      "family_id": "editor-stale-submit",
+      "capability": "ref_grounding",
+      "observation_mode": "uia_only",
+      "ocr_condition": "missing",
+      "perturbation": "stale_ref",
+      "model_input": {
+        "instruction": "Submit only if the synthetic reference is current.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-submit-old", "role": "button", "name": "Submit", "state": "stale", "bbox": [600, 600, 760, 690]},
+            {"ref": "ref-preview", "role": "button", "name": "Preview", "state": "enabled", "bbox": [420, 600, 580, 690]}
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "",
+          "grounding_cue": {"ref": "ref-submit-old", "bbox": null}
+        }
+      },
+      "gold": {
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "target_id": null,
+        "reason": "stale_ref",
+        "target_catalog": [
+          {"target_id": "target-submit", "ref": "ref-submit-old", "bbox": [600, 600, 760, 690]},
+          {"target_id": "target-preview", "ref": "ref-preview", "bbox": [420, 600, 580, 690]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-005",
+      "family_id": "panel-occluded-delete",
+      "capability": "bbox_grounding",
+      "observation_mode": "screenshot_only",
+      "ocr_condition": "noisy",
+      "perturbation": "occluded",
+      "model_input": {
+        "instruction": "Select Delete only when visual evidence is sufficient.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {"region_id": "region-delete", "label": "De?ete", "bbox": [700, 300, 860, 390], "occluded": true},
+            {"region_id": "region-archive", "label": "Archive", "bbox": [520, 300, 680, 390], "occluded": false}
+          ],
+          "ocr_text": "De?ete Ar chive",
+          "grounding_cue": {"ref": null, "bbox": [700, 300, 860, 390]}
+        }
+      },
+      "gold": {
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "target_id": null,
+        "reason": "insufficient_visual_evidence",
+        "target_catalog": [
+          {"target_id": "target-delete", "ref": "ref-delete", "bbox": [700, 300, 860, 390]},
+          {"target_id": "target-archive", "ref": "ref-archive", "bbox": [520, 300, 680, 390]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-006",
+      "family_id": "list-moved-open",
+      "capability": "fused_grounding",
+      "observation_mode": "fused",
+      "ocr_condition": "noisy",
+      "perturbation": "moved",
+      "model_input": {
+        "instruction": "Open the moved synthetic Report item.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-report", "role": "listitem", "name": "Report", "state": "enabled", "bbox": [300, 420, 620, 500]},
+            {"ref": "ref-summary", "role": "listitem", "name": "Summary", "state": "enabled", "bbox": [300, 520, 620, 600]}
+          ],
+          "screenshot_regions": [
+            {"region_id": "region-report", "label": "Rep0rt", "bbox": [300, 420, 620, 500], "occluded": false},
+            {"region_id": "region-summary", "label": "Summary", "bbox": [300, 520, 620, 600], "occluded": false}
+          ],
+          "ocr_text": "Rep0rt Summary",
+          "grounding_cue": {"ref": "ref-report", "bbox": [300, 420, 620, 500]}
+        }
+      },
+      "gold": {
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {"button": "left"},
+        "ref": "ref-report",
+        "bbox": [300, 420, 620, 500],
+        "target_id": "target-report",
+        "reason": null,
+        "target_catalog": [
+          {"target_id": "target-report", "ref": "ref-report", "bbox": [300, 420, 620, 500]},
+          {"target_id": "target-summary", "ref": "ref-summary", "bbox": [300, 520, 620, 600]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-007",
+      "family_id": "wizard-cross-modal-conflict",
+      "capability": "fused_grounding",
+      "observation_mode": "fused",
+      "ocr_condition": "missing",
+      "perturbation": "coordinate_ref_disagreement",
+      "model_input": {
+        "instruction": "Proceed only if the synthetic ref and coordinate evidence agree.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-next", "role": "button", "name": "Next", "state": "enabled", "bbox": [800, 700, 940, 780]},
+            {"ref": "ref-back", "role": "button", "name": "Back", "state": "enabled", "bbox": [640, 700, 780, 780]}
+          ],
+          "screenshot_regions": [
+            {"region_id": "region-next", "label": "Next", "bbox": [800, 700, 940, 780], "occluded": false},
+            {"region_id": "region-back", "label": "Back", "bbox": [640, 700, 780, 780], "occluded": false}
+          ],
+          "ocr_text": "",
+          "grounding_cue": {"ref": "ref-next", "bbox": [640, 700, 780, 780]}
+        }
+      },
+      "gold": {
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "target_id": null,
+        "reason": "coordinate_ref_disagreement",
+        "target_catalog": [
+          {"target_id": "target-next", "ref": "ref-next", "bbox": [800, 700, 940, 780]},
+          {"target_id": "target-back", "ref": "ref-back", "bbox": [640, 700, 780, 780]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-008",
+      "family_id": "canvas-moved-pin",
+      "capability": "bbox_grounding",
+      "observation_mode": "screenshot_only",
+      "ocr_condition": "missing",
+      "perturbation": "moved",
+      "model_input": {
+        "instruction": "Click the moved synthetic Pin icon.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [],
+          "screenshot_regions": [
+            {"region_id": "region-pin", "label": "Pin icon", "bbox": [900, 120, 980, 200], "occluded": false},
+            {"region_id": "region-close", "label": "Close icon", "bbox": [1000, 120, 1080, 200], "occluded": false}
+          ],
+          "ocr_text": "",
+          "grounding_cue": {"ref": null, "bbox": [900, 120, 980, 200]}
+        }
+      },
+      "gold": {
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {"button": "left"},
+        "ref": null,
+        "bbox": [900, 120, 980, 200],
+        "target_id": "target-pin",
+        "reason": null,
+        "target_catalog": [
+          {"target_id": "target-pin", "ref": "ref-pin", "bbox": [900, 120, 980, 200]},
+          {"target_id": "target-close", "ref": "ref-close", "bbox": [1000, 120, 1080, 200]}
+        ]
+      }
+    },
+    {
+      "case_id": "ground-009",
+      "family_id": "menu-stale-refresh",
+      "capability": "ref_grounding",
+      "observation_mode": "uia_only",
+      "ocr_condition": "noisy",
+      "perturbation": "stale_ref",
+      "model_input": {
+        "instruction": "Refresh only with a current synthetic menu reference.",
+        "available_tools": ["click"],
+        "observation": {
+          "uia_controls": [
+            {"ref": "ref-refresh-old", "role": "menuitem", "name": "Refresh", "state": "stale", "bbox": [50, 220, 260, 280]},
+            {"ref": "ref-reload", "role": "menuitem", "name": "Reload", "state": "enabled", "bbox": [50, 290, 260, 350]}
+          ],
+          "screenshot_regions": [],
+          "ocr_text": "Refre5h Reload",
+          "grounding_cue": {"ref": "ref-refresh-old", "bbox": null}
+        }
+      },
+      "gold": {
+        "disposition": "reject",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "target_id": null,
+        "reason": "stale_ref",
+        "target_catalog": [
+          {"target_id": "target-refresh", "ref": "ref-refresh-old", "bbox": [50, 220, 260, 280]},
+          {"target_id": "target-reload", "ref": "ref-reload", "bbox": [50, 290, 260, 350]}
+        ]
+      }
+    }
+  ]
+}
