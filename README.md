@@ -202,9 +202,26 @@ A post-training-only registry renders all 27 `pt-*` prompts before dependency
 import, CUDA access, or model load. Per-record byte/hash receipts and a fixed
 aggregate digest bind their order and contents, while family/repeat/target/raw
 region fields remain excluded. The baseline `ground-*` registry is unchanged.
-The recovery protocol remains outcome-neutral: no v2 training, Adapter,
-evaluation, quality, promotion, serving, or Runtime result exists yet. See the
+The recovery protocol was outcome-neutral at freeze; its later one-shot result
+is reviewed separately. See the
 [recovery protocol](docs/MM-003-small-vlm-post-training-recovery-protocol-v2.md).
+
+### Local small-VLM QLoRA post-training result review v2
+
+The single merged v2 execution completed one offline train/save/fresh-reload/
+MM-002 lifecycle with zero retries. All 13 measurement gates passed; the
+29,529,752-byte Adapter contains 7,372,800 LoRA parameters and was independently
+loaded for nine ordered eval calls. Grounding rose from `0/5` to `3/5`, Action
+from `0/9` to `3/9`, and Tool and Argument Exact Match from `0/5` to `5/5`,
+with zero compiler fallbacks.
+
+The result is mixed: stale-ref rejection remains `0/2`, coordinate/ref
+disagreement rejection remains `0/1`, and only one local run exists. The raw
+evidence therefore keeps generalized quality, repeatability, serving,
+promotion, and Runtime claims false. The exact next gate is a frozen
+same-environment eval-repeatability protocol for the unchanged Adapter, not
+retraining or a retry. See the
+[result review](docs/MM-003-small-vlm-post-training-result-review-v2.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -620,17 +637,17 @@ details are in [environment.md](docs/environment.md).
 ## Current boundary
 
 The current local work is
-`MM-003-small-vlm-post-training-execution-v2`. Its separate 26,553-byte
-recovery protocol is frozen locally with exact v1 lineage, 27 prompt receipts,
-13 formal gates, and a dedicated v2 output directory; it must merge before any
-formal model run. The merged v1 execution was consumed with zero retry and must
-not be rerun. After the v2 freeze merges, invoke the exact `mm003-model`
-snapshot lifecycle once with zero retry, then review whatever training,
-Adapter, unchanged MM-002 evaluation, and resource evidence actually exists.
-Do not use eval gold as training data or reinterpret protocol compliance as a
-promotion decision. No direct execution authority, repeatability,
-cross-machine reproducibility, serving, promotion, commercial eligibility, or
-Runtime eligibility is implied.
+`MM-003-small-vlm-post-training-eval-repeatability-protocol-v1`. The merged
+recovery-v2 lifecycle has been consumed exactly once and its formal measurement
+passed. The result review freezes the Adapter, raw training/eval evidence,
+specific synthetic metric improvements, and six remaining bad-case classes.
+
+The next gate must freeze a same-environment replay protocol for the unchanged
+Adapter and unchanged MM-002 eval before any repeat execution. It must not
+retrain, mutate the Adapter, reuse the consumed output directory, or copy eval
+gold into training. Formal measurement success does not imply generalized
+quality, rejection safety, repeatability, cross-machine reproducibility,
+serving, promotion, commercial eligibility, or Runtime eligibility.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

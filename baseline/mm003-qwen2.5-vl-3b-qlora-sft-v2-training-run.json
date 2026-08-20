@@ -1,0 +1,239 @@
+{
+  "training_run_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2",
+  "gate_id": "MM-003-small-vlm-post-training-execution-v2",
+  "protocol": {
+    "freeze_commit": "3751a041ff12886a337df0066232379016fdbd9c",
+    "preregistration_sha256": "sha256:02e36d5981e0ed4ac90bfdb3c5cc9c9e1f78ff29ff927020b0a41ebb27f55c0e"
+  },
+  "model": {
+    "repo_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+    "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+    "files": [
+      {
+        "path": ".gitattributes",
+        "bytes": 1519,
+        "sha256": "sha256:11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 7387,
+        "sha256": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50"
+      },
+      {
+        "path": "README.md",
+        "bytes": 18276,
+        "sha256": "sha256:0b6da5a154b923da4dc66e416140c9b7f235f9b08fbbcc27fd9df7b586e3150d"
+      },
+      {
+        "path": "chat_template.json",
+        "bytes": 1050,
+        "sha256": "sha256:ad60d90252ed0b0705ba14e2d0ad0fec0beac1ea955642b54059b36052d8bc96"
+      },
+      {
+        "path": "config.json",
+        "bytes": 1373,
+        "sha256": "sha256:7ed3eed5be6924cc800e8a5e53fc405c1aab1aaf36bad65c33403b36c56827f5"
+      },
+      {
+        "path": "generation_config.json",
+        "bytes": 216,
+        "sha256": "sha256:533f191cc257b7de37a4fccd0a7a1706d75e1aa660f93efaa54e5a2a9f9aace9"
+      },
+      {
+        "path": "merges.txt",
+        "bytes": 1671839,
+        "sha256": "sha256:599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+      },
+      {
+        "path": "model-00001-of-00002.safetensors",
+        "bytes": 3982649232,
+        "sha256": "sha256:41a8895c164b4d32bae6b302f4603fcbc1797f32dafa45c7e9bcda23c6755df8"
+      },
+      {
+        "path": "model-00002-of-00002.safetensors",
+        "bytes": 3526688744,
+        "sha256": "sha256:365531ff8752420e89dee707b79d021fb2d6e25abafe486f080555a4fe6972e4"
+      },
+      {
+        "path": "model.safetensors.index.json",
+        "bytes": 65448,
+        "sha256": "sha256:c7dd78a4c6bea60b51332f1baf37b8f8124ecab2c35395a29a29825bf2619768"
+      },
+      {
+        "path": "preprocessor_config.json",
+        "bytes": 350,
+        "sha256": "sha256:f2058c716eef96ccaed1cc1e2d0c08306b62586d535b28d9d08e691b2fab7ca0"
+      },
+      {
+        "path": "tokenizer.json",
+        "bytes": 7031645,
+        "sha256": "sha256:c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+      },
+      {
+        "path": "tokenizer_config.json",
+        "bytes": 5702,
+        "sha256": "sha256:4abd3520120e266da84c0864fee064d1fb10806f02225911a47253dd38dc5f56"
+      },
+      {
+        "path": "vocab.json",
+        "bytes": 2776833,
+        "sha256": "sha256:ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+      }
+    ]
+  },
+  "environment": {
+    "accelerate": "1.3.0",
+    "compute_capability": "8.9",
+    "device": "cuda",
+    "gpu": "NVIDIA GeForce RTX 4090 Laptop GPU",
+    "gpu_vram_bytes": 17170956288,
+    "huggingface_hub": "0.29.3",
+    "nvidia_driver": "596.49",
+    "pillow": "11.3.0",
+    "platform_machine": "AMD64",
+    "platform_release": "11",
+    "platform_system": "Windows",
+    "platform_version": "10.0.26200",
+    "python": "3.12.12",
+    "safetensors": "0.5.3",
+    "tokenizers": "0.21.4",
+    "torch": "2.6.0+cu124",
+    "transformers": "4.49.0",
+    "bitsandbytes": "0.50.1"
+  },
+  "data": {
+    "train_records": 18,
+    "validation_records": 9,
+    "eval_isolation": {
+      "eval_case_count": 9,
+      "overlaps": {
+        "case_ids": [],
+        "family_ids": [],
+        "instructions": [],
+        "model_inputs": [],
+        "targets": [],
+        "screenshots": [],
+        "train_validation_families": []
+      },
+      "passed": true,
+      "train_records": 18,
+      "validation_records": 9
+    }
+  },
+  "execution": {
+    "fresh_train_model_loads": 1,
+    "full_training_runs": 1,
+    "network_used": false,
+    "retry_count": 0,
+    "training_completed": true
+  },
+  "optimizer_steps": 18,
+  "epoch_metrics": [
+    {
+      "epoch": 1,
+      "mean_train_loss": 0.42811885641680825,
+      "mean_validation_loss": 0.18540121532148784,
+      "optimizer_steps_completed": 6,
+      "record_order": [
+        "pt-train-018",
+        "pt-train-013",
+        "pt-train-001",
+        "pt-train-003",
+        "pt-train-007",
+        "pt-train-002",
+        "pt-train-012",
+        "pt-train-006",
+        "pt-train-008",
+        "pt-train-005",
+        "pt-train-009",
+        "pt-train-010",
+        "pt-train-014",
+        "pt-train-017",
+        "pt-train-016",
+        "pt-train-015",
+        "pt-train-004",
+        "pt-train-011"
+      ]
+    },
+    {
+      "epoch": 2,
+      "mean_train_loss": 0.1380899747212728,
+      "mean_validation_loss": 0.08482394470936722,
+      "optimizer_steps_completed": 12,
+      "record_order": [
+        "pt-train-004",
+        "pt-train-010",
+        "pt-train-018",
+        "pt-train-017",
+        "pt-train-009",
+        "pt-train-015",
+        "pt-train-008",
+        "pt-train-001",
+        "pt-train-002",
+        "pt-train-013",
+        "pt-train-003",
+        "pt-train-012",
+        "pt-train-007",
+        "pt-train-011",
+        "pt-train-006",
+        "pt-train-005",
+        "pt-train-014",
+        "pt-train-016"
+      ]
+    },
+    {
+      "epoch": 3,
+      "mean_train_loss": 0.06990893899152677,
+      "mean_validation_loss": 0.0682467356738117,
+      "optimizer_steps_completed": 18,
+      "record_order": [
+        "pt-train-001",
+        "pt-train-005",
+        "pt-train-003",
+        "pt-train-018",
+        "pt-train-013",
+        "pt-train-006",
+        "pt-train-004",
+        "pt-train-002",
+        "pt-train-009",
+        "pt-train-012",
+        "pt-train-017",
+        "pt-train-007",
+        "pt-train-011",
+        "pt-train-010",
+        "pt-train-015",
+        "pt-train-014",
+        "pt-train-008",
+        "pt-train-016"
+      ]
+    }
+  ],
+  "trainable_parameters": 7372800,
+  "adapter_manifest": [
+    {
+      "path": "README.md",
+      "bytes": 206,
+      "sha256": "sha256:a73f9a4e826eca0a56f08ac2e7d415670b29eaae02bf501aa838ac23aaf3ebdb"
+    },
+    {
+      "path": "adapter_config.json",
+      "bytes": 791,
+      "sha256": "sha256:e8edf34169cc15c25e98965a5873e27c6eb54f4f95543e60d0452ec2fec60055"
+    },
+    {
+      "path": "adapter_model.safetensors",
+      "bytes": 29529752,
+      "sha256": "sha256:d93d2ea2d9f05564093cbb0b1286d2c368c54b01e847f1c37a98e00fb2914701"
+    }
+  ],
+  "resources": {
+    "elapsed_seconds": 50.4985038000159,
+    "gpu_allocated_before_bytes": 0,
+    "gpu_reserved_before_bytes": 0,
+    "gpu_allocated_after_bytes": 3578518528,
+    "gpu_reserved_after_bytes": 6593445888,
+    "peak_gpu_allocated_bytes": 4924369920,
+    "peak_gpu_reserved_bytes": 6593445888
+  }
+}

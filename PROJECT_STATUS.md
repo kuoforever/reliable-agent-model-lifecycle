@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-17.
+> Updated: 2026-08-20.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -112,31 +112,37 @@ delegated `pt-*` records to the MM-002-only `ground-*` case registry. The exact
 raw failure receipt and deterministic 27-record static reproduction are now
 classified; no Adapter, training metric, MM-002 post-training result, quality,
 serving, promotion, or Runtime claim exists.
-A separate v2 recovery protocol is now frozen locally before model execution.
-It preserves the v1 model/data/targets/training/eval/caps/authority boundary,
-binds a post-training-only renderer and all 27 prompt receipts before model
-load, and moves the exact next gate to one zero-retry execution-v2 lifecycle
-only after the protocol merges.
+A separate v2 recovery protocol froze before model execution and later merged.
+Its one zero-retry train/save/fresh-reload/MM-002 lifecycle has now passed all
+13 formal measurement gates. The result review freezes the 29,529,752-byte
+Adapter, 7,372,800 trainable parameters, three decreasing recorded train/
+validation-loss pairs, Grounding `3/5`, Action `3/9`, Tool and Argument `5/5`,
+zero compiler fallbacks, and six exact remaining bad-case classes. Stale-ref
+and coordinate/ref disagreement rejection remain `0/2` and `0/1`; generalized
+quality, repeatability, serving, promotion, and Runtime claims remain false.
 
 ## Single active objective
 
-Complete `MM-003-small-vlm-post-training-execution-v2` after the recovery
-protocol merges:
+Complete `MM-003-small-vlm-post-training-eval-repeatability-protocol-v1` after
+the successful result review:
 
 ```text
-merged recovery-v2 freeze + absent dedicated v2 output directory
-        -> one exact offline QLoRA train/save/fresh-reload/MM-002 eval lifecycle
-zero retry + outcome-neutral 13-gate evidence
-        -> result review without inferring quality or promotion
+frozen v2 Adapter + first raw/compiled/metric evidence + six-case taxonomy
+        -> freeze one outcome-neutral same-environment eval replay protocol
+unchanged MM-002/prompt/compiler/generation + new exclusive output directory
+        -> merge before any repeat execution
 ```
 
-Do not execute until the recovery protocol is merged and the repository is at
-that merged freeze. Use only the exact complete `mm003-model` snapshot, verify
-the fixed v2 output directory is absent, and invoke the registered runner once
-with zero retry. The v1 failure directory is immutable and must not be deleted,
-reused, or treated as retryable. Whatever result exists must be reviewed under
-the frozen outcome-neutral rubric; a formal measurement pass alone cannot
-establish quality improvement, repeatability, serving, promotion, or Runtime
+Do not replay the model before this new protocol is frozen and merged. The
+protocol must bind the exact three-file v2 Adapter, unchanged MM-002 suite and
+screenshots, prompt/compiler/generation/environment, one fresh base-plus-
+Adapter load, nine ordered calls, offline execution, zero retries, a new
+exclusive output directory, and layered raw/compiled/metric comparisons to the
+first run. It must not retrain, edit the Adapter, reuse either consumed v1/v2
+directory, copy eval gold into training, or describe the replay as an
+execution-v2 retry. Even a later exact replay can establish only bounded
+same-machine eval repeatability, not training repeatability, cross-machine
+reproducibility, generalized quality, serving, promotion, or Runtime
 eligibility.
 
 The previously active
@@ -284,6 +290,45 @@ exact next gate is `MM-003-small-vlm-post-training-execution-v2`; if that
 one-shot measurement passes, its success-only next gate is
 `MM-003-small-vlm-post-training-result-review-v2`.
 [Protocol](docs/MM-003-small-vlm-post-training-recovery-protocol-v2.md).
+
+`MM-003-small-vlm-post-training-execution-v2` completed once locally on
+2026-08-20 against recovery-protocol merge commit
+`3751a041ff12886a337df0066232379016fdbd9c`. One fresh training-model load ran
+three QLoRA epochs and 18 optimizer steps, saved the exact three-file Adapter,
+then one fresh base load plus one independent Adapter load made nine ordered
+MM-002 calls. Zero retries and no execution network were recorded. All 13
+formal gates pass; elapsed time was `130.3286408999993` seconds and peak CUDA
+allocated/reserved memory was `6,486,660,096` / `7,153,385,472` bytes, within
+the registered caps.
+
+The 29,529,752-byte safetensors Adapter has SHA-256
+`d93d2ea2d9f05564093cbb0b1286d2c368c54b01e847f1c37a98e00fb2914701`,
+288 finite F32 tensors, and 7,372,800 parameters. The nine predictions bind
+their producer to this Adapter identity and frozen model revision. The strict
+compiler accepted all nine outputs. Relative to the frozen zero-shot baseline, Grounding changes
+from `0/5` to `3/5`, Action from `0/9` to `3/9`, and Tool/Argument from `0/5`
+to `5/5`. Stale-ref rejection remains `0/2` and coordinate/ref disagreement
+rejection remains `0/1`.
+
+`MM-003-small-vlm-post-training-result-review-v2` freezes the raw training,
+prediction, evidence, and Adapter bytes plus an 11,311-byte review artifact
+with SHA-256
+`3dff57b17eb4fc9966ab53fe92faea8921fb34b485e389aaa19af64610db957d`.
+Its complete six-case taxonomy is: fused grounding missing bbox on
+`ground-003/006`; reject downgraded to fallback on `ground-004/007/009`; and
+fallback-reason vocabulary mismatch on `ground-005`. This is review-only and
+does not authorize copying eval answers into training. Generalized quality,
+rejection safety, training/eval repeatability, cross-machine, portable,
+commercial, serving, promotion, direct execution, and Runtime claims remain
+false. The exact next gate is
+`MM-003-small-vlm-post-training-eval-repeatability-protocol-v1`.
+[Evidence](docs/MM-003-small-vlm-post-training-result-review-v2.md).
+
+The focused 11-test result-review suite and unified 571-test gate pass
+locally on CPython 3.11.15 and 3.13.7 with `valid=true`, four expected Windows
+privilege skips, and 49 audited source files. Full-repository Ruff, Python 3.11
+`py_compile`, and `git diff --check` pass. The pull-request Linux matrix remains
+responsible for the independent CPython 3.12 result.
 
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
 2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
@@ -1072,7 +1117,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; zero-shot baseline established, QLoRA v1 failure classified, recovery protocol v2 frozen, execution-v2 next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; QLoRA v2 formal lifecycle and result review complete, eval-repeatability protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
