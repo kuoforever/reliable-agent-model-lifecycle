@@ -388,6 +388,7 @@ def main() -> int:
     mm003_post_training_recovery = (
         _validate_mm003_post_training_recovery_protocol()
     )
+    mm003_post_training_result = _validate_mm003_post_training_result_review()
     tests_run = _run_tests()
 
     result = {
@@ -518,6 +519,30 @@ def main() -> int:
         ),
         "mm003_post_training_recovery_next_gate": (
             mm003_post_training_recovery["next_gate"]
+        ),
+        "mm003_post_training_v2_formal_gate_passed": (
+            mm003_post_training_result["formal_gate_passed"]
+        ),
+        "mm003_post_training_v2_adapter_independently_loadable": (
+            mm003_post_training_result["adapter_independently_loadable"]
+        ),
+        "mm003_post_training_v2_model_evaluated": (
+            mm003_post_training_result["model_evaluated"]
+        ),
+        "mm003_post_training_v2_compiler_fallback_count": (
+            mm003_post_training_result["compiler_fallback_count"]
+        ),
+        "mm003_post_training_v2_grounding_accuracy": (
+            mm003_post_training_result["grounding_accuracy"]["value"]
+        ),
+        "mm003_post_training_v2_action_accuracy": (
+            mm003_post_training_result["action_accuracy"]["value"]
+        ),
+        "mm003_post_training_v2_repeatability_established": (
+            mm003_post_training_result["repeatability_established"]
+        ),
+        "mm003_post_training_v2_next_gate": (
+            mm003_post_training_result["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2167,6 +2192,31 @@ def _validate_mm003_post_training_recovery_protocol() -> dict[str, Any]:
         "exact_value_replacements": len(delta["exact_value_replacements"]),
         "next_gate": preregistration["next_gate_after_freeze"]["gate_id"],
     }
+
+
+def _validate_mm003_post_training_result_review() -> dict[str, Any]:
+    from scripts import validate_mm003_post_training_v2_result as validator
+
+    try:
+        result = validator.validate_repository(ROOT)
+    except validator.MM003PostTrainingV2ResultError as exc:
+        raise GateError(f"MM-003 post-training v2 result invalid: {exc}") from exc
+    if (
+        result["formal_gate_passed"] is not True
+        or result["training_executed"] is not True
+        or result["adapter_independently_loadable"] is not True
+        or result["model_evaluated"] is not True
+        or result["compiler_fallback_count"] != 0
+        or result["grounding_accuracy"]
+        != {"correct": 3, "total": 5, "value": 0.6}
+        or result["action_accuracy"]
+        != {"correct": 3, "total": 9, "value": 1 / 3}
+        or result["repeatability_established"] is not False
+        or result["next_gate"] != validator.NEXT_GATE_ID
+        or result["runtime_eligible"] is not False
+    ):
+        raise GateError("MM-003 post-training v2 result decision mismatch")
+    return result
 
 
 def _validate_named_hashes(artifacts: object) -> None:

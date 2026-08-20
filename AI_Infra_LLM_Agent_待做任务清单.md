@@ -420,7 +420,7 @@ agent-model-factory/
 - 动作前观察与动作后观察可以关联
 - 模型输出不包含任何直接执行权限
 
-**当前进展（2026-08-17）**
+**当前进展（2026-08-20）**
 
 - `MM-001-multimodal-trajectory-schema-v1` 已完成本地 synthetic schema review。
   text-only（10 artifacts、0 previous step）与 image-grounded（17 artifacts、1
@@ -589,14 +589,37 @@ agent-model-factory/
   source files。Ruff、`py_compile`、typed v2 contract scoped strict mypy、preregistration
   recomputation/`prepare --check` 与 `git diff --check` 通过；没有加载模型/GPU，v2
   output dir 仍不存在。
-- recovery protocol 合并后的唯一下一动作是
-  `MM-003-small-vlm-post-training-execution-v2`：使用 exact complete `mm003-model`
-  snapshot 与专用 v2 output dir，仅运行一次、zero retry。v1 failure dir 不得删除、
-  复用或重跑；execution-v2 通过后才进入
-  `MM-003-small-vlm-post-training-result-review-v2`，protocol pass 本身不代表 quality、
-  serving、promotion 或 Runtime eligibility。
-  任一 formal gate 为 false 时 evidence 的 `next_gate=null`，不得进入 success-only
-  result review。
+- recovery protocol 通过 PR #40 合并后，
+  `MM-003-small-vlm-post-training-execution-v2` 在本机仅运行一次：one fresh train
+  model load / three epochs / 18 optimizer steps / zero retry / offline；保存三文件
+  Adapter 后 one fresh base + one independent Adapter load 完成 9 个 ordered MM-002
+  calls。13/13 formal gates 全 true；完整 lifecycle elapsed
+  `130.3286408999993s`，peak allocated/reserved `6,486,660,096` /
+  `7,153,385,472` bytes，均在 caps 内。
+- Adapter weights 为 29,529,752 bytes、SHA-256
+  `d93d2ea2d9f05564093cbb0b1286d2c368c54b01e847f1c37a98e00fb2914701`，含
+  288 个 finite F32 tensors / 7,372,800 parameters；prediction producer exact 绑定
+  此 Adapter identity 与 frozen model revision。execution evidence 记录 independent
+  load 成功，但 result review 不重新加载模型。
+- strict compiler 由 zero-shot 的 9/9 fallback 降至 0/9；Grounding `0/5→3/5`、
+  Action `0/9→3/9`、Tool/Argument `0/5→5/5`。stale-ref rejection 仍 `0/2`，
+  coordinate/ref disagreement rejection 仍 `0/1`。六个 Action failure 已完整归类为
+  fused 缺 bbox（`ground-003/006`）、reject 降为 fallback（`ground-004/007/009`）
+  与 fallback reason vocabulary mismatch（`ground-005`）；eval answers 不得复制到训练。
+- 11,311-byte result review SHA-256 为
+  `3dff57b17eb4fc9966ab53fe92faea8921fb34b485e389aaa19af64610db957d`。
+  `quality_improved=false` 与 `repeatability_established=false` 仍保留；single synthetic
+  run 不建立 generalized quality、safety、serving、promotion 或 Runtime eligibility。
+- result-review focused 11 tests 与 unified 571-test gate 在本机 CPython 3.11.15 /
+  3.13.7 均通过；`valid=true`、4 个 expected Windows privilege skips、49 audited
+  source files。全仓 Ruff、Python 3.11 `py_compile`、`git diff --check` 通过；
+  CPython 3.12 由 pull-request Linux matrix 独立验证，不伪装成本地已通过。
+- 当前唯一动作切换为
+  `MM-003-small-vlm-post-training-eval-repeatability-protocol-v1`：冻结 unchanged v2
+  Adapter、MM-002 suite/screenshots、prompt/compiler/generation/environment、one fresh
+  base+Adapter load、9 ordered calls、offline/zero retry、新专用 output dir，以及与首次
+  v2 raw/compiled/metrics 的分层比较。合并前不得 replay；不得 retrain、修改 Adapter、
+  复用 consumed output dir 或称为 execution-v2 retry。
 
 ## MM-004：多模态困难负样本
 

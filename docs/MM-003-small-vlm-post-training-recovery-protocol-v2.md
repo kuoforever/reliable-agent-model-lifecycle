@@ -1,7 +1,7 @@
 # MM-003 small-VLM post-training recovery protocol v2
 
-> Status: frozen locally before any v2 model or GPU execution; merge this
-> protocol before invoking the separately registered execution-v2 lifecycle.
+> Status: frozen before any v2 model or GPU execution, then merged in PR #40.
+> Its one registered execution has since passed; see the separate result review.
 
 ## Decision
 
@@ -173,3 +173,10 @@ directory, substitute the incomplete `mm003-metadata` snapshot, use MM-002 gold
 as training data, or infer promotion from protocol compliance. If execution-v2
 passes, the next gate is
 `MM-003-small-vlm-post-training-result-review-v2`.
+
+That registered next action has since completed once against merge commit
+`3751a041ff12886a337df0066232379016fdbd9c`. All 13 measurement gates passed;
+the outcome and its limits are frozen in
+[the result review](MM-003-small-vlm-post-training-result-review-v2.md). The
+consumed command above is retained for provenance and must not be invoked
+again.
