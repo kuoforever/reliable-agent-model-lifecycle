@@ -399,6 +399,9 @@ def main() -> int:
     mm003_post_training_repeatability = (
         _validate_mm003_post_training_eval_repeatability_protocol()
     )
+    mm003_post_training_repeatability_result = (
+        _validate_mm003_post_training_eval_repeatability_result()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -568,6 +571,46 @@ def main() -> int:
         ),
         "mm003_post_training_eval_repeatability_next_gate": (
             mm003_post_training_repeatability["next_gate"]
+        ),
+        "mm003_post_training_eval_repeatability_formal_gate_passed": (
+            mm003_post_training_repeatability_result["formal_gate_passed"]
+        ),
+        "mm003_post_training_eval_repeatability_all_layers_exact": (
+            mm003_post_training_repeatability_result["all_layers_exact"]
+        ),
+        "mm003_post_training_eval_repeatability_raw_outputs_exact": (
+            mm003_post_training_repeatability_result["raw_outputs_exact"]
+        ),
+        "mm003_post_training_eval_repeatability_generated_token_counts_exact": (
+            mm003_post_training_repeatability_result[
+                "generated_token_counts_exact"
+            ]
+        ),
+        "mm003_post_training_eval_repeatability_compiled_predictions_exact": (
+            mm003_post_training_repeatability_result[
+                "compiled_predictions_exact"
+            ]
+        ),
+        "mm003_post_training_eval_repeatability_compiler_fallback_status_exact": (
+            mm003_post_training_repeatability_result[
+                "compiler_fallback_status_exact"
+            ]
+        ),
+        "mm003_post_training_eval_repeatability_metrics_exact": (
+            mm003_post_training_repeatability_result["metrics_exact"]
+        ),
+        "mm003_post_training_eval_repeatability_established": (
+            mm003_post_training_repeatability_result[
+                "same_machine_eval_repeatability_established"
+            ]
+        ),
+        "mm003_post_training_eval_repeatability_training_repeatability_established": (
+            mm003_post_training_repeatability_result[
+                "training_repeatability_established"
+            ]
+        ),
+        "mm003_post_training_eval_repeatability_result_next_gate": (
+            mm003_post_training_repeatability_result["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2339,6 +2382,37 @@ def _validate_mm003_post_training_eval_repeatability_protocol() -> dict[str, Any
         "case_count": contract.EXPECTED_CASES,
         "next_gate": preregistration["next_gate_after_freeze"]["gate_id"],
     }
+
+
+def _validate_mm003_post_training_eval_repeatability_result() -> dict[str, Any]:
+    from scripts import (
+        validate_mm003_post_training_eval_repeatability_result as validator,
+    )
+
+    try:
+        result = validator.validate_repository(ROOT)
+    except validator.MM003EvalRepeatabilityResultError as exc:
+        raise GateError(
+            f"MM-003 post-training eval-repeatability result invalid: {exc}"
+        ) from exc
+    if (
+        result["formal_gate_passed"] is not True
+        or result["classification"] != validator.CLASSIFICATION
+        or result["all_layers_exact"] is not True
+        or result["raw_outputs_exact"] != 9
+        or result["generated_token_counts_exact"] != 9
+        or result["compiled_predictions_exact"] != 9
+        or result["compiler_fallback_status_exact"] is not True
+        or result["metrics_exact"] is not True
+        or result["same_machine_eval_repeatability_established"] is not True
+        or result["training_repeatability_established"] is not False
+        or result["next_gate"] != validator.NEXT_GATE_ID
+        or result["runtime_eligible"] is not False
+    ):
+        raise GateError(
+            "MM-003 post-training eval-repeatability result decision mismatch"
+        )
+    return result
 
 
 def _validate_named_hashes(artifacts: object) -> None:

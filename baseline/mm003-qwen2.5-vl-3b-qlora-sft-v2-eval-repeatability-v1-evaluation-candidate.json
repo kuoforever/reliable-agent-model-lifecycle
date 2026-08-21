@@ -1,0 +1,324 @@
+{
+  "candidate_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1",
+  "run_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-replay-r1",
+  "output_id": "mm003-qlora-sft-v2-eval-repeatability-v1",
+  "gate_id": "MM-003-small-vlm-post-training-eval-repeatability-execution-v1",
+  "protocol": {
+    "freeze_commit": "c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8",
+    "preregistration_sha256": "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
+  },
+  "execution": {
+    "fresh_base_load_attempts": 1,
+    "fresh_base_loads": 1,
+    "independent_adapter_load_attempts": 1,
+    "independent_adapter_loads": 1,
+    "full_eval_run_attempts": 1,
+    "full_eval_runs": 1,
+    "generate_attempts": 9,
+    "generate_calls": 9,
+    "training_runs": 0,
+    "optimizer_steps": 0,
+    "backward_calls": 0,
+    "adapter_writes": 0,
+    "network_attempts": 0,
+    "network_used": false,
+    "retry_count": 0
+  },
+  "cases": [
+    {
+      "case_id": "ground-001",
+      "observation_mode": "uia_only",
+      "raw_output": "{\"case_id\":\"ground-001\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-save\",\"bbox\":null,\"reason\":null}",
+      "compiled_prediction": {
+        "case_id": "ground-001",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-save",
+        "bbox": null,
+        "reason": null
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 39,
+      "latency_seconds": 3.9444067000003997,
+      "screenshot_sha256": null
+    },
+    {
+      "case_id": "ground-002",
+      "observation_mode": "screenshot_only",
+      "raw_output": "{\"case_id\":\"ground-002\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":null,\"bbox\":[100,100,300,300],\"reason\":null}",
+      "compiled_prediction": {
+        "case_id": "ground-002",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          100,
+          100,
+          300,
+          300
+        ],
+        "reason": null
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 52,
+      "latency_seconds": 6.567106800000147,
+      "screenshot_sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6"
+    },
+    {
+      "case_id": "ground-003",
+      "observation_mode": "fused",
+      "raw_output": "{\"case_id\":\"ground-003\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-export\",\"bbox\":null,\"reason\":null}",
+      "compiled_prediction": {
+        "case_id": "ground-003",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-export",
+        "bbox": null,
+        "reason": null
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 39,
+      "latency_seconds": 5.412166399999933,
+      "screenshot_sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c"
+    },
+    {
+      "case_id": "ground-004",
+      "observation_mode": "uia_only",
+      "raw_output": "{\"case_id\":\"ground-004\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"stale_ref\"}",
+      "compiled_prediction": {
+        "case_id": "ground-004",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 38,
+      "latency_seconds": 3.109916500000054,
+      "screenshot_sha256": null
+    },
+    {
+      "case_id": "ground-005",
+      "observation_mode": "screenshot_only",
+      "raw_output": "{\"case_id\":\"ground-005\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"insufficient_evidence\"}",
+      "compiled_prediction": {
+        "case_id": "ground-005",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_evidence"
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 39,
+      "latency_seconds": 5.382745800000066,
+      "screenshot_sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c"
+    },
+    {
+      "case_id": "ground-006",
+      "observation_mode": "fused",
+      "raw_output": "{\"case_id\":\"ground-006\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-report\",\"bbox\":null,\"reason\":null}",
+      "compiled_prediction": {
+        "case_id": "ground-006",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-report",
+        "bbox": null,
+        "reason": null
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 39,
+      "latency_seconds": 4.934290200000305,
+      "screenshot_sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83"
+    },
+    {
+      "case_id": "ground-007",
+      "observation_mode": "fused",
+      "raw_output": "{\"case_id\":\"ground-007\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"insufficient_evidence\"}",
+      "compiled_prediction": {
+        "case_id": "ground-007",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_evidence"
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 39,
+      "latency_seconds": 5.334006499999759,
+      "screenshot_sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9"
+    },
+    {
+      "case_id": "ground-008",
+      "observation_mode": "screenshot_only",
+      "raw_output": "{\"case_id\":\"ground-008\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":null,\"bbox\":[900,120,980,200],\"reason\":null}",
+      "compiled_prediction": {
+        "case_id": "ground-008",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          900,
+          120,
+          980,
+          200
+        ],
+        "reason": null
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 52,
+      "latency_seconds": 6.296154300000126,
+      "screenshot_sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb"
+    },
+    {
+      "case_id": "ground-009",
+      "observation_mode": "uia_only",
+      "raw_output": "{\"case_id\":\"ground-009\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"stale_ref\"}",
+      "compiled_prediction": {
+        "case_id": "ground-009",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      },
+      "compiler_fallback": false,
+      "generated_tokens": 38,
+      "latency_seconds": 3.131256100000428,
+      "screenshot_sha256": null
+    }
+  ],
+  "predictions": {
+    "gui_grounding_prediction_version": 1,
+    "suite_id": "mm002-synthetic-eval-v1",
+    "producer": {
+      "kind": "model",
+      "model_id": "Qwen/Qwen2.5-VL-3B-Instruct+mm003-qlora-sft-v2",
+      "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3"
+    },
+    "records": [
+      {
+        "case_id": "ground-001",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-save",
+        "bbox": null,
+        "reason": null
+      },
+      {
+        "case_id": "ground-002",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          100,
+          100,
+          300,
+          300
+        ],
+        "reason": null
+      },
+      {
+        "case_id": "ground-003",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-export",
+        "bbox": null,
+        "reason": null
+      },
+      {
+        "case_id": "ground-004",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      },
+      {
+        "case_id": "ground-005",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_evidence"
+      },
+      {
+        "case_id": "ground-006",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": "ref-report",
+        "bbox": null,
+        "reason": null
+      },
+      {
+        "case_id": "ground-007",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "insufficient_evidence"
+      },
+      {
+        "case_id": "ground-008",
+        "disposition": "act",
+        "tool": "click",
+        "arguments": {
+          "button": "left"
+        },
+        "ref": null,
+        "bbox": [
+          900,
+          120,
+          980,
+          200
+        ],
+        "reason": null
+      },
+      {
+        "case_id": "ground-009",
+        "disposition": "fallback",
+        "tool": null,
+        "arguments": null,
+        "ref": null,
+        "bbox": null,
+        "reason": "stale_ref"
+      }
+    ]
+  }
+}

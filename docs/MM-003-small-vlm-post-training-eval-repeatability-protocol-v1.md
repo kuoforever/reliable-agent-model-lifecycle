@@ -1,7 +1,7 @@
 # MM-003 post-training eval repeatability protocol v1
 
-> Status: frozen locally before any repeat model or GPU execution. The formal
-> replay is prohibited until this protocol is reviewed and merged.
+> Status: protocol merged; its one registered replay has been consumed and the
+> result reviewed. The fixed output must never be deleted, reused, or retried.
 
 ## Decision
 
@@ -179,7 +179,7 @@ A resource or integrity failure, or an incomplete consumed attempt, routes to
 the separately registered failure-classification gate and cannot authorize
 result review or an automatic rerun.
 
-## Validation and exact next action
+## Validation, consumed execution, and result
 
 The focused tests exercise deterministic preregistration construction,
 external self-reseal rejection, strict JSON, all three comparison layers,
@@ -194,28 +194,36 @@ Windows privilege skips, and 50 audited source files. Ruff, `py_compile`,
 `prepare --check`, and `git diff --check` pass. Pull-request CI remains
 responsible for the independent CPython 3.12 result.
 
-These protocol checks do not import ML dependencies, load the model, access
-CUDA, or create the formal output directory. They establish only that the
-future measurement is frozen and falsifiable.
+Those protocol checks did not import ML dependencies, load the model, access
+CUDA, or create the formal output directory. After PR #42 merged, the original
+Anaconda base was found missing during the initial recovery audit. A CPython
+3.12.12 base supplied through uv was restored at the registered path; the
+formal preflight then passed the registered environment fields. This did not
+recover the original vendor or binary identity and did not create a complete
+hash-locked transitive dependency closure.
 
-After this protocol is merged, the single next gate is
-`MM-003-small-vlm-post-training-eval-repeatability-execution-v1`. Before the
-formal invocation, restore and independently re-audit the exact locked Python
-3.12/CUDA environment and confirm the output directory remains absent. Then
-invoke the merged protocol exactly once:
+The following registered command was subsequently invoked exactly once against
+freeze commit `c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8`. It is retained only
+as historical protocol evidence and **must not be invoked again**:
 
 ```powershell
 .\work\training-env\Scripts\python.exe -I -B -X pycache_prefix=NUL `
   .\scripts\run_mm003_post_training_eval_repeatability.py run `
   --model-snapshot .\work\model-cache\mm003-model\models--Qwen--Qwen2.5-VL-3B-Instruct\snapshots\66285546d2b821cf421d4f5eb2576359d3770cd3 `
   --preregistration .\configs\mm003_small_vlm_post_training_eval_repeatability_protocol_v1.json `
-  --protocol-freeze-commit <merged-protocol-commit> `
+  --protocol-freeze-commit c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8 `
   --output-dir .\work\evaluation-runs\mm003-qlora-sft-v2-eval-repeatability-v1
 ```
 
-Run it from the repository root. The runner requires that exact interpreter,
-`-I -B -X pycache_prefix=NUL`, and
-`HEAD == origin/master == <merged-protocol-commit>` before consumption. Do not
-invoke this command before merge, substitute a model snapshot, alter or copy
-the Adapter, enable network access, reuse a consumed directory, or retry after
-the owner-marked directory is atomically claimed.
+The replay passed all 13 gates with raw and compiled 9/9 exact, metrics exact,
+generated-token counts exact, compiler-fallback status exact, zero retry, and
+no training or Adapter write. The model-free result review rebuilt the formal
+evidence byte-for-byte and establishes only bounded same-machine fixed-eval
+repeatability. `all_layers_exact` names raw / compiled / metric evidence layers,
+not Transformer internals, and token-ID sequences were not persisted.
+
+See the [result review](MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md)
+for exact receipts, resource observations, environment-recovery limitations,
+and claim boundaries. The single next gate is
+`MM-004-multimodal-hard-negative-data-protocol-v1`; the consumed MM-003 output
+directory remains permanently ineligible for deletion, reuse, or retry.

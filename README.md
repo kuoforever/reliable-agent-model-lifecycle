@@ -223,21 +223,25 @@ same-environment eval-repeatability protocol for the unchanged Adapter, not
 retraining or a retry. See the
 [result review](docs/MM-003-small-vlm-post-training-result-review-v2.md).
 
-### Local small-VLM post-training eval repeatability protocol v1
+### Local small-VLM post-training eval repeatability result v1
 
-`MM-003` now freezes a separate outcome-neutral replay lifecycle before any
-repeat model or GPU execution. Its 22,951-byte preregistration (SHA-256
-`723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b`)
-binds 17 source receipts, the exact unchanged Adapter/model/MM-002 inputs,
-one fresh base-plus-Adapter load, nine offline zero-retry calls, inherited
-resource caps, and 13 formal measurement gates.
+The merged `MM-003` replay protocol was consumed exactly once after restoration
+and audit of its registered Python 3.12/CUDA environment. All 13 formal gates
+passed with one base load, one read-only Adapter load, nine ordered offline
+calls, zero retry, and no training or Adapter write. Raw UTF-8 outputs and
+compiled predictions are each exact for 9/9 cases; metrics, generated-token
+counts, and compiler-fallback status are exact as separately checked facts.
 
-The runner compares raw UTF-8 outputs, recompiled predictions, and recomputed
-metrics independently; equality is an observed outcome rather than an
-execution threshold. An authenticated `attempt-owner.json` is written in a
-same-parent staging directory before its atomic claim of the fixed one-shot
-output. No repeat execution or repeatability result exists yet. See the
-[repeatability protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md).
+The model-free result review rebuilt the frozen execution evidence byte for
+byte and establishes only bounded same-machine, registered-environment,
+fixed-nine-case eval repeatability. `all_layers_exact` means raw / compiled /
+metrics evidence layers, not Transformer internals; token-ID sequences were
+not persisted. The original Anaconda base binary was not recovered, the
+transitive dependency closure is not hash-locked, and resource, training, and
+cross-machine repeatability remain untested. Serving, promotion, and Runtime
+eligibility remain false. The next gate is the model-free MM-004 hard-negative
+data protocol. See the [frozen protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md)
+and [result review](docs/MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -652,20 +656,20 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is the merge-before-run boundary for
-`MM-003-small-vlm-post-training-eval-repeatability-execution-v1`. Its protocol
-is frozen locally, but no repeat model/GPU execution has occurred. After the
-protocol merges, the exact locked Python 3.12/CUDA environment must be restored
-and independently re-audited before the unchanged Adapter is replayed exactly
-once against the unchanged MM-002 eval.
+The MM-003 eval-repeatability lifecycle is closed: its one-shot replay passed
+and its model-free review established only bounded same-machine fixed-eval
+repeatability. The consumed output is immutable and permanently ineligible for
+deletion, reuse, or retry. Training/resource repeatability, cross-machine
+reproducibility, generalized quality, serving, promotion, commercial, and
+Runtime claims remain false.
 
-The measurement may report either equality or drift. It must not retrain,
-mutate the Adapter, reuse any consumed directory, or copy eval gold into
-training. Even exact equality would establish at most bounded same-machine
-fixed-eval repeatability after independent result review, not training
-repeatability, generalized quality, rejection safety, cross-machine
-reproducibility, serving, promotion, commercial eligibility, or Runtime
-eligibility.
+The single active objective is now
+`MM-004-multimodal-hard-negative-data-protocol-v1`. Before generating,
+training on, or evaluating any new hard-negative records, freeze a model-free
+data protocol with deterministic provenance, split isolation, validation, and
+fail-closed claims. Existing MM-002 gold/eval and the MM-003 Adapter remain
+read-only evidence; this objective does not authorize Runtime changes or real
+desktop capture.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

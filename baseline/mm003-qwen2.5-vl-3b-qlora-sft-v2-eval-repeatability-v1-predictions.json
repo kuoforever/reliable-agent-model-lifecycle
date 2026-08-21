@@ -1,0 +1,112 @@
+{
+  "gui_grounding_prediction_version": 1,
+  "suite_id": "mm002-synthetic-eval-v1",
+  "producer": {
+    "kind": "model",
+    "model_id": "Qwen/Qwen2.5-VL-3B-Instruct+mm003-qlora-sft-v2",
+    "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3"
+  },
+  "records": [
+    {
+      "case_id": "ground-001",
+      "disposition": "act",
+      "tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "ref": "ref-save",
+      "bbox": null,
+      "reason": null
+    },
+    {
+      "case_id": "ground-002",
+      "disposition": "act",
+      "tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "ref": null,
+      "bbox": [
+        100,
+        100,
+        300,
+        300
+      ],
+      "reason": null
+    },
+    {
+      "case_id": "ground-003",
+      "disposition": "act",
+      "tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "ref": "ref-export",
+      "bbox": null,
+      "reason": null
+    },
+    {
+      "case_id": "ground-004",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "stale_ref"
+    },
+    {
+      "case_id": "ground-005",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "insufficient_evidence"
+    },
+    {
+      "case_id": "ground-006",
+      "disposition": "act",
+      "tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "ref": "ref-report",
+      "bbox": null,
+      "reason": null
+    },
+    {
+      "case_id": "ground-007",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "insufficient_evidence"
+    },
+    {
+      "case_id": "ground-008",
+      "disposition": "act",
+      "tool": "click",
+      "arguments": {
+        "button": "left"
+      },
+      "ref": null,
+      "bbox": [
+        900,
+        120,
+        980,
+        200
+      ],
+      "reason": null
+    },
+    {
+      "case_id": "ground-009",
+      "disposition": "fallback",
+      "tool": null,
+      "arguments": null,
+      "ref": null,
+      "bbox": null,
+      "reason": "stale_ref"
+    }
+  ]
+}

@@ -120,36 +120,37 @@ validation-loss pairs, Grounding `3/5`, Action `3/9`, Tool and Argument `5/5`,
 zero compiler fallbacks, and six exact remaining bad-case classes. Stale-ref
 and coordinate/ref disagreement rejection remain `0/2` and `0/1`; generalized
 quality, repeatability, serving, promotion, and Runtime claims remain false.
-The eval-repeatability protocol is now frozen locally before any repeat model
-or GPU execution. Its 22,951-byte preregistration binds 17 source receipts,
-the unchanged Adapter/model/MM-002 inputs, one offline nine-call replay,
-owner-marked atomic output consumption, layered raw/compiled/metric comparison,
-the inherited resource caps, and 13 outcome-neutral formal gates. No replay or
-repeatability result exists yet.
+The merged eval-repeatability protocol was consumed exactly once after its
+registered Python 3.12/CUDA environment was restored and independently
+re-audited. All 13 formal gates passed with one base load, one read-only Adapter
+load, nine ordered offline calls, zero retry, and no training or Adapter write.
+Raw UTF-8 outputs and compiled predictions are each exact for 9/9 cases;
+metrics, generated-token counts, and compiler-fallback status are also exact.
+The independent model-free review rebuilt the evidence byte-for-byte and now
+establishes only bounded same-machine, registered-environment, fixed-nine-case
+eval repeatability. It does not establish token-ID identity, training or
+resource repeatability, cross-machine reproducibility, generalized quality,
+serving, promotion, or Runtime eligibility. The original Anaconda base binary
+was not recovered and transitive dependency hashes were not fully pinned.
 
 ## Single active objective
 
-Execute `MM-003-small-vlm-post-training-eval-repeatability-execution-v1` only
-after its frozen protocol is merged:
+Freeze `MM-004-multimodal-hard-negative-data-protocol-v1` before generating,
+training on, or evaluating any new hard-negative records:
 
 ```text
-merged frozen replay protocol + restored exact Python 3.12/CUDA environment
-        -> independent read-only preflight; fixed output directory still absent
-unchanged Adapter + unchanged MM-002 eval + one fresh base-plus-Adapter load
-        -> nine ordered offline calls, zero retry, equality-or-drift evidence
+reviewed MM-002/MM-003 contracts + current seven hard-negative categories
+        -> outcome-neutral, model-free data construction protocol
+frozen provenance + split isolation + validation and fail-closed claims
+        -> only then may MM-004 data generation or model evaluation be proposed
 ```
 
-Do not execute from this feature branch. After merge, restore and independently
-re-audit the exact locked interpreter, dependencies, CUDA/GPU, model snapshot,
-Adapter, preregistration, merge commit, and absent output directory. Invoke the
-registered runner once. The one-shot boundary is the atomic claim of the
-owner-marked fixed directory; never delete, reuse, or retry it afterward.
-Completed equality or drift routes only to the registered result-review gate;
-a consumed incomplete attempt routes only to the registered failure-
-classification gate. Even exact equality can establish only bounded
-same-machine fixed-eval repeatability after review, not training repeatability,
-cross-machine reproducibility, generalized quality, serving, promotion, or
-Runtime eligibility.
+The protocol must preserve the existing MM-002 gold/eval and MM-003 Adapter as
+read-only evidence, define deterministic record identities and leakage checks,
+and keep generation, training, model evaluation, safety, serving, promotion,
+and Runtime claims false at freeze. Do not reopen or rerun the consumed MM-003
+repeatability directory. This objective is a data-contract gate, not authority
+to change the separate Runtime repository or capture real desktop content.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -290,9 +291,9 @@ Focused 23 tests pass on CPython 3.11.15, 3.12.12, and 3.13.7. All three
 interpreters also pass the unified 560-test gate with `valid=true`, four
 expected Windows privilege skips, and 49 audited source files. Exact
 preregistration recomputation, Ruff, `py_compile`, scoped strict mypy on the
-typed v2 contract, and `git diff --check` pass. No model or GPU was loaded and
-the fixed v2 output directory remains absent. After this freeze merges, the
-exact next gate is `MM-003-small-vlm-post-training-execution-v2`; if that
+typed v2 contract, and `git diff --check` pass. At that freeze no model or GPU
+was loaded and the fixed v2 output directory was absent. Its exact next gate
+was `MM-003-small-vlm-post-training-execution-v2`; if that
 one-shot measurement passes, its success-only next gate is
 `MM-003-small-vlm-post-training-result-review-v2`.
 [Protocol](docs/MM-003-small-vlm-post-training-recovery-protocol-v2.md).
@@ -348,16 +349,31 @@ nine ordered offline calls, zero retry/training/write, inherited 1,800-second/
 predictions, and recomputed metrics compare independently; equality is not an
 execution threshold.
 
-The owner marker is written in a random same-parent staging directory before
-the fixed output is atomically claimed as the one-shot boundary. Focused 29
-tests and unified 600-test gates pass locally on CPython 3.11.15 and 3.13.7
-with `valid=true`, four expected Windows privilege skips, and 50 audited source
-files. Ruff, `py_compile`, preregistration recomputation/`prepare --check`, and
-`git diff --check` pass. CPython 3.12 remains the pull-request Linux matrix's
-independent responsibility. No model/CUDA was loaded and the formal output
-directory remains absent. After merge, the exact next gate is
-`MM-003-small-vlm-post-training-eval-repeatability-execution-v1`.
+The owner marker was written in a random same-parent staging directory before
+the fixed output was atomically claimed as the one-shot boundary. The protocol
+slice passed 29 focused tests and 600-test unified gates before merge. Its one
+formal replay later completed with 13/13 gates, raw and compiled 9/9 exact,
+metrics exact, generated-token counts exact, and no retry. The frozen four
+execution artifacts are 586 / 9,855 / 2,241 / 20,243 bytes with SHA-256
+`8f6c267ab262021ac6b8805606b9a7e7bb071507968e5d94a0c4b25eadb3d7fb`,
+`a354f4b3f2b20467ed7d82916345f7b951ca6df1ad9ecc5816734410694e155b`,
+`c2c703e5896fe64df9e156bda9d38975b92c1bf18c72f74f5a232dcbbbc4a028`,
+and `e20262debfbefa3e361855728aa8852f1219053d6fb9152158a2916c806a7ad2`.
+The 15,119-byte result review has SHA-256
+`8979693b6962849555e533332331d91dbb9fad8294f7fbc6703fa09ab3414f4a`.
+Only bounded same-machine fixed-eval repeatability is established; token-ID,
+training, resource, cross-machine, generalized-quality, serving, promotion,
+and Runtime claims remain false. The consumed output must never be deleted,
+reused, or retried. The exact next gate is
+`MM-004-multimodal-hard-negative-data-protocol-v1`.
 [Protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md).
+[Result review](docs/MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md).
+
+The focused result-review suite passes 11/11 tests on local CPython 3.11.15,
+3.12.12, and 3.13.7. Each unified gate passes 611 tests with `valid=true`, four
+expected Windows privilege skips, and 50 audited source files. Full-repository
+Ruff, scoped strict mypy on the new validator, `py_compile`, protocol
+`prepare --check`, default result validation, and `git diff --check` pass.
 
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
 2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
@@ -1146,7 +1162,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; eval-repeatability protocol frozen locally before replay, execution-v1 next after merge |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; bounded same-machine fixed-eval repeatability reviewed, MM-004 hard-negative data protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

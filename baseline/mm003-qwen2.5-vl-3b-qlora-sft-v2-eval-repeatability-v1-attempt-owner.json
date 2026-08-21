@@ -1,0 +1,12 @@
+{
+  "attempt_owner_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1",
+  "run_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-replay-r1",
+  "output_id": "mm003-qlora-sft-v2-eval-repeatability-v1",
+  "gate_id": "MM-003-small-vlm-post-training-eval-repeatability-execution-v1",
+  "protocol": {
+    "freeze_commit": "c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8",
+    "preregistration_sha256": "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
+  },
+  "owner_token": "352f76b32f8bde362e143def4ff1a7c390225bb7c582248551e88328cc8f11d0"
+}
