@@ -614,12 +614,25 @@ agent-model-factory/
   3.13.7 均通过；`valid=true`、4 个 expected Windows privilege skips、49 audited
   source files。全仓 Ruff、Python 3.11 `py_compile`、`git diff --check` 通过；
   CPython 3.12 由 pull-request Linux matrix 独立验证，不伪装成本地已通过。
-- 当前唯一动作切换为
-  `MM-003-small-vlm-post-training-eval-repeatability-protocol-v1`：冻结 unchanged v2
-  Adapter、MM-002 suite/screenshots、prompt/compiler/generation/environment、one fresh
-  base+Adapter load、9 ordered calls、offline/zero retry、新专用 output dir，以及与首次
-  v2 raw/compiled/metrics 的分层比较。合并前不得 replay；不得 retrain、修改 Adapter、
-  复用 consumed output dir 或称为 execution-v2 retry。
+- `MM-003-small-vlm-post-training-eval-repeatability-protocol-v1` 已在任何 repeat
+  model/GPU execution 前本地冻结：22,951 bytes，SHA-256
+  `723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b`。
+  它绑定 17 个 source receipts、unchanged v2 Adapter/model/MM-002
+  suite/screenshots/prompt/compiler/generation/environment、one fresh base+Adapter
+  load、9 ordered calls、offline/zero retry、原 1,800-second/16.5-GB caps、13 个
+  outcome-neutral formal gates，以及首次 v2 raw/compiled/metrics 的分层比较。
+- owner-marked staging directory 在原子 claim fixed output 前写入
+  `attempt-owner.json`；正式目录一旦出现便可绑定本次 one-shot ownership。focused
+  29 tests 与 CPython 3.11.15/3.13.7 unified 600-test gates 通过，`valid=true`、
+  4 个 expected Windows privilege skips、50 audited source files；Ruff、
+  `py_compile`、`prepare --check`、`git diff --check` 通过。CPython 3.12 由 PR Linux
+  matrix 独立验证。没有加载模型/GPU，formal output dir 仍不存在。
+- 协议合并后的唯一动作是
+  `MM-003-small-vlm-post-training-eval-repeatability-execution-v1`：先恢复并独立复核
+  exact locked Python 3.12/CUDA 环境，再对 unchanged Adapter/MM-002 eval 执行一次。
+  equality 或 drift 都是可接受 measurement outcome；不得 retrain、修改 Adapter、复用
+  consumed output dir 或称为 execution-v2 retry。成功只进入独立 result-review-v1，
+  consumed incomplete 则进入已注册 failure-classification-v1。
 
 ## MM-004：多模态困难负样本
 

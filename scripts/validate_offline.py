@@ -73,6 +73,13 @@ MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_PATH = (
 MM003_POST_TRAINING_RECOVERY_PREREGISTRATION_SHA256 = (
     "sha256:02e36d5981e0ed4ac90bfdb3c5cc9c9e1f78ff29ff927020b0a41ebb27f55c0e"
 )
+MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_PATH = (
+    ROOT / "configs" / "mm003_small_vlm_post_training_eval_repeatability_protocol_v1.json"
+)
+MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_BYTES = 22_951
+MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_SHA256 = (
+    "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -389,6 +396,9 @@ def main() -> int:
         _validate_mm003_post_training_recovery_protocol()
     )
     mm003_post_training_result = _validate_mm003_post_training_result_review()
+    mm003_post_training_repeatability = (
+        _validate_mm003_post_training_eval_repeatability_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -543,6 +553,21 @@ def main() -> int:
         ),
         "mm003_post_training_v2_next_gate": (
             mm003_post_training_result["next_gate"]
+        ),
+        "mm003_post_training_eval_repeatability_protocol_frozen": (
+            mm003_post_training_repeatability["protocol_frozen"]
+        ),
+        "mm003_post_training_eval_repeatability_source_files": (
+            mm003_post_training_repeatability["source_files"]
+        ),
+        "mm003_post_training_eval_repeatability_required_gates": (
+            mm003_post_training_repeatability["required_gates"]
+        ),
+        "mm003_post_training_eval_repeatability_case_count": (
+            mm003_post_training_repeatability["case_count"]
+        ),
+        "mm003_post_training_eval_repeatability_next_gate": (
+            mm003_post_training_repeatability["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2217,6 +2242,103 @@ def _validate_mm003_post_training_result_review() -> dict[str, Any]:
     ):
         raise GateError("MM-003 post-training v2 result decision mismatch")
     return result
+
+
+def _validate_mm003_post_training_eval_repeatability_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm003_post_training_eval_repeatability as contract
+    from scripts import run_mm003_post_training_eval_repeatability as runner
+
+    payload = _read_regular_file_once(
+        MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_PATH,
+        "MM-003 post-training eval-repeatability preregistration",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_BYTES
+        or digest != MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_SHA256
+    ):
+        raise GateError(
+            "MM-003 post-training eval-repeatability preregistration hash mismatch"
+        )
+    raw = contract.parse_strict_json_bytes(
+        payload,
+        location="$.mm003_post_training_eval_repeatability_preregistration",
+    )
+    if not isinstance(raw, dict) or contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-003 post-training eval-repeatability preregistration must be a "
+            "canonical object"
+        )
+
+    context = runner.load_authenticated_context()
+    source_hashes = runner.protocol_source_hashes()
+    preregistration = contract.validate_preregistration(
+        raw,
+        source_hashes=source_hashes,
+        upstream_preregistration=context["upstream_preregistration"],
+        reference_evidence=context["reference_evidence"],
+        reference_predictions=context["reference_predictions"],
+        result_review=context["result_review"],
+        suite=context["suite"],
+    )
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        source_hashes=source_hashes,
+        upstream_preregistration=context["upstream_preregistration"],
+        reference_evidence=context["reference_evidence"],
+        reference_predictions=context["reference_predictions"],
+        result_review=context["result_review"],
+        suite=context["suite"],
+    )
+    if preregistration != expected or contract.artifact_json_bytes(expected) != payload:
+        raise GateError(
+            "MM-003 post-training eval-repeatability preregistration drift"
+        )
+
+    execution = preregistration["execution_protocol"]
+    consumption = execution["attempt_consumption"]
+    outputs = preregistration["outputs"]
+    claims = preregistration["claims"]
+    if (
+        preregistration["freeze_status"] != "frozen"
+        or preregistration["formal_gate"]["required_gates"]
+        != contract.REQUIRED_GATES
+        or preregistration["formal_gate"]["formal_gate_passed"] is not False
+        or preregistration["formal_gate"]["quality_threshold_required"] is not False
+        or len(preregistration["source_lineage"]["protocol_sources"]) != 17
+        or execution["model_snapshot_root"] != contract.MODEL_SNAPSHOT_ROOT
+        or execution["run_count"] != 1
+        or execution["full_eval_runs"] != 1
+        or execution["generate_calls"] != contract.EXPECTED_CASES
+        or execution["training_runs"] != 0
+        or execution["retry_count"] != 0
+        or execution["network_used"] is not False
+        or consumption["consumed_when"]
+        != "owner_marked_staging_directory_atomically_renamed_to_fixed_output"
+        or consumption["attempt_owner_written_before_consumption"] is not True
+        or outputs["attempt_owner"] != contract.ATTEMPT_OWNER_ARTIFACT
+        or outputs["output_directory"] != contract.RUN_OUTPUT_ROOT
+        or preregistration["resource_caps"] != contract.RESOURCE_CAPS
+        or any(
+            value is not False
+            for value in preregistration["authority_contract"].values()
+        )
+        or any(value is not False for value in claims.values())
+        or preregistration["runtime_eligible"] is not False
+        or preregistration["next_gate_after_freeze"]["gate_id"]
+        != contract.EXECUTION_GATE_ID
+    ):
+        raise GateError(
+            "MM-003 post-training eval-repeatability protocol boundary mismatch"
+        )
+    return {
+        "protocol_frozen": True,
+        "source_files": len(contract.PROTOCOL_SOURCE_PATHS),
+        "required_gates": len(contract.REQUIRED_GATES),
+        "case_count": contract.EXPECTED_CASES,
+        "next_gate": preregistration["next_gate_after_freeze"]["gate_id"],
+    }
 
 
 def _validate_named_hashes(artifacts: object) -> None:
