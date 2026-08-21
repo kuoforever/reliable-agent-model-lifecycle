@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-20.
+> Updated: 2026-08-21.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -120,30 +120,36 @@ validation-loss pairs, Grounding `3/5`, Action `3/9`, Tool and Argument `5/5`,
 zero compiler fallbacks, and six exact remaining bad-case classes. Stale-ref
 and coordinate/ref disagreement rejection remain `0/2` and `0/1`; generalized
 quality, repeatability, serving, promotion, and Runtime claims remain false.
+The eval-repeatability protocol is now frozen locally before any repeat model
+or GPU execution. Its 22,951-byte preregistration binds 17 source receipts,
+the unchanged Adapter/model/MM-002 inputs, one offline nine-call replay,
+owner-marked atomic output consumption, layered raw/compiled/metric comparison,
+the inherited resource caps, and 13 outcome-neutral formal gates. No replay or
+repeatability result exists yet.
 
 ## Single active objective
 
-Complete `MM-003-small-vlm-post-training-eval-repeatability-protocol-v1` after
-the successful result review:
+Execute `MM-003-small-vlm-post-training-eval-repeatability-execution-v1` only
+after its frozen protocol is merged:
 
 ```text
-frozen v2 Adapter + first raw/compiled/metric evidence + six-case taxonomy
-        -> freeze one outcome-neutral same-environment eval replay protocol
-unchanged MM-002/prompt/compiler/generation + new exclusive output directory
-        -> merge before any repeat execution
+merged frozen replay protocol + restored exact Python 3.12/CUDA environment
+        -> independent read-only preflight; fixed output directory still absent
+unchanged Adapter + unchanged MM-002 eval + one fresh base-plus-Adapter load
+        -> nine ordered offline calls, zero retry, equality-or-drift evidence
 ```
 
-Do not replay the model before this new protocol is frozen and merged. The
-protocol must bind the exact three-file v2 Adapter, unchanged MM-002 suite and
-screenshots, prompt/compiler/generation/environment, one fresh base-plus-
-Adapter load, nine ordered calls, offline execution, zero retries, a new
-exclusive output directory, and layered raw/compiled/metric comparisons to the
-first run. It must not retrain, edit the Adapter, reuse either consumed v1/v2
-directory, copy eval gold into training, or describe the replay as an
-execution-v2 retry. Even a later exact replay can establish only bounded
-same-machine eval repeatability, not training repeatability, cross-machine
-reproducibility, generalized quality, serving, promotion, or Runtime
-eligibility.
+Do not execute from this feature branch. After merge, restore and independently
+re-audit the exact locked interpreter, dependencies, CUDA/GPU, model snapshot,
+Adapter, preregistration, merge commit, and absent output directory. Invoke the
+registered runner once. The one-shot boundary is the atomic claim of the
+owner-marked fixed directory; never delete, reuse, or retry it afterward.
+Completed equality or drift routes only to the registered result-review gate;
+a consumed incomplete attempt routes only to the registered failure-
+classification gate. Even exact equality can establish only bounded
+same-machine fixed-eval repeatability after review, not training repeatability,
+cross-machine reproducibility, generalized quality, serving, promotion, or
+Runtime eligibility.
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
@@ -329,6 +335,29 @@ locally on CPython 3.11.15 and 3.13.7 with `valid=true`, four expected Windows
 privilege skips, and 49 audited source files. Full-repository Ruff, Python 3.11
 `py_compile`, and `git diff --check` pass. The pull-request Linux matrix remains
 responsible for the independent CPython 3.12 result.
+
+`MM-003-small-vlm-post-training-eval-repeatability-protocol-v1` froze locally
+on 2026-08-21 before any repeat model/GPU execution. Its 22,951-byte
+preregistration has SHA-256
+`723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b`.
+Seventeen source receipts bind the actual import/validation graph, exact model
+snapshot and three-file Adapter, unchanged MM-002 suite/screenshots/prompt/
+compiler/generation/environment, one fresh base-plus-read-only-Adapter load,
+nine ordered offline calls, zero retry/training/write, inherited 1,800-second/
+16.5-GB caps, and 13 outcome-neutral formal gates. Raw outputs, recompiled
+predictions, and recomputed metrics compare independently; equality is not an
+execution threshold.
+
+The owner marker is written in a random same-parent staging directory before
+the fixed output is atomically claimed as the one-shot boundary. Focused 29
+tests and unified 600-test gates pass locally on CPython 3.11.15 and 3.13.7
+with `valid=true`, four expected Windows privilege skips, and 50 audited source
+files. Ruff, `py_compile`, preregistration recomputation/`prepare --check`, and
+`git diff --check` pass. CPython 3.12 remains the pull-request Linux matrix's
+independent responsibility. No model/CUDA was loaded and the formal output
+directory remains absent. After merge, the exact next gate is
+`MM-003-small-vlm-post-training-eval-repeatability-execution-v1`.
+[Protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md).
 
 `MM-003-local-small-vlm-baseline-recovery-protocol-v2` froze locally on
 2026-08-17 before any v2 model execution. Its 13,349-byte preregistration has
@@ -1117,7 +1146,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; QLoRA v2 formal lifecycle and result review complete, eval-repeatability protocol next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; eval-repeatability protocol frozen locally before replay, execution-v1 next after merge |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

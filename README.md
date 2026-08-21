@@ -223,6 +223,22 @@ same-environment eval-repeatability protocol for the unchanged Adapter, not
 retraining or a retry. See the
 [result review](docs/MM-003-small-vlm-post-training-result-review-v2.md).
 
+### Local small-VLM post-training eval repeatability protocol v1
+
+`MM-003` now freezes a separate outcome-neutral replay lifecycle before any
+repeat model or GPU execution. Its 22,951-byte preregistration (SHA-256
+`723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b`)
+binds 17 source receipts, the exact unchanged Adapter/model/MM-002 inputs,
+one fresh base-plus-Adapter load, nine offline zero-retry calls, inherited
+resource caps, and 13 formal measurement gates.
+
+The runner compares raw UTF-8 outputs, recompiled predictions, and recomputed
+metrics independently; equality is an observed outcome rather than an
+execution threshold. An authenticated `attempt-owner.json` is written in a
+same-parent staging directory before its atomic claim of the fixed one-shot
+output. No repeat execution or repeatability result exists yet. See the
+[repeatability protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -636,18 +652,20 @@ details are in [environment.md](docs/environment.md).
 
 ## Current boundary
 
-The current local work is
-`MM-003-small-vlm-post-training-eval-repeatability-protocol-v1`. The merged
-recovery-v2 lifecycle has been consumed exactly once and its formal measurement
-passed. The result review freezes the Adapter, raw training/eval evidence,
-specific synthetic metric improvements, and six remaining bad-case classes.
+The current local work is the merge-before-run boundary for
+`MM-003-small-vlm-post-training-eval-repeatability-execution-v1`. Its protocol
+is frozen locally, but no repeat model/GPU execution has occurred. After the
+protocol merges, the exact locked Python 3.12/CUDA environment must be restored
+and independently re-audited before the unchanged Adapter is replayed exactly
+once against the unchanged MM-002 eval.
 
-The next gate must freeze a same-environment replay protocol for the unchanged
-Adapter and unchanged MM-002 eval before any repeat execution. It must not
-retrain, mutate the Adapter, reuse the consumed output directory, or copy eval
-gold into training. Formal measurement success does not imply generalized
-quality, rejection safety, repeatability, cross-machine reproducibility,
-serving, promotion, commercial eligibility, or Runtime eligibility.
+The measurement may report either equality or drift. It must not retrain,
+mutate the Adapter, reuse any consumed directory, or copy eval gold into
+training. Even exact equality would establish at most bounded same-machine
+fixed-eval repeatability after independent result review, not training
+repeatability, generalized quality, rejection safety, cross-machine
+reproducibility, serving, promotion, commercial eligibility, or Runtime
+eligibility.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
