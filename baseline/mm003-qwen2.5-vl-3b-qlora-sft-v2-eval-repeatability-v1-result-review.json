@@ -1,0 +1,486 @@
+{
+  "review_version": 1,
+  "gate_id": "MM-003-small-vlm-post-training-eval-repeatability-result-review-v1",
+  "reviewed_execution_gate_id": "MM-003-small-vlm-post-training-eval-repeatability-execution-v1",
+  "classification": "same_machine_fixed_eval_raw_compiled_metrics_and_generated_token_counts_exact",
+  "scope": "same_machine_registered_environment_fixed_nine_case_eval",
+  "protocol": {
+    "freeze_commit": "c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8",
+    "preregistration": {
+      "path": "configs/mm003_small_vlm_post_training_eval_repeatability_protocol_v1.json",
+      "bytes": 22951,
+      "sha256": "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
+    }
+  },
+  "frozen_artifacts": {
+    "attempt_owner": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1-attempt-owner.json",
+      "bytes": 586,
+      "sha256": "sha256:8f6c267ab262021ac6b8805606b9a7e7bb071507968e5d94a0c4b25eadb3d7fb"
+    },
+    "evaluation_candidate": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1-evaluation-candidate.json",
+      "bytes": 9855,
+      "sha256": "sha256:a354f4b3f2b20467ed7d82916345f7b951ca6df1ad9ecc5816734410694e155b"
+    },
+    "predictions": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1-predictions.json",
+      "bytes": 2241,
+      "sha256": "sha256:c2c703e5896fe64df9e156bda9d38975b92c1bf18c72f74f5a232dcbbbc4a028"
+    },
+    "evidence": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1-evidence.json",
+      "bytes": 20243,
+      "sha256": "sha256:e20262debfbefa3e361855728aa8852f1219053d6fb9152158a2916c806a7ad2"
+    }
+  },
+  "review_process": {
+    "model_reloaded": false,
+    "cuda_used": false,
+    "scorer_recomputed": true,
+    "candidate_binding_recomputed": true,
+    "evidence_rebuilt_from_frozen_inputs": true,
+    "historical_timestamp_and_resources_reused_from_runner_evidence": true,
+    "historical_timestamp_and_resources_independently_remeasured": false
+  },
+  "formal_measurement": {
+    "required_gates": [
+      "protocol_integrity",
+      "reference_result_integrity",
+      "exact_model_files",
+      "exact_adapter_files",
+      "locked_environment",
+      "unchanged_mm002_inputs",
+      "offline_single_replay",
+      "prediction_identity",
+      "attempt_ownership",
+      "candidate_and_predictions_binding",
+      "layered_comparison_complete",
+      "resource_caps",
+      "fail_closed_claims"
+    ],
+    "passed_gates": [
+      "protocol_integrity",
+      "reference_result_integrity",
+      "exact_model_files",
+      "exact_adapter_files",
+      "locked_environment",
+      "unchanged_mm002_inputs",
+      "offline_single_replay",
+      "prediction_identity",
+      "attempt_ownership",
+      "candidate_and_predictions_binding",
+      "layered_comparison_complete",
+      "resource_caps",
+      "fail_closed_claims"
+    ],
+    "formal_gate_passed": true,
+    "quality_threshold_registered": false
+  },
+  "comparison": {
+    "all_layers_exact": true,
+    "raw_drift_compiled_and_metrics_exact": false,
+    "compiled_drift_metrics_exact": false,
+    "metric_drift": false,
+    "case_order": [
+      "ground-001",
+      "ground-002",
+      "ground-003",
+      "ground-004",
+      "ground-005",
+      "ground-006",
+      "ground-007",
+      "ground-008",
+      "ground-009"
+    ],
+    "raw_outputs": {
+      "exact": 9,
+      "total": 9,
+      "mismatch_case_ids": [],
+      "reference_sha256": "sha256:64f500374fb326b4e38500c5433dbbd6596d69f35b548ee161ce34f623286d02",
+      "replay_sha256": "sha256:64f500374fb326b4e38500c5433dbbd6596d69f35b548ee161ce34f623286d02",
+      "generated_tokens_exact": 9,
+      "token_counts_exact": true,
+      "generated_token_mismatch_case_ids": []
+    },
+    "compiled_predictions": {
+      "exact": 9,
+      "total": 9,
+      "mismatch_case_ids": [],
+      "reference_sha256": "sha256:a2f1d4d69d3ab42a784543474277dcfb45c363ecee86148820af0e2986b3486a",
+      "replay_sha256": "sha256:a2f1d4d69d3ab42a784543474277dcfb45c363ecee86148820af0e2986b3486a",
+      "compiler_fallback_mismatch_case_ids": []
+    },
+    "metrics": {
+      "exact": true,
+      "mismatch_metric_names": [],
+      "per_metric": {
+        "grounding_accuracy": {
+          "reference": {
+            "correct": 3,
+            "total": 5,
+            "value": 0.6
+          },
+          "replay": {
+            "correct": 3,
+            "total": 5,
+            "value": 0.6
+          },
+          "exact": true
+        },
+        "mean_iou": {
+          "reference": {
+            "numerator": 1,
+            "denominator": 2,
+            "value": 0.5
+          },
+          "replay": {
+            "numerator": 1,
+            "denominator": 2,
+            "value": 0.5
+          },
+          "exact": true
+        },
+        "action_accuracy": {
+          "reference": {
+            "correct": 3,
+            "total": 9,
+            "value": 0.3333333333333333
+          },
+          "replay": {
+            "correct": 3,
+            "total": 9,
+            "value": 0.3333333333333333
+          },
+          "exact": true
+        },
+        "tool_accuracy": {
+          "reference": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "replay": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "exact": true
+        },
+        "argument_exact_match": {
+          "reference": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "replay": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "exact": true
+        },
+        "stale_ref_rejection": {
+          "reference": {
+            "correct": 0,
+            "total": 2,
+            "value": 0.0
+          },
+          "replay": {
+            "correct": 0,
+            "total": 2,
+            "value": 0.0
+          },
+          "exact": true
+        },
+        "coordinate_ref_disagreement_rejection": {
+          "reference": {
+            "correct": 0,
+            "total": 1,
+            "value": 0.0
+          },
+          "replay": {
+            "correct": 0,
+            "total": 1,
+            "value": 0.0
+          },
+          "exact": true
+        },
+        "prediction_coordinate_ref_disagreement_rate": {
+          "reference": {
+            "correct": 0,
+            "total": 0,
+            "value": null,
+            "status": "not_applicable"
+          },
+          "replay": {
+            "correct": 0,
+            "total": 0,
+            "value": null,
+            "status": "not_applicable"
+          },
+          "exact": true
+        }
+      },
+      "reference_sha256": "sha256:c49622539576a64823d4bfc5aead9a00244a48044e5603673c61725b9c3b7d44",
+      "replay_sha256": "sha256:c49622539576a64823d4bfc5aead9a00244a48044e5603673c61725b9c3b7d44"
+    }
+  },
+  "comparison_semantics": {
+    "all_layers_exact_definition": [
+      "raw_utf8_output",
+      "canonical_compiled_prediction",
+      "canonical_metrics"
+    ],
+    "transformer_internal_layers_compared": false,
+    "generated_token_counts_exact": true,
+    "compiler_fallback_status_exact": true,
+    "generated_token_id_sequences_persisted": false,
+    "generated_token_sequence_exact_claimed": false
+  },
+  "execution": {
+    "fresh_base_load_attempts": 1,
+    "fresh_base_loads": 1,
+    "independent_adapter_load_attempts": 1,
+    "independent_adapter_loads": 1,
+    "full_eval_run_attempts": 1,
+    "full_eval_runs": 1,
+    "generate_attempts": 9,
+    "generate_calls": 9,
+    "training_runs": 0,
+    "optimizer_steps": 0,
+    "backward_calls": 0,
+    "adapter_writes": 0,
+    "network_attempts": 0,
+    "network_used": false,
+    "retry_count": 0
+  },
+  "evaluation": {
+    "suite_id": "mm002-synthetic-eval-v1",
+    "case_count": 9,
+    "case_order": [
+      "ground-001",
+      "ground-002",
+      "ground-003",
+      "ground-004",
+      "ground-005",
+      "ground-006",
+      "ground-007",
+      "ground-008",
+      "ground-009"
+    ],
+    "compiler_fallback_count": 0,
+    "metrics": {
+      "grounding_accuracy": {
+        "correct": 3,
+        "total": 5,
+        "value": 0.6
+      },
+      "mean_iou": {
+        "numerator": 1,
+        "denominator": 2,
+        "value": 0.5
+      },
+      "action_accuracy": {
+        "correct": 3,
+        "total": 9,
+        "value": 0.3333333333333333
+      },
+      "tool_accuracy": {
+        "correct": 5,
+        "total": 5,
+        "value": 1.0
+      },
+      "argument_exact_match": {
+        "correct": 5,
+        "total": 5,
+        "value": 1.0
+      },
+      "stale_ref_rejection": {
+        "correct": 0,
+        "total": 2,
+        "value": 0.0
+      },
+      "coordinate_ref_disagreement_rejection": {
+        "correct": 0,
+        "total": 1,
+        "value": 0.0
+      },
+      "prediction_coordinate_ref_disagreement_rate": {
+        "correct": 0,
+        "total": 0,
+        "value": null,
+        "status": "not_applicable"
+      }
+    },
+    "case_latency_seconds": [
+      {
+        "case_id": "ground-001",
+        "latency_seconds": 3.9444067000003997
+      },
+      {
+        "case_id": "ground-002",
+        "latency_seconds": 6.567106800000147
+      },
+      {
+        "case_id": "ground-003",
+        "latency_seconds": 5.412166399999933
+      },
+      {
+        "case_id": "ground-004",
+        "latency_seconds": 3.109916500000054
+      },
+      {
+        "case_id": "ground-005",
+        "latency_seconds": 5.382745800000066
+      },
+      {
+        "case_id": "ground-006",
+        "latency_seconds": 4.934290200000305
+      },
+      {
+        "case_id": "ground-007",
+        "latency_seconds": 5.334006499999759
+      },
+      {
+        "case_id": "ground-008",
+        "latency_seconds": 6.296154300000126
+      },
+      {
+        "case_id": "ground-009",
+        "latency_seconds": 3.131256100000428
+      }
+    ],
+    "latency_summary_seconds": {
+      "sum": 44.11204930000122,
+      "mean": 4.901338811111247,
+      "minimum": 3.109916500000054,
+      "maximum": 6.567106800000147
+    }
+  },
+  "resources": {
+    "elapsed_seconds": 62.72212420000005,
+    "peak_gpu_allocated_bytes": 6456984064,
+    "peak_gpu_reserved_bytes": 7161774080
+  },
+  "environment_recovery": {
+    "evidence_class": "reviewer_observed_untracked_context",
+    "independently_recomputable_from_tracked_receipts": false,
+    "required_before_execution": true,
+    "registered_environment_fields_exact": true,
+    "formal_environment_gate_passed": true,
+    "formal_launcher": {
+      "path": "work/training-env/Scripts/python.exe",
+      "python_version": "3.12.12",
+      "bytes": 274248,
+      "sha256": "sha256:e39ec6e8b80e547ba1b83f7e825122304c106448425207d8496e464757c20c20"
+    },
+    "original_base": {
+      "vendor": "Anaconda",
+      "available_when_recovery_began": false,
+      "binary_identity_recovered": false
+    },
+    "restored_base": {
+      "vendor": "Astral python-build-standalone via uv",
+      "available_at_formal_execution": true,
+      "build": "cpython-3.12.12+20260211-x86_64-pc-windows-msvc-install_only_stripped",
+      "python_executable_sha256": "sha256:5b9d341b502c252e262a23033b53002fcaa9bc9c952186f1a566bcde0d894881",
+      "python_dll_sha256": "sha256:e3d09dc4129ab93f57bf9a30d7e16cdcb87e73cd27fbbc9377dd58275640e7e8",
+      "uv_executable_sha256": "sha256:8da6cedef60c27ac997ebf400fbfc6d373c5b0a7ae6a299b9d52be7fe63723fb",
+      "uv_manifest_archive_sha256": "sha256:3bf8e8c05ede0077b197a29c99ebdaf253497f27190097494265150b4e70ba8"
+    },
+    "torch_wheel": {
+      "filename": "torch-2.6.0+cu124-cp312-cp312-win_amd64.whl",
+      "sha256": "sha256:3313061c1fec4c7310cf47944e84513dcd27b6173b72a349bb7ca68d0ee6e9c0"
+    },
+    "local_install_reports": {
+      "torch": {
+        "path": "work/environment-recovery/mm003-eval-repeatability-v1/torch-install-report.json",
+        "bytes": 95029,
+        "sha256": "sha256:8cd316e1c1d1e2f811a4f908a6a8428ff1077b622da8bc8bcdda995fb235727c",
+        "tracked": false
+      },
+      "non_torch": {
+        "path": "work/environment-recovery/mm003-eval-repeatability-v1/non-torch-install-report.json",
+        "bytes": 356539,
+        "sha256": "sha256:91520fffa8a6db8cbfff8e8b2928728e51e76b34e346e7d7dc7b323f9d2b0e76",
+        "tracked": false
+      }
+    },
+    "dependency_lock": {
+      "path": "requirements/mm003_qlora_training.lock",
+      "direct_entries": 10,
+      "direct_versions_exact": true,
+      "hash_locked": false,
+      "complete_transitive_closure": false,
+      "transitive_dependency_hashes_pinned": false
+    },
+    "observed_unlocked_transitive_versions": {
+      "certifi": "2026.7.22",
+      "charset-normalizer": "3.5.1",
+      "colorama": "0.4.6",
+      "filelock": "3.32.3",
+      "fsspec": "2026.7.0",
+      "idna": "3.19",
+      "jinja2": "3.1.6",
+      "markupsafe": "3.0.3",
+      "mpmath": "1.3.0",
+      "networkx": "3.6.1",
+      "numpy": "2.5.2",
+      "packaging": "26.3",
+      "psutil": "7.2.2",
+      "pyyaml": "6.0.3",
+      "requests": "2.34.2",
+      "setuptools": "78.1.0",
+      "sympy": "1.13.1",
+      "typing-extensions": "4.16.0",
+      "urllib3": "2.7.0"
+    },
+    "byte_identical_original_base_established": false,
+    "hermetic_environment_established": false
+  },
+  "scope_semantics": {
+    "same_machine_definition": "same_windows_host_and_registered_environment_fields",
+    "machine_id_attested": false,
+    "hardware_identity_attested": false
+  },
+  "claims": {
+    "replay_executed": true,
+    "model_evaluated": true,
+    "formal_measurement_complete": true,
+    "same_machine_eval_repeatability_established": true,
+    "training_repeatability_established": false,
+    "cross_machine_reproducibility": false,
+    "resource_repeatability_established": false,
+    "generalized_quality_improvement_established": false,
+    "quality_improved": false,
+    "real_content_behavior_established": false,
+    "safety_rejection_success_established": false,
+    "direct_desktop_execution_established": false,
+    "merged_artifact": false,
+    "portable_artifact": false,
+    "commercial_use_eligible": false,
+    "serving_eligible": false,
+    "promotion_eligible": false,
+    "runtime_eligible": false
+  },
+  "limitations": {
+    "single_reference_and_single_replay": true,
+    "same_machine_only": true,
+    "fixed_synthetic_nine_case_eval_only": true,
+    "original_python_base_vendor_reproduced": false,
+    "original_python_base_binary_identity_reproduced": false,
+    "complete_transitive_dependency_lock": false,
+    "training_repeatability_tested": false,
+    "resource_repeatability_tested": false,
+    "full_eval_repeat_variance_established": false,
+    "external_execution_count_attested": false,
+    "cross_machine_tested": false,
+    "real_content_tested": false,
+    "direct_execution_tested": false,
+    "runtime_integration_tested": false
+  },
+  "next_gate": "MM-004-multimodal-hard-negative-data-protocol-v1",
+  "next_action": "freeze a model-free multimodal hard-negative data protocol before generating, training on, or evaluating new MM-004 negatives",
+  "runtime_eligible": false
+}

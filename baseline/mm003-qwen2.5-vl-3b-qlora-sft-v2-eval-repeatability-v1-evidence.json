@@ -1,0 +1,653 @@
+{
+  "evidence_version": 1,
+  "experiment_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-repeatability-v1",
+  "run_id": "mm003-qwen2.5-vl-3b-qlora-sft-v2-eval-replay-r1",
+  "output_id": "mm003-qlora-sft-v2-eval-repeatability-v1",
+  "gate_id": "MM-003-small-vlm-post-training-eval-repeatability-execution-v1",
+  "captured_at_utc": "2026-08-21T04:44:38.801504+00:00",
+  "protocol": {
+    "freeze_commit": "c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8",
+    "preregistration_sha256": "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
+  },
+  "artifacts": {
+    "attempt_owner": {
+      "path": "work/evaluation-runs/mm003-qlora-sft-v2-eval-repeatability-v1/attempt-owner.json",
+      "bytes": 586,
+      "sha256": "sha256:8f6c267ab262021ac6b8805606b9a7e7bb071507968e5d94a0c4b25eadb3d7fb"
+    },
+    "evaluation_candidate": {
+      "path": "work/evaluation-runs/mm003-qlora-sft-v2-eval-repeatability-v1/evaluation-candidate.json",
+      "bytes": 9855,
+      "sha256": "sha256:a354f4b3f2b20467ed7d82916345f7b951ca6df1ad9ecc5816734410694e155b"
+    },
+    "predictions": {
+      "path": "work/evaluation-runs/mm003-qlora-sft-v2-eval-repeatability-v1/predictions.json",
+      "bytes": 2241,
+      "sha256": "sha256:c2c703e5896fe64df9e156bda9d38975b92c1bf18c72f74f5a232dcbbbc4a028"
+    }
+  },
+  "reference": {
+    "predictions": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-predictions.json",
+      "bytes": 2241,
+      "sha256": "sha256:c2c703e5896fe64df9e156bda9d38975b92c1bf18c72f74f5a232dcbbbc4a028"
+    },
+    "training_run": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-training-run.json",
+      "bytes": 6853,
+      "sha256": "sha256:474595081a20c46a62f664459b734d57ec03c8ddf121c9aedc055e16a052c516"
+    },
+    "evidence": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-evidence.json",
+      "bytes": 21122,
+      "sha256": "sha256:2190281e3e8acf97139e08c9949535a07b326897e23c5999a7f4750fccedabd5"
+    },
+    "result_review": {
+      "path": "baseline/mm003-qwen2.5-vl-3b-qlora-sft-v2-result-review.json",
+      "bytes": 11311,
+      "sha256": "sha256:3dff57b17eb4fc9966ab53fe92faea8921fb34b485e389aaa19af64610db957d"
+    }
+  },
+  "execution": {
+    "fresh_base_load_attempts": 1,
+    "fresh_base_loads": 1,
+    "independent_adapter_load_attempts": 1,
+    "independent_adapter_loads": 1,
+    "full_eval_run_attempts": 1,
+    "full_eval_runs": 1,
+    "generate_attempts": 9,
+    "generate_calls": 9,
+    "training_runs": 0,
+    "optimizer_steps": 0,
+    "backward_calls": 0,
+    "adapter_writes": 0,
+    "network_attempts": 0,
+    "network_used": false,
+    "retry_count": 0
+  },
+  "comparison": {
+    "all_layers_exact": true,
+    "raw_drift_compiled_and_metrics_exact": false,
+    "compiled_drift_metrics_exact": false,
+    "metric_drift": false,
+    "case_order": [
+      "ground-001",
+      "ground-002",
+      "ground-003",
+      "ground-004",
+      "ground-005",
+      "ground-006",
+      "ground-007",
+      "ground-008",
+      "ground-009"
+    ],
+    "raw_outputs": {
+      "exact": 9,
+      "total": 9,
+      "mismatch_case_ids": [],
+      "reference_sha256": "sha256:64f500374fb326b4e38500c5433dbbd6596d69f35b548ee161ce34f623286d02",
+      "replay_sha256": "sha256:64f500374fb326b4e38500c5433dbbd6596d69f35b548ee161ce34f623286d02",
+      "generated_tokens_exact": 9,
+      "token_counts_exact": true,
+      "generated_token_mismatch_case_ids": []
+    },
+    "compiled_predictions": {
+      "exact": 9,
+      "total": 9,
+      "mismatch_case_ids": [],
+      "reference_sha256": "sha256:a2f1d4d69d3ab42a784543474277dcfb45c363ecee86148820af0e2986b3486a",
+      "replay_sha256": "sha256:a2f1d4d69d3ab42a784543474277dcfb45c363ecee86148820af0e2986b3486a",
+      "compiler_fallback_mismatch_case_ids": []
+    },
+    "metrics": {
+      "exact": true,
+      "mismatch_metric_names": [],
+      "per_metric": {
+        "grounding_accuracy": {
+          "reference": {
+            "correct": 3,
+            "total": 5,
+            "value": 0.6
+          },
+          "replay": {
+            "correct": 3,
+            "total": 5,
+            "value": 0.6
+          },
+          "exact": true
+        },
+        "mean_iou": {
+          "reference": {
+            "numerator": 1,
+            "denominator": 2,
+            "value": 0.5
+          },
+          "replay": {
+            "numerator": 1,
+            "denominator": 2,
+            "value": 0.5
+          },
+          "exact": true
+        },
+        "action_accuracy": {
+          "reference": {
+            "correct": 3,
+            "total": 9,
+            "value": 0.3333333333333333
+          },
+          "replay": {
+            "correct": 3,
+            "total": 9,
+            "value": 0.3333333333333333
+          },
+          "exact": true
+        },
+        "tool_accuracy": {
+          "reference": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "replay": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "exact": true
+        },
+        "argument_exact_match": {
+          "reference": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "replay": {
+            "correct": 5,
+            "total": 5,
+            "value": 1.0
+          },
+          "exact": true
+        },
+        "stale_ref_rejection": {
+          "reference": {
+            "correct": 0,
+            "total": 2,
+            "value": 0.0
+          },
+          "replay": {
+            "correct": 0,
+            "total": 2,
+            "value": 0.0
+          },
+          "exact": true
+        },
+        "coordinate_ref_disagreement_rejection": {
+          "reference": {
+            "correct": 0,
+            "total": 1,
+            "value": 0.0
+          },
+          "replay": {
+            "correct": 0,
+            "total": 1,
+            "value": 0.0
+          },
+          "exact": true
+        },
+        "prediction_coordinate_ref_disagreement_rate": {
+          "reference": {
+            "correct": 0,
+            "total": 0,
+            "value": null,
+            "status": "not_applicable"
+          },
+          "replay": {
+            "correct": 0,
+            "total": 0,
+            "value": null,
+            "status": "not_applicable"
+          },
+          "exact": true
+        }
+      },
+      "reference_sha256": "sha256:c49622539576a64823d4bfc5aead9a00244a48044e5603673c61725b9c3b7d44",
+      "replay_sha256": "sha256:c49622539576a64823d4bfc5aead9a00244a48044e5603673c61725b9c3b7d44"
+    }
+  },
+  "evaluation": {
+    "cases": [
+      {
+        "case_id": "ground-001",
+        "observation_mode": "uia_only",
+        "raw_output": "{\"case_id\":\"ground-001\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-save\",\"bbox\":null,\"reason\":null}",
+        "compiled_prediction": {
+          "case_id": "ground-001",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-save",
+          "bbox": null,
+          "reason": null
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 39,
+        "latency_seconds": 3.9444067000003997,
+        "screenshot_sha256": null
+      },
+      {
+        "case_id": "ground-002",
+        "observation_mode": "screenshot_only",
+        "raw_output": "{\"case_id\":\"ground-002\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":null,\"bbox\":[100,100,300,300],\"reason\":null}",
+        "compiled_prediction": {
+          "case_id": "ground-002",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": null,
+          "bbox": [
+            100,
+            100,
+            300,
+            300
+          ],
+          "reason": null
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 52,
+        "latency_seconds": 6.567106800000147,
+        "screenshot_sha256": "sha256:4a3c98534f54706c3527e56c12b5f303174410a5fd41b3a21331fa4c9ded73e6"
+      },
+      {
+        "case_id": "ground-003",
+        "observation_mode": "fused",
+        "raw_output": "{\"case_id\":\"ground-003\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-export\",\"bbox\":null,\"reason\":null}",
+        "compiled_prediction": {
+          "case_id": "ground-003",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-export",
+          "bbox": null,
+          "reason": null
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 39,
+        "latency_seconds": 5.412166399999933,
+        "screenshot_sha256": "sha256:d6036e4b903963b97cdcb8446b7af647cd32f9ed6e5cbbd3ec144f3f70cf669c"
+      },
+      {
+        "case_id": "ground-004",
+        "observation_mode": "uia_only",
+        "raw_output": "{\"case_id\":\"ground-004\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"stale_ref\"}",
+        "compiled_prediction": {
+          "case_id": "ground-004",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "stale_ref"
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 38,
+        "latency_seconds": 3.109916500000054,
+        "screenshot_sha256": null
+      },
+      {
+        "case_id": "ground-005",
+        "observation_mode": "screenshot_only",
+        "raw_output": "{\"case_id\":\"ground-005\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"insufficient_evidence\"}",
+        "compiled_prediction": {
+          "case_id": "ground-005",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "insufficient_evidence"
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 39,
+        "latency_seconds": 5.382745800000066,
+        "screenshot_sha256": "sha256:154e7159e2f5d21bba0a7499bafc23f50f296b67958326847f3c0d012302fc9c"
+      },
+      {
+        "case_id": "ground-006",
+        "observation_mode": "fused",
+        "raw_output": "{\"case_id\":\"ground-006\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":\"ref-report\",\"bbox\":null,\"reason\":null}",
+        "compiled_prediction": {
+          "case_id": "ground-006",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-report",
+          "bbox": null,
+          "reason": null
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 39,
+        "latency_seconds": 4.934290200000305,
+        "screenshot_sha256": "sha256:a2204d746827e2cbb1db2c4b07fa1b1f280b36d6ac7a3c3b3f4c64d9672dbc83"
+      },
+      {
+        "case_id": "ground-007",
+        "observation_mode": "fused",
+        "raw_output": "{\"case_id\":\"ground-007\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"insufficient_evidence\"}",
+        "compiled_prediction": {
+          "case_id": "ground-007",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "insufficient_evidence"
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 39,
+        "latency_seconds": 5.334006499999759,
+        "screenshot_sha256": "sha256:661936e544868e7d5d67d63be3d28ef17b15ccca37efb1a8d19a3a086134e3b9"
+      },
+      {
+        "case_id": "ground-008",
+        "observation_mode": "screenshot_only",
+        "raw_output": "{\"case_id\":\"ground-008\",\"disposition\":\"act\",\"tool\":\"click\",\"arguments\":{\"button\":\"left\"},\"ref\":null,\"bbox\":[900,120,980,200],\"reason\":null}",
+        "compiled_prediction": {
+          "case_id": "ground-008",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": null,
+          "bbox": [
+            900,
+            120,
+            980,
+            200
+          ],
+          "reason": null
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 52,
+        "latency_seconds": 6.296154300000126,
+        "screenshot_sha256": "sha256:d1431faa4d77c4a660b9e192f5bc3064dd58c28b282d43b1708b394064f2e6bb"
+      },
+      {
+        "case_id": "ground-009",
+        "observation_mode": "uia_only",
+        "raw_output": "{\"case_id\":\"ground-009\",\"disposition\":\"fallback\",\"tool\":null,\"arguments\":null,\"ref\":null,\"bbox\":null,\"reason\":\"stale_ref\"}",
+        "compiled_prediction": {
+          "case_id": "ground-009",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "stale_ref"
+        },
+        "compiler_fallback": false,
+        "generated_tokens": 38,
+        "latency_seconds": 3.131256100000428,
+        "screenshot_sha256": null
+      }
+    ],
+    "predictions": {
+      "gui_grounding_prediction_version": 1,
+      "suite_id": "mm002-synthetic-eval-v1",
+      "producer": {
+        "kind": "model",
+        "model_id": "Qwen/Qwen2.5-VL-3B-Instruct+mm003-qlora-sft-v2",
+        "model_revision": "66285546d2b821cf421d4f5eb2576359d3770cd3"
+      },
+      "records": [
+        {
+          "case_id": "ground-001",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-save",
+          "bbox": null,
+          "reason": null
+        },
+        {
+          "case_id": "ground-002",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": null,
+          "bbox": [
+            100,
+            100,
+            300,
+            300
+          ],
+          "reason": null
+        },
+        {
+          "case_id": "ground-003",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-export",
+          "bbox": null,
+          "reason": null
+        },
+        {
+          "case_id": "ground-004",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "stale_ref"
+        },
+        {
+          "case_id": "ground-005",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "insufficient_evidence"
+        },
+        {
+          "case_id": "ground-006",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": "ref-report",
+          "bbox": null,
+          "reason": null
+        },
+        {
+          "case_id": "ground-007",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "insufficient_evidence"
+        },
+        {
+          "case_id": "ground-008",
+          "disposition": "act",
+          "tool": "click",
+          "arguments": {
+            "button": "left"
+          },
+          "ref": null,
+          "bbox": [
+            900,
+            120,
+            980,
+            200
+          ],
+          "reason": null
+        },
+        {
+          "case_id": "ground-009",
+          "disposition": "fallback",
+          "tool": null,
+          "arguments": null,
+          "ref": null,
+          "bbox": null,
+          "reason": "stale_ref"
+        }
+      ]
+    },
+    "score": {
+      "report_version": 2,
+      "suite_id": "mm002-synthetic-eval-v1",
+      "suite_sha256": "sha256:0774ae2c4d835ab613f46344b33ec0dac5ec1bf12d38db72fca2fdde94431b00",
+      "predictions_sha256": "sha256:99e62073a5c173ef3df06fee561845fd09de39cd9f597c8e4e39a980489401bd",
+      "case_count": 9,
+      "producer_kind": "model",
+      "metrics": {
+        "grounding_accuracy": {
+          "correct": 3,
+          "total": 5,
+          "value": 0.6
+        },
+        "mean_iou": {
+          "numerator": 1,
+          "denominator": 2,
+          "value": 0.5
+        },
+        "action_accuracy": {
+          "correct": 3,
+          "total": 9,
+          "value": 0.3333333333333333
+        },
+        "tool_accuracy": {
+          "correct": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "argument_exact_match": {
+          "correct": 5,
+          "total": 5,
+          "value": 1.0
+        },
+        "stale_ref_rejection": {
+          "correct": 0,
+          "total": 2,
+          "value": 0.0
+        },
+        "coordinate_ref_disagreement_rejection": {
+          "correct": 0,
+          "total": 1,
+          "value": 0.0
+        },
+        "prediction_coordinate_ref_disagreement_rate": {
+          "correct": 0,
+          "total": 0,
+          "value": null,
+          "status": "not_applicable"
+        }
+      },
+      "coverage": {
+        "observation_modes": [
+          "fused",
+          "screenshot_only",
+          "uia_only"
+        ],
+        "capabilities": [
+          "bbox_grounding",
+          "fused_grounding",
+          "ref_grounding"
+        ],
+        "ocr_conditions": [
+          "clean",
+          "missing",
+          "noisy"
+        ],
+        "perturbations": [
+          "coordinate_ref_disagreement",
+          "moved",
+          "none",
+          "occluded",
+          "stale_ref"
+        ]
+      },
+      "claims": {
+        "synthetic_eval_only": true,
+        "synthetic_probe_only": false,
+        "model_predictions_declared": true,
+        "model_evaluated": false,
+        "real_content_collected": false,
+        "capture_adapter_implemented": false,
+        "training_eligible": false,
+        "execution_eligible": false,
+        "runtime_eligible": false
+      }
+    }
+  },
+  "resources": {
+    "elapsed_seconds": 62.72212420000005,
+    "peak_gpu_allocated_bytes": 6456984064,
+    "peak_gpu_reserved_bytes": 7161774080
+  },
+  "gates": {
+    "protocol_integrity": true,
+    "reference_result_integrity": true,
+    "exact_model_files": true,
+    "exact_adapter_files": true,
+    "locked_environment": true,
+    "unchanged_mm002_inputs": true,
+    "offline_single_replay": true,
+    "prediction_identity": true,
+    "attempt_ownership": true,
+    "candidate_and_predictions_binding": true,
+    "layered_comparison_complete": true,
+    "resource_caps": true,
+    "fail_closed_claims": true
+  },
+  "formal_gate_passed": true,
+  "classification": "same_machine_fixed_eval_repeatability_measurement_complete",
+  "claims": {
+    "replay_executed": true,
+    "model_evaluated": true,
+    "formal_measurement_complete": true,
+    "same_machine_eval_repeatability_established": false,
+    "training_repeatability_established": false,
+    "cross_machine_reproducibility": false,
+    "resource_repeatability_established": false,
+    "generalized_quality_improvement_established": false,
+    "quality_improved": false,
+    "real_content_behavior_established": false,
+    "safety_rejection_success_established": false,
+    "direct_desktop_execution_established": false,
+    "merged_artifact": false,
+    "portable_artifact": false,
+    "commercial_use_eligible": false,
+    "serving_eligible": false,
+    "promotion_eligible": false,
+    "runtime_eligible": false
+  },
+  "limitations": [
+    "single_same_machine_environment_replay_only",
+    "training_repeatability_unestablished",
+    "cross_machine_reproducibility_unestablished",
+    "resource_repeatability_unestablished",
+    "generalized_quality_unestablished",
+    "serving_promotion_and_runtime_eligibility_unestablished"
+  ],
+  "next_gate": "MM-003-small-vlm-post-training-eval-repeatability-result-review-v1",
+  "runtime_eligible": false
+}

@@ -633,6 +633,33 @@ agent-model-factory/
   equality 或 drift 都是可接受 measurement outcome；不得 retrain、修改 Adapter、复用
   consumed output dir 或称为 execution-v2 retry。成功只进入独立 result-review-v1，
   consumed incomplete 则进入已注册 failure-classification-v1。
+- 协议经 PR #42 合并后，正式 one-shot replay 已在 freeze commit
+  `c72b3bd1666ed6b03d9425e1dbaacfe115dda4f8` 上消费且没有 retry。13/13 formal gates
+  全部通过：one fresh base load、one read-only Adapter load、9 ordered offline calls，
+  training/optimizer/backward/Adapter write/network/retry 均为零。
+- fixed replay 的 raw UTF-8 output、compiled prediction 均为 9/9 exact；metrics、
+  generated-token counts 与 compiler-fallback status 也分别 exact。`all_layers_exact`
+  只表示 raw/compiled/metrics 三层，不是 Transformer internal layers；token-ID sequence
+  未持久化，不能声称 token path 或 logits exact。
+- 四个冻结执行 artifact 分别为 586 / 9,855 / 2,241 / 20,243 bytes，SHA-256 为
+  `8f6c267ab262021ac6b8805606b9a7e7bb071507968e5d94a0c4b25eadb3d7fb`、
+  `a354f4b3f2b20467ed7d82916345f7b951ca6df1ad9ecc5816734410694e155b`、
+  `c2c703e5896fe64df9e156bda9d38975b92c1bf18c72f74f5a232dcbbbc4a028`、
+  `e20262debfbefa3e361855728aa8852f1219053d6fb9152158a2916c806a7ad2`。
+  model-free review 逐字节重建 evidence；15,119-byte result review SHA-256 为
+  `8979693b6962849555e533332331d91dbb9fad8294f7fbc6703fa09ab3414f4a`。
+- result review 仅新增 bounded
+  `same_machine_eval_repeatability_established=true`。这里的 same-machine 是同一本地
+  controller 与注册环境字段，不是 MachineGuid/GPU UUID 或 hardware attestation。
+  原 Anaconda binary 未恢复，transitive dependency hashes 未完整锁定，恢复记录属于
+  `reviewer_observed_untracked_context`；training/resource/cross-machine/generalized
+  quality/serving/promotion/Runtime claims 全部保持 false。已消费 output dir 不得删除、
+  复用或重跑。单一下一 gate 切换为
+  `MM-004-multimodal-hard-negative-data-protocol-v1`。
+- result-review focused 11 tests 在本机 CPython 3.11.15、3.12.12、3.13.7 均通过；
+  三版本 unified gate 均为 611 tests、`valid=true`、4 个 expected Windows privilege
+  skips、50 audited source files。全仓 Ruff、scoped strict mypy、`py_compile`、
+  `prepare --check`、默认 result validator 与 `git diff --check` 通过。
 
 ## MM-004：多模态困难负样本
 
