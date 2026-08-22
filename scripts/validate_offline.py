@@ -87,6 +87,13 @@ MM004_HARD_NEGATIVE_PROTOCOL_BYTES = 22_675
 MM004_HARD_NEGATIVE_PROTOCOL_SHA256 = (
     "sha256:f31e009ed8316d59240e9767865a041e86f30325a1fd15f8a29891d56d418355"
 )
+MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm004_multimodal_hard_negative_data_generation_v1.json"
+)
+MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_BYTES = 10_522
+MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_SHA256 = (
+    "sha256:c49e18ec570ff198dfa564fdb711b3ba45cf34e5934a9cb667e6a62e13a07ceb"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -410,6 +417,9 @@ def main() -> int:
         _validate_mm003_post_training_eval_repeatability_result()
     )
     mm004_hard_negative_protocol = _validate_mm004_hard_negative_protocol()
+    mm004_hard_negative_generation = (
+        _validate_mm004_hard_negative_generation_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -636,6 +646,24 @@ def main() -> int:
             "records_generated"
         ],
         "mm004_hard_negative_next_gate": mm004_hard_negative_protocol["next_gate"],
+        "mm004_hard_negative_generation_protocol_frozen": (
+            mm004_hard_negative_generation["protocol_frozen"]
+        ),
+        "mm004_hard_negative_generation_planned_families": (
+            mm004_hard_negative_generation["planned_families"]
+        ),
+        "mm004_hard_negative_generation_planned_records": (
+            mm004_hard_negative_generation["planned_records"]
+        ),
+        "mm004_hard_negative_generation_planned_images": (
+            mm004_hard_negative_generation["planned_images"]
+        ),
+        "mm004_hard_negative_generation_executed": (
+            mm004_hard_negative_generation["generation_executed"]
+        ),
+        "mm004_hard_negative_generation_next_gate": (
+            mm004_hard_negative_generation["next_gate"]
+        ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -2490,6 +2518,61 @@ def _validate_mm004_hard_negative_protocol() -> dict[str, Any]:
     ):
         raise GateError("MM-004 hard-negative protocol boundary mismatch")
     return summary.to_dict()
+
+
+def _validate_mm004_hard_negative_generation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm004_hard_negative_generation as contract
+    from scripts import run_mm004_hard_negative_generation as runner
+
+    payload = _read_regular_file_once(
+        MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_PATH,
+        "MM-004 hard-negative generation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_BYTES
+        or digest != MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-004 hard-negative generation protocol hash mismatch")
+    raw = _load_json_payload(
+        payload, MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_PATH
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-004 generation protocol is not canonical JSON")
+
+    sources = runner.source_receipts()
+    parent_receipt = runner.parent_protocol_receipt()
+    expected = runner.expected_preregistration(freeze_status="frozen")
+    validated = contract.validate_preregistration(
+        raw,
+        source_receipts=sources,
+        parent_protocol_receipt=parent_receipt,
+    )
+    if expected != validated or contract.artifact_json_bytes(expected) != payload:
+        raise GateError("MM-004 generation protocol reconstruction drift")
+    plan = validated["generation_plan"]
+    if (
+        len(sources) != 4
+        or len(validated["planned_outputs"]) != 31
+        or plan["seed"] != 44_004
+        or plan["families_per_category"] != 4
+        or plan["pair_count"] != 28
+        or plan["record_count"] != 56
+        or plan["image_count"] != 28
+        or any(validated["claims"].values())
+        or (ROOT / contract.OUTPUT_ROOT).exists()
+        or (ROOT / contract.EVIDENCE_PATH).exists()
+        or validated["next_gate"] != contract.EXECUTION_GATE_ID
+    ):
+        raise GateError("MM-004 generation protocol boundary mismatch")
+    return {
+        "protocol_frozen": True,
+        "planned_families": contract.FAMILY_COUNT,
+        "planned_records": contract.RECORD_COUNT,
+        "planned_images": contract.IMAGE_COUNT,
+        "generation_executed": False,
+        "next_gate": contract.EXECUTION_GATE_ID,
+    }
 
 
 def _validate_named_hashes(artifacts: object) -> None:

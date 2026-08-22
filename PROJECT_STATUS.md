@@ -141,26 +141,42 @@ synthetic images. The protocol and 32 exact source receipts rebuild from
 tracked inputs. No hard-negative records, frozen dataset split, training,
 model evaluation, safety result, serving, promotion, capture, Runtime change,
 or Runtime eligibility exists.
+The deterministic MM-004 generation preregistration is also frozen before
+materialization. Seed `44004` fixes four families per category with a 3:1
+train/validation family split: 28 pairs, 56 records, and 28 unique synthetic
+PNG scenes. All 31 planned output paths, byte counts, and SHA-256 values are
+precomputed in the 10,522-byte config with digest
+`c49e18ec570ff198dfa564fdb711b3ba45cf34e5934a9cb667e6a62e13a07ceb`.
+No fixture root or execution evidence exists at freeze, and all generation,
+training, model-evaluation, quality, safety, serving, promotion, capture, and
+Runtime claims remain false.
 
 ## Single active objective
 
-Freeze and execute `MM-004-multimodal-hard-negative-data-generation-v1`
-without training or model evaluation:
+Merge the frozen generation preregistration, then execute
+`MM-004-multimodal-hard-negative-data-generation-execution-v1` without
+training or model evaluation:
 
 ```text
-frozen MM-004 protocol + read-only MM-002/MM-003 exclusion registry
-        -> freeze exact generation counts, seed, inputs, and output receipts
-deterministic synthetic clean/negative pairs + all validation gates
+frozen generation config + exact merged master freeze commit
+        -> one deterministic atomic materialization of 31 planned outputs
+actual receipts + pair/category/provenance/split/exclusion/image validation
         -> only then may a separate MM-004 model-evaluation gate be proposed
 ```
 
-The generation preregistration must preserve the frozen protocol, existing
-MM-002 gold/eval, and MM-003 Adapter as read-only evidence. It must choose
-counts and a seed before producing data, bind every output receipt, and pass
-pair/category/provenance/split/exclusion/evidence validation. Do not reopen or
-rerun the consumed MM-003 repeatability directory. This objective does not
-authorize training, model evaluation, a separate Runtime repository change, or
-real desktop capture.
+Formal generation must run only after the preregistration is merged, with
+`master == origin/master == protocol_freeze_commit`. It must materialize the
+exact precomputed bytes through an atomic absent-root transition, bind every
+actual output receipt, and pass pair/category/provenance/split/exclusion/image
+validation. Do not reopen or rerun the consumed MM-003 repeatability directory.
+This objective does not authorize training, model evaluation, a separate
+Runtime repository change, or real desktop capture.
+
+Twelve focused generation tests, Ruff, scoped strict mypy, `py_compile`, and
+preregistration `--check` pass. The unified offline gate passes on CPython
+3.11.15, 3.12.12, and 3.13.7; each reports 633 tests, four expected Windows
+privilege skips, 53 audited source files, and `valid=true`.
+[Generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
 
 The completed protocol is 22,675 canonical bytes with SHA-256
 `f31e009ed8316d59240e9767865a041e86f30325a1fd15f8a29891d56d418355`.
