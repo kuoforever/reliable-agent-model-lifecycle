@@ -257,6 +257,19 @@ remain false. The single next gate is the separate
 `MM-004-multimodal-hard-negative-data-generation-v1`. See the
 [protocol review](docs/MM-004-multimodal-hard-negative-data-protocol-v1.md).
 
+### Multimodal hard-negative generation protocol v1
+
+The generation preregistration freezes seed `44004`, four families per
+category, a 3:1 train/validation family split, 28 pairs, 56 records, 28 unique
+synthetic PNGs, and all 31 planned output receipts. The output bytes are
+deterministically reconstructable in memory, but no fixture or execution
+evidence exists at freeze.
+
+Formal materialization requires the merged `master` freeze commit and preserves
+all model, quality, safety, serving, promotion, capture, and Runtime claims as
+false. See the
+[generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -677,12 +690,13 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 model-free data protocol is frozen. The single active objective is
-now `MM-004-multimodal-hard-negative-data-generation-v1`: freeze exact counts,
-seed, construction inputs, and output receipts, then generate and validate only
-the registered synthetic clean/negative pairs. Existing MM-002 gold/eval and
-the MM-003 Adapter remain read-only evidence; this objective does not authorize
-training, model evaluation, Runtime changes, or real desktop capture.
+The MM-004 model-free data and generation protocols are frozen. The single
+active objective is now the formal
+`MM-004-multimodal-hard-negative-data-generation-execution-v1`: merge the
+preregistration, then materialize and validate only its 31 precomputed outputs
+from the exact merged freeze commit. Existing MM-002 gold/eval and the MM-003
+Adapter remain read-only evidence; this objective does not authorize training,
+model evaluation, Runtime changes, or real desktop capture.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

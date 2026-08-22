@@ -679,6 +679,13 @@ case、family、instruction、observation、candidate 和 image identity。协�
 claims 全部为 false。单一下一 gate 为
 `MM-004-multimodal-hard-negative-data-generation-v1`。
 
+Generation preregistration 已冻结：`seed=44004`，七类各 4 个 family（3 train +
+1 validation），共 28 clean/negative pairs、56 records、28 张 unique synthetic
+PNG 和 31 个计划输出收据。冻结时 fixture/evidence 不存在，generation/training/
+model evaluation/quality/safety/serving/promotion/Runtime claims 仍为 false。
+正式 materialization 只能在包含该 preregistration 的 merged `master` freeze
+commit 上执行。
+
 ## MM-005：多模态环境适配
 
 扩展顺序：
