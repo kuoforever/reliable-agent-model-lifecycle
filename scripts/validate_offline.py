@@ -80,6 +80,13 @@ MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_BYTES = 22_951
 MM003_POST_TRAINING_EVAL_REPEATABILITY_PREREGISTRATION_SHA256 = (
     "sha256:723db665f98e53ef2fe968ee7c6fe663b42d79b86176eef5cf70f11ccc4a312b"
 )
+MM004_HARD_NEGATIVE_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm004_multimodal_hard_negative_data_protocol_v1.json"
+)
+MM004_HARD_NEGATIVE_PROTOCOL_BYTES = 22_675
+MM004_HARD_NEGATIVE_PROTOCOL_SHA256 = (
+    "sha256:f31e009ed8316d59240e9767865a041e86f30325a1fd15f8a29891d56d418355"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -402,6 +409,7 @@ def main() -> int:
     mm003_post_training_repeatability_result = (
         _validate_mm003_post_training_eval_repeatability_result()
     )
+    mm004_hard_negative_protocol = _validate_mm004_hard_negative_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -612,6 +620,22 @@ def main() -> int:
         "mm003_post_training_eval_repeatability_result_next_gate": (
             mm003_post_training_repeatability_result["next_gate"]
         ),
+        "mm004_hard_negative_protocol_frozen": mm004_hard_negative_protocol[
+            "protocol_frozen"
+        ],
+        "mm004_hard_negative_categories": mm004_hard_negative_protocol[
+            "category_count"
+        ],
+        "mm004_hard_negative_excluded_cases": mm004_hard_negative_protocol[
+            "excluded_case_count"
+        ],
+        "mm004_hard_negative_excluded_families": mm004_hard_negative_protocol[
+            "excluded_family_count"
+        ],
+        "mm004_hard_negative_records_generated": mm004_hard_negative_protocol[
+            "records_generated"
+        ],
+        "mm004_hard_negative_next_gate": mm004_hard_negative_protocol["next_gate"],
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
         "tool_router_eval_digest": router_summary["eval_digest"],
@@ -2413,6 +2437,59 @@ def _validate_mm003_post_training_eval_repeatability_result() -> dict[str, Any]:
             "MM-003 post-training eval-repeatability result decision mismatch"
         )
     return result
+
+
+def _validate_mm004_hard_negative_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import multimodal_hard_negative as contract
+    from scripts import prepare_mm004_multimodal_hard_negative_protocol as prepare
+
+    payload = _read_regular_file_once(
+        MM004_HARD_NEGATIVE_PROTOCOL_PATH,
+        "MM-004 hard-negative protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM004_HARD_NEGATIVE_PROTOCOL_BYTES
+        or digest != MM004_HARD_NEGATIVE_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-004 hard-negative protocol hash mismatch")
+    raw = _load_json_payload(payload, MM004_HARD_NEGATIVE_PROTOCOL_PATH)
+    if contract.canonical_json_bytes(raw) != payload:
+        raise GateError("MM-004 hard-negative protocol is not canonical JSON")
+
+    receipts = prepare.source_receipts()
+    exclusions = prepare.exclusion_registry()
+    expected = contract.expected_protocol(
+        freeze_status="frozen",
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    summary = contract.validate_protocol(
+        raw,
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    if expected != raw or contract.canonical_json_bytes(expected) != payload:
+        raise GateError("MM-004 hard-negative protocol reconstruction drift")
+    if (
+        len(receipts) != 32
+        or summary.category_count != 7
+        or summary.excluded_case_count != 36
+        or summary.excluded_family_count != 36
+        or summary.protocol_frozen is not True
+        or summary.records_generated is not False
+        or any(raw["claims"].values())
+        or raw["authority_contract"]
+        != {
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_dispatch_boundary": True,
+            "runtime_policy_or_approval_bypass": False,
+            "runtime_integration_changed": False,
+        }
+        or summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError("MM-004 hard-negative protocol boundary mismatch")
+    return summary.to_dict()
 
 
 def _validate_named_hashes(artifacts: object) -> None:

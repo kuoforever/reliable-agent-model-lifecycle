@@ -671,6 +671,14 @@ agent-model-factory/
 - 工具失败但声称成功
 - 看似合理但证据不足
 
+已冻结 `MM-004-multimodal-hard-negative-data-protocol-v1`：七类必须以
+`clean` / `hard_negative` 原子 pair 表达，使用 domain-separated SHA-256
+内容身份，隔离 train/validation family 与内容，并排除既有 MM-002/MM-003
+case、family、instruction、observation、candidate 和 image identity。协议冻结时
+未生成数据，training/model evaluation/quality/safety/serving/promotion/Runtime
+claims 全部为 false。单一下一 gate 为
+`MM-004-multimodal-hard-negative-data-generation-v1`。
+
 ## MM-005：多模态环境适配
 
 扩展顺序：

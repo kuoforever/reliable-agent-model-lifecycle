@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-21.
+> Updated: 2026-08-22.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -132,25 +132,43 @@ eval repeatability. It does not establish token-ID identity, training or
 resource repeatability, cross-machine reproducibility, generalized quality,
 serving, promotion, or Runtime eligibility. The original Anaconda base binary
 was not recovered and transitive dependency hashes were not fully pinned.
+`MM-004-multimodal-hard-negative-data-protocol-v1` is now frozen before any
+new record generation. Its model-free contract covers exactly seven reviewed
+hard-negative categories, atomic clean/negative pairs, domain-separated
+content identities, train/validation split isolation, and a read-only
+exclusion registry for 36 MM-002/MM-003 cases and families plus 24 historical
+synthetic images. The protocol and 32 exact source receipts rebuild from
+tracked inputs. No hard-negative records, frozen dataset split, training,
+model evaluation, safety result, serving, promotion, capture, Runtime change,
+or Runtime eligibility exists.
 
 ## Single active objective
 
-Freeze `MM-004-multimodal-hard-negative-data-protocol-v1` before generating,
-training on, or evaluating any new hard-negative records:
+Freeze and execute `MM-004-multimodal-hard-negative-data-generation-v1`
+without training or model evaluation:
 
 ```text
-reviewed MM-002/MM-003 contracts + current seven hard-negative categories
-        -> outcome-neutral, model-free data construction protocol
-frozen provenance + split isolation + validation and fail-closed claims
-        -> only then may MM-004 data generation or model evaluation be proposed
+frozen MM-004 protocol + read-only MM-002/MM-003 exclusion registry
+        -> freeze exact generation counts, seed, inputs, and output receipts
+deterministic synthetic clean/negative pairs + all validation gates
+        -> only then may a separate MM-004 model-evaluation gate be proposed
 ```
 
-The protocol must preserve the existing MM-002 gold/eval and MM-003 Adapter as
-read-only evidence, define deterministic record identities and leakage checks,
-and keep generation, training, model evaluation, safety, serving, promotion,
-and Runtime claims false at freeze. Do not reopen or rerun the consumed MM-003
-repeatability directory. This objective is a data-contract gate, not authority
-to change the separate Runtime repository or capture real desktop content.
+The generation preregistration must preserve the frozen protocol, existing
+MM-002 gold/eval, and MM-003 Adapter as read-only evidence. It must choose
+counts and a seed before producing data, bind every output receipt, and pass
+pair/category/provenance/split/exclusion/evidence validation. Do not reopen or
+rerun the consumed MM-003 repeatability directory. This objective does not
+authorize training, model evaluation, a separate Runtime repository change, or
+real desktop capture.
+
+The completed protocol is 22,675 canonical bytes with SHA-256
+`f31e009ed8316d59240e9767865a041e86f30325a1fd15f8a29891d56d418355`.
+Ten focused adversarial tests, Ruff, scoped strict mypy, and `prepare --check`
+pass. The unified offline gate passes on CPython 3.11.15, 3.12.12, and 3.13.7;
+each reports 621 tests, four expected Windows privilege skips, 51 audited
+source files, and `valid=true`.
+[Protocol](docs/MM-004-multimodal-hard-negative-data-protocol-v1.md).
 
 The previously active
 `FC-MVP-001-fp32-attached-portable-package-qualification-v1` protocol remains
