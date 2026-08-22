@@ -676,15 +676,20 @@ agent-model-factory/
 内容身份，隔离 train/validation family 与内容，并排除既有 MM-002/MM-003
 case、family、instruction、observation、candidate 和 image identity。协议冻结时
 未生成数据，training/model evaluation/quality/safety/serving/promotion/Runtime
-claims 全部为 false。单一下一 gate 为
-`MM-004-multimodal-hard-negative-data-generation-v1`。
+claims 全部为 false。其 downstream generation gate 已完成。
 
 Generation preregistration 已冻结：`seed=44004`，七类各 4 个 family（3 train +
 1 validation），共 28 clean/negative pairs、56 records、28 张 unique synthetic
-PNG 和 31 个计划输出收据。冻结时 fixture/evidence 不存在，generation/training/
-model evaluation/quality/safety/serving/promotion/Runtime claims 仍为 false。
-正式 materialization 只能在包含该 preregistration 的 merged `master` freeze
-commit 上执行。
+PNG 和 31 个输出收据。冻结时 fixture/evidence 不存在；PR #45 merge commit
+`2d41b99e7e984975056f7e1088e768cd8a62b744` 随后授权 formal materialization。
+其 exact aligned `master` invocation 已原子生成并独立验证 31 files / 127,336
+bytes、42 train + 14 validation records 与 28 images。9,425-byte evidence
+SHA-256 为
+`0c79a89f8f2431640e4c91d9957af978775e54f2360c15eb67b97a89bb60b133`。
+generation/dataset validation 为 true；training/verifier or model evaluation/
+quality/safety/serving/promotion/capture/Runtime claims 仍为 false。单一下一
+gate 为 `MM-004-multimodal-hard-negative-model-evaluation-protocol-v1`，必须
+在任何 model execution 前先冻结 outcome-neutral protocol。
 
 ## MM-005：多模态环境适配
 

@@ -245,16 +245,15 @@ and [result review](docs/MM-003-small-vlm-post-training-eval-repeatability-resul
 
 ### Multimodal hard-negative data protocol v1
 
-The model-free MM-004 protocol is frozen before data generation. It defines
+The model-free MM-004 protocol was frozen before data generation. It defines
 exact clean/hard-negative pairs for seven reviewed failure categories,
 domain-separated content identities, train/validation leakage checks, and a
 read-only exclusion registry covering the existing 9 MM-002 eval, 18 MM-003
 train, 9 MM-003 validation records, and 24 historical synthetic images.
 
-No hard-negative records have been generated. Dataset, training, model
-evaluation, quality, safety, serving, promotion, capture, and Runtime claims
-remain false. The single next gate is the separate
-`MM-004-multimodal-hard-negative-data-generation-v1`. See the
+No records existed at that protocol freeze. The separate downstream generation
+gate has since materialized and validated the synthetic dataset without
+training or model evaluation. See the
 [protocol review](docs/MM-004-multimodal-hard-negative-data-protocol-v1.md).
 
 ### Multimodal hard-negative generation protocol v1
@@ -262,12 +261,18 @@ remain false. The single next gate is the separate
 The generation preregistration freezes seed `44004`, four families per
 category, a 3:1 train/validation family split, 28 pairs, 56 records, 28 unique
 synthetic PNGs, and all 31 planned output receipts. The output bytes are
-deterministically reconstructable in memory, but no fixture or execution
-evidence exists at freeze.
+deterministically reconstructable in memory; no fixture or execution evidence
+existed at freeze.
 
-Formal materialization requires the merged `master` freeze commit and preserves
-all model, quality, safety, serving, promotion, capture, and Runtime claims as
-false. See the
+After PR #45 merged the preregistration as
+`2d41b99e7e984975056f7e1088e768cd8a62b744`, the formal invocation from that
+exact `master` materialized and independently validated 31 files / 127,336
+bytes: 42 train records, 14 validation records, and 28 unique PNGs. The
+execution evidence SHA-256 is
+`0c79a89f8f2431640e4c91d9957af978775e54f2360c15eb67b97a89bb60b133`.
+Generation and dataset validation are true; model evaluation, training,
+quality, safety, serving, promotion, capture, and Runtime claims remain false.
+The next gate is a separately frozen model-evaluation protocol. See the
 [generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
 
 ### Reliability/Verifier Dataset v1
@@ -690,13 +695,13 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 model-free data and generation protocols are frozen. The single
-active objective is now the formal
-`MM-004-multimodal-hard-negative-data-generation-execution-v1`: merge the
-preregistration, then materialize and validate only its 31 precomputed outputs
-from the exact merged freeze commit. Existing MM-002 gold/eval and the MM-003
-Adapter remain read-only evidence; this objective does not authorize training,
-model evaluation, Runtime changes, or real desktop capture.
+The MM-004 model-free data and generation protocols are frozen, and the formal
+generation result has validated all 31 precomputed outputs from the exact
+merged freeze commit. The single active objective is now to freeze
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` before any model
+execution. Existing MM-002 gold/eval, the MM-003 Adapter, and generated MM-004
+data remain read-only evidence; this objective does not authorize training,
+model execution, Runtime changes, or real desktop capture.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

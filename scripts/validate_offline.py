@@ -94,6 +94,9 @@ MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_BYTES = 10_522
 MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_SHA256 = (
     "sha256:c49e18ec570ff198dfa564fdb711b3ba45cf34e5934a9cb667e6a62e13a07ceb"
 )
+MM004_HARD_NEGATIVE_GENERATION_FREEZE_COMMIT = (
+    "2d41b99e7e984975056f7e1088e768cd8a62b744"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -660,6 +663,45 @@ def main() -> int:
         ),
         "mm004_hard_negative_generation_executed": (
             mm004_hard_negative_generation["generation_executed"]
+        ),
+        "mm004_hard_negative_generation_dataset_validated": (
+            mm004_hard_negative_generation["dataset_validated"]
+        ),
+        "mm004_hard_negative_generation_families": (
+            mm004_hard_negative_generation["family_count"]
+        ),
+        "mm004_hard_negative_generation_pairs": (
+            mm004_hard_negative_generation["pair_count"]
+        ),
+        "mm004_hard_negative_generation_records": (
+            mm004_hard_negative_generation["record_count"]
+        ),
+        "mm004_hard_negative_generation_train_records": (
+            mm004_hard_negative_generation["train_records"]
+        ),
+        "mm004_hard_negative_generation_validation_records": (
+            mm004_hard_negative_generation["validation_records"]
+        ),
+        "mm004_hard_negative_generation_images": (
+            mm004_hard_negative_generation["image_count"]
+        ),
+        "mm004_hard_negative_generation_output_files": (
+            mm004_hard_negative_generation["output_files"]
+        ),
+        "mm004_hard_negative_generation_output_bytes": (
+            mm004_hard_negative_generation["output_bytes"]
+        ),
+        "mm004_hard_negative_generation_evidence_sha256": (
+            mm004_hard_negative_generation["evidence_sha256"]
+        ),
+        "mm004_hard_negative_generation_model_evaluated": (
+            mm004_hard_negative_generation["model_evaluated"]
+        ),
+        "mm004_hard_negative_generation_safety_established": (
+            mm004_hard_negative_generation["safety_established"]
+        ),
+        "mm004_hard_negative_generation_runtime_eligible": (
+            mm004_hard_negative_generation["runtime_eligible"]
         ),
         "mm004_hard_negative_generation_next_gate": (
             mm004_hard_negative_generation["next_gate"]
@@ -2560,19 +2602,99 @@ def _validate_mm004_hard_negative_generation_protocol() -> dict[str, Any]:
         or plan["record_count"] != 56
         or plan["image_count"] != 28
         or any(validated["claims"].values())
-        or (ROOT / contract.OUTPUT_ROOT).exists()
-        or (ROOT / contract.EVIDENCE_PATH).exists()
         or validated["next_gate"] != contract.EXECUTION_GATE_ID
     ):
         raise GateError("MM-004 generation protocol boundary mismatch")
+
+    planned_paths = set(validated["planned_outputs"])
+    _validate_mm004_output_tree(ROOT / contract.OUTPUT_ROOT, planned_paths)
+    output_payloads = {
+        path: _read_regular_file_once(
+            ROOT / path,
+            f"MM-004 hard-negative generated output {path}",
+        )
+        for path in sorted(planned_paths)
+    }
+    parent_payload = _read_regular_file_once(
+        MM004_HARD_NEGATIVE_PROTOCOL_PATH,
+        "MM-004 hard-negative parent protocol",
+    )
+    parent_protocol = _load_json_payload(
+        parent_payload, MM004_HARD_NEGATIVE_PROTOCOL_PATH
+    )
+    exclusions = parent_protocol["exclusion_registry"]
+    output_summary = contract.validate_output_payloads(
+        output_payloads,
+        preregistration=validated,
+        exclusions=exclusions,
+    )
+
+    evidence_path = ROOT / contract.EVIDENCE_PATH
+    evidence_payload = _read_regular_file_once(
+        evidence_path,
+        "MM-004 hard-negative generation evidence",
+    )
+    evidence = _load_json_payload(evidence_payload, evidence_path)
+    if contract.artifact_json_bytes(evidence) != evidence_payload:
+        raise GateError("MM-004 generation evidence is not canonical JSON")
+    evidence_summary = contract.validate_evidence(
+        evidence,
+        protocol_freeze_commit=MM004_HARD_NEGATIVE_GENERATION_FREEZE_COMMIT,
+        preregistration_payload=payload,
+        output_payloads=output_payloads,
+        exclusions=exclusions,
+    )
+    if evidence_summary != output_summary:
+        raise GateError("MM-004 generation evidence summary drift")
+    _validate_mm004_output_tree(ROOT / contract.OUTPUT_ROOT, planned_paths)
+    summary = evidence_summary.to_dict()
+    claims = evidence["claims"]
     return {
         "protocol_frozen": True,
+        "protocol_freeze_commit": MM004_HARD_NEGATIVE_GENERATION_FREEZE_COMMIT,
         "planned_families": contract.FAMILY_COUNT,
         "planned_records": contract.RECORD_COUNT,
         "planned_images": contract.IMAGE_COUNT,
-        "generation_executed": False,
-        "next_gate": contract.EXECUTION_GATE_ID,
+        **summary,
+        "output_files": len(output_payloads),
+        "output_bytes": sum(len(item) for item in output_payloads.values()),
+        "evidence_sha256": "sha256:" + hashlib.sha256(evidence_payload).hexdigest(),
+        "model_evaluated": claims["model_evaluated"],
+        "safety_established": claims["safety_established"],
+        "runtime_eligible": claims["runtime_eligible"],
     }
+
+
+def _validate_mm004_output_tree(output_root: Path, expected_paths: set[str]) -> None:
+    reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    actual_paths: set[str] = set()
+    try:
+        root_stat = output_root.lstat()
+    except OSError as exc:
+        raise GateError("MM-004 generation output root is missing") from exc
+    if (
+        not stat.S_ISDIR(root_stat.st_mode)
+        or output_root.is_symlink()
+        or bool(getattr(root_stat, "st_file_attributes", 0) & reparse_flag)
+    ):
+        raise GateError("MM-004 generation output root is unsafe")
+    for current, directories, filenames in os.walk(output_root, followlinks=False):
+        current_path = Path(current)
+        for name in directories:
+            directory = current_path / name
+            directory_stat = directory.lstat()
+            if (
+                not stat.S_ISDIR(directory_stat.st_mode)
+                or directory.is_symlink()
+                or bool(
+                    getattr(directory_stat, "st_file_attributes", 0) & reparse_flag
+                )
+            ):
+                raise GateError(f"unsafe MM-004 output directory: {directory}")
+        for name in filenames:
+            actual_paths.add((current_path / name).relative_to(ROOT).as_posix())
+    if actual_paths != expected_paths:
+        raise GateError("MM-004 generation output tree mismatch")
 
 
 def _validate_named_hashes(artifacts: object) -> None:
