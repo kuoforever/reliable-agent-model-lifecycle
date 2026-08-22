@@ -138,44 +138,51 @@ hard-negative categories, atomic clean/negative pairs, domain-separated
 content identities, train/validation split isolation, and a read-only
 exclusion registry for 36 MM-002/MM-003 cases and families plus 24 historical
 synthetic images. The protocol and 32 exact source receipts rebuild from
-tracked inputs. No hard-negative records, frozen dataset split, training,
-model evaluation, safety result, serving, promotion, capture, Runtime change,
-or Runtime eligibility exists.
-The deterministic MM-004 generation preregistration is also frozen before
-materialization. Seed `44004` fixes four families per category with a 3:1
-train/validation family split: 28 pairs, 56 records, and 28 unique synthetic
-PNG scenes. All 31 planned output paths, byte counts, and SHA-256 values are
+tracked inputs. At that protocol freeze, no hard-negative record or dataset
+split existed.
+The downstream deterministic MM-004 generation preregistration then froze
+before materialization. Seed `44004` fixes four families per category with a
+3:1 train/validation family split: 28 pairs, 56 records, and 28 unique
+synthetic PNG scenes. All 31 output paths, byte counts, and SHA-256 values were
 precomputed in the 10,522-byte config with digest
 `c49e18ec570ff198dfa564fdb711b3ba45cf34e5934a9cb667e6a62e13a07ceb`.
-No fixture root or execution evidence exists at freeze, and all generation,
-training, model-evaluation, quality, safety, serving, promotion, capture, and
-Runtime claims remain false.
+PR #45 merged that freeze as
+`2d41b99e7e984975056f7e1088e768cd8a62b744`. The formal zero-internal-retry
+invocation from that exact aligned `master` atomically materialized all 31
+outputs: 28 clean/negative families, 56 records (42 train and 14 validation),
+28 unique PNGs, and 127,336 total fixture bytes. The 9,425-byte execution
+evidence has SHA-256
+`0c79a89f8f2431640e4c91d9957af978775e54f2360c15eb67b97a89bb60b133`.
+Independent reconstruction validates every output receipt, pair/category,
+provenance, split, exclusion, image binding, and narrow claim. Generation and
+dataset validation are true; training, verifier/model evaluation, quality,
+safety, serving, promotion, capture, Runtime change, and Runtime eligibility
+remain false.
 
 ## Single active objective
 
-Merge the frozen generation preregistration, then execute
-`MM-004-multimodal-hard-negative-data-generation-execution-v1` without
-training or model evaluation:
+Freeze `MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` before
+any model execution:
 
 ```text
-frozen generation config + exact merged master freeze commit
-        -> one deterministic atomic materialization of 31 planned outputs
-actual receipts + pair/category/provenance/split/exclusion/image validation
-        -> only then may a separate MM-004 model-evaluation gate be proposed
+validated 56-record hard-negative dataset + immutable upstream evidence
+        -> outcome-neutral candidate/input/renderer/compiler/eval contract
+exact call order + metrics + resources + persistence/failure/claim boundaries
+        -> only after merged protocol freeze may formal model evaluation run
 ```
 
-Formal generation must run only after the preregistration is merged, with
-`master == origin/master == protocol_freeze_commit`. It must materialize the
-exact precomputed bytes through an atomic absent-root transition, bind every
-actual output receipt, and pass pair/category/provenance/split/exclusion/image
-validation. Do not reopen or rerun the consumed MM-003 repeatability directory.
-This objective does not authorize training, model evaluation, a separate
-Runtime repository change, or real desktop capture.
+The protocol must bind the exact read-only model candidate and upstream
+artifacts, the generated dataset inputs, rendering/compiler behavior, offline
+ordered calls, metrics, resource caps, durable success/failure evidence, and
+fail-closed claims before any outcome exists. Do not train, execute the model,
+reopen the consumed MM-003 repeatability directory, change the Runtime
+repository, or capture real desktop content in this objective.
 
-Twelve focused generation tests, Ruff, scoped strict mypy, `py_compile`, and
-preregistration `--check` pass. The unified offline gate passes on CPython
-3.11.15, 3.12.12, and 3.13.7; each reports 633 tests, four expected Windows
-privilege skips, 53 audited source files, and `valid=true`.
+Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
+2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
+pass. The unified offline gate passes on local CPython 3.11.15, 3.12.13, and
+3.13.7; each reports 635 tests, four expected Windows privilege skips, 52
+audited source files, and `valid=true`.
 [Generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
 
 The completed protocol is 22,675 canonical bytes with SHA-256
@@ -1196,7 +1203,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; bounded same-machine fixed-eval repeatability reviewed, MM-004 hard-negative data protocol next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 hard-negative generation validated, model-evaluation protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

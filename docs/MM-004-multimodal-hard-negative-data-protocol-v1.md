@@ -66,14 +66,22 @@ evidence, and real negative mutation. The unified offline gate passes 621 tests
 with four expected Windows privilege skips, 51 audited source files, and
 `valid=true` on CPython 3.11.15, 3.12.12, and 3.13.7.
 
-## Claims that remain false
+## Claims at protocol freeze
 
-No records have been generated; the dataset and splits are not frozen; no
-verifier or model has been evaluated; no model has been trained; and no
-quality, safety, real-content, serving, promotion, or Runtime eligibility is
+No records had been generated; the dataset and splits were not frozen; no
+verifier or model had been evaluated; no model had been trained; and no
+quality, safety, real-content, serving, promotion, or Runtime eligibility was
 established.
 
-The single next gate is
+The single next gate at that freeze was
 `MM-004-multimodal-hard-negative-data-generation-v1`. That gate must freeze
 counts, seed, construction inputs, and output receipts before any generated
 records can be accepted.
+
+## Downstream status
+
+The separately frozen generation gate has since materialized and independently
+validated all 31 registered outputs. Generation and dataset validation are now
+true; verifier/model evaluation, training, quality, safety, serving, promotion,
+capture, and Runtime claims remain false. The current next gate is
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1`.

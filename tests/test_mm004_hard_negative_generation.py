@@ -17,6 +17,9 @@ sys.path.insert(0, str(SRC))
 
 from fullcycle_bridge import mm004_hard_negative_generation as contract  # noqa: E402
 from scripts import run_mm004_hard_negative_generation as runner  # noqa: E402
+from scripts import validate_offline as offline_gate  # noqa: E402
+
+PROTOCOL_FREEZE_COMMIT = "2d41b99e7e984975056f7e1088e768cd8a62b744"
 
 
 class MM004HardNegativeGenerationTests(unittest.TestCase):
@@ -161,6 +164,51 @@ class MM004HardNegativeGenerationTests(unittest.TestCase):
                 output_payloads=self.outputs,
                 exclusions=self.exclusions,
             )
+
+    def test_tracked_execution_artifacts_rebuild_exactly(self) -> None:
+        outputs = runner.load_tracked_outputs()
+        evidence_path = ROOT / contract.EVIDENCE_PATH
+        evidence_payload = evidence_path.read_bytes()
+        evidence = json.loads(evidence_payload)
+        self.assertEqual(contract.artifact_json_bytes(evidence), evidence_payload)
+        summary = contract.validate_evidence(
+            evidence,
+            protocol_freeze_commit=PROTOCOL_FREEZE_COMMIT,
+            preregistration_payload=self.preregistration_payload,
+            output_payloads=outputs,
+            exclusions=self.exclusions,
+        )
+        self.assertEqual(summary.record_count, 56)
+        self.assertTrue(summary.dataset_validated)
+        self.assertEqual(len(outputs), 31)
+        self.assertEqual(sum(len(payload) for payload in outputs.values()), 127_336)
+        self.assertEqual(
+            set(outputs),
+            set(self.preregistration["planned_outputs"]),
+        )
+        self.assertEqual(evidence["protocol_freeze_commit"], PROTOCOL_FREEZE_COMMIT)
+        self.assertTrue(evidence["claims"]["generation_executed"])
+        self.assertFalse(evidence["claims"]["model_evaluated"])
+        self.assertFalse(evidence["claims"]["runtime_eligible"])
+
+    def test_output_tree_rejects_an_unregistered_extra_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_directory:
+            temp_root = Path(temp_directory)
+            output_root = temp_root / contract.OUTPUT_ROOT
+            expected_path = output_root / "train.json"
+            expected_path.parent.mkdir(parents=True)
+            expected_path.write_bytes(b"{}")
+            with mock.patch.object(offline_gate, "ROOT", temp_root):
+                offline_gate._validate_mm004_output_tree(
+                    output_root, {contract.TRAIN_PATH}
+                )
+                (output_root / "extra.json").write_bytes(b"{}")
+                with self.assertRaisesRegex(
+                    offline_gate.GateError, "output tree mismatch"
+                ):
+                    offline_gate._validate_mm004_output_tree(
+                        output_root, {contract.TRAIN_PATH}
+                    )
 
     def test_materialization_is_atomic_and_exclusive(self) -> None:
         with tempfile.TemporaryDirectory() as temp_directory:
