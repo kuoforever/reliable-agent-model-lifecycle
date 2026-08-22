@@ -38,6 +38,7 @@ English companion documents.
 | Local small-VLM QLoRA post-training result review v2 | [MM-003 post-training result review](MM-003-small-vlm-post-training-result-review-v2.md) | Formal lifecycle passed; specific synthetic metrics improved while rejection safety and repeatability remain open |
 | Local small-VLM post-training eval repeatability protocol v1 | [MM-003 eval repeatability protocol](MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md) | Outcome-neutral same-machine replay frozen before execution; its one-shot result is now reviewed |
 | Local small-VLM post-training eval repeatability result review v1 | [MM-003 eval repeatability result review](MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md) | Formal replay passed; bounded same-machine fixed-nine-case eval repeatability established |
+| Multimodal hard-negative data protocol v1 | [MM-004 protocol](MM-004-multimodal-hard-negative-data-protocol-v1.md) | Frozen model-free pair, identity, exclusion, split, provenance, and authority contract; no records generated |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

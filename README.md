@@ -243,6 +243,20 @@ eligibility remain false. The next gate is the model-free MM-004 hard-negative
 data protocol. See the [frozen protocol](docs/MM-003-small-vlm-post-training-eval-repeatability-protocol-v1.md)
 and [result review](docs/MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md).
 
+### Multimodal hard-negative data protocol v1
+
+The model-free MM-004 protocol is frozen before data generation. It defines
+exact clean/hard-negative pairs for seven reviewed failure categories,
+domain-separated content identities, train/validation leakage checks, and a
+read-only exclusion registry covering the existing 9 MM-002 eval, 18 MM-003
+train, 9 MM-003 validation records, and 24 historical synthetic images.
+
+No hard-negative records have been generated. Dataset, training, model
+evaluation, quality, safety, serving, promotion, capture, and Runtime claims
+remain false. The single next gate is the separate
+`MM-004-multimodal-hard-negative-data-generation-v1`. See the
+[protocol review](docs/MM-004-multimodal-hard-negative-data-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -663,13 +677,12 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The single active objective is now
-`MM-004-multimodal-hard-negative-data-protocol-v1`. Before generating,
-training on, or evaluating any new hard-negative records, freeze a model-free
-data protocol with deterministic provenance, split isolation, validation, and
-fail-closed claims. Existing MM-002 gold/eval and the MM-003 Adapter remain
-read-only evidence; this objective does not authorize Runtime changes or real
-desktop capture.
+The MM-004 model-free data protocol is frozen. The single active objective is
+now `MM-004-multimodal-hard-negative-data-generation-v1`: freeze exact counts,
+seed, construction inputs, and output receipts, then generate and validate only
+the registered synthetic clean/negative pairs. Existing MM-002 gold/eval and
+the MM-003 Adapter remain read-only evidence; this objective does not authorize
+training, model evaluation, Runtime changes, or real desktop capture.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
