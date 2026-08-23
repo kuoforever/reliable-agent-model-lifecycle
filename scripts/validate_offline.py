@@ -8,6 +8,7 @@ import json
 import math
 import os
 import stat
+import subprocess
 import sys
 import tomllib
 import unittest
@@ -128,6 +129,13 @@ MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_PATH = (
 MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_BYTES = 24_909
 MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_SHA256 = (
     "sha256:7e774e69194e6f70c27c9b53bbab68adb19874780757717ca42012ec48297525"
+)
+MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_document_chart_pdf_data_generation_v1.json"
+)
+MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_BYTES = 17_780
+MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_SHA256 = (
+    "sha256:6e212237ee59d9730f97028769033a0991f9e3c6b893a404fc583274f813f2ed"
 )
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
@@ -463,6 +471,9 @@ def main() -> int:
     )
     mm005_environment_adaptation = _validate_mm005_environment_adaptation_protocol()
     mm005_document_chart_pdf_data = _validate_mm005_document_chart_pdf_data_protocol()
+    mm005_document_chart_pdf_generation = (
+        _validate_mm005_document_chart_pdf_generation_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -903,6 +914,24 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_data_next_gate": (
             mm005_document_chart_pdf_data["next_gate"]
+        ),
+        "mm005_document_chart_pdf_generation_protocol_frozen": (
+            mm005_document_chart_pdf_generation["protocol_frozen"]
+        ),
+        "mm005_document_chart_pdf_generation_planned_output_files": (
+            mm005_document_chart_pdf_generation["output_file_count"]
+        ),
+        "mm005_document_chart_pdf_generation_planned_output_bytes": (
+            mm005_document_chart_pdf_generation["output_bytes"]
+        ),
+        "mm005_document_chart_pdf_generation_executed": (
+            mm005_document_chart_pdf_generation["generation_executed"]
+        ),
+        "mm005_document_chart_pdf_generation_dataset_validated": (
+            mm005_document_chart_pdf_generation["dataset_validated"]
+        ),
+        "mm005_document_chart_pdf_generation_next_gate": (
+            mm005_document_chart_pdf_generation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3159,9 +3188,10 @@ def _validate_mm005_document_chart_pdf_data_protocol() -> dict[str, Any]:
     )
     plan = raw.get("generation_plan")
     authority = raw.get("authority_contract")
+    output_exists = (ROOT / contract.OUTPUT_ROOT).exists()
+    evidence_exists = (ROOT / contract.EVIDENCE_PATH).exists()
     if (
-        (ROOT / contract.OUTPUT_ROOT).exists()
-        or (ROOT / contract.EVIDENCE_PATH).exists()
+        output_exists != evidence_exists
         or len(sources) != 5
         or summary.template_count != 32
         or summary.record_count != 32
@@ -3214,7 +3244,207 @@ def _validate_mm005_document_chart_pdf_data_protocol() -> dict[str, Any]:
         "seed": contract.SEED,
         "source_receipt_count": len(sources),
         "planned_output_rebuild_valid": planned["planned_output_rebuild_valid"],
+        "execution_artifacts_present": output_exists,
     }
+
+
+def _validate_mm005_document_chart_pdf_generation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm005_document_chart_pdf_data as data_contract
+    from fullcycle_bridge import (
+        mm005_document_chart_pdf_generation as contract,
+    )
+    from scripts import run_mm005_document_chart_pdf_generation as runner
+
+    protocol_payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_PATH,
+        "MM-005 Document/Chart/PDF generation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(protocol_payload).hexdigest()
+    if (
+        len(protocol_payload) != MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_BYTES
+        or digest != MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Document/Chart/PDF generation protocol hash mismatch")
+    raw = _load_json_payload(
+        protocol_payload, MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_PATH
+    )
+    if contract.artifact_json_bytes(raw) != protocol_payload:
+        raise GateError("MM-005 generation protocol is not canonical JSON")
+
+    data_payload, data_protocol, data_sources, parent_receipt = (
+        runner.data_protocol_context()
+    )
+    sources = runner.source_receipts()
+    expected = runner.expected_protocol(freeze_status="frozen")
+    validated = contract.validate_protocol(
+        raw,
+        source_receipts=sources,
+        data_protocol_payload=data_payload,
+    )
+    if expected != validated or contract.artifact_json_bytes(expected) != protocol_payload:
+        raise GateError("MM-005 generation protocol reconstruction drift")
+    plan = validated.get("execution_plan")
+    if (
+        len(sources) != 4
+        or len(validated.get("planned_outputs", {})) != 49
+        or not isinstance(plan, dict)
+        or plan.get("output_file_count") != 49
+        or plan.get("output_bytes") != 434_212
+        or plan.get("internal_retry_limit") != 0
+        or plan.get("atomic_output_root_required") is not True
+        or plan.get("exclusive_evidence_write_required") is not True
+        or plan.get("independent_readback_validation_required") is not True
+        or any(validated["claims"].values())
+        or validated.get("next_gate") != contract.EXECUTION_GATE_ID
+    ):
+        raise GateError("MM-005 generation protocol boundary mismatch")
+
+    parent_payload = _read_regular_file_once(
+        ROOT / data_contract.PARENT_PROTOCOL_PATH,
+        "MM-005 environment-adaptation parent protocol",
+    )
+    parent_protocol = _load_json_payload(
+        parent_payload, ROOT / data_contract.PARENT_PROTOCOL_PATH
+    )
+    exclusions = parent_protocol["exclusion_registry"]
+    parent_binding = data_protocol["parent_protocol"]
+    planned_outputs = data_contract.expected_output_payloads(
+        str(parent_binding["sha256"])
+    )
+    planned_summary = contract.validate_output_payloads(
+        planned_outputs,
+        protocol=validated,
+        data_protocol=data_protocol,
+        exclusions=exclusions,
+    )
+    if (
+        planned_summary.output_file_count != 49
+        or planned_summary.output_bytes != 434_212
+        or planned_summary.record_count != 32
+        or planned_summary.image_count != 32
+        or planned_summary.source_artifact_count != 14
+    ):
+        raise GateError("MM-005 generation planned-output validation drift")
+
+    output_root = ROOT / contract.OUTPUT_ROOT
+    evidence_path = ROOT / contract.EVIDENCE_PATH
+    output_exists = output_root.exists()
+    evidence_exists = evidence_path.exists()
+    if output_exists != evidence_exists:
+        raise GateError("MM-005 generation execution artifacts are incomplete")
+    if not output_exists:
+        return {
+            "protocol_frozen": True,
+            "protocol_freeze_commit": None,
+            "template_count": data_contract.TEMPLATE_COUNT,
+            "record_count": data_contract.RECORD_COUNT,
+            "image_count": data_contract.IMAGE_COUNT,
+            "source_artifact_count": data_contract.PDF_COUNT,
+            "train_records": data_contract.TRAIN_RECORDS,
+            "validation_records": data_contract.VALIDATION_RECORDS,
+            "output_file_count": data_contract.OUTPUT_FILE_COUNT,
+            "output_bytes": planned_summary.output_bytes,
+            "generation_executed": False,
+            "records_generated": False,
+            "images_generated": False,
+            "dataset_validated": False,
+            "evidence_sha256": None,
+            "next_gate": contract.EXECUTION_GATE_ID,
+        }
+
+    planned_paths = set(validated["planned_outputs"])
+    _validate_mm005_output_tree(output_root, planned_paths)
+    output_payloads = {
+        path: _read_regular_file_once(
+            ROOT / path,
+            f"MM-005 Document/Chart/PDF generated output {path}",
+        )
+        for path in sorted(planned_paths)
+    }
+    evidence_payload = _read_regular_file_once(
+        evidence_path,
+        "MM-005 Document/Chart/PDF generation evidence",
+    )
+    evidence = _load_json_payload(evidence_payload, evidence_path)
+    if contract.artifact_json_bytes(evidence) != evidence_payload:
+        raise GateError("MM-005 generation evidence is not canonical JSON")
+    freeze_commit = evidence.get("protocol_freeze_commit")
+    if not isinstance(freeze_commit, str):
+        raise GateError("MM-005 generation evidence freeze commit is missing")
+    frozen_paths = {
+        contract.PROTOCOL_PATH,
+        contract.DATA_PROTOCOL_PATH,
+        *runner.SOURCE_PATHS.values(),
+    }
+    for relative in sorted(frozen_paths):
+        tracked = subprocess.run(
+            ["git", "show", f"{freeze_commit}:{relative}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        if tracked != _read_regular_file_once(
+            ROOT / relative, f"MM-005 frozen generation source {relative}"
+        ):
+            raise GateError(f"MM-005 generation freeze source drift: {relative}")
+    evidence_summary = contract.validate_evidence(
+        evidence,
+        protocol_freeze_commit=freeze_commit,
+        protocol_payload=protocol_payload,
+        source_receipts=sources,
+        data_protocol_payload=data_payload,
+        data_source_receipts=data_sources,
+        parent_protocol_receipt=parent_receipt,
+        output_payloads=output_payloads,
+        exclusions=exclusions,
+    )
+    _validate_mm005_output_tree(output_root, planned_paths)
+    claims = evidence["claims"]
+    if (
+        claims != contract.EXECUTION_CLAIMS
+        or evidence_summary.generation_executed is not True
+        or evidence_summary.dataset_validated is not True
+        or evidence_summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError("MM-005 generation execution claim drift")
+    return {
+        "protocol_frozen": True,
+        "protocol_freeze_commit": freeze_commit,
+        **evidence_summary.to_dict(),
+        "evidence_sha256": "sha256:" + hashlib.sha256(evidence_payload).hexdigest(),
+    }
+
+
+def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
+    reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
+    actual_paths: set[str] = set()
+    try:
+        root_stat = output_root.lstat()
+    except OSError as exc:
+        raise GateError("MM-005 generation output root is missing") from exc
+    if (
+        not stat.S_ISDIR(root_stat.st_mode)
+        or output_root.is_symlink()
+        or bool(getattr(root_stat, "st_file_attributes", 0) & reparse_flag)
+    ):
+        raise GateError("MM-005 generation output root is unsafe")
+    for current, directories, filenames in os.walk(output_root, followlinks=False):
+        current_path = Path(current)
+        for name in directories:
+            directory = current_path / name
+            directory_stat = directory.lstat()
+            if (
+                not stat.S_ISDIR(directory_stat.st_mode)
+                or directory.is_symlink()
+                or bool(
+                    getattr(directory_stat, "st_file_attributes", 0) & reparse_flag
+                )
+            ):
+                raise GateError(f"unsafe MM-005 output directory: {directory}")
+        for name in filenames:
+            actual_paths.add((current_path / name).relative_to(ROOT).as_posix())
+    if actual_paths != expected_paths:
+        raise GateError("MM-005 generation output tree mismatch")
 
 
 def _validate_mm004_output_tree(output_root: Path, expected_paths: set[str]) -> None:

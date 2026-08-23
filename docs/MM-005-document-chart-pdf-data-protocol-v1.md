@@ -15,6 +15,10 @@ bytes with SHA-256
 It binds the 49,202-byte parent protocol and five exact implementation/source
 receipts.
 
+PR #51 merged this exact preregistration as
+`3992778151bb7209c00c89e77e07894e075ff066`; its local and remote feature
+branches were deleted before the separate generation runner freeze began.
+
 ## Frozen data grid
 
 The deterministic seed is `55005`. Each of the four task families has eight
@@ -118,4 +122,5 @@ The single next gate is
 49 frozen outputs only from an aligned merged `master` freeze commit, with no
 retry or unregistered file. It must independently validate all receipts and
 write narrow execution evidence before any later Adapter, model, or evaluation
-gate is selected.
+gate is selected. Its separate one-shot runner protocol is now frozen but has
+not been executed.
