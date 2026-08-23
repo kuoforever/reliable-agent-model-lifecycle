@@ -322,8 +322,9 @@ orchestration, Serving/routing, policy, approval, WAL, grounding authority,
 budgets, recovery, and desktop dispatch remain inherited. The 49,202-byte
 canonical protocol binds 63 source receipts and recomputed cross-stage content
 exclusions for 92 prior cases/records, 64 families, and 52 images. No new data
-exists and every training/model/quality/safety/Serving/Runtime claim remains
-false. See the [MM-005 protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
+was generated at that protocol freeze, and every training/model/quality/
+safety/Serving/Runtime claim remained false. See the
+[MM-005 protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
 
 ### Document/Chart/PDF data protocol v1
 
@@ -332,14 +333,15 @@ families per task (six train and two validation), 32 records, 32 unique
 1280×900 PNG page images, 14 deterministic single-page PDF source artifacts,
 and all 49 future output receipts. All bytes reconstruct in memory from the
 parent protocol and five source receipts; the fixed output and execution
-evidence paths remain absent.
+evidence paths were absent at preregistration freeze.
 
 PDF-source templates derive their PDF and PNG from one shared synthetic layout
 ground truth without external rendering, OCR, network access, host fonts, or
 model dependencies. Parent cross-stage exclusions and family/template/content/
-image split isolation validate the full planned record set. Generation,
-dataset validation, Adapter/Verifier execution, training/evaluation, quality,
-safety, capture, Serving, promotion, and Runtime claims remain false. See the
+image split isolation validate the full planned record set. At this gate,
+generation, dataset validation, Adapter/Verifier execution, training/
+evaluation, quality, safety, capture, Serving, promotion, and Runtime claims
+were false. The downstream one-shot generation has since completed; see the
 [MM-005 data protocol](docs/MM-005-document-chart-pdf-data-protocol-v1.md).
 
 ### Document/Chart/PDF data generation protocol v1
@@ -349,11 +351,18 @@ The one-shot generation boundary is frozen separately from the data plan. Its
 protocol, and all 49 planned outputs / 434,212 bytes. The runner requires an
 aligned merged `master`, absent fixed targets, zero internal retries, atomic
 output-root publication, exact-tree rejection of unregistered files,
-independent persisted-byte validation, and exclusive evidence creation.
+independent persisted-byte validation, and exclusive evidence creation. PR
+#52 merged the freeze as
+`fbf1c64398d89c35e95f80322fd665ae3c2f2c1d`; the exact aligned-master
+invocation then ran once with no retry.
 
-At freeze, output and evidence remain absent and all execution claims remain
-false. No model, network, external renderer, real content, capture, Adapter,
-Verifier, Serving, or Runtime path is used. See the
+The tracked result contains 32 records/images, 14 single-page PDFs, three JSON
+files, and 49 total files / 434,212 bytes. Its 16,680-byte evidence has SHA-256
+`a11a373a6c7d49b02470a84d9c303cb4f424ff6693dcc516ef8060af032d649f`.
+Generation, records, images, and dataset validation are true. Adapter,
+Verifier, model, quality, safety, real/external content, capture, Serving,
+promotion, and Runtime claims remain false. The consumed invocation must not
+be retried. See the
 [MM-005 generation protocol](docs/MM-005-document-chart-pdf-data-generation-protocol-v1.md).
 
 ### Reliability/Verifier Dataset v1
@@ -783,12 +792,15 @@ MM-005 environment-adaptation protocol now freezes the second environment and
 its interfaces before expansion. The separate model-free
 `MM-005-document-chart-pdf-data-protocol-v1` has merged with frozen counts,
 seed, templates, receipts, and validation. Its separate one-shot generation
-runner is now frozen for publication; only after that runner merges may the
-exact merged-master data-generation execution run once. No fixture or evidence
-exists yet.
+runner merged through PR #52 and the exact merged-master invocation completed
+once: 49 files / 434,212 bytes and narrow execution evidence now exist and
+validate exactly. They are consumed and must remain immutable. The next gate
+is the separate
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` freeze.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
-changes, real desktop capture, or reuse/retry of the consumed MM-004 attempt.
+changes, real desktop/document capture, or reuse/retry of either consumed
+MM-004 or MM-005 attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

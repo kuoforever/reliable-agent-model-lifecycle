@@ -88,10 +88,11 @@ they do not turn planned bytes into generated dataset evidence.
 
 The fixed output root
 `fixtures/mm005_document_chart_pdf_v1` and execution evidence path
-`baseline/mm005-document-chart-pdf-data-generation-v1.json` are absent at
+`baseline/mm005-document-chart-pdf-data-generation-v1.json` were absent at
 freeze. Generation, records/images, dataset validation, Environment Adapter,
 Verifier execution, model training/evaluation, quality, safety, real/external
-content, capture, Serving, promotion, and Runtime claims all remain false.
+content, capture, Serving, promotion, and Runtime claims were all false at
+that gate.
 
 Model output has no execution authority. Runtime remains the sole policy,
 approval, WAL, grounding, budget, recovery, and desktop-dispatch boundary. No
@@ -108,19 +109,19 @@ cross-machine performance repeatability.
 Fourteen focused tests cover the frozen artifact, parent/source receipts,
 template balance and compatibility, exact planned outputs, PNG/PDF structure
 and uniqueness, parent record/exclusion validation, answer/evidence semantics,
-all split identity classes, seed binding, tamper rejection, output absence, and
-the model/network/execution-free import boundary. Full-repository Ruff, scoped
-strict Mypy, `py_compile`, builder `--check`, and `git diff --check` pass. Local
-CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 688-test gate with
-four expected Windows privilege skips, 55 audited source files, and
-`valid=true`.
+all split identity classes, seed binding, tamper rejection, downstream-state-
+independent reconstruction, and the model/network/execution-free import
+boundary. At preregistration freeze, full-repository Ruff, scoped strict Mypy,
+`py_compile`, builder `--check`, and `git diff --check` passed. Local CPython
+3.11.15, 3.12.12, and 3.13.7 each passed the unified 688-test gate with four
+expected Windows privilege skips, 55 audited source files, and `valid=true`.
 
-## Next gate
+## Downstream result and next gate
 
-The single next gate is
-`MM-005-document-chart-pdf-data-generation-v1`. It may materialize exactly the
-49 frozen outputs only from an aligned merged `master` freeze commit, with no
-retry or unregistered file. It must independently validate all receipts and
-write narrow execution evidence before any later Adapter, model, or evaluation
-gate is selected. Its separate one-shot runner protocol is now frozen but has
-not been executed.
+The registered `MM-005-document-chart-pdf-data-generation-v1` runner merged
+through PR #52 as `fbf1c64398d89c35e95f80322fd665ae3c2f2c1d` and executed
+exactly once from that aligned `master`. It independently validated and
+materialized all 49 frozen outputs / 434,212 bytes and wrote the narrow
+16,680-byte execution evidence without retry. The consumed data/evidence must
+remain immutable. The single next gate is
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`.

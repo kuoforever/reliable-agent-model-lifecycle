@@ -25,6 +25,11 @@ from scripts import (  # noqa: E402
 )
 from scripts import run_mm005_document_chart_pdf_generation as runner  # noqa: E402
 
+PROTOCOL_FREEZE_COMMIT = "fbf1c64398d89c35e95f80322fd665ae3c2f2c1d"
+EVIDENCE_SHA256 = (
+    "sha256:a11a373a6c7d49b02470a84d9c303cb4f424ff6693dcc516ef8060af032d649f"
+)
+
 
 class MM005DocumentChartPdfGenerationTests(unittest.TestCase):
     @classmethod
@@ -230,9 +235,34 @@ class MM005DocumentChartPdfGenerationTests(unittest.TestCase):
                 exclusions=self.exclusions,
             )
 
-    def test_fixed_execution_targets_remain_absent_at_freeze(self) -> None:
-        self.assertFalse((ROOT / contract.OUTPUT_ROOT).exists())
-        self.assertFalse((ROOT / contract.EVIDENCE_PATH).exists())
+    def test_tracked_execution_artifacts_rebuild_exactly(self) -> None:
+        tracked_outputs = runner.load_tracked_outputs()
+        self.assertEqual(tracked_outputs, self.outputs)
+        evidence_payload = (ROOT / contract.EVIDENCE_PATH).read_bytes()
+        evidence = json.loads(evidence_payload)
+        self.assertEqual(contract.artifact_json_bytes(evidence), evidence_payload)
+        self.assertEqual(contract.sha256_bytes(evidence_payload), EVIDENCE_SHA256)
+        summary = contract.validate_evidence(
+            evidence,
+            protocol_freeze_commit=PROTOCOL_FREEZE_COMMIT,
+            protocol_payload=self.protocol_payload,
+            source_receipts=self.sources,
+            data_protocol_payload=self.data_payload,
+            data_source_receipts=self.data_sources,
+            parent_protocol_receipt=self.parent_receipt,
+            output_payloads=tracked_outputs,
+            exclusions=self.exclusions,
+        )
+        self.assertEqual(summary.output_file_count, 49)
+        self.assertEqual(summary.output_bytes, 434_212)
+        self.assertTrue(summary.generation_executed)
+        self.assertTrue(summary.dataset_validated)
+        self.assertEqual(evidence["protocol_freeze_commit"], PROTOCOL_FREEZE_COMMIT)
+        self.assertFalse(evidence["claims"]["environment_adapter_implemented"])
+        self.assertFalse(evidence["claims"]["verifier_executed"])
+        self.assertFalse(evidence["claims"]["model_evaluated"])
+        self.assertFalse(evidence["claims"]["quality_improved"])
+        self.assertFalse(evidence["claims"]["runtime_eligible"])
 
     def test_generation_scope_has_no_model_or_network_imports(self) -> None:
         forbidden = {"torch", "transformers", "peft", "requests", "socket", "urllib"}
