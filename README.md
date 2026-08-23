@@ -342,6 +342,20 @@ dataset validation, Adapter/Verifier execution, training/evaluation, quality,
 safety, capture, Serving, promotion, and Runtime claims remain false. See the
 [MM-005 data protocol](docs/MM-005-document-chart-pdf-data-protocol-v1.md).
 
+### Document/Chart/PDF data generation protocol v1
+
+The one-shot generation boundary is frozen separately from the data plan. Its
+17,780-byte protocol binds four execution-source receipts, the exact data
+protocol, and all 49 planned outputs / 434,212 bytes. The runner requires an
+aligned merged `master`, absent fixed targets, zero internal retries, atomic
+output-root publication, exact-tree rejection of unregistered files,
+independent persisted-byte validation, and exclusive evidence creation.
+
+At freeze, output and evidence remain absent and all execution claims remain
+false. No model, network, external renderer, real content, capture, Adapter,
+Verifier, Serving, or Runtime path is used. See the
+[MM-005 generation protocol](docs/MM-005-document-chart-pdf-data-generation-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -767,9 +781,11 @@ model-free result review are complete. The paired suite exposed a reject-biased
 verifier: 28/28 hard negatives rejected, clean accept recall 4/28. The bounded
 MM-005 environment-adaptation protocol now freezes the second environment and
 its interfaces before expansion. The separate model-free
-`MM-005-document-chart-pdf-data-protocol-v1` now freezes counts, seed,
-templates, receipts, and validation without writing outputs. Its next gate is
-the exact merged-master data-generation execution; no fixture exists yet.
+`MM-005-document-chart-pdf-data-protocol-v1` has merged with frozen counts,
+seed, templates, receipts, and validation. Its separate one-shot generation
+runner is now frozen for publication; only after that runner merges may the
+exact merged-master data-generation execution run once. No fixture or evidence
+exists yet.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
 changes, real desktop capture, or reuse/retry of the consumed MM-004 attempt.

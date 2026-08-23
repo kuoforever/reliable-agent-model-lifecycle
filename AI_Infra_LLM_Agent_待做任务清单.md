@@ -778,6 +778,21 @@ false。24,909-byte protocol SHA-256 为
 单一下一 gate 是 `MM-005-document-chart-pdf-data-generation-v1`，只能从合并后的
 exact master freeze commit 原子落盘这 49 个 outputs，并须独立写 execution evidence。
 
+数据协议已通过 PR #51 合并为
+`3992778151bb7209c00c89e77e07894e075ff066`，远近 feature branch 已清理且
+`master == origin/master` 后才开始独立 generation slice。
+`MM-005-document-chart-pdf-data-generation-v1` 现冻结 17,780-byte protocol，
+SHA-256 为
+`6e212237ee59d9730f97028769033a0991f9e3c6b893a404fc583274f813f2ed`；它绑定
+四份 data/generation contract/runner source receipts、24,909-byte data protocol
+和全部 49 outputs / 434,212 bytes。正式 runner 必须满足 merged-master exact
+commit、双目标不存在、zero internal retry、staging-root atomic rename、exact-tree
+extra-file rejection、persisted-byte independent readback 和 exclusive evidence。
+当前 output/evidence 仍不存在，generation/dataset validation/Adapter/Verifier/
+model/quality/safety/capture/Serving/Runtime claims 全为 false。单一下一动作是先发布
+该 exact runner freeze；检查、review 与冲突状态全部 clear 并合并后，从新的 exact
+merged-master freeze commit 执行一次，不得在 feature branch 生成或重试。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：
