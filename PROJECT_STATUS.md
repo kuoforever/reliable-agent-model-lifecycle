@@ -342,24 +342,56 @@ Verifier implementation/execution, model/training repeatability, quality,
 safety, Serving, promotion, and Runtime claims remain false.
 [Adapter/Verifier protocol](docs/MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md).
 
+PR #54 merged that exact protocol as
+`db8c6833f43c02a0b255c436558e0269a8bde3b4`. All six Linux Python-matrix
+checks passed; the PR had zero reviews, comments, or review threads and was
+`CLEAN`/`MERGEABLE`. Both feature-branch copies were deleted and
+`master == origin/master` was restored before implementation began.
+
+`MM-005-document-chart-pdf-adapter-verifier-implementation-v1` is now
+implemented and validated locally. Its independent Adapter exposes canonical
+model payload JSON and exact image bytes while keeping the real path, receipts,
+and authority metadata audit-only. Missing, duplicate, tampered, non-byte,
+absolute, and traversal image bindings fail closed. The independent strict
+compiler/Verifier does not call the frozen reference implementation and
+matches all 32 projection receipts and 160 case outcomes exactly: 96 compiler-
+valid, 64 invalid, 32 positive, 128 negative, and zero mismatch.
+
+The 102,117-byte implementation evidence has SHA-256
+`d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2`.
+It binds five exact implementation/protocol source receipts, the protocol merge
+commit, immutable consumed inputs, 32 Adapter executions, and 160 Verifier
+executions. Environment Adapter implementation/execution and deterministic
+Verifier implementation/execution are now true. Model training/evaluation,
+repeatability, quality, safety, Serving, promotion, Runtime change, and Runtime
+eligibility remain false.
+
+Twelve implementation-focused tests and the complete 50-test MM-005 chain,
+full-repository Ruff 0.15.22, scoped strict Mypy 2.3.0, `py_compile`, builder
+`--check`, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12, and
+3.13.7 each pass the unified 724-test gate with four expected Windows privilege
+skips, 59 audited source files, and `valid=true`.
+[Adapter/Verifier implementation](docs/MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md).
+
 ## Single active objective
 
-Publish the frozen MM-005 Adapter/Verifier protocol before implementation:
+Publish the MM-005 Adapter/Verifier implementation and conformance evidence:
 
 ```text
-126,032-byte protocol + 32 Adapter projection receipts + 160 Verifier cases
+102,117-byte evidence + 32 Adapter executions + 160 Verifier executions
         -> merge with checks/review/conflict state clear
         -> preserve all consumed generation bytes immutably
-        -> MM-005-document-chart-pdf-adapter-verifier-implementation-v1
+        -> MM-005-document-chart-pdf-model-evaluation-protocol-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
-This publication branch may reconstruct and validate the frozen projections
-and cases but must never invoke generation or implement/execute the Adapter or
-Verifier. Do not train, evaluate, modify, or save a model, change the Runtime
-repository, capture real desktop/document content, or interpret protocol
-reconstruction as repeatability, quality, or safety evidence.
+This publication branch may reconstruct and validate the Adapter/Verifier
+implementation but must never invoke generation or a model. Do not train,
+evaluate, modify, or save a model, change the Runtime repository, capture real
+desktop/document content, or interpret component conformance as model/training
+repeatability, quality, or safety evidence. The next model-evaluation protocol
+must merge before any model import or call.
 
 ## Preserved historical validation and deferred gates
 
@@ -1388,7 +1420,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF consumed generation result published, Adapter/Verifier protocol frozen and validated locally, exact protocol publication next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF Adapter/Verifier protocol merged, implementation and exact conformance evidence validated locally, implementation publication next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

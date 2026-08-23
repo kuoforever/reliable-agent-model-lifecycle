@@ -378,9 +378,26 @@ and `page_number` JSON shape. The model-free Verifier freezes 32 exact positive
 controls plus 128 wrong-answer, wrong-evidence, duplicate-evidence, and
 wrong-page controls with no model judge. The 126,032-byte protocol has SHA-256
 `4715134d7bd1f8ae54275764f342bf5a8974cc491298dbefd52971aab876c64a`.
-Adapter/Verifier implementation and execution, model/training, quality,
-safety, Serving, promotion, and Runtime claims remain false. See the
+At protocol freeze, Adapter/Verifier implementation and execution, model/
+training, quality, safety, Serving, promotion, and Runtime claims were false.
+See the
 [MM-005 Adapter/Verifier protocol](docs/MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md).
+
+### Document/Chart/PDF Adapter/Verifier implementation v1
+
+PR #54 merged the protocol as
+`db8c6833f43c02a0b255c436558e0269a8bde3b4` before implementation began. The
+independent model-free Adapter now returns canonical model payload JSON plus
+exact image bytes while keeping path and audit metadata separate. Its strict
+compiler and deterministic Verifier independently reproduce all 32 projection
+receipts and all 160 reference cases with zero mismatch.
+
+The 102,117-byte implementation evidence has SHA-256
+`d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2`.
+Adapter/Verifier implementation and bounded conformance execution are now
+true; model training/evaluation, repeatability, quality, safety, Serving,
+promotion, and Runtime eligibility remain false. See the
+[MM-005 Adapter/Verifier implementation](docs/MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -813,10 +830,12 @@ runner merged through PR #52 and the exact merged-master invocation completed
 once: 49 files / 434,212 bytes and narrow execution evidence now exist and
 validate exactly. PR #53 published those exact consumed bytes; they must remain
 immutable. The separate
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen locally
-with 32 projections and 160 deterministic controls. Its publication is the
-single active objective; after a clean merge, the next gate is
-`MM-005-document-chart-pdf-adapter-verifier-implementation-v1`.
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` merged through PR #54
+with 32 projections and 160 deterministic controls. The independent Adapter/
+Verifier implementation now reproduces them exactly and has frozen local
+implementation evidence. Publishing that evidence is the single active
+objective; after a clean merge, the next gate is
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1`.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
 changes, real desktop/document capture, or reuse/retry of either consumed

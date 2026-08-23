@@ -93,12 +93,18 @@ the registered local Python matrix. They do not establish Adapter or Verifier
 execution, model/training repeatability, cross-machine reproducibility,
 generalized quality, safety, Serving, promotion, or Runtime eligibility.
 
-## Next gate
+## Downstream implementation result and next gate
 
-The single registered next gate is
-`MM-005-document-chart-pdf-adapter-verifier-implementation-v1`. It may begin
-only after this protocol is merged with checks, review state, and conflicts
-clear. The implementation must reproduce all 32 projection receipts and all
-160 compiler/Verifier outcomes while treating the consumed data and generation
-evidence as immutable. It must not train or evaluate a model, capture real
-content, access the network, or modify Runtime.
+PR #54 merged this protocol as
+`db8c6833f43c02a0b255c436558e0269a8bde3b4` with all checks clear and both
+feature-branch copies deleted. The registered
+`MM-005-document-chart-pdf-adapter-verifier-implementation-v1` then reproduced
+all 32 projection receipts and 160 compiler/Verifier outcomes exactly while
+treating the consumed data and generation evidence as immutable. Its
+102,117-byte evidence has SHA-256
+`d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2`.
+
+The current single next gate is
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1`. It must freeze an
+outcome-neutral read-only measurement before any model import or call. No
+training, capture, network access, or Runtime change is authorized.
