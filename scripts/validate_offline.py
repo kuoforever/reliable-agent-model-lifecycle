@@ -97,6 +97,15 @@ MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_SHA256 = (
 MM004_HARD_NEGATIVE_GENERATION_FREEZE_COMMIT = (
     "2d41b99e7e984975056f7e1088e768cd8a62b744"
 )
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_PATH = (
+    ROOT
+    / "configs"
+    / "mm004_multimodal_hard_negative_model_evaluation_protocol_v1.json"
+)
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_BYTES = 49_311
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_SHA256 = (
+    "sha256:3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -423,6 +432,9 @@ def main() -> int:
     mm004_hard_negative_generation = (
         _validate_mm004_hard_negative_generation_protocol()
     )
+    mm004_hard_negative_model_evaluation = (
+        _validate_mm004_hard_negative_model_evaluation_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -705,6 +717,33 @@ def main() -> int:
         ),
         "mm004_hard_negative_generation_next_gate": (
             mm004_hard_negative_generation["next_gate"]
+        ),
+        "mm004_hard_negative_model_evaluation_protocol_frozen": (
+            mm004_hard_negative_model_evaluation["protocol_frozen"]
+        ),
+        "mm004_hard_negative_model_evaluation_registered_records": (
+            mm004_hard_negative_model_evaluation["registered_records"]
+        ),
+        "mm004_hard_negative_model_evaluation_registered_pairs": (
+            mm004_hard_negative_model_evaluation["registered_pairs"]
+        ),
+        "mm004_hard_negative_model_evaluation_registered_images": (
+            mm004_hard_negative_model_evaluation["registered_images"]
+        ),
+        "mm004_hard_negative_model_evaluation_executed": (
+            mm004_hard_negative_model_evaluation["evaluation_executed"]
+        ),
+        "mm004_hard_negative_model_evaluation_model_evaluated": (
+            mm004_hard_negative_model_evaluation["model_evaluated"]
+        ),
+        "mm004_hard_negative_model_evaluation_training_executed": (
+            mm004_hard_negative_model_evaluation["training_executed"]
+        ),
+        "mm004_hard_negative_model_evaluation_runtime_eligible": (
+            mm004_hard_negative_model_evaluation["runtime_eligible"]
+        ),
+        "mm004_hard_negative_model_evaluation_next_gate": (
+            mm004_hard_negative_model_evaluation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2662,6 +2701,79 @@ def _validate_mm004_hard_negative_generation_protocol() -> dict[str, Any]:
         "model_evaluated": claims["model_evaluated"],
         "safety_established": claims["safety_established"],
         "runtime_eligible": claims["runtime_eligible"],
+    }
+
+
+def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm004_hard_negative_model_evaluation as contract,
+    )
+    from scripts import run_mm004_hard_negative_model_evaluation as runner
+
+    payload = _read_regular_file_once(
+        MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_PATH,
+        "MM-004 hard-negative model-evaluation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_BYTES
+        or digest != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-004 model-evaluation protocol hash mismatch")
+    raw = contract.parse_strict_json_bytes(payload, location="$.preregistration")
+    if not isinstance(raw, dict) or contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-004 model-evaluation protocol is not canonical JSON")
+
+    context = runner.load_authenticated_context()
+    sources = runner.source_receipts()
+    validated = contract.validate_preregistration(
+        raw,
+        generation_evidence=context["generation_evidence"],
+        candidate_repeatability_protocol=context[
+            "candidate_repeatability_protocol"
+        ],
+        candidate_result_review=context["candidate_result_review"],
+        records=context["records"],
+        source_receipts=sources,
+    )
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        generation_evidence=context["generation_evidence"],
+        candidate_repeatability_protocol=context[
+            "candidate_repeatability_protocol"
+        ],
+        candidate_result_review=context["candidate_result_review"],
+        records=context["records"],
+        source_receipts=sources,
+    )
+    claims = validated["claims"]
+    if (
+        expected != validated
+        or contract.artifact_json_bytes(expected) != payload
+        or len(sources) != 9
+        or validated["freeze_status"] != "frozen"
+        or validated["input_suite"]["record_count"] != 56
+        or validated["input_suite"]["pair_count"] != 28
+        or validated["input_suite"]["image_count"] != 28
+        or validated["execution_protocol"]["generate_calls"] != 56
+        or validated["execution_protocol"]["retry_count"] != 0
+        or validated["execution_protocol"]["network_used"] is not False
+        or any(claims.values())
+        or validated["next_gate"] != contract.EXECUTION_GATE_ID
+    ):
+        raise GateError("MM-004 model-evaluation protocol boundary mismatch")
+    if os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT):
+        raise GateError("MM-004 model-evaluation output exists before execution")
+    return {
+        "protocol_frozen": True,
+        "registered_records": validated["input_suite"]["record_count"],
+        "registered_pairs": validated["input_suite"]["pair_count"],
+        "registered_images": validated["input_suite"]["image_count"],
+        "evaluation_executed": claims["evaluation_executed"],
+        "model_evaluated": claims["model_evaluated"],
+        "training_executed": claims["training_executed"],
+        "runtime_eligible": claims["runtime_eligible"],
+        "next_gate": validated["next_gate"],
     }
 
 

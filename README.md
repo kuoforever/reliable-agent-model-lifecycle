@@ -275,6 +275,23 @@ quality, safety, serving, promotion, capture, and Runtime claims remain false.
 The next gate is a separately frozen model-evaluation protocol. See the
 [generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
 
+### Multimodal hard-negative model-evaluation protocol v1
+
+The outcome-neutral model-evaluation protocol is frozen before any model call.
+Its 49,311-byte canonical preregistration binds the exact Qwen2.5-VL revision,
+read-only MM-003 Adapter, 56-record/28-image generated suite, prompt label
+isolation, strict accept/reject JSON compilation, total metrics, one fresh
+base/Adapter load, 56 ordered offline calls, zero retry, resource caps, and
+owner-marked terminal evidence. No accuracy threshold determines whether a
+measurement completed; poor outputs remain visible rather than changing the
+registered evaluation.
+
+The fixed execution directory remains absent, so model evaluation, training,
+quality, safety, serving, promotion, and Runtime eligibility remain false. The
+formal run is authorized only after this exact protocol is merged and
+`master`, `origin/master`, and the supplied freeze commit are identical. See
+the [model-evaluation protocol](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -695,13 +712,14 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 model-free data and generation protocols are frozen, and the formal
-generation result has validated all 31 precomputed outputs from the exact
-merged freeze commit. The single active objective is now to freeze
-`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` before any model
-execution. Existing MM-002 gold/eval, the MM-003 Adapter, and generated MM-004
-data remain read-only evidence; this objective does not authorize training,
-model execution, Runtime changes, or real desktop capture.
+The MM-004 data, generation, and outcome-neutral model-evaluation protocols are
+frozen, and the formal generation result has validated all 31 precomputed
+outputs from the exact merged generation freeze commit. The single active
+objective is to merge the 49,311-byte model-evaluation freeze and then execute
+its one registered 56-call offline attempt from that exact merged commit.
+Existing MM-002/MM-003 evidence, the Adapter, and generated MM-004 data remain
+read-only. This does not authorize training, model/Adapter writes, Runtime
+changes, real desktop capture, or an internal retry after attempt consumption.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
