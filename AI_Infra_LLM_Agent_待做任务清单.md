@@ -687,9 +687,28 @@ bytes、42 train + 14 validation records 与 28 images。9,425-byte evidence
 SHA-256 为
 `0c79a89f8f2431640e4c91d9957af978775e54f2360c15eb67b97a89bb60b133`。
 generation/dataset validation 为 true；training/verifier or model evaluation/
-quality/safety/serving/promotion/capture/Runtime claims 仍为 false。单一下一
-gate 为 `MM-004-multimodal-hard-negative-model-evaluation-protocol-v1`，必须
-在任何 model execution 前先冻结 outcome-neutral protocol。
+quality/safety/serving/promotion/capture/Runtime claims 仍为 false。
+
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` 已在任何 model
+call 前冻结。49,311-byte canonical preregistration SHA-256 为
+`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f`，固定 exact
+Qwen2.5-VL revision + read-only MM-003 Adapter、56 records / 28 images、只含
+instruction + 去路径/hash observation + candidate action 的 label-isolated prompt、
+strict `{"verdict":"accept|reject"}` compiler、accuracy-independent total metrics、
+one fresh base/Adapter load、56 ordered offline calls、zero retry、resource caps 与
+owner-marked success/failure artifacts。当前 fixed output dir 不存在，因此 model
+evaluation/training/quality/safety/serving/promotion/Runtime claims 仍全部为 false。
+单一下一动作是在该 exact protocol 通过 PR 合并后，从
+`master == origin/master == freeze commit` 执行一次 formal evaluation；attempt
+消费后不得 retry，不得训练或写 Adapter/model。
+
+protocol focused 12 tests、全仓 Ruff、scoped strict Mypy、`py_compile`、
+preregistration `--check` 与 `git diff --check` 已通过。CPython 3.11.15、3.12.12、
+3.13.7 的 unified offline gate 均通过 647 tests、4 个 expected Windows
+privilege skips、53 audited source files 与 `valid=true`；这些是 model-free
+freeze evidence，不是 model execution evidence。额外 read-only preflight 已按
+formal runner 路径 lock/re-authenticate 14 model snapshot files、3 Adapter files、
+31 generated inputs 与 local wheel；尚未证明 model load 或 inference 成功。
 
 ## MM-005：多模态环境适配
 

@@ -159,24 +159,51 @@ dataset validation are true; training, verifier/model evaluation, quality,
 safety, serving, promotion, capture, Runtime change, and Runtime eligibility
 remain false.
 
+The downstream model-evaluation protocol is now frozen before any model call.
+Its 49,311-byte canonical preregistration has SHA-256
+`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f`.
+It binds the exact Qwen2.5-VL base revision plus read-only MM-003 Adapter, all
+56 generated records and 28 image receipts, label-isolated prompt projections,
+a strict accept/reject JSON compiler, outcome-neutral total metrics, one fresh
+base/Adapter load, 56 ordered offline calls, zero retry, resource caps, and an
+owner-marked success/failure lifecycle. The fixed output directory remains
+absent. Model evaluation, training, quality, safety, serving, promotion, and
+Runtime claims remain false.
+
 ## Single active objective
 
-Freeze `MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` before
-any model execution:
+Publish the exact frozen
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1`, then execute its
+single registered model-evaluation attempt only from the merged freeze commit:
 
 ```text
-validated 56-record hard-negative dataset + immutable upstream evidence
-        -> outcome-neutral candidate/input/renderer/compiler/eval contract
-exact call order + metrics + resources + persistence/failure/claim boundaries
-        -> only after merged protocol freeze may formal model evaluation run
+frozen 49,311-byte protocol + absent fixed output directory
+        -> merge with checks/review/conflict state clear
+        -> one fresh base + read-only Adapter + 56 ordered offline calls
+        -> durable candidate/predictions/evidence OR fail-closed failure receipt
 ```
 
-The protocol must bind the exact read-only model candidate and upstream
-artifacts, the generated dataset inputs, rendering/compiler behavior, offline
-ordered calls, metrics, resource caps, durable success/failure evidence, and
-fail-closed claims before any outcome exists. Do not train, execute the model,
-reopen the consumed MM-003 repeatability directory, change the Runtime
-repository, or capture real desktop content in this objective.
+Do not execute before `master == origin/master ==` the merged protocol freeze
+commit. The run may measure poor or invalid outputs without changing the
+measurement definition, but it must not retry after attempt consumption. Do
+not train, modify or save the Adapter/model, reopen the consumed MM-003
+repeatability directory, change the Runtime repository, or capture real
+desktop content.
+
+Twelve focused model-evaluation protocol tests pass, including prompt-label
+isolation, strict compiler totality, perfect/adverse/invalid scoring, artifact
+tamper rejection, resource-cap claim algebra, 56-call fake execution, and
+owner-marked success/failure persistence. Full-repository Ruff, scoped strict
+Mypy, `py_compile`, preregistration `--check`, and `git diff --check` pass. The
+unified offline gate passes on CPython 3.11.15, 3.12.12, and 3.13.7; each run
+reports 647 tests, four expected Windows privilege skips, 53 audited source
+files, and `valid=true` while retaining all freeze-stage execution claims as
+false. A separate model-free read-only preflight successfully locks and
+re-authenticates 14 model snapshot files, three Adapter files, all 31 generated
+inputs, and the local dependency wheel; it does not prove model load or
+inference success. The exact formal Python invocation is also rejected on the
+feature branch before model import or output claim, leaving the fixed output
+absent until the protocol is merged.
 
 Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
 2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
@@ -1203,7 +1230,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 hard-negative generation validated, model-evaluation protocol next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 model-evaluation protocol frozen, merged one-shot execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
