@@ -8,9 +8,21 @@ canonical 50,642-byte preregistration is
 with SHA-256
 `bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9`.
 
-Both the predecessor v1 output and the new v2 output remain absent. Every
-execution, model, training, quality, safety, serving, promotion, and Runtime
-claim is false.
+At this protocol freeze, both the predecessor v1 output and the new v2 output
+were absent. Every execution, model, training, quality, safety, serving,
+promotion, and Runtime claim was false.
+
+## Formal execution outcome
+
+PR #48 merged v2 as
+`365935c02e16badec9ba40a3c4d078b66726f96e`. The exact formal command from that
+aligned commit consumed its one owner-marked attempt and completed all 56
+registered calls with zero retry. The independent model-free review freezes
+32/56 overall accuracy, 28/28 hard-negative rejection, 4/28 clean acceptance,
+20 clean false rejects, four invalid clean outputs, and zero hard-negative
+false accepts. Formal-gate pass records measurement completion within caps,
+not quality acceptance. See the
+[result review](MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md).
 
 ## Preserved evaluation contract
 

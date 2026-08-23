@@ -712,6 +712,29 @@ focused v2 13/13 tests、全仓 Ruff、scoped strict Mypy、`py_compile`、prere
 Windows privilege skips、53 个 audited source files，`valid=true`，且未创建任一
 fixed output。
 
+v2 经 PR #48 merge 为 `365935c02e16badec9ba40a3c4d078b66726f96e` 后，其 exact
+one-shot formal command 已消费一次 owner-marked attempt：one fresh base、one
+independent read-only Adapter、56/56 ordered offline calls、zero retry/network/
+training/Adapter write。6,644-byte evidence SHA-256 为
+`87c45c9a174b9c6d0419f1d0ba9c619597848b13fe4447a19988e7a6ff56292c`；overall
+32/56，hard-negative rejection 28/28，clean accept 4/28，pair exact 4/28，
+compiler valid 52/56，20 个 clean false rejects、4 个 clean invalid、0 个 negative
+false accepts。formal gate 只表示 measurement complete within caps，不表示 quality
+pass。
+
+model-free result review 已逐字节重建 evidence；18,220-byte canonical review
+SHA-256 为
+`711c1b52619d856015b832cd54a3bbfcaa419f360b95bf448d62de8230bdb720`。它仅确认
+consumed execution 与 fixed-suite reject bias；quality improvement/generalized
+quality/safety/training/serving/promotion/cross-machine or resource repeatability/
+Runtime claims 均保持 false。已消费 output 不得删除、复用或 retry。单一下一 gate
+为 `MM-005-multimodal-environment-adaptation-protocol-v1`。
+result-review focused 12/12 tests、全仓 Ruff、scoped strict Mypy、`py_compile`、
+v2 preregistration `--check`、默认 result validator 与 `git diff --check` 均通过；
+本地 CPython 3.11.15、3.12.12、3.13.7 unified gates 均通过 660 tests、4 个预期
+Windows privilege skips、53 个 audited source files 与 `valid=true`，没有 reload
+模型或产生第二次 attempt。
+
 ## MM-005：多模态环境适配
 
 扩展顺序：

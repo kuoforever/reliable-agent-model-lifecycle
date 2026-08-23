@@ -283,17 +283,29 @@ as a 133-byte LFS pointer while v1 compared those bytes to the hydrated
 29,529,752-byte payload receipt. OID, size, and hydrated SHA-256 all agree; no
 attempt was consumed and no model call ran.
 
-The separate 50,642-byte v2 repair keeps the registered candidate, suite,
+The separate 50,642-byte v2 repair kept the registered candidate, suite,
 prompt isolation, compiler, total metrics, 56 ordered calls, zero retry,
-resources, and terminal evidence unchanged. It adds a new gate/output identity
-and validates the exact Git LFS pointer separately from the full read-only
-hydrated Adapter receipt. Both outputs remain absent, so all execution,
-training, quality, safety, serving, promotion, and Runtime claims remain false.
-The focused v2 suite passes 13/13 tests, and local CPython 3.11.15, 3.12.12,
-and 3.13.7 each pass the unified 648-test gate with four expected skips, 53
-audited source files, and `valid=true`.
+resources, and terminal evidence unchanged. It added a new gate/output identity
+and validated the exact Git LFS pointer separately from the full read-only
+hydrated Adapter receipt. PR #48 merged v2 as
+`365935c02e16badec9ba40a3c4d078b66726f96e`; its exact one-shot execution then
+completed all 56 offline calls with zero retry, training, network use, or
+Adapter write.
+
+The model-free result review reconstructs the 6,644-byte evidence exactly and
+freezes its SHA-256 as
+`87c45c9a174b9c6d0419f1d0ba9c619597848b13fe4447a19988e7a6ff56292c`.
+Overall accuracy is 32/56. All 28 hard negatives were rejected, but only 4/28
+clean counterparts were accepted; there are 20 clean false rejects and four
+invalid clean outputs. The formal gate means measurement complete within caps,
+not quality accepted. Quality, generalized safety, training, serving,
+promotion, and Runtime claims remain false.
+The focused review suite passes 12/12 tests, and local CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the unified 660-test model-free gate with four
+expected skips, 53 audited source files, and `valid=true`.
 See the [v1 protocol](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v1.md)
-and [v2 repair](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md).
+the [v2 repair](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md),
+and the [result review](docs/MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -715,14 +727,14 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 data/generation lifecycle is validated. Model-evaluation v1 was
-rejected before attempt consumption by the now-classified Git LFS
-representation bug; no model ran. The single active objective is to merge the
-50,642-byte v2 repair and then execute its one registered 56-call offline
-attempt from that exact merged commit. Existing MM-002/MM-003 evidence, the
-Adapter, and generated MM-004 data remain read-only. This does not authorize
-training, model/Adapter writes, Runtime changes, real desktop capture, or an
-internal retry after attempt consumption.
+The MM-004 data/generation lifecycle and one-shot v2 model measurement are now
+complete. The paired suite exposed a reject-biased verifier: 28/28 hard
+negatives rejected, clean accept recall 4/28. The active objective is to
+publish the exact model-free result review, then freeze one bounded MM-005
+environment-adaptation protocol before expanding environments or modalities.
+Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
+read-only. This does not authorize training, model/Adapter writes, Runtime
+changes, real desktop capture, or reuse/retry of the consumed MM-004 attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
