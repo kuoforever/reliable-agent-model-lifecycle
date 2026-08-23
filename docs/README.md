@@ -40,6 +40,8 @@ English companion documents.
 | Local small-VLM post-training eval repeatability result review v1 | [MM-003 eval repeatability result review](MM-003-small-vlm-post-training-eval-repeatability-result-review-v1.md) | Formal replay passed; bounded same-machine fixed-nine-case eval repeatability established |
 | Multimodal hard-negative data protocol v1 | [MM-004 protocol](MM-004-multimodal-hard-negative-data-protocol-v1.md) | Frozen model-free pair, identity, exclusion, split, provenance, and authority contract; downstream generation now validated |
 | Multimodal hard-negative generation protocol v1 | [MM-004 generation protocol](MM-004-multimodal-hard-negative-data-generation-protocol-v1.md) | Seed, counts, and 31 receipts frozen before execution; exact merged-master materialization and result validation passed |
+| Multimodal hard-negative model-evaluation protocol v2 | [MM-004 model-evaluation protocol](MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md) | Git LFS-aware v2 repair frozen and executed once from its exact merged commit |
+| Multimodal hard-negative model-evaluation result review v2 | [MM-004 model-evaluation result review](MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md) | Formal measurement complete; 28/28 negatives rejected but clean accept recall is only 4/28, with no quality or Runtime claim |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

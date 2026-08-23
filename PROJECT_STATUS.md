@@ -172,51 +172,66 @@ hydrated payload SHA-256/size agree exactly, so this is a pre-consumption
 representation-layer validation bug, not Adapter drift or a model result. The
 v1 fixed output remains absent and its attempt was not consumed.
 
-The v2 repair is now separately frozen before any model call. Its 50,642-byte
+The v2 repair froze separately before any model call. Its 50,642-byte
 canonical preregistration has SHA-256
 `bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9`.
 It preserves the exact candidate, 56 records, 28 images, prompts, compiler,
 metrics, call order, resource caps, and owner-marked lifecycle while adding a
 new gate/output identity and dual Adapter binding: exact Git LFS pointer at the
 freeze commit plus full read-only hydrated receipt before and after execution.
-Both v1 and v2 fixed outputs remain absent. Model evaluation, training,
-quality, safety, serving, promotion, and Runtime claims remain false.
+At that freeze, both v1 and v2 fixed outputs were absent and all execution
+claims were false.
 The focused v2 suite passes 13/13 tests. Full-repository Ruff, scoped strict
 Mypy, `py_compile`, preregistration `--check`, the feature-branch formal-command
 negative check, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
 and 3.13.7 each pass the unified 648-test gate with four expected Windows
-privilege skips, 53 audited source files, and `valid=true`; neither fixed
-output was created.
+privilege skips, 53 audited source files, and `valid=true`.
+
+PR #48 merged v2 as
+`365935c02e16badec9ba40a3c4d078b66726f96e`. Its exact one-shot formal command
+then consumed one owner-marked attempt and completed one fresh base load, one
+independent read-only Adapter load, and all 56 ordered offline calls with zero
+retry, network use, training, or Adapter write. The 6,644-byte execution
+evidence has SHA-256
+`87c45c9a174b9c6d0419f1d0ba9c619597848b13fe4447a19988e7a6ff56292c`.
+It reports 32/56 overall accuracy, 28/28 hard-negative rejection, 4/28 clean
+accept recall, 4/28 pair-exact accuracy, 52/56 compiler validity, 20 clean
+false rejects, four invalid clean outputs, and zero hard-negative false
+accepts. Formal-gate pass means measurement completion within caps, not
+quality acceptance.
+
+The independent model-free result review rebuilds that evidence byte-for-byte.
+Its 18,220 canonical bytes have SHA-256
+`711c1b52619d856015b832cd54a3bbfcaa419f360b95bf448d62de8230bdb720`.
+The review establishes only the consumed execution and fixed-suite behavior;
+quality improvement, generalized quality/safety, training, serving,
+promotion, cross-machine/resource repeatability, and Runtime eligibility
+remain false.
+The focused result-review suite passes 12/12 tests. Full-repository Ruff,
+scoped strict Mypy, `py_compile`, v2 preregistration `--check`, the default
+result validator, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the unified 660-test gate with four expected Windows
+privilege skips, 53 audited source files, and `valid=true` without a model
+reload or second attempt.
 
 ## Single active objective
 
-Publish the exact frozen
-`MM-004-multimodal-hard-negative-model-evaluation-protocol-v2`, then execute its
-single registered model-evaluation attempt only from the merged freeze commit:
+Publish the exact
+`MM-004-multimodal-hard-negative-model-evaluation-result-review-v2`, then move
+to the next canonical checklist item:
 
 ```text
-frozen 50,642-byte v2 repair + both v1/v2 output directories absent
+five frozen canonical result artifacts + exact model-free reconstruction
         -> merge with checks/review/conflict state clear
-        -> one fresh base + read-only Adapter + 56 ordered offline calls
-        -> durable candidate/predictions/evidence OR fail-closed failure receipt
+        -> preserve consumed MM-004 output without retry or reuse
+        -> freeze one bounded MM-005 environment-adaptation protocol
 ```
 
-Do not execute before `master == origin/master ==` the merged protocol freeze
-commit. The run may measure poor or invalid outputs without changing the
-measurement definition, but it must not retry after attempt consumption. Do
-not train, modify or save the Adapter/model, reopen the consumed MM-003
-repeatability directory, change the Runtime repository, or capture real
-desktop content.
-
-Thirteen focused model-evaluation protocol tests pass, including prompt-label
-isolation, strict compiler totality, perfect/adverse/invalid scoring, artifact
-tamper rejection, resource-cap claim algebra, 56-call fake execution, and
-owner-marked success/failure persistence. The new regression proves the exact
-133-byte pointer and 29,529,752-byte hydrated payload bindings independently.
-A separate model-free read-only preflight successfully locks and
-re-authenticates 14 model snapshot files, three Adapter files, all 31 generated
-inputs, and the local dependency wheel; it does not prove model load or
-inference success.
+Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
+train, modify or save the Adapter/model, change the Runtime repository, capture
+real desktop content, or interpret the reject-biased result as a quality or
+safety pass. The MM-005 scope must be model-free and bounded before any new
+environment, modality, data, model call, or Runtime integration is added.
 
 Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
 2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
@@ -1243,7 +1258,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v1 pre-consumption LFS bug classified, v2 model-evaluation repair frozen, merge then one-shot execution next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 one-shot evaluation complete with 28/28 negative rejection but 4/28 clean acceptance, model-free result review publication next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

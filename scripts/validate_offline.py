@@ -444,6 +444,9 @@ def main() -> int:
     mm004_hard_negative_model_evaluation = (
         _validate_mm004_hard_negative_model_evaluation_protocol()
     )
+    mm004_hard_negative_model_evaluation_result = (
+        _validate_mm004_hard_negative_model_evaluation_result_review()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -757,20 +760,67 @@ def main() -> int:
         "mm004_hard_negative_model_evaluation_registered_images": (
             mm004_hard_negative_model_evaluation["registered_images"]
         ),
+        "mm004_hard_negative_model_evaluation_protocol_next_gate": (
+            mm004_hard_negative_model_evaluation["next_gate"]
+        ),
+        "mm004_hard_negative_model_evaluation_result_reviewed": True,
+        "mm004_hard_negative_model_evaluation_formal_gate_passed": (
+            mm004_hard_negative_model_evaluation_result["formal_gate_passed"]
+        ),
+        "mm004_hard_negative_model_evaluation_classification": (
+            mm004_hard_negative_model_evaluation_result["classification"]
+        ),
         "mm004_hard_negative_model_evaluation_executed": (
-            mm004_hard_negative_model_evaluation["evaluation_executed"]
+            mm004_hard_negative_model_evaluation_result["evaluation_executed"]
         ),
         "mm004_hard_negative_model_evaluation_model_evaluated": (
-            mm004_hard_negative_model_evaluation["model_evaluated"]
+            mm004_hard_negative_model_evaluation_result["model_evaluated"]
         ),
         "mm004_hard_negative_model_evaluation_training_executed": (
-            mm004_hard_negative_model_evaluation["training_executed"]
+            mm004_hard_negative_model_evaluation_result["training_executed"]
+        ),
+        "mm004_hard_negative_model_evaluation_overall_accuracy": (
+            mm004_hard_negative_model_evaluation_result["overall_accuracy"]
+        ),
+        "mm004_hard_negative_model_evaluation_clean_accept_recall": (
+            mm004_hard_negative_model_evaluation_result["clean_accept_recall"]
+        ),
+        "mm004_hard_negative_model_evaluation_hard_negative_rejection_recall": (
+            mm004_hard_negative_model_evaluation_result[
+                "hard_negative_rejection_recall"
+            ]
+        ),
+        "mm004_hard_negative_model_evaluation_pair_exact_accuracy": (
+            mm004_hard_negative_model_evaluation_result["pair_exact_accuracy"]
+        ),
+        "mm004_hard_negative_model_evaluation_compiler_validity": (
+            mm004_hard_negative_model_evaluation_result["compiler_validity"]
+        ),
+        "mm004_hard_negative_model_evaluation_clean_false_rejects": (
+            mm004_hard_negative_model_evaluation_result["clean_false_rejects"]
+        ),
+        "mm004_hard_negative_model_evaluation_clean_invalid_outputs": (
+            mm004_hard_negative_model_evaluation_result["clean_invalid_outputs"]
+        ),
+        "mm004_hard_negative_model_evaluation_hard_negative_false_accepts": (
+            mm004_hard_negative_model_evaluation_result[
+                "hard_negative_false_accepts"
+            ]
+        ),
+        "mm004_hard_negative_model_evaluation_quality_improved": (
+            mm004_hard_negative_model_evaluation_result["quality_improved"]
+        ),
+        "mm004_hard_negative_model_evaluation_evidence_sha256": (
+            mm004_hard_negative_model_evaluation_result["evidence_sha256"]
+        ),
+        "mm004_hard_negative_model_evaluation_review_sha256": (
+            mm004_hard_negative_model_evaluation_result["review_sha256"]
         ),
         "mm004_hard_negative_model_evaluation_runtime_eligible": (
-            mm004_hard_negative_model_evaluation["runtime_eligible"]
+            mm004_hard_negative_model_evaluation_result["runtime_eligible"]
         ),
         "mm004_hard_negative_model_evaluation_next_gate": (
-            mm004_hard_negative_model_evaluation["next_gate"]
+            mm004_hard_negative_model_evaluation_result["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2845,8 +2895,6 @@ def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
         )
     ):
         raise GateError("MM-004 model-evaluation v2 repair boundary mismatch")
-    if os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT):
-        raise GateError("MM-004 model-evaluation output exists before execution")
     return {
         "protocol_frozen": True,
         "protocol_version": 2,
@@ -2864,6 +2912,42 @@ def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
         "runtime_eligible": claims["runtime_eligible"],
         "next_gate": validated["next_gate"],
     }
+
+
+def _validate_mm004_hard_negative_model_evaluation_result_review() -> dict[str, Any]:
+    from scripts import (
+        validate_mm004_hard_negative_model_evaluation_result as validator,
+    )
+
+    try:
+        summary = validator.validate_repository(ROOT)
+    except validator.MM004HardNegativeResultError as exc:
+        raise GateError(f"MM-004 model-evaluation result review failed: {exc}") from exc
+    if (
+        summary.get("formal_gate_passed") is not True
+        or summary.get("classification") != validator.CLASSIFICATION
+        or summary.get("record_count") != 56
+        or summary.get("overall_accuracy") != 4 / 7
+        or summary.get("clean_accept_recall") != 1 / 7
+        or summary.get("hard_negative_rejection_recall") != 1.0
+        or summary.get("pair_exact_accuracy") != 1 / 7
+        or summary.get("compiler_validity") != 13 / 14
+        or summary.get("clean_false_rejects") != 20
+        or summary.get("clean_invalid_outputs") != 4
+        or summary.get("hard_negative_false_accepts") != 0
+        or summary.get("evaluation_executed") is not True
+        or summary.get("model_evaluated") is not True
+        or summary.get("training_executed") is not False
+        or summary.get("quality_improved") is not False
+        or summary.get("evidence_sha256")
+        != validator.ARTIFACTS["evidence"]["sha256"]
+        or summary.get("review_bytes") != validator.REVIEW_BYTES
+        or summary.get("review_sha256") != validator.REVIEW_SHA256
+        or summary.get("next_gate") != validator.NEXT_GATE_ID
+        or summary.get("runtime_eligible") is not False
+    ):
+        raise GateError("MM-004 model-evaluation result-review boundary mismatch")
+    return summary
 
 
 def _validate_mm004_output_tree(output_root: Path, expected_paths: set[str]) -> None:
