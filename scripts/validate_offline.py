@@ -122,6 +122,13 @@ MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES = 49_202
 MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256 = (
     "sha256:311822603bb6c05c1b7f388cd782c30556fa8b7aa0d67cbd1ccd89f9d13a532a"
 )
+MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_document_chart_pdf_data_protocol_v1.json"
+)
+MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_BYTES = 24_909
+MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_SHA256 = (
+    "sha256:7e774e69194e6f70c27c9b53bbab68adb19874780757717ca42012ec48297525"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -455,6 +462,7 @@ def main() -> int:
         _validate_mm004_hard_negative_model_evaluation_result_review()
     )
     mm005_environment_adaptation = _validate_mm005_environment_adaptation_protocol()
+    mm005_document_chart_pdf_data = _validate_mm005_document_chart_pdf_data_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -856,6 +864,45 @@ def main() -> int:
         ),
         "mm005_environment_adaptation_next_gate": (
             mm005_environment_adaptation["next_gate"]
+        ),
+        "mm005_document_chart_pdf_data_protocol_frozen": (
+            mm005_document_chart_pdf_data["protocol_frozen"]
+        ),
+        "mm005_document_chart_pdf_data_seed": (
+            mm005_document_chart_pdf_data["seed"]
+        ),
+        "mm005_document_chart_pdf_data_templates": (
+            mm005_document_chart_pdf_data["template_count"]
+        ),
+        "mm005_document_chart_pdf_data_records": (
+            mm005_document_chart_pdf_data["record_count"]
+        ),
+        "mm005_document_chart_pdf_data_images": (
+            mm005_document_chart_pdf_data["image_count"]
+        ),
+        "mm005_document_chart_pdf_data_source_artifacts": (
+            mm005_document_chart_pdf_data["source_artifact_count"]
+        ),
+        "mm005_document_chart_pdf_data_train_records": (
+            mm005_document_chart_pdf_data["train_records"]
+        ),
+        "mm005_document_chart_pdf_data_validation_records": (
+            mm005_document_chart_pdf_data["validation_records"]
+        ),
+        "mm005_document_chart_pdf_data_output_files": (
+            mm005_document_chart_pdf_data["output_file_count"]
+        ),
+        "mm005_document_chart_pdf_data_output_bytes": (
+            mm005_document_chart_pdf_data["output_bytes"]
+        ),
+        "mm005_document_chart_pdf_data_generation_executed": (
+            mm005_document_chart_pdf_data["generation_executed"]
+        ),
+        "mm005_document_chart_pdf_data_dataset_validated": (
+            mm005_document_chart_pdf_data["dataset_validated"]
+        ),
+        "mm005_document_chart_pdf_data_next_gate": (
+            mm005_document_chart_pdf_data["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3068,6 +3115,106 @@ def _validate_mm005_environment_adaptation_protocol() -> dict[str, Any]:
     ):
         raise GateError("MM-005 environment-adaptation protocol boundary mismatch")
     return summary.to_dict()
+
+
+def _validate_mm005_document_chart_pdf_data_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm005_document_chart_pdf_data as contract
+    from scripts import prepare_mm005_document_chart_pdf_data_protocol as prepare
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_PATH,
+        "MM-005 Document/Chart/PDF data protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_BYTES
+        or digest != MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Document/Chart/PDF data protocol hash mismatch")
+    raw = _load_json_payload(payload, MM005_DOCUMENT_CHART_PDF_DATA_PROTOCOL_PATH)
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-005 Document/Chart/PDF data protocol is not canonical JSON")
+
+    sources = prepare.source_receipts()
+    parent_receipt = prepare.parent_protocol_receipt()
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        source_receipts=sources,
+        parent_protocol_receipt=parent_receipt,
+    )
+    summary = contract.validate_preregistration(
+        raw,
+        source_receipts=sources,
+        parent_protocol_receipt=parent_receipt,
+    )
+    if expected != raw or contract.artifact_json_bytes(expected) != payload:
+        raise GateError("MM-005 Document/Chart/PDF data protocol reconstruction drift")
+
+    parent_protocol = prepare.parent_prepare.build_protocol()
+    planned_outputs = prepare.planned_output_payloads()
+    planned = contract.validate_planned_output_payloads(
+        planned_outputs,
+        parent_protocol_sha256=str(parent_receipt["sha256"]),
+        exclusions=parent_protocol["exclusion_registry"],
+    )
+    plan = raw.get("generation_plan")
+    authority = raw.get("authority_contract")
+    if (
+        (ROOT / contract.OUTPUT_ROOT).exists()
+        or (ROOT / contract.EVIDENCE_PATH).exists()
+        or len(sources) != 5
+        or summary.template_count != 32
+        or summary.record_count != 32
+        or summary.image_count != 32
+        or summary.source_artifact_count != 14
+        or summary.train_records != 24
+        or summary.validation_records != 8
+        or summary.output_file_count != 49
+        or summary.output_bytes != 434_212
+        or summary.protocol_frozen is not True
+        or summary.generation_executed is not False
+        or summary.dataset_validated is not False
+        or planned
+        != {
+            "planned_output_rebuild_valid": True,
+            "template_count": 32,
+            "record_count": 32,
+            "image_count": 32,
+            "source_artifact_count": 14,
+            "train_records": 24,
+            "validation_records": 8,
+            "output_file_count": 49,
+            "output_bytes": 434_212,
+            "generation_executed": False,
+            "dataset_validated": False,
+            "next_gate": contract.NEXT_GATE,
+        }
+        or not isinstance(plan, dict)
+        or plan.get("seed") != 55_005
+        or len(plan.get("template_registry", [])) != 32
+        or plan.get("renderer", {}).get("host_font_used") is not False
+        or plan.get("renderer", {}).get("pdf_source", {}).get(
+            "external_renderer_used"
+        )
+        is not False
+        or authority
+        != {
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or any(raw["claims"].values())
+        or summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError("MM-005 Document/Chart/PDF data protocol boundary mismatch")
+    return {
+        **summary.to_dict(),
+        "seed": contract.SEED,
+        "source_receipt_count": len(sources),
+        "planned_output_rebuild_valid": planned["planned_output_rebuild_valid"],
+    }
 
 
 def _validate_mm004_output_tree(output_root: Path, expected_paths: set[str]) -> None:

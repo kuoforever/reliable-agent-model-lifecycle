@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-22.
+> Updated: 2026-08-23.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -243,25 +243,58 @@ and 3.13.7 each pass the unified 674-test gate with four expected Windows
 privilege skips, 54 audited source files, and `valid=true`.
 [Protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
 
+PR #50 merged that bounded environment-adaptation protocol as
+`9c57e32736e24bf120d827b0b7fef4dcf04f08b1`. Its feature branch was deleted
+locally and remotely; `master` and `origin/master` were aligned before the
+separate data preregistration began.
+
+`MM-005-document-chart-pdf-data-protocol-v1` now freezes `seed=55005`, eight
+template families per task (six train plus two validation), 32 records, 32
+unique 1280x900 PNG page images, 14 deterministic single-page PDF source
+artifacts, and all 49 future output receipts. The PDF and PNG for each
+PDF-source template derive from one synthetic layout ground truth without an
+external renderer, OCR, host font, network, or model dependency. Parent
+record/exclusion validation, task/source coverage, split distributions,
+family/template/content/image isolation, answer/evidence semantics, and exact
+PNG/PDF bytes all pass in memory.
+
+The 24,909-byte canonical data protocol has SHA-256
+`7e774e69194e6f70c27c9b53bbab68adb19874780757717ca42012ec48297525`.
+Its 49 planned outputs total 434,212 bytes, while the fixed output root and
+execution evidence remain absent. Generation, dataset validation, Adapter,
+Verifier execution, model, quality, safety, real/external content, capture,
+Serving, promotion, and Runtime claims all remain false.
+
+Fourteen focused data-protocol tests, full-repository Ruff, scoped strict
+Mypy, `py_compile`, builder `--check`, and `git diff --check` pass. Local
+CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 688-test gate with
+four expected Windows privilege skips, 55 audited source files, and
+`valid=true`.
+[Data protocol](docs/MM-005-document-chart-pdf-data-protocol-v1.md).
+
 ## Single active objective
 
 Publish the exact
-`MM-005-multimodal-environment-adaptation-protocol-v1`, then move to its single
-registered next gate:
+`MM-005-document-chart-pdf-data-protocol-v1`, then execute its single
+registered next gate exactly once from the merged freeze commit:
 
 ```text
-49,202-byte canonical scope/interface protocol + exact source/exclusion rebuild
+24,909-byte canonical data preregistration + 49 exact planned output receipts
         -> merge with checks/review/conflict state clear
         -> preserve all MM-002/MM-003/MM-004 evidence read-only
-        -> freeze MM-005-document-chart-pdf-data-protocol-v1
+        -> execute MM-005-document-chart-pdf-data-generation-v1 once
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 train, modify or save the Adapter/model, change the Runtime repository, capture
 real desktop/document content, or interpret the reject-biased result as a
-quality or safety pass. The next data gate must freeze deterministic seed,
-counts, template families, rendering constraints, output receipts, validation,
-and fail-closed claims before any new data or image is generated.
+quality or safety pass. Do not materialize the MM-005 outputs from the feature
+branch: generation requires `master == origin/master == protocol freeze
+commit`, exact preregistration/source receipts, an absent fixed output root and
+evidence path, atomic output materialization, independent receipt validation,
+and no retry or unregistered file.
+
+## Preserved historical validation and deferred gates
 
 Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
 2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
@@ -1288,7 +1321,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-004 result review merged, bounded MM-005 Document/Chart/PDF environment-adaptation protocol validated for publication, separate data protocol next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF scope protocol merged, exact 49-output data preregistration validated for publication, merged-master generation execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
