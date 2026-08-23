@@ -13,29 +13,35 @@ from typing import Any, NoReturn
 from . import mm004_hard_negative_generation as generation
 from . import multimodal_hard_negative as parent
 
-PROTOCOL_VERSION = 1
+PROTOCOL_VERSION = 2
 ATTEMPT_OWNER_VERSION = 1
 CANDIDATE_VERSION = 1
 PREDICTIONS_VERSION = 1
 EVIDENCE_VERSION = 1
 FAILURE_VERSION = 1
 
-PROTOCOL_GATE_ID = "MM-004-multimodal-hard-negative-model-evaluation-protocol-v1"
-EXECUTION_GATE_ID = "MM-004-multimodal-hard-negative-model-evaluation-execution-v1"
+PREDECESSOR_PROTOCOL_GATE_ID = (
+    "MM-004-multimodal-hard-negative-model-evaluation-protocol-v1"
+)
+PREDECESSOR_EXECUTION_GATE_ID = (
+    "MM-004-multimodal-hard-negative-model-evaluation-execution-v1"
+)
+PROTOCOL_GATE_ID = "MM-004-multimodal-hard-negative-model-evaluation-protocol-v2"
+EXECUTION_GATE_ID = "MM-004-multimodal-hard-negative-model-evaluation-execution-v2"
 RESULT_REVIEW_GATE_ID = (
-    "MM-004-multimodal-hard-negative-model-evaluation-result-review-v1"
+    "MM-004-multimodal-hard-negative-model-evaluation-result-review-v2"
 )
 FAILURE_CLASSIFICATION_GATE_ID = (
-    "MM-004-multimodal-hard-negative-model-evaluation-failure-classification-v1"
+    "MM-004-multimodal-hard-negative-model-evaluation-failure-classification-v2"
 )
-EXPERIMENT_ID = "mm004-hard-negative-model-eval-v1"
-RUN_ID = "mm004-hard-negative-model-eval-r1"
+EXPERIMENT_ID = "mm004-hard-negative-model-eval-v2"
+RUN_ID = "mm004-hard-negative-model-eval-r2"
 SUITE_ID = "mm004-hard-negative-verifier-suite-v1"
 
 PREREGISTRATION_PATH = (
-    "configs/mm004_multimodal_hard_negative_model_evaluation_protocol_v1.json"
+    "configs/mm004_multimodal_hard_negative_model_evaluation_protocol_v2.json"
 )
-RUN_OUTPUT_ROOT = "work/evaluation-runs/mm004-hard-negative-model-eval-v1"
+RUN_OUTPUT_ROOT = "work/evaluation-runs/mm004-hard-negative-model-eval-v2"
 ATTEMPT_OWNER_PATH = f"{RUN_OUTPUT_ROOT}/attempt-owner.json"
 EVALUATION_CANDIDATE_PATH = f"{RUN_OUTPUT_ROOT}/evaluation-candidate.json"
 PREDICTIONS_PATH = f"{RUN_OUTPUT_ROOT}/predictions.json"
@@ -52,6 +58,11 @@ FORMAL_PYTHON_ARGS = ["-I", "-B", "-X", "pycache_prefix=NUL"]
 
 GENERATION_RESULT_MERGE_COMMIT = "adc48f822ee260f35dd6c30b4d9fc78bb330ab39"
 GENERATION_PROTOCOL_FREEZE_COMMIT = "2d41b99e7e984975056f7e1088e768cd8a62b744"
+PREDECESSOR_PROTOCOL_FREEZE_COMMIT = "425a4f21c82786d054ce620e83f6703e4f235d2f"
+PREDECESSOR_PREREGISTRATION_PATH = (
+    "configs/mm004_multimodal_hard_negative_model_evaluation_protocol_v1.json"
+)
+PREDECESSOR_RUN_OUTPUT_ROOT = "work/evaluation-runs/mm004-hard-negative-model-eval-v1"
 SEED = 44_004
 EXPECTED_RECORDS = 56
 EXPECTED_PAIRS = 28
@@ -63,6 +74,7 @@ MAX_NEW_TOKENS = 64
 MODEL_ID = "Qwen/Qwen2.5-VL-3B-Instruct"
 MODEL_REVISION = "66285546d2b821cf421d4f5eb2576359d3770cd3"
 ADAPTER_MODEL_ID = f"{MODEL_ID}+mm003-qlora-sft-v2"
+ADAPTER_LFS_PATH = f"{ADAPTER_ROOT}/adapter_model.safetensors"
 
 SYSTEM_PROMPT = (
     "You are a read-only multimodal candidate-action verifier. Use only the "
@@ -143,6 +155,11 @@ CONTEXT_RECEIPTS = {
         "bytes": 333,
         "sha256": "sha256:792d70759560681a4d7c60ae2e4831a422b3825f5308f1124a804ffbb6563c42",
     },
+    "predecessor_model_evaluation_protocol": {
+        "path": PREDECESSOR_PREREGISTRATION_PATH,
+        "bytes": 49_311,
+        "sha256": "sha256:3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f",
+    },
 }
 
 ADAPTER_RECEIPTS = {
@@ -187,8 +204,11 @@ PROTOCOL_SOURCE_PATHS = {
 
 REQUIRED_GATES = (
     "protocol_integrity",
+    "predecessor_preconsumption_failure",
+    "predecessor_output_absent",
     "generation_lineage_integrity",
     "candidate_lineage_integrity",
+    "git_lfs_pointer_binding",
     "prompt_label_isolation",
     "case_order_integrity",
     "one_fresh_base_and_adapter_load",
@@ -202,6 +222,7 @@ REQUIRED_GATES = (
 )
 
 FREEZE_CLAIM_KEYS = (
+    "predecessor_attempt_consumed",
     "evaluation_executed",
     "model_evaluated",
     "formal_measurement_complete",
@@ -251,6 +272,21 @@ def artifact_json_bytes(value: object) -> bytes:
 
 def sha256_bytes(payload: bytes) -> str:
     return f"sha256:{hashlib.sha256(payload).hexdigest()}"
+
+
+def git_lfs_pointer_bytes(receipt: Mapping[str, Any]) -> bytes:
+    if receipt.get("path") != ADAPTER_LFS_PATH:
+        _fail("LFS_POINTER_PATH")
+    size = receipt.get("bytes")
+    digest = receipt.get("sha256")
+    if type(size) is not int or size <= 0:
+        _fail("LFS_POINTER_SIZE")
+    _validate_sha256(digest, "LFS_POINTER_SHA256")
+    return (
+        "version https://git-lfs.github.com/spec/v1\n"
+        f"oid {digest}\n"
+        f"size {size}\n"
+    ).encode("ascii")
 
 
 def parse_strict_json_bytes(payload: bytes, *, location: str) -> object:
@@ -379,11 +415,35 @@ def expected_preregistration(
         "freeze_status": freeze_status,
         "decision": "outcome_neutral_read_only_candidate_verdict_measurement",
         "source_lineage": {
+            "predecessor_protocol": {
+                "preregistration": CONTEXT_RECEIPTS[
+                    "predecessor_model_evaluation_protocol"
+                ],
+                "freeze_commit": PREDECESSOR_PROTOCOL_FREEZE_COMMIT,
+                "execution_gate": PREDECESSOR_EXECUTION_GATE_ID,
+                "output_directory": PREDECESSOR_RUN_OUTPUT_ROOT,
+                "attempt_consumed": False,
+                "model_imported": False,
+                "model_calls": 0,
+                "output_absent": True,
+                "classification": (
+                    "preconsumption_git_lfs_pointer_vs_hydrated_payload_"
+                    "receipt_validation_mismatch"
+                ),
+                "repair": (
+                    "compare_tracked_exact_lfs_pointer_oid_and_size_while_"
+                    "locking_hydrated_payload_by_full_receipt"
+                ),
+            },
             "generation_result_merge_commit": GENERATION_RESULT_MERGE_COMMIT,
             "generation_protocol_freeze_commit": GENERATION_PROTOCOL_FREEZE_COMMIT,
             "context_receipts": CONTEXT_RECEIPTS,
             "generation_outputs": generation_evidence["outputs"],
             "adapter": ADAPTER_RECEIPTS,
+            "adapter_git_lfs_pointer": _payload_receipt(
+                ADAPTER_LFS_PATH,
+                git_lfs_pointer_bytes(ADAPTER_RECEIPTS["weights"]),
+            ),
             "bitsandbytes_wheel": dict(wheel),
             "protocol_sources": closed_sources,
         },
@@ -481,6 +541,7 @@ def expected_preregistration(
                 "retry_allowed_before_consumption": True,
                 "retry_allowed_after_consumption": False,
             },
+            "predecessor_output_must_remain_absent": True,
         },
         "outputs": {
             "output_directory": RUN_OUTPUT_ROOT,
@@ -1052,7 +1113,7 @@ def _validate_upstream_context(
         generation_evidence.get("gate_id") != generation.EXECUTION_GATE_ID
         or generation_evidence.get("protocol_freeze_commit")
         != GENERATION_PROTOCOL_FREEZE_COMMIT
-        or generation_evidence.get("next_gate") != PROTOCOL_GATE_ID
+        or generation_evidence.get("next_gate") != PREDECESSOR_PROTOCOL_GATE_ID
         or summary.get("record_count") != EXPECTED_RECORDS
         or summary.get("pair_count") != EXPECTED_PAIRS
         or summary.get("image_count") != EXPECTED_IMAGES

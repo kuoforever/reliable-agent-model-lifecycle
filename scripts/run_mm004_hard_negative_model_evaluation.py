@@ -102,6 +102,8 @@ def execute_frozen_protocol(*, protocol_freeze_commit: str) -> dict[str, Any]:
     _validate_commit(protocol_freeze_commit)
     _validate_formal_python_execution_mode()
     output_dir = ROOT / contract.RUN_OUTPUT_ROOT
+    if os.path.lexists(ROOT / contract.PREDECESSOR_RUN_OUTPUT_ROOT):
+        raise RuntimeError("predecessor MM-004 output must remain absent")
     if os.path.lexists(output_dir):
         raise RuntimeError("formal MM-004 evaluation output must be absent")
 
@@ -352,6 +354,11 @@ def load_authenticated_context() -> dict[str, Any]:
     candidate_result_review = _parse_object(
         payloads["candidate_result_review"], "$.candidate_result_review"
     )
+    predecessor_protocol = _parse_object(
+        payloads["predecessor_model_evaluation_protocol"],
+        "$.predecessor_model_evaluation_protocol",
+    )
+    _validate_predecessor_protocol(predecessor_protocol)
 
     generation.validate_preregistration(
         generation_preregistration,
@@ -563,9 +570,32 @@ def _validate_protocol_freeze_commit(
         {str(path): receipt for path, receipt in generation_output_receipts.items()}
     )
     for path, expected in sorted(tracked.items()):
-        observed = _receipt(path, _git_show_bytes(protocol_freeze_commit, path))
-        if observed != dict(expected):
+        payload = _git_show_bytes(protocol_freeze_commit, path)
+        if not _tracked_payload_matches_receipt(path, payload, expected):
             raise RuntimeError(f"freeze commit tracked receipt differs: {path}")
+
+
+def _tracked_payload_matches_receipt(
+    path: str, payload: bytes, expected: Mapping[str, Any]
+) -> bool:
+    if path == contract.ADAPTER_LFS_PATH:
+        return payload == contract.git_lfs_pointer_bytes(expected)
+    return _receipt(path, payload) == dict(expected)
+
+
+def _validate_predecessor_protocol(value: Mapping[str, Any]) -> None:
+    claims = _mapping(value.get("claims"), "$.predecessor.claims")
+    outputs = _mapping(value.get("outputs"), "$.predecessor.outputs")
+    if (
+        value.get("mm004_hard_negative_model_evaluation_protocol_version") != 1
+        or value.get("gate_id") != contract.PREDECESSOR_PROTOCOL_GATE_ID
+        or value.get("freeze_status") != "frozen"
+        or value.get("next_gate") != contract.PREDECESSOR_EXECUTION_GATE_ID
+        or outputs.get("output_directory") != contract.PREDECESSOR_RUN_OUTPUT_ROOT
+        or any(claims.values())
+        or os.path.lexists(ROOT / contract.PREDECESSOR_RUN_OUTPUT_ROOT)
+    ):
+        raise RuntimeError("predecessor MM-004 protocol boundary mismatch")
 
 
 def _validate_formal_python_execution_mode() -> None:

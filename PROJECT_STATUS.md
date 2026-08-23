@@ -159,25 +159,43 @@ dataset validation are true; training, verifier/model evaluation, quality,
 safety, serving, promotion, capture, Runtime change, and Runtime eligibility
 remain false.
 
-The downstream model-evaluation protocol is now frozen before any model call.
-Its 49,311-byte canonical preregistration has SHA-256
-`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f`.
-It binds the exact Qwen2.5-VL base revision plus read-only MM-003 Adapter, all
-56 generated records and 28 image receipts, label-isolated prompt projections,
-a strict accept/reject JSON compiler, outcome-neutral total metrics, one fresh
-base/Adapter load, 56 ordered offline calls, zero retry, resource caps, and an
-owner-marked success/failure lifecycle. The fixed output directory remains
-absent. Model evaluation, training, quality, safety, serving, promotion, and
-Runtime claims remain false.
+The v1 downstream model-evaluation protocol froze as 49,311 canonical bytes
+with SHA-256
+`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f` and
+merged through PR #47 as
+`425a4f21c82786d054ce620e83f6703e4f235d2f`. Its exact formal invocation was
+rejected during freeze-commit receipt validation before output claim, model
+import, GPU use, or any model call. Git stores the 29,529,752-byte Adapter
+weight as an exact 133-byte LFS pointer; v1 incorrectly compared those pointer
+bytes directly with the hydrated payload receipt. The pointer OID/size and the
+hydrated payload SHA-256/size agree exactly, so this is a pre-consumption
+representation-layer validation bug, not Adapter drift or a model result. The
+v1 fixed output remains absent and its attempt was not consumed.
+
+The v2 repair is now separately frozen before any model call. Its 50,642-byte
+canonical preregistration has SHA-256
+`bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9`.
+It preserves the exact candidate, 56 records, 28 images, prompts, compiler,
+metrics, call order, resource caps, and owner-marked lifecycle while adding a
+new gate/output identity and dual Adapter binding: exact Git LFS pointer at the
+freeze commit plus full read-only hydrated receipt before and after execution.
+Both v1 and v2 fixed outputs remain absent. Model evaluation, training,
+quality, safety, serving, promotion, and Runtime claims remain false.
+The focused v2 suite passes 13/13 tests. Full-repository Ruff, scoped strict
+Mypy, `py_compile`, preregistration `--check`, the feature-branch formal-command
+negative check, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the unified 648-test gate with four expected Windows
+privilege skips, 53 audited source files, and `valid=true`; neither fixed
+output was created.
 
 ## Single active objective
 
 Publish the exact frozen
-`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1`, then execute its
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v2`, then execute its
 single registered model-evaluation attempt only from the merged freeze commit:
 
 ```text
-frozen 49,311-byte protocol + absent fixed output directory
+frozen 50,642-byte v2 repair + both v1/v2 output directories absent
         -> merge with checks/review/conflict state clear
         -> one fresh base + read-only Adapter + 56 ordered offline calls
         -> durable candidate/predictions/evidence OR fail-closed failure receipt
@@ -190,20 +208,15 @@ not train, modify or save the Adapter/model, reopen the consumed MM-003
 repeatability directory, change the Runtime repository, or capture real
 desktop content.
 
-Twelve focused model-evaluation protocol tests pass, including prompt-label
+Thirteen focused model-evaluation protocol tests pass, including prompt-label
 isolation, strict compiler totality, perfect/adverse/invalid scoring, artifact
 tamper rejection, resource-cap claim algebra, 56-call fake execution, and
-owner-marked success/failure persistence. Full-repository Ruff, scoped strict
-Mypy, `py_compile`, preregistration `--check`, and `git diff --check` pass. The
-unified offline gate passes on CPython 3.11.15, 3.12.12, and 3.13.7; each run
-reports 647 tests, four expected Windows privilege skips, 53 audited source
-files, and `valid=true` while retaining all freeze-stage execution claims as
-false. A separate model-free read-only preflight successfully locks and
+owner-marked success/failure persistence. The new regression proves the exact
+133-byte pointer and 29,529,752-byte hydrated payload bindings independently.
+A separate model-free read-only preflight successfully locks and
 re-authenticates 14 model snapshot files, three Adapter files, all 31 generated
 inputs, and the local dependency wheel; it does not prove model load or
-inference success. The exact formal Python invocation is also rejected on the
-feature branch before model import or output claim, leaving the fixed output
-absent until the protocol is merged.
+inference success.
 
 Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
 2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
@@ -1230,7 +1243,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 model-evaluation protocol frozen, merged one-shot execution next |
+| `FC-MVP-002` | In progress | Multimodal GUI Action Model; v1 pre-consumption LFS bug classified, v2 model-evaluation repair frozen, merge then one-shot execution next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

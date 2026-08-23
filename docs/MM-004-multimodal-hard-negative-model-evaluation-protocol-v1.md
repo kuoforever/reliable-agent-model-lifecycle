@@ -13,6 +13,18 @@ The fixed output directory
 protocol freeze therefore establishes no model-evaluation, quality, safety,
 serving, promotion, or Runtime result.
 
+## Formal preflight outcome
+
+PR #47 merged v1 as
+`425a4f21c82786d054ce620e83f6703e4f235d2f`. The exact formal invocation was
+rejected during freeze-commit receipt validation before output claim, model
+import, GPU use, or any model call. Git stores the Adapter weight as an exact
+133-byte LFS pointer, while v1 compared those pointer bytes directly with the
+29,529,752-byte hydrated payload receipt. The pointer OID/size and hydrated
+SHA-256/size agree exactly. This is a pre-consumption representation-layer
+validator defect, not Adapter drift or a model result. The v1 output remains
+absent and its attempt was not consumed.
+
 ## Frozen candidate and inputs
 
 - base model: `Qwen/Qwen2.5-VL-3B-Instruct`
@@ -113,7 +125,6 @@ promotion, and Runtime claim is false. Model outputs never gain execution
 authority; Runtime remains the sole policy, approval, WAL, grounding, budget,
 and desktop-dispatch boundary.
 
-After the exact protocol is merged, the next gate is
-`MM-004-multimodal-hard-negative-model-evaluation-execution-v1`. A successful
-run routes to the separate model-free result-review gate; a consumed failure
-routes to the registered failure-classification gate.
+The v1 execution gate is superseded without consumption by
+`MM-004-multimodal-hard-negative-model-evaluation-protocol-v2`. The v2 repair
+must be merged before any model execution.
