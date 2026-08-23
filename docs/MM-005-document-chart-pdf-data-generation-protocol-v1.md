@@ -119,6 +119,8 @@ work/training-env/Scripts/python.exe -I `
 
 It must not be invoked again: the fixed output and evidence are consumed,
 immutable inputs to later gates. The registered next gate is
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`; it must freeze the
-Environment Adapter and deterministic Verifier separately from this data
-materialization before either implementation is executed.
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`. It is now frozen as
+a separate 126,032-byte model-free artifact with 32 Adapter projection
+receipts and 160 deterministic Verifier controls. Its own next gate is the
+separate Adapter/Verifier implementation; the consumed generation result
+remains immutable throughout.

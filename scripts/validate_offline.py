@@ -137,6 +137,13 @@ MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_BYTES = 17_780
 MM005_DOCUMENT_CHART_PDF_GENERATION_PROTOCOL_SHA256 = (
     "sha256:6e212237ee59d9730f97028769033a0991f9e3c6b893a404fc583274f813f2ed"
 )
+MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_document_chart_pdf_adapter_verifier_protocol_v1.json"
+)
+MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_BYTES = 126_032
+MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_SHA256 = (
+    "sha256:4715134d7bd1f8ae54275764f342bf5a8974cc491298dbefd52971aab876c64a"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -473,6 +480,9 @@ def main() -> int:
     mm005_document_chart_pdf_data = _validate_mm005_document_chart_pdf_data_protocol()
     mm005_document_chart_pdf_generation = (
         _validate_mm005_document_chart_pdf_generation_protocol()
+    )
+    mm005_document_chart_pdf_adapter_verifier = (
+        _validate_mm005_document_chart_pdf_adapter_verifier_protocol()
     )
     tests_run = _run_tests()
 
@@ -932,6 +942,30 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_generation_next_gate": (
             mm005_document_chart_pdf_generation["next_gate"]
+        ),
+        "mm005_document_chart_pdf_adapter_verifier_protocol_frozen": (
+            mm005_document_chart_pdf_adapter_verifier["protocol_frozen"]
+        ),
+        "mm005_document_chart_pdf_adapter_projections": (
+            mm005_document_chart_pdf_adapter_verifier["adapter_projection_count"]
+        ),
+        "mm005_document_chart_pdf_verifier_cases": (
+            mm005_document_chart_pdf_adapter_verifier["verifier_case_count"]
+        ),
+        "mm005_document_chart_pdf_verifier_positive_cases": (
+            mm005_document_chart_pdf_adapter_verifier["positive_case_count"]
+        ),
+        "mm005_document_chart_pdf_verifier_negative_cases": (
+            mm005_document_chart_pdf_adapter_verifier["negative_case_count"]
+        ),
+        "mm005_document_chart_pdf_adapter_implemented": (
+            mm005_document_chart_pdf_adapter_verifier["environment_adapter_implemented"]
+        ),
+        "mm005_document_chart_pdf_verifier_implemented": (
+            mm005_document_chart_pdf_adapter_verifier["verifier_implemented"]
+        ),
+        "mm005_document_chart_pdf_adapter_verifier_next_gate": (
+            mm005_document_chart_pdf_adapter_verifier["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3413,6 +3447,126 @@ def _validate_mm005_document_chart_pdf_generation_protocol() -> dict[str, Any]:
         **evidence_summary.to_dict(),
         "evidence_sha256": "sha256:" + hashlib.sha256(evidence_payload).hexdigest(),
     }
+
+
+def _validate_mm005_document_chart_pdf_adapter_verifier_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm005_document_chart_pdf_adapter_verifier_protocol as contract,
+    )
+    from scripts import (
+        prepare_mm005_document_chart_pdf_adapter_verifier_protocol as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_PATH,
+        "MM-005 Document/Chart/PDF Adapter/Verifier protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_BYTES
+        or digest != MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_SHA256
+    ):
+        raise GateError(
+            "MM-005 Document/Chart/PDF Adapter/Verifier protocol hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload, MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_PROTOCOL_PATH
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-005 Adapter/Verifier protocol is not canonical JSON")
+
+    inputs = prepare.protocol_inputs()
+    summary = contract.validate_protocol(raw, **inputs)
+    adapter = raw.get("adapter_contract")
+    verifier = raw.get("verifier_contract")
+    coverage = raw.get("coverage")
+    plan = raw.get("implementation_plan")
+    authority = raw.get("authority_contract")
+    true_claims = {
+        name for name, established in raw.get("claims", {}).items() if established
+    }
+    if (
+        raw.get("freeze_status") != "frozen"
+        or raw.get("gate_id") != contract.GATE_ID
+        or raw.get("next_gate") != contract.NEXT_GATE
+        or len(inputs["source_receipts"]) != 8
+        or summary.source_receipt_count != 8
+        or summary.record_count != 32
+        or summary.adapter_projection_count != 32
+        or summary.verifier_case_count != 160
+        or summary.positive_case_count != 32
+        or summary.negative_case_count != 128
+        or summary.task_family_count != 4
+        or summary.source_kind_count != 4
+        or summary.train_records != 24
+        or summary.validation_records != 8
+        or summary.generation_executed is not True
+        or summary.dataset_validated is not True
+        or summary.environment_adapter_implemented is not False
+        or summary.verifier_implemented is not False
+        or summary.next_gate != contract.NEXT_GATE
+        or not isinstance(adapter, dict)
+        or adapter.get("model_payload_exact_keys") != list(contract.MODEL_PAYLOAD_KEYS)
+        or adapter.get("image_binding_outside_model_payload") is not True
+        or adapter.get("real_file_path_exposed_to_model") is not False
+        or adapter.get("gold_or_verifier_fields_exposed_to_model") is not False
+        or adapter.get("formal_implementation_present") is not False
+        or adapter.get("formal_execution_at_this_gate") is not False
+        or not isinstance(verifier, dict)
+        or verifier.get("case_kinds") != list(contract.VERIFIER_CASE_KINDS)
+        or verifier.get("cases_per_record") != 5
+        or verifier.get("invalid_output_is_wrong") is not True
+        or verifier.get("model_or_llm_judge_used") is not False
+        or verifier.get("formal_implementation_present") is not False
+        or verifier.get("formal_execution_at_this_gate") is not False
+        or coverage
+        != {
+            "records": 32,
+            "train_records": 24,
+            "validation_records": 8,
+            "task_family_ids": sorted(
+                {item["task_family_id"] for item in raw["adapter_projection_registry"]}
+            ),
+            "source_kinds": sorted(
+                {item["source_kind"] for item in raw["adapter_projection_registry"]}
+            ),
+            "splits": ["train", "validation"],
+            "adapter_projections": 32,
+            "verifier_cases": 160,
+            "positive_cases": 32,
+            "negative_cases": 128,
+        }
+        or not isinstance(plan, dict)
+        or plan.get("implementation_gate_id") != contract.NEXT_GATE
+        or plan.get("protocol_must_merge_before_implementation") is not True
+        or plan.get("dataset_and_generation_evidence_read_only") is not True
+        or plan.get("network_allowed") is not False
+        or plan.get("model_load_allowed") is not False
+        or plan.get("model_training_or_evaluation_allowed") is not False
+        or plan.get("real_or_external_content_allowed") is not False
+        or plan.get("capture_allowed") is not False
+        or plan.get("runtime_repository_change_allowed") is not False
+        or plan.get("runtime_integration_allowed") is not False
+        or raw.get("required_gates") != list(contract.REQUIRED_GATES)
+        or authority
+        != {
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or raw.get("claims") != contract.PROTOCOL_CLAIMS
+        or true_claims
+        != {
+            "generation_executed",
+            "records_generated",
+            "images_generated",
+            "dataset_validated",
+        }
+    ):
+        raise GateError("MM-005 Adapter/Verifier protocol boundary mismatch")
+    return {"protocol_frozen": True, **summary.to_dict()}
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:

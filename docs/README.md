@@ -45,6 +45,7 @@ English companion documents.
 | Multimodal environment-adaptation protocol v1 | [MM-005 environment-adaptation protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | Frozen model-free Document/Chart/PDF scope, four-component delta, shared content exclusions, deterministic verifier, and unchanged Runtime authority; downstream synthetic data now generated |
 | Document/Chart/PDF data protocol v1 | [MM-005 data protocol](MM-005-document-chart-pdf-data-protocol-v1.md) | Seeded 32-record / 32-PNG / 14-PDF / 49-output preregistration with exact receipts; downstream generation validated |
 | Document/Chart/PDF data generation protocol v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | Consumed one-shot merged-master run: 49 outputs / 434,212 bytes generated and independently validated with exact receipts, exclusive evidence, and zero retry |
+| Document/Chart/PDF Adapter/Verifier protocol v1 | [MM-005 Adapter/Verifier protocol](MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md) | Model-free 32-projection contract with model-payload gold/path isolation and 160 deterministic positive/negative Verifier controls; implementation remains deferred |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |
