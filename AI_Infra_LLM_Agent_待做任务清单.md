@@ -822,8 +822,35 @@ judge。相关 MM-005 focused 38/38 tests、Ruff、scoped strict Mypy、`py_comp
 712-test gates 全部通过，均有 4 个预期 Windows privilege skips、57 个 audited source
 files 和 `valid=true`。这仅建立 protocol/fixture reconstruction，不建立 Adapter/
 Verifier execution、model/training repeatability、quality、safety、Serving、promotion
-或 Runtime eligibility。当前单一动作是发布该协议；clean merge 后下一 gate 是
-`MM-005-document-chart-pdf-adapter-verifier-implementation-v1`。
+或 Runtime eligibility。该协议已通过 PR #54 合并为
+`db8c6833f43c02a0b255c436558e0269a8bde3b4`；6 个 Linux matrix checks 全部通过，
+0 review/comment/thread、CLEAN/MERGEABLE，远近 feature branch 已清理且
+`master == origin/master` 后才开始实现。
+
+`MM-005-document-chart-pdf-adapter-verifier-implementation-v1` 现已独立实现并对
+全部冻结向量执行 conformance。`AdaptedInput` 只向 model-facing transport 提供
+canonical model payload JSON 与 exact image bytes，path/receipt/authority 仅在 audit
+projection；missing/duplicate/tampered/non-byte/absolute/traversal image binding 全部
+fail closed。compiler/Verifier 未调用 reference 实现，独立处理 exact keys、duplicate
+keys/refs、nonfinite、UTF-8/size、strict scalar type（包括 bool 不能代替 int）、NFC +
+ASCII-space trim、ordered evidence 和 page exact。32/32 projection receipts、160/160
+case outcomes 全部一致：96 compiler-valid、64 invalid、32 positive、128 negative，
+zero mismatch。
+
+102,117-byte implementation evidence SHA-256 为
+`d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2`，绑定 5 个
+implementation/protocol source receipts、protocol merge commit、read-only consumed
+inputs、32 Adapter executions 与 160 Verifier executions。`environment_adapter_implemented/
+executed` 和 `verifier_implemented/executed` 现为 true；model training/evaluation、
+repeatability、quality、safety、Serving、promotion、Runtime change/eligibility 仍为
+false。implementation focused 12/12 tests（完整 MM-005 chain 50 tests）、Ruff、scoped
+strict Mypy、`py_compile`、builder `--check` 与 `git diff --check` 通过。本机 CPython
+3.11.15、3.12.12、3.13.7 unified 724-test gates 全部通过，均有 4 个预期 Windows
+privilege skips、59 个 audited source files 和 `valid=true`。当前单一动作是发布该
+implementation/evidence；clean merge 后下一 gate 是 outcome-neutral
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1`，任何 model import/call 前
+必须先冻结 candidate lineage、prompt projection、metrics、resource caps、attempt
+ownership 与 failure receipts。
 
 ## TOOL-001：工具 Schema 与任务定义
 

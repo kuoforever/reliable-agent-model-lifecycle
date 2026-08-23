@@ -29,7 +29,8 @@ English (default): [README.md](README.md)
 | 多模态环境适配协议 v1 | [MM-005 protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | 冻结 Document/Chart/PDF model-free 边界、四组件差异、跨阶段内容排除与 deterministic verifier；downstream synthetic data 已生成 |
 | Document/Chart/PDF 数据协议 v1 | [MM-005 data protocol](MM-005-document-chart-pdf-data-protocol-v1.md) | 冻结 seed、32 records、32 PNG、14 PDF、49 outputs 与 exact receipts；downstream generation 已验证 |
 | Document/Chart/PDF 数据生成协议 v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | merged-master 一次性 runner 已消费：49 outputs / 434,212 bytes 原子落盘、独立回读、独占 evidence 与零重试 |
-| Document/Chart/PDF Adapter/Verifier 协议 v1 | [MM-005 Adapter/Verifier protocol](MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md) | 冻结 model-free 32 projection、model payload gold/path 隔离与 160 个 deterministic 正负 Verifier controls；实现仍未开始 |
+| Document/Chart/PDF Adapter/Verifier 协议 v1 | [MM-005 Adapter/Verifier protocol](MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md) | 冻结 model-free 32 projection、model payload gold/path 隔离与 160 个 deterministic 正负 Verifier controls；downstream conformance 已实现 |
+| Document/Chart/PDF Adapter/Verifier 实现 v1 | [MM-005 Adapter/Verifier implementation](MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md) | 独立 Adapter 与 strict compiler/Verifier 精确复现 32 projections 和 160 controls；未执行模型且无 Runtime authority |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |

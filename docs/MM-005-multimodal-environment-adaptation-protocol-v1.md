@@ -145,6 +145,7 @@ The registered downstream gate was
 counts, template families, render constraints, output receipts, validation,
 and execution claims before creating any dataset or image. Its separate
 one-shot generation gate has since completed. The subsequent
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen; the
-current next gate is its separate implementation without model execution or
-Runtime change.
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen and its
+independent Adapter/Verifier implementation exactly conforms without model
+execution or Runtime change. The current next gate is the outcome-neutral
+model-evaluation protocol.

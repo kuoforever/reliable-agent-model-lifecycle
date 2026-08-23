@@ -125,5 +125,7 @@ materialized all 49 frozen outputs / 434,212 bytes and wrote the narrow
 16,680-byte execution evidence without retry. The consumed data/evidence must
 remain immutable. The downstream
 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen with 32
-Adapter projection receipts and 160 deterministic Verifier controls; its
-registered next gate is the separate Adapter/Verifier implementation.
+Adapter projection receipts and 160 deterministic Verifier controls. The
+independent Adapter/Verifier implementation now reproduces every receipt and
+control exactly; its registered next gate is an outcome-neutral model-
+evaluation protocol.
