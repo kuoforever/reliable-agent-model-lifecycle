@@ -42,6 +42,7 @@ English companion documents.
 | Multimodal hard-negative generation protocol v1 | [MM-004 generation protocol](MM-004-multimodal-hard-negative-data-generation-protocol-v1.md) | Seed, counts, and 31 receipts frozen before execution; exact merged-master materialization and result validation passed |
 | Multimodal hard-negative model-evaluation protocol v2 | [MM-004 model-evaluation protocol](MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md) | Git LFS-aware v2 repair frozen and executed once from its exact merged commit |
 | Multimodal hard-negative model-evaluation result review v2 | [MM-004 model-evaluation result review](MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md) | Formal measurement complete; 28/28 negatives rejected but clean accept recall is only 4/28, with no quality or Runtime claim |
+| Multimodal environment-adaptation protocol v1 | [MM-005 environment-adaptation protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | Frozen model-free Document/Chart/PDF scope, four-component delta, shared content exclusions, deterministic verifier, and unchanged Runtime authority; no data generated |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

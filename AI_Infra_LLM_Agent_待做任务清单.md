@@ -747,6 +747,22 @@ Windows privilege skips、53 个 audited source files 与 `valid=true`，没有 
 
 每个环境只新增 Adapter、任务集、Verifier 和数据，不复制训练、Serving、审批或恢复系统。
 
+`MM-005-multimodal-environment-adaptation-protocol-v1` 已冻结第二环境
+`Document / Chart / PDF` 的 model-free 首个垂直切片：English、synthetic、single-page，
+覆盖 document text、table cell、bar-chart value 与 page-region evidence grounding。
+仅允许新增 Environment Adapter、task set、deterministic Verifier 和 synthetic
+dataset；训练/评测编排、Serving/routing、policy、approval、WAL、grounding、budgets、
+recovery 与 desktop dispatch 全部继承且不得复制。63 个 read-only source receipts
+覆盖 11 个边界/上游文件与 52 张历史图像；排除 registry 从 MM-002～MM-004 实际内容
+重新计算 shared cross-stage hashes，冻结 92 case/record、64 family、64 instruction、
+64 observation、92 target 和 52 image identities。协议为 49,202 canonical bytes，
+SHA-256 为
+`311822603bb6c05c1b7f388cd782c30556fa8b7aa0d67cbd1ccd89f9d13a532a`。
+此 gate 未生成数据、未调用模型、未训练、未采集、未修改 Runtime，所有 quality/
+safety/Serving/promotion/Runtime claims 为 false。单一下一 gate 为
+`MM-005-document-chart-pdf-data-protocol-v1`，必须先冻结 seed、counts、templates、
+render constraints、output receipts 与 validation，再允许生成任何数据或图像。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：
