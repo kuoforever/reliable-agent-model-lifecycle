@@ -134,6 +134,11 @@ class MM004HardNegativeModelEvaluationTests(unittest.TestCase):
         self.assertTrue(all(value is False for value in rebuilt["claims"].values()))
         self.assertFalse(rebuilt["formal_gate"]["accuracy_threshold_gate"])
         self.assertEqual(rebuilt["next_gate"], contract.EXECUTION_GATE_ID)
+        predecessor = rebuilt["source_lineage"]["predecessor_protocol"]
+        self.assertFalse(predecessor["attempt_consumed"])
+        self.assertFalse(predecessor["model_imported"])
+        self.assertEqual(predecessor["model_calls"], 0)
+        self.assertTrue(predecessor["output_absent"])
 
     def test_tracked_protocol_recomputes_and_unified_gate_is_freeze_only(self) -> None:
         result = runner.prepare_protocol(freeze_status="frozen", check=True)
@@ -191,6 +196,30 @@ class MM004HardNegativeModelEvaluationTests(unittest.TestCase):
             compiled = contract.compile_raw_verdict(raw)
             self.assertEqual(compiled["verdict"], "invalid", raw)
             self.assertTrue(compiled["compiler_fallback"], raw)
+
+    def test_git_lfs_pointer_and_hydrated_adapter_are_both_exactly_bound(self) -> None:
+        receipt = contract.ADAPTER_RECEIPTS["weights"]
+        pointer = contract.git_lfs_pointer_bytes(receipt)
+        hydrated = (ROOT / contract.ADAPTER_LFS_PATH).read_bytes()
+        self.assertEqual(len(pointer), 133)
+        self.assertEqual(len(hydrated), receipt["bytes"])
+        self.assertEqual(contract.sha256_bytes(hydrated), receipt["sha256"])
+        self.assertTrue(
+            runner._tracked_payload_matches_receipt(
+                contract.ADAPTER_LFS_PATH, pointer, receipt
+            )
+        )
+        self.assertFalse(
+            runner._tracked_payload_matches_receipt(
+                contract.ADAPTER_LFS_PATH, hydrated, receipt
+            )
+        )
+        tampered = pointer.replace(b"d93d2ea2", b"093d2ea2", 1)
+        self.assertFalse(
+            runner._tracked_payload_matches_receipt(
+                contract.ADAPTER_LFS_PATH, tampered, receipt
+            )
+        )
 
     def test_perfect_adverse_and_invalid_outputs_are_totally_scored(self) -> None:
         perfect = contract.score_case_results(self.records, self.build_cases())

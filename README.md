@@ -275,22 +275,25 @@ quality, safety, serving, promotion, capture, and Runtime claims remain false.
 The next gate is a separately frozen model-evaluation protocol. See the
 [generation protocol](docs/MM-004-multimodal-hard-negative-data-generation-protocol-v1.md).
 
-### Multimodal hard-negative model-evaluation protocol v1
+### Multimodal hard-negative model-evaluation protocol v1 and v2 repair
 
-The outcome-neutral model-evaluation protocol is frozen before any model call.
-Its 49,311-byte canonical preregistration binds the exact Qwen2.5-VL revision,
-read-only MM-003 Adapter, 56-record/28-image generated suite, prompt label
-isolation, strict accept/reject JSON compilation, total metrics, one fresh
-base/Adapter load, 56 ordered offline calls, zero retry, resource caps, and
-owner-marked terminal evidence. No accuracy threshold determines whether a
-measurement completed; poor outputs remain visible rather than changing the
-registered evaluation.
+The 49,311-byte v1 protocol merged through PR #47, but its exact formal command
+was rejected before output claim or model import. Git held the Adapter weight
+as a 133-byte LFS pointer while v1 compared those bytes to the hydrated
+29,529,752-byte payload receipt. OID, size, and hydrated SHA-256 all agree; no
+attempt was consumed and no model call ran.
 
-The fixed execution directory remains absent, so model evaluation, training,
-quality, safety, serving, promotion, and Runtime eligibility remain false. The
-formal run is authorized only after this exact protocol is merged and
-`master`, `origin/master`, and the supplied freeze commit are identical. See
-the [model-evaluation protocol](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v1.md).
+The separate 50,642-byte v2 repair keeps the registered candidate, suite,
+prompt isolation, compiler, total metrics, 56 ordered calls, zero retry,
+resources, and terminal evidence unchanged. It adds a new gate/output identity
+and validates the exact Git LFS pointer separately from the full read-only
+hydrated Adapter receipt. Both outputs remain absent, so all execution,
+training, quality, safety, serving, promotion, and Runtime claims remain false.
+The focused v2 suite passes 13/13 tests, and local CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the unified 648-test gate with four expected skips, 53
+audited source files, and `valid=true`.
+See the [v1 protocol](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v1.md)
+and [v2 repair](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -712,14 +715,14 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 data, generation, and outcome-neutral model-evaluation protocols are
-frozen, and the formal generation result has validated all 31 precomputed
-outputs from the exact merged generation freeze commit. The single active
-objective is to merge the 49,311-byte model-evaluation freeze and then execute
-its one registered 56-call offline attempt from that exact merged commit.
-Existing MM-002/MM-003 evidence, the Adapter, and generated MM-004 data remain
-read-only. This does not authorize training, model/Adapter writes, Runtime
-changes, real desktop capture, or an internal retry after attempt consumption.
+The MM-004 data/generation lifecycle is validated. Model-evaluation v1 was
+rejected before attempt consumption by the now-classified Git LFS
+representation bug; no model ran. The single active objective is to merge the
+50,642-byte v2 repair and then execute its one registered 56-call offline
+attempt from that exact merged commit. Existing MM-002/MM-003 evidence, the
+Adapter, and generated MM-004 data remain read-only. This does not authorize
+training, model/Adapter writes, Runtime changes, real desktop capture, or an
+internal retry after attempt consumption.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

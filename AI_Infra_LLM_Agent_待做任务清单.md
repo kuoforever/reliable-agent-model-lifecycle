@@ -689,26 +689,28 @@ SHA-256 为
 generation/dataset validation 为 true；training/verifier or model evaluation/
 quality/safety/serving/promotion/capture/Runtime claims 仍为 false。
 
-`MM-004-multimodal-hard-negative-model-evaluation-protocol-v1` 已在任何 model
-call 前冻结。49,311-byte canonical preregistration SHA-256 为
-`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f`，固定 exact
-Qwen2.5-VL revision + read-only MM-003 Adapter、56 records / 28 images、只含
-instruction + 去路径/hash observation + candidate action 的 label-isolated prompt、
-strict `{"verdict":"accept|reject"}` compiler、accuracy-independent total metrics、
-one fresh base/Adapter load、56 ordered offline calls、zero retry、resource caps 与
-owner-marked success/failure artifacts。当前 fixed output dir 不存在，因此 model
-evaluation/training/quality/safety/serving/promotion/Runtime claims 仍全部为 false。
-单一下一动作是在该 exact protocol 通过 PR 合并后，从
-`master == origin/master == freeze commit` 执行一次 formal evaluation；attempt
-消费后不得 retry，不得训练或写 Adapter/model。
+49,311-byte v1 protocol（SHA-256
+`3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f`）经 PR #47
+merge 为 `425a4f21c82786d054ce620e83f6703e4f235d2f`。formal command 在 output claim、
+model import/GPU/model call 前被 freeze-commit receipt gate 拒绝：Git 中 Adapter
+weight 是 exact 133-byte LFS pointer，而 v1 错把 pointer bytes 与 29,529,752-byte
+hydrated payload receipt 逐字比较。pointer OID/size 与 hydrated SHA-256/size 完全
+一致，因此是 pre-consumption representation validation bug，不是 Adapter drift
+或 model result；v1 output 不存在，attempt 未消费。
 
-protocol focused 12 tests、全仓 Ruff、scoped strict Mypy、`py_compile`、
-preregistration `--check` 与 `git diff --check` 已通过。CPython 3.11.15、3.12.12、
-3.13.7 的 unified offline gate 均通过 647 tests、4 个 expected Windows
-privilege skips、53 audited source files 与 `valid=true`；这些是 model-free
-freeze evidence，不是 model execution evidence。额外 read-only preflight 已按
-formal runner 路径 lock/re-authenticate 14 model snapshot files、3 Adapter files、
-31 generated inputs 与 local wheel；尚未证明 model load 或 inference 成功。
+50,642-byte v2 repair 已在任何 model call 前独立冻结，SHA-256 为
+`bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9`。candidate、
+56 records / 28 images、label-isolated prompt、strict compiler、total metrics、
+56-call order、zero retry、resources 与 terminal lifecycle 不变；新增 v2 gate/output
+identity，并分别校验 freeze commit 的 exact LFS pointer 与运行期 read-only hydrated
+payload full receipt。v1/v2 outputs 均不存在，所有 execution/training/quality/safety/
+serving/promotion/Runtime claims 仍为 false。单一下一动作是 v2 经 PR 合并后，从
+`master == origin/master == v2 freeze commit` 执行一次；消费后不得 retry。
+focused v2 13/13 tests、全仓 Ruff、scoped strict Mypy、`py_compile`、preregistration
+`--check`、feature-branch formal-command negative check 与 `git diff --check` 均通过；
+本地 CPython 3.11.15、3.12.12、3.13.7 unified gates 均通过 648 tests、4 个预期
+Windows privilege skips、53 个 audited source files，`valid=true`，且未创建任一
+fixed output。
 
 ## MM-005：多模态环境适配
 

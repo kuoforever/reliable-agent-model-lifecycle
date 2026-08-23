@@ -97,14 +97,23 @@ MM004_HARD_NEGATIVE_GENERATION_PROTOCOL_SHA256 = (
 MM004_HARD_NEGATIVE_GENERATION_FREEZE_COMMIT = (
     "2d41b99e7e984975056f7e1088e768cd8a62b744"
 )
-MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_PATH = (
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_PATH = (
     ROOT
     / "configs"
     / "mm004_multimodal_hard_negative_model_evaluation_protocol_v1.json"
 )
-MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_BYTES = 49_311
-MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_SHA256 = (
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_BYTES = 49_311
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_SHA256 = (
     "sha256:3011420f26bc61f572de2e21f96d28215529e495075db4e958573a4e4317484f"
+)
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_PATH = (
+    ROOT
+    / "configs"
+    / "mm004_multimodal_hard_negative_model_evaluation_protocol_v2.json"
+)
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_BYTES = 50_642
+MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_SHA256 = (
+    "sha256:bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9"
 )
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
@@ -720,6 +729,24 @@ def main() -> int:
         ),
         "mm004_hard_negative_model_evaluation_protocol_frozen": (
             mm004_hard_negative_model_evaluation["protocol_frozen"]
+        ),
+        "mm004_hard_negative_model_evaluation_protocol_version": (
+            mm004_hard_negative_model_evaluation["protocol_version"]
+        ),
+        "mm004_hard_negative_model_evaluation_v1_attempt_consumed": (
+            mm004_hard_negative_model_evaluation["predecessor_attempt_consumed"]
+        ),
+        "mm004_hard_negative_model_evaluation_v1_model_imported": (
+            mm004_hard_negative_model_evaluation["predecessor_model_imported"]
+        ),
+        "mm004_hard_negative_model_evaluation_v1_model_calls": (
+            mm004_hard_negative_model_evaluation["predecessor_model_calls"]
+        ),
+        "mm004_hard_negative_model_evaluation_v1_output_absent": (
+            mm004_hard_negative_model_evaluation["predecessor_output_absent"]
+        ),
+        "mm004_hard_negative_model_evaluation_v1_classification": (
+            mm004_hard_negative_model_evaluation["predecessor_classification"]
         ),
         "mm004_hard_negative_model_evaluation_registered_records": (
             mm004_hard_negative_model_evaluation["registered_records"]
@@ -2710,19 +2737,56 @@ def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
     )
     from scripts import run_mm004_hard_negative_model_evaluation as runner
 
+    predecessor_payload = _read_regular_file_once(
+        MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_PATH,
+        "MM-004 hard-negative model-evaluation protocol v1",
+    )
+    predecessor_digest = "sha256:" + hashlib.sha256(predecessor_payload).hexdigest()
+    if (
+        len(predecessor_payload)
+        != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_BYTES
+        or predecessor_digest
+        != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V1_SHA256
+    ):
+        raise GateError("MM-004 model-evaluation v1 protocol hash mismatch")
+    predecessor = contract.parse_strict_json_bytes(
+        predecessor_payload, location="$.predecessor_preregistration"
+    )
+    if (
+        not isinstance(predecessor, dict)
+        or contract.artifact_json_bytes(predecessor) != predecessor_payload
+    ):
+        raise GateError("MM-004 model-evaluation v1 is not canonical JSON")
+    predecessor_claims = predecessor.get("claims")
+    predecessor_outputs = predecessor.get("outputs")
+    if (
+        predecessor.get("mm004_hard_negative_model_evaluation_protocol_version")
+        != 1
+        or predecessor.get("gate_id") != contract.PREDECESSOR_PROTOCOL_GATE_ID
+        or predecessor.get("freeze_status") != "frozen"
+        or predecessor.get("next_gate") != contract.PREDECESSOR_EXECUTION_GATE_ID
+        or not isinstance(predecessor_claims, dict)
+        or any(predecessor_claims.values())
+        or not isinstance(predecessor_outputs, dict)
+        or predecessor_outputs.get("output_directory")
+        != contract.PREDECESSOR_RUN_OUTPUT_ROOT
+        or os.path.lexists(ROOT / contract.PREDECESSOR_RUN_OUTPUT_ROOT)
+    ):
+        raise GateError("MM-004 model-evaluation v1 boundary mismatch")
+
     payload = _read_regular_file_once(
-        MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_PATH,
-        "MM-004 hard-negative model-evaluation protocol",
+        MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_PATH,
+        "MM-004 hard-negative model-evaluation protocol v2",
     )
     digest = "sha256:" + hashlib.sha256(payload).hexdigest()
     if (
-        len(payload) != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_BYTES
-        or digest != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_SHA256
+        len(payload) != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_BYTES
+        or digest != MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_SHA256
     ):
-        raise GateError("MM-004 model-evaluation protocol hash mismatch")
+        raise GateError("MM-004 model-evaluation v2 protocol hash mismatch")
     raw = contract.parse_strict_json_bytes(payload, location="$.preregistration")
     if not isinstance(raw, dict) or contract.artifact_json_bytes(raw) != payload:
-        raise GateError("MM-004 model-evaluation protocol is not canonical JSON")
+        raise GateError("MM-004 model-evaluation v2 is not canonical JSON")
 
     context = runner.load_authenticated_context()
     sources = runner.source_receipts()
@@ -2751,6 +2815,7 @@ def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
         expected != validated
         or contract.artifact_json_bytes(expected) != payload
         or len(sources) != 9
+        or validated["mm004_hard_negative_model_evaluation_protocol_version"] != 2
         or validated["freeze_status"] != "frozen"
         or validated["input_suite"]["record_count"] != 56
         or validated["input_suite"]["pair_count"] != 28
@@ -2761,11 +2826,35 @@ def _validate_mm004_hard_negative_model_evaluation_protocol() -> dict[str, Any]:
         or any(claims.values())
         or validated["next_gate"] != contract.EXECUTION_GATE_ID
     ):
-        raise GateError("MM-004 model-evaluation protocol boundary mismatch")
+        raise GateError("MM-004 model-evaluation v2 boundary mismatch")
+    predecessor_lineage = validated["source_lineage"]["predecessor_protocol"]
+    lfs_pointer = validated["source_lineage"]["adapter_git_lfs_pointer"]
+    if (
+        predecessor_lineage["preregistration"]
+        != contract.CONTEXT_RECEIPTS["predecessor_model_evaluation_protocol"]
+        or predecessor_lineage["freeze_commit"]
+        != contract.PREDECESSOR_PROTOCOL_FREEZE_COMMIT
+        or predecessor_lineage["attempt_consumed"] is not False
+        or predecessor_lineage["model_imported"] is not False
+        or predecessor_lineage["model_calls"] != 0
+        or predecessor_lineage["output_absent"] is not True
+        or lfs_pointer["bytes"] != 133
+        or lfs_pointer["sha256"]
+        != contract.sha256_bytes(
+            contract.git_lfs_pointer_bytes(contract.ADAPTER_RECEIPTS["weights"])
+        )
+    ):
+        raise GateError("MM-004 model-evaluation v2 repair boundary mismatch")
     if os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT):
         raise GateError("MM-004 model-evaluation output exists before execution")
     return {
         "protocol_frozen": True,
+        "protocol_version": 2,
+        "predecessor_attempt_consumed": predecessor_lineage["attempt_consumed"],
+        "predecessor_model_imported": predecessor_lineage["model_imported"],
+        "predecessor_model_calls": predecessor_lineage["model_calls"],
+        "predecessor_output_absent": predecessor_lineage["output_absent"],
+        "predecessor_classification": predecessor_lineage["classification"],
         "registered_records": validated["input_suite"]["record_count"],
         "registered_pairs": validated["input_suite"]["pair_count"],
         "registered_images": validated["input_suite"]["image_count"],
