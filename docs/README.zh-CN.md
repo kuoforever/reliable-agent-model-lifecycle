@@ -27,6 +27,7 @@ English (default): [README.md](README.md)
 | 多模态轨迹 Schema v1 | [MM-001 review](MM-001-multimodal-trajectory-schema-v1.md) | Synthetic text/image topology；不含采集或训练准入 |
 | GUI Grounding 数据/评测 v1 | [MM-002 review](MM-002-gui-grounding-data-eval-v1.md) | 冻结 synthetic eval 与 scorer；不含模型结果 |
 | 多模态环境适配协议 v1 | [MM-005 protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | 冻结 Document/Chart/PDF model-free 边界、四组件差异、跨阶段内容排除与 deterministic verifier；尚未生成数据 |
+| Document/Chart/PDF 数据协议 v1 | [MM-005 data protocol](MM-005-document-chart-pdf-data-protocol-v1.md) | 冻结 seed、32 records、32 PNG、14 PDF、49 outputs 与 exact receipts；尚未执行生成 |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |

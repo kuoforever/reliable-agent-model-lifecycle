@@ -325,6 +325,23 @@ exclusions for 92 prior cases/records, 64 families, and 52 images. No new data
 exists and every training/model/quality/safety/Serving/Runtime claim remains
 false. See the [MM-005 protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
 
+### Document/Chart/PDF data protocol v1
+
+The separate MM-005 data preregistration freezes seed `55005`, eight template
+families per task (six train and two validation), 32 records, 32 unique
+1280×900 PNG page images, 14 deterministic single-page PDF source artifacts,
+and all 49 future output receipts. All bytes reconstruct in memory from the
+parent protocol and five source receipts; the fixed output and execution
+evidence paths remain absent.
+
+PDF-source templates derive their PDF and PNG from one shared synthetic layout
+ground truth without external rendering, OCR, network access, host fonts, or
+model dependencies. Parent cross-stage exclusions and family/template/content/
+image split isolation validate the full planned record set. Generation,
+dataset validation, Adapter/Verifier execution, training/evaluation, quality,
+safety, capture, Serving, promotion, and Runtime claims remain false. See the
+[MM-005 data protocol](docs/MM-005-document-chart-pdf-data-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -749,9 +766,10 @@ The MM-004 data/generation lifecycle, one-shot v2 model measurement, and exact
 model-free result review are complete. The paired suite exposed a reject-biased
 verifier: 28/28 hard negatives rejected, clean accept recall 4/28. The bounded
 MM-005 environment-adaptation protocol now freezes the second environment and
-its interfaces before expansion. The next gate is the separate model-free
-`MM-005-document-chart-pdf-data-protocol-v1`; it must freeze counts, seed,
-templates, receipts, and validation before generating any data.
+its interfaces before expansion. The separate model-free
+`MM-005-document-chart-pdf-data-protocol-v1` now freezes counts, seed,
+templates, receipts, and validation without writing outputs. Its next gate is
+the exact merged-master data-generation execution; no fixture exists yet.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
 changes, real desktop capture, or reuse/retry of the consumed MM-004 attempt.

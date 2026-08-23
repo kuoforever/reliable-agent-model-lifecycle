@@ -763,6 +763,21 @@ safety/Serving/promotion/Runtime claims 为 false。单一下一 gate 为
 `MM-005-document-chart-pdf-data-protocol-v1`，必须先冻结 seed、counts、templates、
 render constraints、output receipts 与 validation，再允许生成任何数据或图像。
 
+`MM-005-document-chart-pdf-data-protocol-v1` 已按该边界冻结 `seed=55005`：四类
+task 各 8 个 template family（6 train + 2 validation），共 32 records、32 张
+unique 1280×900 PNG 与 14 份 deterministic single-page PDF source artifacts。
+PDF 与 PNG 从同一 synthetic layout ground truth 派生，不使用 external renderer、
+OCR、host font、network 或 model dependency。两份 dataset、manifest、PNG 和 PDF
+合计 49 个 planned outputs / 434,212 bytes，每份 path/bytes/SHA-256 均在内存重建
+并冻结；output root 与 execution evidence 当前不存在。parent record/exclusion、
+四 task/source coverage、每 task 6/2 split、family/template/content/image isolation、
+answer/evidence semantics 及 PNG/PDF 结构均验证通过，但 generation/dataset
+validation/Adapter/Verifier/model/quality/safety/capture/Serving/Runtime claims 仍为
+false。24,909-byte protocol SHA-256 为
+`7e774e69194e6f70c27c9b53bbab68adb19874780757717ca42012ec48297525`。
+单一下一 gate 是 `MM-005-document-chart-pdf-data-generation-v1`，只能从合并后的
+exact master freeze commit 原子落盘这 49 个 outputs，并须独立写 execution evidence。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：
