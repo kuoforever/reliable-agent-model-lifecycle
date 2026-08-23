@@ -4,10 +4,12 @@
 
 The exact data preregistration merged through PR #51 as
 `3992778151bb7209c00c89e77e07894e075ff066`. The separate
-`MM-005-document-chart-pdf-data-generation-v1` protocol is now frozen before
-materialization. It adds only the one-shot execution contract, runner, and
-evidence boundary needed to turn the already planned bytes into tracked
-synthetic fixtures.
+`MM-005-document-chart-pdf-data-generation-v1` protocol and one-shot runner
+then merged through PR #52 as
+`fbf1c64398d89c35e95f80322fd665ae3c2f2c1d`; both feature-branch copies were
+deleted. From that exact aligned `master`, the registered generation executed
+once and produced the tracked synthetic fixtures and narrow execution
+evidence described below.
 
 The canonical protocol is
 `configs/mm005_document_chart_pdf_data_generation_v1.json`: 17,780 bytes with
@@ -52,43 +54,71 @@ treating a later invocation as a retry.
 
 ## Freeze state and claims
 
-At this freeze, `fixtures/mm005_document_chart_pdf_v1` and
-`baseline/mm005-document-chart-pdf-data-generation-v1.json` remain absent.
+At the runner freeze, `fixtures/mm005_document_chart_pdf_v1` and
+`baseline/mm005-document-chart-pdf-data-generation-v1.json` were absent.
 Generation, records, images, dataset validation, Environment Adapter,
 Verifier, model, quality, safety, real/external content, capture, Serving,
-promotion, and Runtime claims are all false.
+promotion, and Runtime claims were all false.
 
 Model output has no execution authority. Runtime remains the sole policy,
 approval, WAL, grounding, budget, recovery, and desktop-dispatch boundary. No
 Runtime repository or integration change is authorized.
 
+## Formal execution result and claim boundary
+
+The single registered invocation used protocol freeze commit
+`fbf1c64398d89c35e95f80322fd665ae3c2f2c1d` and completed without retry. An
+independent persisted-byte readback validates exactly 49 output files totaling
+434,212 bytes:
+
+| Output | Count / bytes |
+|---|---:|
+| Train records | 24 / 65,327 JSON bytes |
+| Validation records | 8 / 22,490 JSON bytes |
+| Manifest | 1 / 14,789 JSON bytes |
+| PNG page images | 32 |
+| Single-page PDFs | 14 |
+
+The 16,680-byte execution evidence at
+`baseline/mm005-document-chart-pdf-data-generation-v1.json` has SHA-256
+`a11a373a6c7d49b02470a84d9c303cb4f424ff6693dcc516ef8060af032d649f`.
+All 16 registered integrity, isolation, atomicity, exact-tree, readback,
+authority, and fail-closed gates are true.
+
+Only `generation_executed`, `records_generated`, `images_generated`, and
+`dataset_validated` are now true. Environment Adapter implementation,
+Verifier execution, model training/evaluation, quality improvement, safety,
+real/external content, capture, Serving, promotion, Runtime eligibility, and
+Runtime repository/integration changes remain false.
+
 ## Validation evidence
 
-Fourteen focused tests cover exact protocol reconstruction, source and claim
-tamper, actual output semantics, single-byte drift, evidence resealing,
-atomic/exclusive materialization, exact output trees, exclusive evidence,
-merged-master enforcement, target absence, and model/network import
-boundaries. Full-repository Ruff 0.15.22, scoped strict Mypy 2.3.0,
-`py_compile`, protocol `--check`, and `git diff --check` pass. Local CPython
-3.11.15, 3.12.12, and 3.13.7 each pass the unified 702-test gate with four
-expected Windows privilege skips, 56 audited source files, and `valid=true`.
+Fourteen focused tests cover exact protocol reconstruction, tracked evidence
+and output reconstruction, source and claim tamper, actual output semantics,
+single-byte drift, evidence resealing, atomic/exclusive materialization, exact
+output trees, exclusive evidence, merged-master enforcement, and model/network
+import boundaries. Full-repository Ruff 0.15.22, scoped strict Mypy 2.3.0,
+`py_compile`, protocol `--check`, and `git diff --check` pass. After execution,
+local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 702-test gate
+with four expected Windows privilege skips, 56 audited source files, and
+`valid=true`.
 
-These checks establish deterministic protocol and planned-byte
+These checks establish deterministic protocol and exact same-machine output
 reconstruction. They do not establish model, training, external-renderer,
 cross-machine, quality, safety, Serving, promotion, or Runtime repeatability.
 
-## Formal execution and next gate
+## Consumed execution and next gate
 
-After this exact protocol and runner are merged and the local branch is again
-an aligned `master`, the single registered invocation is:
+The consumed invocation was:
 
 ```powershell
-python -I scripts/run_mm005_document_chart_pdf_generation.py execute `
-  --protocol-freeze-commit <merged-40-hex-freeze-commit>
+work/training-env/Scripts/python.exe -I `
+  scripts/run_mm005_document_chart_pdf_generation.py execute `
+  --protocol-freeze-commit fbf1c64398d89c35e95f80322fd665ae3c2f2c1d
 ```
 
-It may run once with no retry. A validated execution will establish only that
-the frozen synthetic records, PNGs, PDFs, split files, manifest, and receipts
-were generated and validated. The registered next gate is
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`; it must remain
-separate from this data materialization.
+It must not be invoked again: the fixed output and evidence are consumed,
+immutable inputs to later gates. The registered next gate is
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`; it must freeze the
+Environment Adapter and deterministic Verifier separately from this data
+materialization before either implementation is executed.

@@ -103,7 +103,7 @@ class MM005DocumentChartPdfDataProtocolTests(unittest.TestCase):
             {item["source_kind"] for item in templates}, set(parent.SOURCE_KINDS)
         )
 
-    def test_planned_outputs_rebuild_and_validate_without_filesystem_writes(
+    def test_planned_outputs_rebuild_independently_of_downstream_execution_state(
         self,
     ) -> None:
         summary = contract.validate_planned_output_payloads(
@@ -128,7 +128,6 @@ class MM005DocumentChartPdfDataProtocolTests(unittest.TestCase):
                 "next_gate": contract.NEXT_GATE,
             },
         )
-        prepare.assert_fixed_outputs_absent()
 
     def test_every_planned_output_receipt_binds_exact_bytes(self) -> None:
         receipts = self.preregistration["planned_outputs"]

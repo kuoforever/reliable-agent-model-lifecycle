@@ -769,14 +769,16 @@ unique 1280×900 PNG 与 14 份 deterministic single-page PDF source artifacts�
 PDF 与 PNG 从同一 synthetic layout ground truth 派生，不使用 external renderer、
 OCR、host font、network 或 model dependency。两份 dataset、manifest、PNG 和 PDF
 合计 49 个 planned outputs / 434,212 bytes，每份 path/bytes/SHA-256 均在内存重建
-并冻结；output root 与 execution evidence 当前不存在。parent record/exclusion、
+并冻结；output root 与 execution evidence 在 preregistration freeze 时不存在。
+parent record/exclusion、
 四 task/source coverage、每 task 6/2 split、family/template/content/image isolation、
-answer/evidence semantics 及 PNG/PDF 结构均验证通过，但 generation/dataset
-validation/Adapter/Verifier/model/quality/safety/capture/Serving/Runtime claims 仍为
+answer/evidence semantics 及 PNG/PDF 结构均验证通过；在该 freeze，generation/dataset
+validation/Adapter/Verifier/model/quality/safety/capture/Serving/Runtime claims 均为
 false。24,909-byte protocol SHA-256 为
 `7e774e69194e6f70c27c9b53bbab68adb19874780757717ca42012ec48297525`。
-单一下一 gate 是 `MM-005-document-chart-pdf-data-generation-v1`，只能从合并后的
-exact master freeze commit 原子落盘这 49 个 outputs，并须独立写 execution evidence。
+该 preregistration 注册的 downstream gate 是
+`MM-005-document-chart-pdf-data-generation-v1`：只能从合并后的 exact master freeze
+commit 原子落盘这 49 个 outputs，并须独立写 execution evidence；该 gate 现已完成。
 
 数据协议已通过 PR #51 合并为
 `3992778151bb7209c00c89e77e07894e075ff066`，远近 feature branch 已清理且
@@ -788,10 +790,20 @@ SHA-256 为
 和全部 49 outputs / 434,212 bytes。正式 runner 必须满足 merged-master exact
 commit、双目标不存在、zero internal retry、staging-root atomic rename、exact-tree
 extra-file rejection、persisted-byte independent readback 和 exclusive evidence。
-当前 output/evidence 仍不存在，generation/dataset validation/Adapter/Verifier/
-model/quality/safety/capture/Serving/Runtime claims 全为 false。单一下一动作是先发布
-该 exact runner freeze；检查、review 与冲突状态全部 clear 并合并后，从新的 exact
-merged-master freeze commit 执行一次，不得在 feature branch 生成或重试。
+该 runner freeze 已经 PR #52 合并为
+`fbf1c64398d89c35e95f80322fd665ae3c2f2c1d`，远近 feature branch 清理且
+`master == origin/master` 后，正式 invocation 从该 commit 精确执行一次、无 retry。
+它生成并独立回读验证 49 files / 434,212 bytes：24 train + 8 validation records、
+32 PNG、14 single-page PDF，以及 65,327 / 22,490 / 14,789-byte 三份 JSON。
+16,680-byte execution evidence SHA-256 为
+`a11a373a6c7d49b02470a84d9c303cb4f424ff6693dcc516ef8060af032d649f`，16 个
+required gates 全为 true。仅 generation/records/images/dataset validation 为 true；
+Adapter/Verifier/model/quality/safety/real or external content/capture/Serving/
+promotion/Runtime claims 仍为 false。结果态 generation focused 14/14 tests 与本机
+CPython 3.11.15、3.12.12、3.13.7 unified 702-test gates 全部通过，均有 4 个预期
+Windows privilege skips、56 个 audited source files 和 `valid=true`。
+当前单一动作是发布这些 exact consumed outputs/evidence；合并后保持不可变且不得重跑，
+随后冻结 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1`。
 
 ## TOOL-001：工具 Schema 与任务定义
 

@@ -138,9 +138,11 @@ pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 674-test
 gate with four expected Windows privilege skips, 54 audited source files, and
 `valid=true`.
 
-## Next gate
+## Downstream progression
 
-The single next gate is `MM-005-document-chart-pdf-data-protocol-v1`. It must
-freeze deterministic seed, counts, template families, render constraints,
-output receipts, validation metrics, and execution claims before creating any
-dataset or image.
+The registered downstream gate was
+`MM-005-document-chart-pdf-data-protocol-v1`: it froze deterministic seed,
+counts, template families, render constraints, output receipts, validation,
+and execution claims before creating any dataset or image. Its separate
+one-shot generation gate has since completed. The current next gate is
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`.

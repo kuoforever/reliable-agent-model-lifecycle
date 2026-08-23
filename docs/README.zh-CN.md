@@ -26,9 +26,9 @@ English (default): [README.md](README.md)
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete；真实采集仍未实现 |
 | 多模态轨迹 Schema v1 | [MM-001 review](MM-001-multimodal-trajectory-schema-v1.md) | Synthetic text/image topology；不含采集或训练准入 |
 | GUI Grounding 数据/评测 v1 | [MM-002 review](MM-002-gui-grounding-data-eval-v1.md) | 冻结 synthetic eval 与 scorer；不含模型结果 |
-| 多模态环境适配协议 v1 | [MM-005 protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | 冻结 Document/Chart/PDF model-free 边界、四组件差异、跨阶段内容排除与 deterministic verifier；尚未生成数据 |
-| Document/Chart/PDF 数据协议 v1 | [MM-005 data protocol](MM-005-document-chart-pdf-data-protocol-v1.md) | 冻结 seed、32 records、32 PNG、14 PDF、49 outputs 与 exact receipts；尚未执行生成 |
-| Document/Chart/PDF 数据生成协议 v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | 冻结 merged-master 一次性 runner、49-output 原子落盘、独立回读、额外文件拒绝、独占 evidence 与零重试；尚未执行 |
+| 多模态环境适配协议 v1 | [MM-005 protocol](MM-005-multimodal-environment-adaptation-protocol-v1.md) | 冻结 Document/Chart/PDF model-free 边界、四组件差异、跨阶段内容排除与 deterministic verifier；downstream synthetic data 已生成 |
+| Document/Chart/PDF 数据协议 v1 | [MM-005 data protocol](MM-005-document-chart-pdf-data-protocol-v1.md) | 冻结 seed、32 records、32 PNG、14 PDF、49 outputs 与 exact receipts；downstream generation 已验证 |
+| Document/Chart/PDF 数据生成协议 v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | merged-master 一次性 runner 已消费：49 outputs / 434,212 bytes 原子落盘、独立回读、独占 evidence 与零重试 |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |

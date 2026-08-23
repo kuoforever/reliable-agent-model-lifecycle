@@ -287,37 +287,50 @@ aligned merged `master`, absent output and evidence targets, zero internal
 retries, atomic staging-root publication, exact-tree rejection, persisted-byte
 readback validation, and exclusive evidence creation.
 
-The real output root and evidence remain absent; generation, records/images,
-dataset validation, Adapter, Verifier, model, quality, safety, real/external
-content, capture, Serving, promotion, and Runtime claims remain false.
-Fourteen focused generation tests, full-repository Ruff 0.15.22, scoped strict
-Mypy 2.3.0, `py_compile`, protocol `--check`, and `git diff --check` pass.
-Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 702-test gate
-with four expected Windows privilege skips, 56 audited source files, and
-`valid=true`.
+At runner freeze, the real output root and evidence were absent; generation,
+records/images, dataset validation, Adapter, Verifier, model, quality, safety,
+real/external content, capture, Serving, promotion, and Runtime claims were
+false. Fourteen focused generation tests, full-repository Ruff 0.15.22, scoped
+strict Mypy 2.3.0, `py_compile`, protocol `--check`, and `git diff --check`
+passed.
 [Generation protocol](docs/MM-005-document-chart-pdf-data-generation-protocol-v1.md).
+
+PR #52 merged that exact runner freeze as
+`fbf1c64398d89c35e95f80322fd665ae3c2f2c1d`. Its feature branch was deleted
+locally and remotely, and `master == origin/master` was restored before the
+registered invocation. That invocation executed exactly once with no retry
+and independently validated 49 output files / 434,212 bytes: 24 train and 8
+validation records, 32 PNGs, 14 single-page PDFs, and three dataset JSON files
+of 65,327, 22,490, and 14,789 bytes.
+
+The 16,680-byte execution evidence has SHA-256
+`a11a373a6c7d49b02470a84d9c303cb4f424ff6693dcc516ef8060af032d649f`.
+All 16 registered execution gates are true. Only generation, records, images,
+and dataset validation are established; Adapter/Verifier, model, quality,
+safety, real/external content, capture, Serving, promotion, and Runtime claims
+remain false. After result-aware assertions, the 14 focused generation tests
+pass, and local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified
+702-test gate with four expected Windows privilege skips, 56 audited source
+files, and `valid=true`.
 
 ## Single active objective
 
-Publish the exact
-`MM-005-document-chart-pdf-data-generation-v1`, then execute its registered
-execution gate exactly once from the merged runner freeze commit:
+Publish the exact consumed MM-005 generated fixtures and execution evidence,
+then freeze the separate Adapter/Verifier protocol:
 
 ```text
-17,780-byte canonical generation protocol + exact contract/runner receipts
+49 generated outputs / 434,212 bytes + 16,680-byte execution evidence
         -> merge with checks/review/conflict state clear
-        -> preserve all MM-002/MM-003/MM-004 evidence read-only
-        -> execute MM-005-document-chart-pdf-data-generation-execution-v1 once
+        -> preserve the consumed generation result immutably with no retry
+        -> freeze MM-005-document-chart-pdf-adapter-verifier-protocol-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
-train, modify or save the Adapter/model, change the Runtime repository, capture
-real desktop/document content, or interpret the reject-biased result as a
-quality or safety pass. Do not materialize the MM-005 outputs from this feature
-branch: generation requires `master == origin/master == runner freeze commit`,
-exact data/generation protocol and source receipts, an absent fixed output root
-and evidence path, atomic output materialization, independent persisted-byte
-validation, and no retry or unregistered file.
+delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
+This publication branch may record and validate those exact existing bytes but
+must never invoke generation again. Do not train, modify or save the Adapter/
+model, change the Runtime repository, capture real desktop/document content,
+or interpret data validation as a quality or safety pass.
 
 ## Preserved historical validation and deferred gates
 
@@ -1346,7 +1359,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF data protocol merged, exact one-shot 49-output generation runner validated for publication, merged-master execution next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF one-shot data generation executed and validated, exact result publication next, then Adapter/Verifier protocol freeze |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
