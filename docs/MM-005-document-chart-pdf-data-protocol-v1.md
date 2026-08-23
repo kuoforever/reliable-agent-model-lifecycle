@@ -123,5 +123,7 @@ through PR #52 as `fbf1c64398d89c35e95f80322fd665ae3c2f2c1d` and executed
 exactly once from that aligned `master`. It independently validated and
 materialized all 49 frozen outputs / 434,212 bytes and wrote the narrow
 16,680-byte execution evidence without retry. The consumed data/evidence must
-remain immutable. The single next gate is
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`.
+remain immutable. The downstream
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen with 32
+Adapter projection receipts and 160 deterministic Verifier controls; its
+registered next gate is the separate Adapter/Verifier implementation.

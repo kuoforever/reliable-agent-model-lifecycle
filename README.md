@@ -365,6 +365,23 @@ promotion, and Runtime claims remain false. The consumed invocation must not
 be retried. See the
 [MM-005 generation protocol](docs/MM-005-document-chart-pdf-data-generation-protocol-v1.md).
 
+### Document/Chart/PDF Adapter/Verifier protocol v1
+
+The separate model-free protocol freezes 32 deterministic Adapter projection
+receipts and 160 Verifier reference cases before implementation. A model sees
+only `instruction`, `observation`, `source_kind`, and `task_family_id`; gold,
+record/split/provenance/Verifier metadata, and the real image path remain
+outside its payload. Image path/bytes/SHA-256 binding stays Adapter-side.
+
+The strict output compiler accepts only the exact `answer`, `evidence_refs`,
+and `page_number` JSON shape. The model-free Verifier freezes 32 exact positive
+controls plus 128 wrong-answer, wrong-evidence, duplicate-evidence, and
+wrong-page controls with no model judge. The 126,032-byte protocol has SHA-256
+`4715134d7bd1f8ae54275764f342bf5a8974cc491298dbefd52971aab876c64a`.
+Adapter/Verifier implementation and execution, model/training, quality,
+safety, Serving, promotion, and Runtime claims remain false. See the
+[MM-005 Adapter/Verifier protocol](docs/MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -794,9 +811,12 @@ its interfaces before expansion. The separate model-free
 seed, templates, receipts, and validation. Its separate one-shot generation
 runner merged through PR #52 and the exact merged-master invocation completed
 once: 49 files / 434,212 bytes and narrow execution evidence now exist and
-validate exactly. They are consumed and must remain immutable. The next gate
-is the separate
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` freeze.
+validate exactly. PR #53 published those exact consumed bytes; they must remain
+immutable. The separate
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen locally
+with 32 projections and 160 deterministic controls. Its publication is the
+single active objective; after a clean merge, the next gate is
+`MM-005-document-chart-pdf-adapter-verifier-implementation-v1`.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
 changes, real desktop/document capture, or reuse/retry of either consumed

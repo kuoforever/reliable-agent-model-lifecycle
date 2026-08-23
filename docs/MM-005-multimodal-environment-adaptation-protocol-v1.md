@@ -144,5 +144,7 @@ The registered downstream gate was
 `MM-005-document-chart-pdf-data-protocol-v1`: it froze deterministic seed,
 counts, template families, render constraints, output receipts, validation,
 and execution claims before creating any dataset or image. Its separate
-one-shot generation gate has since completed. The current next gate is
-`MM-005-document-chart-pdf-adapter-verifier-protocol-v1`.
+one-shot generation gate has since completed. The subsequent
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen; the
+current next gate is its separate implementation without model execution or
+Runtime change.

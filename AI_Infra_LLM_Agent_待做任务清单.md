@@ -802,8 +802,28 @@ Adapter/Verifier/model/quality/safety/real or external content/capture/Serving/
 promotion/Runtime claims 仍为 false。结果态 generation focused 14/14 tests 与本机
 CPython 3.11.15、3.12.12、3.13.7 unified 702-test gates 全部通过，均有 4 个预期
 Windows privilege skips、56 个 audited source files 和 `valid=true`。
-当前单一动作是发布这些 exact consumed outputs/evidence；合并后保持不可变且不得重跑，
-随后冻结 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1`。
+这些 exact consumed outputs/evidence 已通过 PR #53 合并为
+`3ae49d372b5184418e8353630336fdb802182cbd`；6 个 Linux matrix checks 全部通过，
+review/conflict state clear，远近 feature branch 已清理，`master == origin/master`。
+为了让 CI 能校验 evidence 绑定的历史 freeze commit，统一门禁 checkout 改为完整历史；
+本地 exact bytes 未重跑、未改写。
+
+`MM-005-document-chart-pdf-adapter-verifier-protocol-v1` 现已在实现前本地冻结：
+126,032 canonical bytes，SHA-256 为
+`4715134d7bd1f8ae54275764f342bf5a8974cc491298dbefd52971aab876c64a`。它绑定 8 个
+source receipts、exact generation evidence/upstreams、全部已消费 outputs、32 个
+Adapter projection receipts 与 160 个 deterministic Verifier reference cases
+（32 positive / 128 negative）。model payload 仅含 `instruction`、`observation`、
+`source_kind`、`task_family_id`；gold、identity、split、provenance、Verifier metadata
+和 real image path 均不进入 model payload。strict JSON compiler 拒绝 extra/duplicate
+keys、nonfinite、duplicate refs、wrong page 与 oversized output；Verifier 不使用 model
+judge。相关 MM-005 focused 38/38 tests、Ruff、scoped strict Mypy、`py_compile`、builder
+`--check` 与 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 unified
+712-test gates 全部通过，均有 4 个预期 Windows privilege skips、57 个 audited source
+files 和 `valid=true`。这仅建立 protocol/fixture reconstruction，不建立 Adapter/
+Verifier execution、model/training repeatability、quality、safety、Serving、promotion
+或 Runtime eligibility。当前单一动作是发布该协议；clean merge 后下一 gate 是
+`MM-005-document-chart-pdf-adapter-verifier-implementation-v1`。
 
 ## TOOL-001：工具 Schema 与任务定义
 
