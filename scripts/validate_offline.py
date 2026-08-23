@@ -115,6 +115,13 @@ MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_BYTES = 50_642
 MM004_HARD_NEGATIVE_MODEL_EVALUATION_PROTOCOL_V2_SHA256 = (
     "sha256:bee2093d54d95cc52303c57c598d99a071aff85bef9f56605adeb2b604f8c0d9"
 )
+MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_multimodal_environment_adaptation_protocol_v1.json"
+)
+MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES = 49_202
+MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256 = (
+    "sha256:311822603bb6c05c1b7f388cd782c30556fa8b7aa0d67cbd1ccd89f9d13a532a"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -447,6 +454,7 @@ def main() -> int:
     mm004_hard_negative_model_evaluation_result = (
         _validate_mm004_hard_negative_model_evaluation_result_review()
     )
+    mm005_environment_adaptation = _validate_mm005_environment_adaptation_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -821,6 +829,33 @@ def main() -> int:
         ),
         "mm004_hard_negative_model_evaluation_next_gate": (
             mm004_hard_negative_model_evaluation_result["next_gate"]
+        ),
+        "mm005_environment_adaptation_protocol_frozen": (
+            mm005_environment_adaptation["protocol_frozen"]
+        ),
+        "mm005_environment_adaptation_selected_environment": (
+            mm005_environment_adaptation["selected_environment"]
+        ),
+        "mm005_environment_adaptation_task_families": (
+            mm005_environment_adaptation["task_family_count"]
+        ),
+        "mm005_environment_adaptation_source_receipts": (
+            mm005_environment_adaptation["source_receipt_count"]
+        ),
+        "mm005_environment_adaptation_excluded_cases": (
+            mm005_environment_adaptation["excluded_case_count"]
+        ),
+        "mm005_environment_adaptation_excluded_families": (
+            mm005_environment_adaptation["excluded_family_count"]
+        ),
+        "mm005_environment_adaptation_excluded_images": (
+            mm005_environment_adaptation["excluded_image_count"]
+        ),
+        "mm005_environment_adaptation_dataset_generated": (
+            mm005_environment_adaptation["dataset_generated"]
+        ),
+        "mm005_environment_adaptation_next_gate": (
+            mm005_environment_adaptation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -2948,6 +2983,91 @@ def _validate_mm004_hard_negative_model_evaluation_result_review() -> dict[str, 
     ):
         raise GateError("MM-004 model-evaluation result-review boundary mismatch")
     return summary
+
+
+def _validate_mm005_environment_adaptation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import multimodal_environment_adaptation as contract
+    from scripts import (
+        prepare_mm005_multimodal_environment_adaptation_protocol as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH,
+        "MM-005 environment-adaptation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES
+        or digest != MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 environment-adaptation protocol hash mismatch")
+    raw = _load_json_payload(payload, MM005_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH)
+    if contract.canonical_json_bytes(raw) != payload:
+        raise GateError("MM-005 environment-adaptation protocol is not canonical JSON")
+
+    receipts = prepare.source_receipts()
+    exclusions = prepare.exclusion_registry()
+    expected = contract.expected_protocol(
+        freeze_status="frozen",
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    summary = contract.validate_protocol(
+        raw,
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    if expected != raw or contract.canonical_json_bytes(expected) != payload:
+        raise GateError("MM-005 environment-adaptation protocol reconstruction drift")
+
+    registry = raw.get("exclusion_registry")
+    sequence = raw.get("environment_sequence")
+    delta = raw.get("component_delta_contract")
+    authority = raw.get("authority_contract")
+    if (
+        len(receipts) != 63
+        or sum(receipt["path"].endswith(".png") for receipt in receipts.values())
+        != 52
+        or not isinstance(registry, dict)
+        or {key: len(value) for key, value in registry.items()}
+        != {
+            "case_ids": 92,
+            "family_ids": 64,
+            "image_sha256": 52,
+            "instruction_content_sha256": 64,
+            "observation_content_sha256": 64,
+            "target_content_sha256": 92,
+        }
+        or summary.task_family_count != 4
+        or summary.protocol_frozen is not True
+        or summary.dataset_generated is not False
+        or not isinstance(sequence, dict)
+        or sequence.get("registered_order") != list(contract.ENVIRONMENT_ORDER)
+        or sequence.get("selected_environment") != contract.SELECTED_ENVIRONMENT
+        or sequence.get("selected_order_index") != 2
+        or sequence.get("sequence_skip_allowed") is not False
+        or not isinstance(delta, dict)
+        or delta.get("new_component_kinds")
+        != [
+            "environment_adapter",
+            "task_set",
+            "deterministic_verifier",
+            "synthetic_dataset",
+        ]
+        or delta.get("new_component_count") != 4
+        or authority
+        != {
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or any(raw["claims"].values())
+        or summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError("MM-005 environment-adaptation protocol boundary mismatch")
+    return summary.to_dict()
 
 
 def _validate_mm004_output_tree(output_root: Path, expected_paths: set[str]) -> None:

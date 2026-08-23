@@ -214,24 +214,54 @@ and 3.13.7 each pass the unified 660-test gate with four expected Windows
 privilege skips, 53 audited source files, and `valid=true` without a model
 reload or second attempt.
 
+PR #49 merged that exact result review as
+`c4ae93539fc0d65cf1274aa2916a5576b38b671d`. The merged feature branch was
+deleted locally and remotely; the consumed MM-004 output remains unchanged and
+was not reopened, reused, retried, or model-loaded.
+
+`MM-005-multimodal-environment-adaptation-protocol-v1` now freezes the ordered
+second environment as `document_chart_pdf` and bounds its first vertical slice
+to English, synthetic, single-page document text, table-cell, bar-chart value,
+and page-region evidence grounding. Only Environment Adapter, task set,
+deterministic Verifier, and synthetic dataset are environment-specific;
+training/evaluation orchestration, Serving/routing, policy, approval, WAL,
+grounding authority, budgets, recovery, and desktop dispatch remain inherited.
+No data, image, model call, training, capture, or Runtime change occurred.
+
+The 49,202-byte canonical protocol has SHA-256
+`311822603bb6c05c1b7f388cd782c30556fa8b7aa0d67cbd1ccd89f9d13a532a`. It
+reconstructs 63 exact source receipts, including 52 historical images, and
+recomputes shared cross-stage exclusion identities from actual MM-002 through
+MM-004 content: 92 case/record IDs, 64 families, 64 instruction hashes, 64
+observation hashes, 92 target hashes, and 52 image hashes. Its repeatability
+claim is limited to byte-exact protocol/identity reconstruction and total
+model-free verification; it is not a model-evaluation repeatability claim.
+
+Fourteen focused tests, full-repository Ruff, scoped strict Mypy, `py_compile`,
+builder `--check`, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the unified 674-test gate with four expected Windows
+privilege skips, 54 audited source files, and `valid=true`.
+[Protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
+
 ## Single active objective
 
 Publish the exact
-`MM-004-multimodal-hard-negative-model-evaluation-result-review-v2`, then move
-to the next canonical checklist item:
+`MM-005-multimodal-environment-adaptation-protocol-v1`, then move to its single
+registered next gate:
 
 ```text
-five frozen canonical result artifacts + exact model-free reconstruction
+49,202-byte canonical scope/interface protocol + exact source/exclusion rebuild
         -> merge with checks/review/conflict state clear
-        -> preserve consumed MM-004 output without retry or reuse
-        -> freeze one bounded MM-005 environment-adaptation protocol
+        -> preserve all MM-002/MM-003/MM-004 evidence read-only
+        -> freeze MM-005-document-chart-pdf-data-protocol-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 train, modify or save the Adapter/model, change the Runtime repository, capture
-real desktop content, or interpret the reject-biased result as a quality or
-safety pass. The MM-005 scope must be model-free and bounded before any new
-environment, modality, data, model call, or Runtime integration is added.
+real desktop/document content, or interpret the reject-biased result as a
+quality or safety pass. The next data gate must freeze deterministic seed,
+counts, template families, rendering constraints, output receipts, validation,
+and fail-closed claims before any new data or image is generated.
 
 Fourteen focused generation/result tests, Ruff 0.15.22, scoped strict Mypy
 2.3.0 on the typed contract/runner, `py_compile`, and preregistration `--check`
@@ -1258,7 +1288,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal GUI Action Model; MM-004 one-shot evaluation complete with 28/28 negative rejection but 4/28 clean acceptance, model-free result review publication next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-004 result review merged, bounded MM-005 Document/Chart/PDF environment-adaptation protocol validated for publication, separate data protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

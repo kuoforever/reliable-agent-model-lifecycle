@@ -307,6 +307,24 @@ See the [v1 protocol](docs/MM-004-multimodal-hard-negative-model-evaluation-prot
 the [v2 repair](docs/MM-004-multimodal-hard-negative-model-evaluation-protocol-v2.md),
 and the [result review](docs/MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md).
 
+### Multimodal environment-adaptation protocol v1
+
+MM-005 selects `Document / Chart / PDF` as the second environment after the
+completed synthetic Desktop GUI depth chain. Its first vertical slice is
+model-free, English, synthetic, and single-page: document text, table-cell,
+bar-chart value, and page-region evidence grounding. Multi-page/noisy OCR,
+handwriting, real or external documents, later environments, capture, Runtime
+integration, and execution remain deferred.
+
+Only four environment-specific component kinds are new: Environment Adapter,
+task set, deterministic Verifier, and synthetic dataset. Training/evaluation
+orchestration, Serving/routing, policy, approval, WAL, grounding authority,
+budgets, recovery, and desktop dispatch remain inherited. The 49,202-byte
+canonical protocol binds 63 source receipts and recomputed cross-stage content
+exclusions for 92 prior cases/records, 64 families, and 52 images. No new data
+exists and every training/model/quality/safety/Serving/Runtime claim remains
+false. See the [MM-005 protocol](docs/MM-005-multimodal-environment-adaptation-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -727,11 +745,13 @@ deletion, reuse, or retry. Training/resource repeatability, cross-machine
 reproducibility, generalized quality, serving, promotion, commercial, and
 Runtime claims remain false.
 
-The MM-004 data/generation lifecycle and one-shot v2 model measurement are now
-complete. The paired suite exposed a reject-biased verifier: 28/28 hard
-negatives rejected, clean accept recall 4/28. The active objective is to
-publish the exact model-free result review, then freeze one bounded MM-005
-environment-adaptation protocol before expanding environments or modalities.
+The MM-004 data/generation lifecycle, one-shot v2 model measurement, and exact
+model-free result review are complete. The paired suite exposed a reject-biased
+verifier: 28/28 hard negatives rejected, clean accept recall 4/28. The bounded
+MM-005 environment-adaptation protocol now freezes the second environment and
+its interfaces before expansion. The next gate is the separate model-free
+`MM-005-document-chart-pdf-data-protocol-v1`; it must freeze counts, seed,
+templates, receipts, and validation before generating any data.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
 changes, real desktop capture, or reuse/retry of the consumed MM-004 attempt.
