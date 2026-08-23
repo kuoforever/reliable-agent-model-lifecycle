@@ -2,7 +2,6 @@
 
 fixtures/**/*.json text eol=lf
 fixtures/**/*.jsonl text eol=lf
-fixtures/mm005_document_chart_pdf_v1/**/*.pdf binary
 schemas/**/*.json text eol=lf
 configs/**/*.json text eol=lf
 prompts/** text eol=lf
