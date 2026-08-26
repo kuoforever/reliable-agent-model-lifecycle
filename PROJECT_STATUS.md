@@ -516,16 +516,38 @@ checks passed; the PR had zero reviews, issue comments, review comments, or
 review threads, was `CLEAN`/`MERGEABLE`, and both feature-branch copies were
 deleted before local `master` was aligned with `origin/master`.
 
+`MM-005-browser-research-data-protocol-v1` is now frozen locally before any
+Browser Research record, static source snapshot, or screenshot is
+materialized. Its seed is `55006`; each of four task families has eight unique
+templates (six train plus two validation), yielding 32 records and explicit
+one-to-three-source bundles with 68 sources total (51 train, 17 validation).
+The 68 canonical static-source JSON descriptors and 68 unique 1280×900 PNGs
+derive from the same DOM ground truth; page text is the visible DOM text in
+order. No executable HTML, browser engine, JavaScript, network, host font,
+model, OCR, capture, or Runtime path is used.
+
+All 139 future outputs (68 snapshots, 68 PNGs, two split datasets, and one
+manifest) rebuild in memory to 986,989 bytes with exact path/byte/SHA-256
+receipts. The fixed output root and execution evidence remain absent. The
+73,476-byte canonical protocol SHA-256 is
+`38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a`.
+Fourteen focused adversarial tests, Ruff, scoped strict Mypy, `py_compile`,
+builder `--check`, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
+and 3.13.7 each pass the complete unified 811-test gate with four expected
+Windows privilege skips, 63 audited source files, and `valid=true`. Generation,
+dataset validation, Adapter/Verifier execution, live browser/network use,
+model/quality/safety, Serving, promotion, and Runtime claims remain false.
+[Browser Research data protocol](docs/MM-005-browser-research-data-protocol-v1.md).
+
 ## Single active objective
 
-Freeze `MM-005-browser-research-data-protocol-v1` before materializing any
-Browser Research record or image:
+Publish the exact locally frozen `MM-005-browser-research-data-protocol-v1`
+without materializing any Browser Research record or image:
 
 ```text
-published environment protocol + all prior exclusion identities
-        -> closed seed/count/split/template and static-source plan
-        -> deterministic DOM/page-text/screenshot plan + exact output receipts
-        -> adversarial tests + unified Python 3.11/3.12/3.13 offline gates
+frozen 73,476-byte protocol + 139 exact planned-output receipts
+        -> review scoped diff and preserve user-owned AGENTS.md
+        -> required checks + review/comment/thread/conflict audit
         -> clean merge, delete both branch copies, align master
 ```
 
@@ -535,8 +557,8 @@ outputs and validation without generating them. It must not access a live
 browser or network, import/load/call a model, train or save a model/Adapter,
 change the Runtime repository, capture real browser/desktop/document content,
 or broaden prior repeatability claims. Materialization is authorized only
-after this data protocol cleanly merges, both branch copies are deleted, and
-`master == origin/master`.
+after this exact data protocol cleanly merges, both branch copies are deleted,
+and `master == origin/master`.
 
 ## Preserved historical validation and deferred gates
 
@@ -1565,7 +1587,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol published through PR #61, data protocol next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol published through PR #61, data protocol frozen locally and publication next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

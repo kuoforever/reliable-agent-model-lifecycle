@@ -986,6 +986,24 @@ screenshot deterministic alignment、planned output receipts、prior-content exc
 不得在该 protocol clean merge、branch cleanup 且 `master == origin/master` 前生成任何 Browser
 Research record 或 image。
 
+该 data protocol 现已在任何 Browser Research record/image 落盘前本地冻结：`seed=55006`，
+四 task 各 8 个 template family（6 train + 2 validation），共 32 records 与显式 1～3 source
+bundles；68 个 sources 按 51/17 分布到 train/validation。每个 source 的 canonical static JSON
+descriptor、DOM、visible-order page text 与 unique 1280×900 PNG 从同一 synthetic ground truth
+重建；不使用 executable HTML、browser engine、JavaScript、network、host font、OCR、model、
+capture 或 Runtime。68 snapshots、68 PNG、两份 dataset 和 manifest 合计 139 个 planned
+outputs / 986,989 bytes，全部 path/bytes/SHA-256 已在内存冻结；固定 output root 与 execution
+evidence 仍不存在。73,476-byte protocol SHA-256 为
+`38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a`。
+
+14/14 focused adversarial tests、Ruff、scoped strict Mypy、`py_compile`、builder `--check` 与
+`git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均
+通过 811 tests、4 个预期 Windows privilege skips、63 个 audited source files，且
+`valid=true`。generation/dataset validation、Adapter/Verifier execution、live browser/network、
+model/quality/safety、Serving/promotion/Runtime claims 全部 false。当前唯一剩余动作是将该
+exact protocol 通过 clean PR 发布并完成双端 branch cleanup/master 对齐；在此之前仍不得
+生成 139 个 outputs。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：
