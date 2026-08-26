@@ -426,11 +426,11 @@ repeatability, Serving, promotion, or Runtime eligibility. See the
 [protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) and
 [result review](docs/MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
 
-### Document/Chart/PDF model-evaluation repeatability protocol v1
+### Document/Chart/PDF model-evaluation repeatability result v1
 
 PR #57 merged the exact baseline execution artifacts and independent result
 review as `056eb8d050eb0f0491ff21a07bd5b7716abf7eb8` before any repeat model
-call. The unchanged same-machine fixed-suite replay is now frozen as 47,974
+call. The unchanged same-machine fixed-suite replay was frozen as 47,974
 canonical bytes with SHA-256
 `4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7`.
 
@@ -443,14 +443,28 @@ metrics, and generated-token counts compare independently. Equality is an
 observed result rather than a measurement-completion gate; resource equality
 is diagnostic-only while the inherited caps remain integrity gates.
 
-The 16 focused tests and complete 107-test MM-005 chain pass. CPython 3.11.15,
-3.12.12, and 3.13.7 each pass the unified 767-test gate with four expected
-Windows privilege skips, 61 audited source files, and `valid=true`.
+PR #58 merged that freeze as
+`874f6c1a201a07d6680a3fa12217c1344b14c141`. Its one registered replay then
+completed exactly once: one fresh base, one independent read-only Adapter, 32
+ordered calls, and zero retry/network/training/write. Raw UTF-8, canonical
+compiled JSON, deterministic Verifier verdicts, total metrics, and
+generated-token counts are each exact for 32/32 cases.
 
-At freeze, the replay output is absent and no second model import or call has
-occurred. Replay execution and every repeatability, quality, safety,
-cross-machine, Serving, promotion, and Runtime claim remain false. See the
-[repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md).
+The model-free review rebuilds the 20,952-byte evidence byte for byte and now
+establishes only bounded same-machine, registered-environment-field, fixed-32-
+case evaluation repeatability. Baseline/replay elapsed time is
+`216.03030519999447` / `201.59785200000624` seconds, so resource repeatability
+remains false even though allocated/reserved CUDA peaks are identical. The live
+environment mapping was enforced by the frozen runner but not separately
+persisted, and token IDs were not recorded. Training/resource repeatability,
+cross-machine reproducibility, generalized quality, safety, Serving,
+promotion, and Runtime claims remain false.
+
+The new review suite passes 13/13 tests and the complete MM-005 chain passes
+120/120. CPython 3.11.15, 3.12.12, and 3.13.7 each pass the unified 780-test
+gate with four expected Windows privilege skips, 61 audited source files, and
+`valid=true`. See the [repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md)
+and [result review](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-result-review-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -888,18 +902,20 @@ with 32 projections and 160 deterministic controls. The independent Adapter/
 Verifier implementation now reproduces them exactly; PR #55 published its
 102,117-byte evidence as
 `ff52da51aba534b051f9e247518fb2d20d1db1e2`. The separate 58,414-byte
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1` merged through PR #56
-as `3be0083c3197111d57a4a5e5f70feced9f2c96f9`. Its exact owner-marked
-zero-retry attempt is now consumed: 32 calls completed and the model-free
-review records 19/32 joint exact, with chart/table 16/16 but document text 0/8
-and page-region 3/8. Publishing the exact result artifacts and review is the
-single active objective. After a clean merge, the only next gate is
-`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1`, which
-must freeze before any second model import or call. Existing MM-002/MM-003/
-MM-004 evidence, the Adapter, generated data, and the consumed MM-005 baseline
-remain read-only. This does not authorize training, model/Adapter writes,
-Runtime changes, real desktop/document capture, quality/safety claims, or
-reuse/retry of any consumed attempt.
+  `MM-005-document-chart-pdf-model-evaluation-protocol-v1` merged through PR #56
+  as `3be0083c3197111d57a4a5e5f70feced9f2c96f9`. Its exact owner-marked
+  zero-retry baseline attempt is consumed and the model-free review records
+  19/32 joint exact, with chart/table 16/16 but document text 0/8 and page-region
+  3/8. The separate repeatability protocol merged through PR #58 as
+  `874f6c1a201a07d6680a3fa12217c1344b14c141`; its one replay is also consumed.
+  All five registered behavior layers are exact for 32/32 cases, and the new
+  model-free review establishes only bounded same-machine fixed-suite
+  evaluation repeatability. Publishing those exact replay artifacts and review
+  is the single active objective. Existing MM-002/MM-003/MM-004 evidence, the
+  Adapter, generated data, and both consumed MM-005 attempts remain read-only.
+  This does not authorize training, model/Adapter writes, Runtime changes, real
+  desktop/document capture, generalized quality/safety claims, resource or
+  cross-machine repeatability claims, or reuse/retry of a consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

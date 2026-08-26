@@ -439,55 +439,70 @@ PR #57 merged those exact consumed artifacts and the independent review as
 checks passed; the PR had zero reviews, comments, or review threads, and both
 feature-branch copies were deleted before repeatability protocol work began.
 
-`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1` is now
-frozen locally before any second model import or call. Its 47,974-byte
-canonical preregistration has SHA-256
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1` froze
+the unchanged candidate, registered environment, 32-case order, prompts,
+images, compiler, Verifier, metrics, generation settings, resource caps, and
+12-source execution closure before any second model import or call. Its 47,974-
+byte canonical preregistration has SHA-256
 `4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7`.
-It authenticates the baseline protocol/result commits and six exact baseline
-artifact receipts, then freezes the unchanged candidate, registered
-environment, 32-case order, prompts, images, compiler, Verifier, metrics,
-generation settings, resource caps, and 12-source execution closure.
+PR #58 merged the freeze as
+`874f6c1a201a07d6680a3fa12217c1344b14c141`; all six Linux Python-matrix
+checks passed, the PR had zero reviews/comments/threads and no conflict, and
+both feature-branch copies were deleted before replay execution.
 
-The future replay permits one fresh base load, one independent read-only
-Adapter load, 32 ordered offline calls, and zero retry/network/training/write.
-Raw UTF-8, compiled JSON, Verifier verdict, metrics, and generated-token counts
-compare independently. Equality is outcome evidence rather than a measurement
-gate; resource equality is diagnostic-only while the inherited resource caps
-remain integrity gates. The fixed replay output is absent,
-`replay_attempt_consumed=false`, and same-machine fixed-suite, training/
-resource, cross-machine, quality, safety, Serving, promotion, and Runtime
-claims remain false.
+The exact aligned-master command then consumed the one registered replay. It
+loaded one fresh base and one independent read-only Adapter, completed all 32
+ordered offline calls, and used zero retry/network/training/write. All ten
+formal gates passed. Raw UTF-8, compiled JSON, Verifier verdicts, and generated-
+token counts are each exact for 32/32 cases with zero mismatch; total metrics
+are exact. The 20,952-byte evidence SHA-256 is
+`659ea12140a85c044be1cdd0bf1ab867cbbdff2a097fbd447e07ec3b84e81617`.
 
-The 16 focused model-free protocol tests and the complete 107-test MM-005 chain
-pass. Ruff, scoped strict Mypy, `py_compile`, builder `--check`, the unified-
-gate protocol subcheck, and `git diff --check` pass without loading the model
-or consuming the replay. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass
-the unified 767-test gate with four expected Windows privilege skips, 61
-audited source files, and `valid=true`.
+Replay elapsed time is `201.59785200000624` seconds and peak CUDA allocated/
+reserved are `6,458,204,160` / `6,777,995,264` bytes. Both runs are within
+caps and their GPU peaks match, but baseline elapsed time is
+`216.03030519999447` seconds. Resource equality is therefore false and remains
+diagnostic-only; resource repeatability is not established.
+
+The independent model-free review rebuilds the evidence byte for byte. Its
+18,817 canonical bytes have SHA-256
+`c5b5f12dfaffb387ca7e394c8acbd2b92fc00e3a256ed8cab0d4e624b28d0ec8`.
+It establishes only bounded same-machine, registered-environment-field,
+fixed-32-case evaluation repeatability. The runner enforced its live
+environment mapping before generation, but that exact mapping was not
+separately persisted; token IDs and per-case latency are not registered
+repeatability layers. Training/resource repeatability, cross-machine
+reproducibility, generalized quality, quality improvement, safety, real-
+content behavior, Serving, promotion, and Runtime claims remain false.
+
+The new result-review suite passes 13/13 and the complete MM-005 chain passes
+120/120. Full Ruff, scoped strict Mypy, `py_compile`, the default validator,
+the unified result subcheck, and `git diff --check` pass. Local CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the unified 780-test gate with four expected
+Windows privilege skips, 61 audited source files, and `valid=true`, without a
+model reload or second replay.
 [Repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md).
+[Repeatability result review](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-result-review-v1.md).
 
 ## Single active objective
 
 Publish the exact MM-005 Document/Chart/PDF model-evaluation repeatability
-protocol:
+result slice:
 
 ```text
-47,974-byte outcome-neutral preregistration + 12-source closure + one-shot runner
+four consumed replay artifacts + byte-exact independent review + strict validator
         -> merge with checks/review/conflict state clear
-        -> preserve the baseline, model, Adapter, data, and prior evidence read-only
-        -> MM-005-document-chart-pdf-model-evaluation-repeatability-execution-v1
+        -> delete both feature-branch copies and align master == origin/master
+        -> MM-005-browser-research-environment-adaptation-protocol-v1
 ```
 
-Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
-delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
-This protocol branch may only reconstruct tracked artifacts and use fake
-dependencies in tests; it must never import, load, or call the formal model.
-Do not train, modify or save a model, create the replay attempt, change the
-Runtime repository, capture real desktop/document content, or interpret the
-baseline as repeatability, quality, or safety evidence. Only after clean merge,
-branch cleanup, and aligned `master == origin/master == protocol freeze commit`
-may the registered replay command run once. After its owner-marked output is
-claimed, it must never be deleted, reused, overwritten, or retried.
+Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
+evaluation directory. This result branch may only reconstruct tracked
+artifacts; it must never import, load, or call the formal model. Do not train,
+modify or save a model, create another replay attempt, change the Runtime
+repository, capture real desktop/document content, or broaden the bounded
+same-machine fixed-suite claim. The next gate is authorized only after clean
+merge, branch cleanup, and aligned `master == origin/master`.
 
 ## Preserved historical validation and deferred gates
 
@@ -1516,7 +1531,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF one-shot model measurement completed and model-free result review validated locally, exact result publication next, then repeatability protocol |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF baseline and same-machine fixed-suite repeatability measurements complete, exact repeatability result publication next, then Browser Research adaptation protocol |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
