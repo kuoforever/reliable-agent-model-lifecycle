@@ -490,26 +490,44 @@ Python-matrix checks passed; the PR had zero reviews/comments/threads, was
 `CLEAN`/`MERGEABLE`, and both feature-branch copies were deleted before local
 `master` was aligned with `origin/master`.
 
+`MM-005-browser-research-environment-adaptation-protocol-v1` is now frozen
+locally before data, live browser/network use, model calls, training, Serving,
+capture, or Runtime change. The 76,364-byte canonical protocol SHA-256 is
+`62ef6c554c90d3523b7d9c2a0a102c2a8c783f3d3ba3496cd8c36dfebe04b06e`.
+It binds the closed Document/Chart/PDF lifecycle and 102 exact source receipts,
+then recomputes exclusions for 124 prior records, 96 families, 96 instruction/
+observation identities, 124 target identities, and 84 images.
+
+The bounded static synthetic slice aligns DOM, screenshot, and page text for
+one to three sources and requires exact source-bound citations. Its four task
+families are single-source fact, multi-source synthesis, cross-source
+comparison, and freshness-conflict resolution. Live retrieval/navigation,
+dynamic/authenticated/transactional pages, real/external content, and prompt-
+injection safety claims remain deferred. Seventeen focused tests, Ruff, strict
+Mypy, `py_compile`, builder `--check`, and the unified Browser Research
+subcheck pass locally. CPython 3.11.15, 3.12.12, and 3.13.7 each pass the
+complete unified 797-test gate with `valid=true`, four expected Windows
+privilege skips, and 62 audited source files.
+[Browser Research protocol](docs/MM-005-browser-research-environment-adaptation-protocol-v1.md).
+
 ## Single active objective
 
-Freeze `MM-005-browser-research-environment-adaptation-protocol-v1` as the
-third registered multimodal environment, before any new data generation,
-model call, training, Serving work, or Runtime change:
+Publish the exact model-free Browser Research environment-adaptation protocol
+slice:
 
 ```text
-closed Desktop GUI + Document/Chart/PDF evidence remains read-only
-        -> freeze Browser Research scope and environment interfaces model-free
-        -> constrain future additions to Adapter + task set + Verifier + data
-        -> inherit shared orchestration, Serving, safety, approval, recovery, and Runtime boundaries
+typed contract + deterministic builder + 76,364-byte canonical protocol
+        -> adversarial tests + unified Python 3.11/3.12/3.13 offline gates
+        -> merge with checks/review/conflict state clear and delete both branch copies
+        -> MM-005-browser-research-data-protocol-v1
 ```
 
 Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
-evaluation directory. The Browser Research protocol must not generate data,
-import, load, or call the formal model, train or save a model/Adapter, change
-the Runtime repository, capture real browser/desktop/document content, or
-broaden the bounded same-machine fixed-suite claim. It must define the new
-environment boundary without duplicating shared orchestration, Serving,
-approval, recovery, or safety systems.
+evaluation directory. This protocol branch must not generate data, access a
+live browser or network, import/load/call a model, train or save a model/
+Adapter, change the Runtime repository, capture real browser/desktop/document
+content, or broaden prior repeatability claims. The data gate is authorized
+only after clean merge, branch cleanup, and aligned `master == origin/master`.
 
 ## Preserved historical validation and deferred gates
 
@@ -1538,7 +1556,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF baseline and bounded same-machine fixed-suite repeatability lifecycle closed through PR #59, Browser Research adaptation protocol next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol frozen locally and exact publication next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
