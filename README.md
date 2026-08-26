@@ -473,8 +473,8 @@ branch copies were deleted and local `master` was aligned with `origin/master`.
 
 ### Browser Research environment-adaptation protocol v1
 
-The model-free third-environment protocol is now frozen locally before any new
-data generation, live browser/network use, model call, training, Serving work,
+The model-free third-environment protocol is published before any new data
+generation, live browser/network use, model call, training, Serving work,
 capture, or Runtime change. Its first vertical slice consumes one static
 synthetic research bundle with one to three sources. Every source aligns DOM
 nodes, an exact screenshot binding, and page text; strict output contains only
@@ -497,6 +497,14 @@ safety, Serving, promotion, and Runtime claims remain false. See the
 The 17 focused tests and complete unified 797-test gate pass on local CPython
 3.11.15, 3.12.12, and 3.13.7 with `valid=true`, four expected Windows privilege
 skips, and 62 audited source files.
+
+PR #61 published the exact protocol as
+`d7e7b7f70ff298a47244c34cc22173c70c65e6c9`; all six Linux Python-matrix
+checks passed with no review, comment, thread, or merge-conflict blocker. Both
+feature-branch copies were deleted and local `master` was aligned with
+`origin/master`. The single next gate is the model-free
+`MM-005-browser-research-data-protocol-v1`; no Browser Research record or image
+may be materialized before that protocol cleanly merges.
 
 ### Reliability/Verifier Dataset v1
 

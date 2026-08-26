@@ -510,24 +510,33 @@ complete unified 797-test gate with `valid=true`, four expected Windows
 privilege skips, and 62 audited source files.
 [Browser Research protocol](docs/MM-005-browser-research-environment-adaptation-protocol-v1.md).
 
+PR #61 published the exact protocol as
+`d7e7b7f70ff298a47244c34cc22173c70c65e6c9`. All six Linux Python-matrix
+checks passed; the PR had zero reviews, issue comments, review comments, or
+review threads, was `CLEAN`/`MERGEABLE`, and both feature-branch copies were
+deleted before local `master` was aligned with `origin/master`.
+
 ## Single active objective
 
-Publish the exact model-free Browser Research environment-adaptation protocol
-slice:
+Freeze `MM-005-browser-research-data-protocol-v1` before materializing any
+Browser Research record or image:
 
 ```text
-typed contract + deterministic builder + 76,364-byte canonical protocol
+published environment protocol + all prior exclusion identities
+        -> closed seed/count/split/template and static-source plan
+        -> deterministic DOM/page-text/screenshot plan + exact output receipts
         -> adversarial tests + unified Python 3.11/3.12/3.13 offline gates
-        -> merge with checks/review/conflict state clear and delete both branch copies
-        -> MM-005-browser-research-data-protocol-v1
+        -> clean merge, delete both branch copies, align master
 ```
 
 Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
-evaluation directory. This protocol branch must not generate data, access a
-live browser or network, import/load/call a model, train or save a model/
-Adapter, change the Runtime repository, capture real browser/desktop/document
-content, or broaden prior repeatability claims. The data gate is authorized
-only after clean merge, branch cleanup, and aligned `master == origin/master`.
+evaluation directory. The data-protocol slice must preregister exact planned
+outputs and validation without generating them. It must not access a live
+browser or network, import/load/call a model, train or save a model/Adapter,
+change the Runtime repository, capture real browser/desktop/document content,
+or broaden prior repeatability claims. Materialization is authorized only
+after this data protocol cleanly merges, both branch copies are deleted, and
+`master == origin/master`.
 
 ## Preserved historical validation and deferred gates
 
@@ -1556,7 +1565,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol frozen locally and exact publication next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol published through PR #61, data protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
