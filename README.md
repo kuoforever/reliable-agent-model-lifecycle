@@ -532,6 +532,33 @@ passed with no review/comment/thread/conflict blocker. Both feature-branch
 copies were deleted and local `master` was aligned with `origin/master` before
 the separate generation-runner protocol begins.
 
+### Browser Research data generation protocol v1
+
+The separate one-shot, model-free runner is frozen locally before any of the
+139 registered outputs is written. Its 64,590-byte canonical protocol has
+SHA-256
+`78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`.
+It binds the published PR #63 merge commit, four exact data/generation source
+receipts, the unchanged data protocol, and all 986,989 planned output bytes.
+
+Formal execution requires aligned merged `master`, published-data ancestry,
+absent output/evidence targets, zero retry, same-parent staging-root atomic
+publication, exact-tree rejection, and independent persisted-byte readback.
+The Windows runner uses extended-length physical paths while preserving the
+same logical receipt paths, so deep screenshot paths do not depend on legacy
+`MAX_PATH` behavior. No live browser, network, JavaScript, model, capture, or
+Runtime path is available. See the
+[Browser Research generation protocol](docs/MM-005-browser-research-data-generation-protocol-v1.md).
+
+Seventeen focused adversarial tests pass. Ruff, scoped strict Mypy,
+`py_compile`, protocol `--check`, and `git diff --check` pass. Local CPython
+3.11.15, 3.12.12, and 3.13.7 each pass the complete unified 828-test gate with
+four expected Windows privilege skips, 64 audited source files, and
+`valid=true`. At this freeze the output root and execution evidence remain
+absent; generation and dataset validation remain false. One formal invocation
+is registered only after this protocol cleanly merges, both feature-branch
+copies are deleted, and `master == origin/master ==` its exact freeze commit.
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -981,12 +1008,14 @@ repeatability. PR #59 published those exact artifacts and review as
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, generated data, and both
 consumed MM-005 attempts remain read-only. The Browser Research environment and
 data protocols are now published; the latter registers 32 records, 68 static
-sources/screenshots, and 139 exact future outputs. Freezing the separate
-`MM-005-browser-research-data-generation-v1` runner protocol is the single
-active objective. It does not authorize data generation, live browser/network
-use, model calls or writes, training, Runtime changes, real browser/desktop/
-document capture, generalized quality/safety claims, resource or cross-machine
-repeatability claims, or reuse/retry of a consumed attempt.
+sources/screenshots, and 139 exact future outputs. The separate
+`MM-005-browser-research-data-generation-v1` runner protocol is now frozen
+locally; publishing it without materializing any output is the single active
+objective. It does not authorize data generation until its exact clean merge
+and branch cleanup, nor does it authorize live browser/network use, model calls
+or writes, training, Runtime changes, real browser/desktop/document capture,
+generalized quality/safety claims, resource or cross-machine repeatability
+claims, or reuse/retry of a consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
