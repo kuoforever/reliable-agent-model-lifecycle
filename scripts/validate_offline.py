@@ -206,6 +206,13 @@ MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_BYTES = 64_590
 MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_SHA256 = (
     "sha256:78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d"
 )
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_adapter_verifier_protocol_v1.json"
+)
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_BYTES = 271_406
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_SHA256 = (
+    "sha256:a64f5d3d174ab2e8c7a003626d76981f43c15b9e739f8c999c4198df0c77156b"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -567,6 +574,9 @@ def main() -> int:
     mm005_browser_research_data = _validate_mm005_browser_research_data_protocol()
     mm005_browser_research_generation = (
         _validate_mm005_browser_research_generation_protocol()
+    )
+    mm005_browser_research_adapter_verifier = (
+        _validate_mm005_browser_research_adapter_verifier_protocol()
     )
     tests_run = _run_tests()
 
@@ -1326,6 +1336,35 @@ def main() -> int:
         ),
         "mm005_browser_research_generation_next_gate": (
             mm005_browser_research_generation["next_gate"]
+        ),
+        "mm005_browser_research_adapter_verifier_protocol_frozen": (
+            mm005_browser_research_adapter_verifier["protocol_frozen"]
+        ),
+        "mm005_browser_research_adapter_verifier_source_bindings": (
+            mm005_browser_research_adapter_verifier["source_binding_count"]
+        ),
+        "mm005_browser_research_adapter_projections": (
+            mm005_browser_research_adapter_verifier["adapter_projection_count"]
+        ),
+        "mm005_browser_research_verifier_cases": (
+            mm005_browser_research_adapter_verifier["verifier_case_count"]
+        ),
+        "mm005_browser_research_verifier_positive_cases": (
+            mm005_browser_research_adapter_verifier["positive_case_count"]
+        ),
+        "mm005_browser_research_verifier_negative_cases": (
+            mm005_browser_research_adapter_verifier["negative_case_count"]
+        ),
+        "mm005_browser_research_environment_adapter_implemented": (
+            mm005_browser_research_adapter_verifier[
+                "environment_adapter_implemented"
+            ]
+        ),
+        "mm005_browser_research_verifier_implemented": (
+            mm005_browser_research_adapter_verifier["verifier_implemented"]
+        ),
+        "mm005_browser_research_adapter_verifier_next_gate": (
+            mm005_browser_research_adapter_verifier["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -4873,6 +4912,173 @@ def _validate_mm005_browser_research_generation_protocol() -> dict[str, Any]:
         "evidence_sha256": "sha256:"
         + hashlib.sha256(evidence_payload).hexdigest(),
     }
+
+
+def _validate_mm005_browser_research_adapter_verifier_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm005_browser_research_adapter_verifier_protocol as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_adapter_verifier_protocol as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_PATH,
+        "MM-005 Browser Research Adapter/Verifier protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Browser Research Adapter/Verifier protocol hash mismatch")
+    raw = _load_json_payload(
+        payload, MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_PATH
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser Research Adapter/Verifier protocol is not canonical JSON"
+        )
+
+    publication_ancestry = subprocess.run(
+        [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            contract.GENERATION_RESULT_MERGE_COMMIT,
+            "HEAD",
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    publication_diff = subprocess.run(
+        [
+            "git",
+            "diff",
+            "--quiet",
+            contract.GENERATION_RESULT_MERGE_COMMIT,
+            "--",
+            contract.data.OUTPUT_ROOT,
+            contract.data.EVIDENCE_PATH,
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    if publication_ancestry.returncode != 0 or publication_diff.returncode != 0:
+        raise GateError("MM-005 Browser Research generation publication drift")
+
+    inputs = prepare.protocol_inputs()
+    summary = contract.validate_protocol(raw, **inputs)
+    adapter = raw.get("adapter_contract")
+    verifier = raw.get("verifier_contract")
+    coverage = raw.get("coverage")
+    plan = raw.get("implementation_plan")
+    authority = raw.get("authority_contract")
+    true_claims = {
+        name for name, established in raw.get("claims", {}).items() if established
+    }
+    if (
+        raw.get("freeze_status") != "frozen"
+        or raw.get("gate_id") != contract.GATE_ID
+        or raw.get("next_gate") != contract.NEXT_GATE
+        or raw.get("upstream", {}).get("generation_result_merge_commit")
+        != contract.GENERATION_RESULT_MERGE_COMMIT
+        or len(inputs["source_receipts"]) != 8
+        or summary.source_receipt_count != 8
+        or summary.record_count != 32
+        or summary.source_binding_count != 68
+        or summary.screenshot_binding_count != 68
+        or summary.source_snapshot_binding_count != 68
+        or summary.adapter_projection_count != 32
+        or summary.verifier_case_count != 224
+        or summary.positive_case_count != 32
+        or summary.negative_case_count != 192
+        or summary.task_family_count != 4
+        or summary.source_kind_count != 4
+        or summary.train_records != 24
+        or summary.validation_records != 8
+        or summary.generation_executed is not True
+        or summary.dataset_validated is not True
+        or summary.environment_adapter_implemented is not False
+        or summary.verifier_implemented is not False
+        or summary.next_gate != contract.NEXT_GATE
+        or len(raw.get("source_artifact_registry", [])) != 68
+        or len(raw.get("adapter_projection_registry", [])) != 32
+        or len(raw.get("verifier_case_registry", [])) != 224
+        or not isinstance(adapter, dict)
+        or adapter.get("model_payload_exact_keys") != list(contract.MODEL_PAYLOAD_KEYS)
+        or adapter.get("source_bindings_outside_model_payload") is not True
+        or adapter.get("screenshot_and_snapshot_paths_exposed_to_model") is not False
+        or adapter.get("gold_or_verifier_fields_exposed_to_model") is not False
+        or adapter.get("formal_implementation_present") is not False
+        or adapter.get("formal_execution_at_this_gate") is not False
+        or not isinstance(verifier, dict)
+        or verifier.get("case_kinds") != list(contract.VERIFIER_CASE_KINDS)
+        or verifier.get("cases_per_record") != 7
+        or verifier.get("multi_source_minimum_distinct_sources") != 2
+        or verifier.get("invalid_output_is_wrong") is not True
+        or verifier.get("model_or_llm_judge_used") is not False
+        or verifier.get("formal_implementation_present") is not False
+        or verifier.get("formal_execution_at_this_gate") is not False
+        or coverage
+        != {
+            "records": 32,
+            "train_records": 24,
+            "validation_records": 8,
+            "task_family_ids": sorted(
+                {
+                    item["task_family_id"]
+                    for item in raw["adapter_projection_registry"]
+                }
+            ),
+            "source_kinds": sorted(
+                {item["source_kind"] for item in raw["adapter_projection_registry"]}
+            ),
+            "splits": ["train", "validation"],
+            "source_bindings": 68,
+            "screenshot_bindings": 68,
+            "source_snapshot_bindings": 68,
+            "adapter_projections": 32,
+            "verifier_cases": 224,
+            "positive_cases": 32,
+            "negative_cases": 192,
+        }
+        or not isinstance(plan, dict)
+        or plan.get("implementation_gate_id") != contract.NEXT_GATE
+        or plan.get("protocol_must_merge_before_implementation") is not True
+        or plan.get("dataset_and_generation_evidence_read_only") is not True
+        or plan.get("network_allowed") is not False
+        or plan.get("live_browser_allowed") is not False
+        or plan.get("model_load_allowed") is not False
+        or plan.get("model_training_or_evaluation_allowed") is not False
+        or plan.get("real_or_external_content_allowed") is not False
+        or plan.get("capture_allowed") is not False
+        or plan.get("runtime_repository_change_allowed") is not False
+        or plan.get("runtime_integration_allowed") is not False
+        or raw.get("required_gates") != list(contract.REQUIRED_GATES)
+        or authority
+        != {
+            "page_content_has_execution_authority": False,
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or raw.get("claims") != contract.PROTOCOL_CLAIMS
+        or true_claims
+        != {
+            "generation_executed",
+            "records_generated",
+            "source_snapshots_generated",
+            "screenshots_generated",
+            "dataset_validated",
+        }
+    ):
+        raise GateError("MM-005 Browser Research Adapter/Verifier boundary mismatch")
+    return {"protocol_frozen": True, **summary.to_dict()}
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
