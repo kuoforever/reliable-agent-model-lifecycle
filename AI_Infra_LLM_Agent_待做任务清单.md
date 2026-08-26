@@ -912,11 +912,41 @@ gate。16/16 focused model-free tests 与完整 MM-005 chain 107/107、Ruff、sc
 Mypy、`py_compile`、builder `--check`、unified protocol subcheck 与 `git diff --check`
 已通过。本机 CPython 3.11.15、3.12.12、3.13.7 unified 767-test gates 全部通过，
 均有 4 个预期 Windows privilege skips、61 个 audited source files 和 `valid=true`。
-当前单一动作是发布该 exact protocol；只有 clean merge、branch cleanup 且
-`master == origin/master == freeze commit` 后才可消费一次 replay。当前 fixed replay
-output absent、`replay_attempt_consumed=false`，same-machine fixed-suite/training/resource/
-cross-machine/quality/safety/Serving/promotion/Runtime claims 全部 false，已消费 baseline
-不得 delete/reopen/reuse/overwrite/retry。
+在 protocol freeze 时 fixed replay output absent、`replay_attempt_consumed=false`，
+same-machine fixed-suite/training/resource/cross-machine/quality/safety/Serving/promotion/
+Runtime claims 全部 false；只有 clean merge、branch cleanup 且
+`master == origin/master == freeze commit` 后才允许消费一次 replay。
+
+该 protocol 已通过 PR #58 合并为
+`874f6c1a201a07d6680a3fa12217c1344b14c141`，6 个 Linux matrix checks 全部通过、
+0 review/comment/thread、CLEAN/MERGEABLE，远近 feature branch 清理且
+`master == origin/master` 后，正式 replay 仅消费一次：one fresh base、one independent
+read-only Adapter、32/32 ordered calls、zero retry/network/training/write。10/10 formal
+gates 通过，raw UTF-8、compiled JSON、Verifier verdict、metrics 与 generated-token counts
+全部 exact；四个逐 case 层均为 32/32、zero mismatch，total metrics 逐字段一致。
+
+replay elapsed 为 `201.59785200000624` seconds，peak CUDA allocated/reserved 为
+`6,458,204,160` / `6,777,995,264` bytes。相对 baseline，GPU peaks exact，但 elapsed
+少 `14.432453199988231` seconds，所以 resource vector 不 exact、resource repeatability
+保持 false。20,952-byte evidence SHA-256 为
+`659ea12140a85c044be1cdd0bf1ab867cbbdff2a097fbd447e07ec3b84e81617`。
+
+独立 model-free review 已逐字节重建 evidence，并生成 18,817-byte review，SHA-256 为
+`c5b5f12dfaffb387ca7e394c8acbd2b92fc00e3a256ed8cab0d4e624b28d0ec8`。review 只建立
+bounded same-machine、registered-environment-field、fixed-32-case evaluation
+repeatability；training/resource repeatability、cross-machine reproducibility、quality
+improvement/generalization、safety、real-content、Serving、promotion、Runtime claims 均为
+false。正式 runner 在 generation 前强制 live environment exact，但 live mapping 未单独
+持久化；token IDs 与 per-case latency 也不是注册 repeatability layer。这些限制已在 review
+明示。
+
+新 result-review focused 13/13、完整 MM-005 chain 120/120 通过；Ruff、scoped strict
+Mypy、`py_compile`、default validator、unified result subcheck 与 `git diff --check` 通过。
+本机 CPython 3.11.15、3.12.12、3.13.7 unified 780-test gates 全部通过，均有 4 个预期
+Windows privilege skips、61 个 audited source files 和 `valid=true`。当前单一动作是
+发布 exact replay artifacts 与 review；clean merge 和 branch cleanup 后，下一 gate 为
+`MM-005-browser-research-environment-adaptation-protocol-v1`。两个已消费 MM-005 attempt
+均不得 delete/reopen/reuse/overwrite/retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 

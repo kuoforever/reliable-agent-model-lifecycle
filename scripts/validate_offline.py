@@ -176,6 +176,15 @@ MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_BYTES = 47_974
 MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_SHA256 = (
     "sha256:4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7"
 )
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_PATH = (
+    ROOT
+    / "baseline"
+    / "mm005-document-chart-pdf-model-eval-repeatability-v1-result-review.json"
+)
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_BYTES = 18_817
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_SHA256 = (
+    "sha256:c5b5f12dfaffb387ca7e394c8acbd2b92fc00e3a256ed8cab0d4e624b28d0ec8"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -527,6 +536,9 @@ def main() -> int:
     )
     mm005_document_chart_pdf_model_evaluation_repeatability = (
         _validate_mm005_document_chart_pdf_model_evaluation_repeatability_protocol()
+    )
+    mm005_document_chart_pdf_model_evaluation_repeatability_result = (
+        _validate_mm005_document_chart_pdf_model_evaluation_repeatability_result_review()
     )
     tests_run = _run_tests()
 
@@ -1111,7 +1123,7 @@ def main() -> int:
         "mm005_document_chart_pdf_model_evaluation_incorrect_case_count": (
             mm005_document_chart_pdf_model_evaluation_result["incorrect_case_count"]
         ),
-        "mm005_document_chart_pdf_model_evaluation_repeatability_established": (
+        "mm005_document_chart_pdf_model_evaluation_baseline_repeatability_established": (
             mm005_document_chart_pdf_model_evaluation_result[
                 "repeatability_established"
             ]
@@ -1150,6 +1162,54 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_model_evaluation_repeatability_next_gate": (
             mm005_document_chart_pdf_model_evaluation_repeatability["next_gate"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_formal_gate_passed": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "formal_gate_passed"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_all_layers_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "all_registered_layers_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_raw_outputs_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "raw_outputs_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_compiled_outputs_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "compiled_outputs_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_verifier_verdicts_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "verifier_verdicts_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_metrics_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "metrics_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_token_counts_exact": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "generated_token_counts_exact"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_same_machine_fixed_suite_repeatability_established": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "same_machine_fixed_suite_repeatability_established"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_resource_repeatability_established": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result[
+                "resource_repeatability_established"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_result_next_gate": (
+            mm005_document_chart_pdf_model_evaluation_repeatability_result["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -4173,6 +4233,67 @@ def _validate_mm005_document_chart_pdf_model_evaluation_repeatability_protocol()
         "next_gate": raw["next_gate"],
         "protocol_sha256": digest,
     }
+
+
+def _validate_mm005_document_chart_pdf_model_evaluation_repeatability_result_review() -> (
+    dict[str, Any]
+):
+    from scripts import (
+        validate_mm005_document_chart_pdf_model_evaluation_repeatability_result as validator,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_PATH,
+        "MM-005 Document/Chart/PDF model-evaluation repeatability result review",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_BYTES
+        or digest
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_SHA256
+    ):
+        raise GateError(
+            "MM-005 model-evaluation repeatability result-review hash mismatch"
+        )
+    try:
+        summary = validator.validate_repository(ROOT)
+    except validator.MM005EvaluationRepeatabilityResultError as exc:
+        raise GateError(
+            "MM-005 model-evaluation repeatability result review invalid: "
+            f"{exc}"
+        ) from exc
+    if (
+        summary.get("formal_gate_passed") is not True
+        or summary.get("classification") != validator.CLASSIFICATION
+        or summary.get("record_count") != 32
+        or summary.get("all_registered_layers_exact") is not True
+        or summary.get("raw_outputs_exact") != 32
+        or summary.get("compiled_outputs_exact") != 32
+        or summary.get("verifier_verdicts_exact") != 32
+        or summary.get("metrics_exact") is not True
+        or summary.get("generated_token_counts_exact") != 32
+        or summary.get("same_machine_fixed_suite_repeatability_established")
+        is not True
+        or summary.get("training_repeatability_established") is not False
+        or summary.get("resource_repeatability_established") is not False
+        or summary.get("resource_measurements_exact") is not False
+        or summary.get("elapsed_seconds") != 201.59785200000624
+        or summary.get("peak_gpu_allocated_bytes") != 6_458_204_160
+        or summary.get("peak_gpu_reserved_bytes") != 6_777_995_264
+        or summary.get("evidence_sha256")
+        != "sha256:659ea12140a85c044be1cdd0bf1ab867cbbdff2a097fbd447e07ec3b84e81617"
+        or summary.get("review_bytes")
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_BYTES
+        or summary.get("review_sha256")
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_SHA256
+        or summary.get("next_gate") != validator.NEXT_GATE_ID
+        or summary.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "MM-005 model-evaluation repeatability result-review boundary mismatch"
+        )
+    return summary
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
