@@ -434,26 +434,60 @@ promotion, Runtime change, and Runtime eligibility remain false.
 [Model-evaluation protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md).
 [Result review](docs/MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
 
+PR #57 merged those exact consumed artifacts and the independent review as
+`056eb8d050eb0f0491ff21a07bd5b7716abf7eb8`. All six Linux Python-matrix
+checks passed; the PR had zero reviews, comments, or review threads, and both
+feature-branch copies were deleted before repeatability protocol work began.
+
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1` is now
+frozen locally before any second model import or call. Its 47,974-byte
+canonical preregistration has SHA-256
+`4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7`.
+It authenticates the baseline protocol/result commits and six exact baseline
+artifact receipts, then freezes the unchanged candidate, registered
+environment, 32-case order, prompts, images, compiler, Verifier, metrics,
+generation settings, resource caps, and 12-source execution closure.
+
+The future replay permits one fresh base load, one independent read-only
+Adapter load, 32 ordered offline calls, and zero retry/network/training/write.
+Raw UTF-8, compiled JSON, Verifier verdict, metrics, and generated-token counts
+compare independently. Equality is outcome evidence rather than a measurement
+gate; resource equality is diagnostic-only while the inherited resource caps
+remain integrity gates. The fixed replay output is absent,
+`replay_attempt_consumed=false`, and same-machine fixed-suite, training/
+resource, cross-machine, quality, safety, Serving, promotion, and Runtime
+claims remain false.
+
+The 16 focused model-free protocol tests and the complete 107-test MM-005 chain
+pass. Ruff, scoped strict Mypy, `py_compile`, builder `--check`, the unified-
+gate protocol subcheck, and `git diff --check` pass without loading the model
+or consuming the replay. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass
+the unified 767-test gate with four expected Windows privilege skips, 61
+audited source files, and `valid=true`.
+[Repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md).
+
 ## Single active objective
 
-Publish the exact MM-005 Document/Chart/PDF model-evaluation result:
+Publish the exact MM-005 Document/Chart/PDF model-evaluation repeatability
+protocol:
 
 ```text
-consumed owner + candidate + predictions + evidence + 15,235-byte review
+47,974-byte outcome-neutral preregistration + 12-source closure + one-shot runner
         -> merge with checks/review/conflict state clear
         -> preserve the baseline, model, Adapter, data, and prior evidence read-only
-        -> MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1
+        -> MM-005-document-chart-pdf-model-evaluation-repeatability-execution-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
-This publication branch may only reconstruct tracked artifacts and use fake
+This protocol branch may only reconstruct tracked artifacts and use fake
 dependencies in tests; it must never import, load, or call the formal model.
-Do not train, evaluate again, modify or save a model, create another attempt,
-change the Runtime repository, capture real desktop/document content, or
-interpret a completed measurement as repeatability, quality, or safety
-evidence. After clean merge and branch cleanup, freeze the exact outcome-
-neutral repeatability protocol before any second model import or call.
+Do not train, modify or save a model, create the replay attempt, change the
+Runtime repository, capture real desktop/document content, or interpret the
+baseline as repeatability, quality, or safety evidence. Only after clean merge,
+branch cleanup, and aligned `master == origin/master == protocol freeze commit`
+may the registered replay command run once. After its owner-marked output is
+claimed, it must never be deleted, reused, overwritten, or retried.
 
 ## Preserved historical validation and deferred gates
 

@@ -894,14 +894,29 @@ focused 15/15 + 12/12、完整 MM-005 chain 91/91、Ruff、scoped strict Mypy、
 skips、60 个 audited source files 和 `valid=true`，且没有 model reload 或 second
 attempt。
 
-当前单一动作是发布 exact consumed result artifacts 与 review；clean merge 后唯一
-下一 gate 是
-`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1`。必须在任何
-second model import/call 前冻结 unchanged candidate/environment/32-case order/prompt/
-image/compiler/Verifier/generation 与 owner-marked zero-retry replay，并 outcome-neutral
-比较 raw/compiled/verdict/metrics/token/resource diagnostics。quality/safety/training/
-resource repeatability/cross-machine/Serving/promotion/Runtime claims 仍为 false，已消费
-baseline 不得 delete/reopen/reuse/overwrite/retry。
+该 exact consumed result artifacts 与 review 已通过 PR #57 合并为
+`056eb8d050eb0f0491ff21a07bd5b7716abf7eb8`；6 个 Linux matrix checks 全部通过，
+0 review/comment/thread，远近 feature branch 已清理后才开始 repeatability protocol。
+
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1` 现已在任何
+second model import/call 前本地冻结为 47,974 canonical bytes，SHA-256 为
+`4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7`。它认证 baseline
+protocol/result commits 与 6 个 exact baseline receipts，冻结 unchanged candidate/
+environment/32-case order/prompt/image/compiler/Verifier/metrics/generation/resource caps
+及 12-source execution closure；one fresh base、one independent read-only Adapter、32
+ordered offline calls、zero retry/network/training/write。
+
+raw UTF-8、compiled JSON、Verifier verdict、metrics 与 generated-token counts 分层比较；
+equality 不是 measurement gate，resource equality 只作 diagnostics 而 caps 仍是 integrity
+gate。16/16 focused model-free tests 与完整 MM-005 chain 107/107、Ruff、scoped strict
+Mypy、`py_compile`、builder `--check`、unified protocol subcheck 与 `git diff --check`
+已通过。本机 CPython 3.11.15、3.12.12、3.13.7 unified 767-test gates 全部通过，
+均有 4 个预期 Windows privilege skips、61 个 audited source files 和 `valid=true`。
+当前单一动作是发布该 exact protocol；只有 clean merge、branch cleanup 且
+`master == origin/master == freeze commit` 后才可消费一次 replay。当前 fixed replay
+output absent、`replay_attempt_consumed=false`，same-machine fixed-suite/training/resource/
+cross-machine/quality/safety/Serving/promotion/Runtime claims 全部 false，已消费 baseline
+不得 delete/reopen/reuse/overwrite/retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 
