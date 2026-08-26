@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import copy
+import json
 import sys
 import tempfile
 import unittest
@@ -23,6 +24,11 @@ from scripts import (  # noqa: E402
     prepare_mm005_browser_research_data_protocol as data_prepare,
 )
 from scripts import run_mm005_browser_research_generation as runner  # noqa: E402
+
+PROTOCOL_FREEZE_COMMIT = "9739e2b86d8473d9b8e99ea32e541db6055e4523"
+EVIDENCE_SHA256 = (
+    "sha256:1c5a7898f9811171c963db95b13a4fd33427b7ec58a4058ab5d4f077110f7fea"
+)
 
 
 class MM005BrowserResearchGenerationTests(unittest.TestCase):
@@ -284,9 +290,36 @@ class MM005BrowserResearchGenerationTests(unittest.TestCase):
                 exclusions=self.exclusions,
             )
 
-    def test_fixed_execution_targets_remain_absent_at_freeze(self) -> None:
-        self.assertFalse((ROOT / contract.OUTPUT_ROOT).exists())
-        self.assertFalse((ROOT / contract.EVIDENCE_PATH).exists())
+    def test_tracked_execution_artifacts_rebuild_exactly(self) -> None:
+        tracked_outputs = runner.load_tracked_outputs()
+        self.assertEqual(tracked_outputs, self.outputs)
+        evidence_payload = (ROOT / contract.EVIDENCE_PATH).read_bytes()
+        evidence = json.loads(evidence_payload)
+        self.assertEqual(contract.artifact_json_bytes(evidence), evidence_payload)
+        self.assertEqual(contract.sha256_bytes(evidence_payload), EVIDENCE_SHA256)
+        summary = contract.validate_evidence(
+            evidence,
+            protocol_freeze_commit=PROTOCOL_FREEZE_COMMIT,
+            protocol_payload=self.protocol_payload,
+            source_receipts=self.sources,
+            data_protocol_payload=self.data_payload,
+            data_source_receipts=self.data_sources,
+            parent_protocol_receipt=self.parent_receipt,
+            output_payloads=tracked_outputs,
+            exclusions=self.exclusions,
+        )
+        self.assertEqual(summary.output_file_count, 139)
+        self.assertEqual(summary.output_bytes, 986_989)
+        self.assertTrue(summary.generation_executed)
+        self.assertTrue(summary.dataset_validated)
+        self.assertEqual(evidence["protocol_freeze_commit"], PROTOCOL_FREEZE_COMMIT)
+        self.assertTrue(evidence["claims"]["source_snapshots_generated"])
+        self.assertTrue(evidence["claims"]["screenshots_generated"])
+        self.assertFalse(evidence["claims"]["environment_adapter_implemented"])
+        self.assertFalse(evidence["claims"]["verifier_executed"])
+        self.assertFalse(evidence["claims"]["model_evaluated"])
+        self.assertFalse(evidence["claims"]["quality_improved"])
+        self.assertFalse(evidence["claims"]["runtime_eligible"])
 
     def test_generation_scope_has_no_model_browser_or_network_imports(self) -> None:
         forbidden = {

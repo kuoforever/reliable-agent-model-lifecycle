@@ -4,9 +4,12 @@
 
 The exact Browser Research data preregistration merged through PR #63 as
 `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`; PR #64 then closed its
-publication status without changing the protocol or generator sources. This
-separate `MM-005-browser-research-data-generation-v1` gate freezes the
-one-shot, model-free runner before any registered output is materialized.
+publication status without changing the protocol or generator sources. The
+separate `MM-005-browser-research-data-generation-v1` protocol and one-shot,
+model-free runner merged through PR #65 as
+`9739e2b86d8473d9b8e99ea32e541db6055e4523`. Both feature-branch copies were
+deleted. From that exact aligned `master`, the registered generation executed
+once and produced the tracked synthetic fixtures and narrow evidence below.
 
 The canonical protocol is
 `configs/mm005_browser_research_data_generation_v1.json`: 64,590 bytes with
@@ -55,11 +58,11 @@ The runner has no internal retry. A paired-state validator rejects any state
 where only the output root or only the evidence exists. Such a partial state
 is a failed consumed attempt, not permission to invoke the runner again.
 
-## Freeze state and claims
+## Freeze state and authority boundary
 
-At this protocol freeze,
+At the protocol freeze,
 `fixtures/mm005_browser_research_v1` and
-`baseline/mm005-browser-research-data-generation-v1.json` are absent. No
+`baseline/mm005-browser-research-data-generation-v1.json` were absent. No
 record, screenshot, static source snapshot, dataset, or evidence was written.
 Generation, dataset validation, Environment Adapter/Verifier execution, live
 browser/network use, model training/evaluation, quality, safety, prompt-
@@ -71,39 +74,63 @@ Runtime remains the sole policy, approval, WAL, grounding, budget, recovery,
 and desktop-dispatch boundary. No Runtime repository or integration change is
 authorized.
 
-## Validation boundary
+## Formal execution result and claim boundary
+
+The single registered invocation used protocol freeze commit
+`9739e2b86d8473d9b8e99ea32e541db6055e4523` and completed without retry. An
+independent persisted-byte readback validates the exact registered output tree:
+
+| Output | Count / bytes |
+|---|---:|
+| Train, validation, and manifest JSON | 3 / 267,643 |
+| Static source snapshots | 68 / 118,742 |
+| PNG screenshots | 68 / 600,604 |
+| Total | 139 / 986,989 |
+
+The 63,294-byte execution evidence at
+`baseline/mm005-browser-research-data-generation-v1.json` has SHA-256
+`1c5a7898f9811171c963db95b13a4fd33427b7ec58a4058ab5d4f077110f7fea`.
+All 20 registered ancestry, integrity, exclusion, semantic, atomicity,
+exact-tree, readback, authority, and fail-closed gates are true.
+
+Only `generation_executed`, `records_generated`,
+`source_snapshots_generated`, `screenshots_generated`, and
+`dataset_validated` are now true. Environment Adapter implementation,
+Verifier execution, live browser/network use, model training/evaluation,
+quality, safety, prompt-injection safety, real/external content, capture,
+Serving, promotion, Runtime eligibility, and Runtime repository/integration
+changes remain false.
+
+## Validation evidence
 
 Seventeen focused adversarial tests cover deterministic protocol
 reconstruction, the published-commit binding, source/claim/publication tamper,
 exact output semantics, single-byte screenshot drift, missing/extra outputs,
 evidence resealing, atomic and exclusive publication, path escape, exact
-trees, merged-master and ancestry enforcement, fixed-target absence, and
-forbidden browser/network/model imports. Full-repository Ruff, scoped strict
-Mypy, `py_compile`, protocol `--check`, and `git diff --check` pass. Local
+trees, merged-master and ancestry enforcement, tracked output/evidence
+reconstruction, and forbidden browser/network/model imports. Full-repository
+Ruff, scoped strict Mypy, `py_compile`, protocol `--check`, and
+`git diff --check` pass. Local
 CPython 3.11.15, 3.12.12, and 3.13.7 each pass the complete unified 828-test
 gate with four expected Windows privilege skips, 64 audited source files, and
 `valid=true`.
 
-These checks can establish a deterministic one-shot materialization boundary
-and exact in-memory reconstruction. They do not establish that generation has
-executed, that any dataset exists, or any model, quality, safety, live-browser,
-Serving, promotion, cross-machine, or Runtime claim.
+These checks establish the deterministic one-shot materialization boundary and
+exact same-machine output reconstruction. They do not establish model,
+training, live-browser, external-content, cross-machine, quality, safety,
+Serving, promotion, or Runtime repeatability.
 
-## Registered invocation and next gate
+## Consumed execution and next gate
 
-Only after this protocol cleanly merges, both feature-branch copies are
-deleted, and `master == origin/master == <freeze-commit>`, one invocation may
-be made:
+The consumed invocation was:
 
 ```powershell
 work/training-env/Scripts/python.exe -I `
   scripts/run_mm005_browser_research_generation.py execute `
-  --protocol-freeze-commit <exact-merged-freeze-commit>
+  --protocol-freeze-commit 9739e2b86d8473d9b8e99ea32e541db6055e4523
 ```
 
-The immediate registered gate is
-`MM-005-browser-research-data-generation-execution-v1`. If and only if that
-one-shot execution and independent model-free review pass, the downstream
-design gate becomes
-`MM-005-browser-research-adapter-verifier-protocol-v1`. The formal invocation
-has not occurred at this freeze.
+It must not be invoked again: the fixed output tree and evidence are consumed,
+immutable inputs to later gates. After this exact result is independently
+validated and published, the registered next gate is the separate model-free
+`MM-005-browser-research-adapter-verifier-protocol-v1` design protocol.

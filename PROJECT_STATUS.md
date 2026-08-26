@@ -526,69 +526,79 @@ derive from the same DOM ground truth; page text is the visible DOM text in
 order. No executable HTML, browser engine, JavaScript, network, host font,
 model, OCR, capture, or Runtime path is used.
 
-All 139 future outputs (68 snapshots, 68 PNGs, two split datasets, and one
+All 139 planned outputs (68 snapshots, 68 PNGs, two split datasets, and one
 manifest) rebuild in memory to 986,989 bytes with exact path/byte/SHA-256
-receipts. The fixed output root and execution evidence remain absent. The
+receipts. At that data-protocol freeze, the fixed output root and execution
+evidence were absent. The
 73,476-byte canonical protocol SHA-256 is
 `38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a`.
 Fourteen focused adversarial tests, Ruff, scoped strict Mypy, `py_compile`,
 builder `--check`, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12,
 and 3.13.7 each pass the complete unified 811-test gate with four expected
-Windows privilege skips, 63 audited source files, and `valid=true`. Generation,
-dataset validation, Adapter/Verifier execution, live browser/network use,
-model/quality/safety, Serving, promotion, and Runtime claims remain false.
+Windows privilege skips, 63 audited source files, and `valid=true`. At that
+freeze, generation, dataset validation, Adapter/Verifier execution, live
+browser/network use, model/quality/safety, Serving, promotion, and Runtime
+claims were false.
 [Browser Research data protocol](docs/MM-005-browser-research-data-protocol-v1.md).
 
 PR #63 published the exact preregistration as
-`9518d5b59fb11dbea237caa17fd245f4dcd5c2db`. All six Linux Python-matrix
-checks passed; the PR had zero reviews, issue comments, review comments, or
-review threads, was `CLEAN`/`MERGEABLE`, and both feature-branch copies were
-deleted before local `master` was aligned with `origin/master`.
+`9518d5b59fb11dbea237caa17fd245f4dcd5c2db`; PR #64 closed its publication
+status as `5ef3d495af1d10d203a1dbcbba5cc713c2b4ee62` without changing the frozen
+data protocol or generator sources.
 
-`MM-005-browser-research-data-generation-v1` is now frozen locally before
-materialization. Its 64,590-byte canonical protocol has SHA-256
+PR #65 then published `MM-005-browser-research-data-generation-v1` as
+`9739e2b86d8473d9b8e99ea32e541db6055e4523`. All six Linux Python-matrix
+checks passed; the PR had zero reviews, issue comments, review comments, or
+review threads, was `CLEAN`/`MERGEABLE`, both feature-branch copies were
+deleted, and local `master` was aligned with `origin/master` at that exact
+commit. The 64,590-byte canonical protocol has SHA-256
 `78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`
-and binds PR #63's exact data-protocol merge commit, four closed
-data/generation source receipts, the unchanged 73,476-byte data protocol, and
-all 139 planned outputs / 986,989 bytes. The runner requires published-data
-ancestry, aligned exact merged `master`, absent targets, zero internal retry,
-same-parent staging-root atomic publication, exact-tree rejection, and
-independent persisted-byte readback. Windows extended-length physical paths
-preserve the registered logical receipts for deep screenshot trees.
+and binds PR #63's merge commit, four exact source receipts, the unchanged
+73,476-byte data protocol, and all 139 output receipts / 986,989 bytes.
+
+From that exact merged `master`, the registered formal invocation executed
+once with zero retry. It atomically materialized and independently read back
+32 records, 68 static source snapshots, 68 unique PNG screenshots, and the
+exact 139-file / 986,989-byte tree. The 63,294-byte exclusive execution
+evidence has SHA-256
+`1c5a7898f9811171c963db95b13a4fd33427b7ec58a4058ab5d4f077110f7fea`;
+all 20 registered gates are true.
 
 Seventeen focused adversarial tests, full-repository Ruff, scoped strict Mypy,
 `py_compile`, protocol `--check`, and `git diff --check` pass. Local CPython
 3.11.15, 3.12.12, and 3.13.7 each pass the complete unified 828-test gate with
 four expected Windows privilege skips, 64 audited source files, and
-`valid=true`. The output root and execution evidence remain absent;
-generation, records, source snapshots, screenshots, dataset validation,
-Adapter/Verifier, live browser/network, model, quality, safety, capture,
-Serving, promotion, and Runtime claims remain false.
-[Generation protocol](docs/MM-005-browser-research-data-generation-protocol-v1.md).
+`valid=true`. Only generation, records, source snapshots, screenshots, and
+dataset validation are established. Adapter/Verifier, live browser/network,
+model, quality, safety, prompt-injection safety, real/external content,
+capture, Serving, promotion, cross-machine repeatability, and Runtime claims
+remain false.
+[Generation protocol and result](docs/MM-005-browser-research-data-generation-protocol-v1.md).
 
 ## Single active objective
 
-Publish the frozen `MM-005-browser-research-data-generation-v1` without
-materializing any of the 139 registered Browser Research outputs:
+Publish the consumed `MM-005-browser-research-data-generation-execution-v1`
+result without changing any registered output or evidence byte:
 
 ```text
-published data protocol merge commit + 139 exact output receipts
-        -> closed runner/execution source receipts and exact-master preflight
-        -> zero retry + absent targets + staging-root atomic publication
-        -> exact-tree and independent persisted-byte validation
+exact merged protocol commit + one consumed zero-retry invocation
+        -> 139 tracked outputs + exclusive evidence
+        -> exact receipt/tree/semantic reconstruction from persisted bytes
+        -> historical freeze binding + narrow fail-closed claims
         -> adversarial tests + unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
 
-Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
-evaluation directory. This publication slice may define only the formal
-materialization boundary; it must not write any registered output or execution
-evidence, access a live browser or network, import/load/call a model, train or
-save a model/Adapter, change the Runtime repository, capture real browser/
-desktop/document content, or broaden prior repeatability claims. One formal
-materialization invocation becomes the single successor action only after the
-generation protocol itself cleanly merges, both branch copies are deleted, and
-`master == origin/master` at its exact freeze commit.
+Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
+Browser Research output tree or evidence. This result-publication slice may
+only track and independently validate those exact bytes and update their
+status/documentation; it must not access a live browser or network,
+import/load/call a model, train or save a model/Adapter, change the Runtime
+repository, capture real browser/desktop/document content, or broaden
+repeatability claims. Only after the exact result cleanly merges, both branch
+copies are deleted, and `master == origin/master` may the separate model-free
+`MM-005-browser-research-adapter-verifier-protocol-v1` become the single
+successor objective.
 
 ## Preserved historical validation and deferred gates
 
@@ -1617,7 +1627,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation/data protocols published through PR #61/#63, generation protocol frozen locally before publication/execution |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation/data/generation protocols published through PR #61/#63/#65, one-shot generation consumed and awaiting exact result publication |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
