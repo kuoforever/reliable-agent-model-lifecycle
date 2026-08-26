@@ -975,9 +975,16 @@ injection safety 与 open-web source ranking 均 deferred。
 Research subcheck 已通过；本地 CPython 3.11.15、3.12.12、3.13.7 complete unified gates
 均通过 797 tests、4 个预期 Windows privilege skips、62 个 audited source files，且
 `valid=true`。Adapter/Verifier implementation、data、browsing、network、model、quality、
-safety、Serving、promotion、Runtime claims 全部 false。当前唯一动作是发布此 exact protocol；
-clean merge、branch cleanup 且 `master == origin/master` 后，下一 gate 才是
-`MM-005-browser-research-data-protocol-v1`。
+safety、Serving、promotion、Runtime claims 全部 false。PR #61 已将 exact protocol 合并为
+`d7e7b7f70ff298a47244c34cc22173c70c65e6c9`；6 个 Linux matrix checks 全部通过，
+reviews/issue comments/review comments/review threads 均为 0，PR 为 `CLEAN`/`MERGEABLE`，
+远端和本地 feature branch 均已删除，且 `master == origin/master`。
+
+当前唯一 gate 是 model-free `MM-005-browser-research-data-protocol-v1`：必须先冻结 seed、
+counts、train/validation splits、template families、static source snapshots、DOM/page-text/
+screenshot deterministic alignment、planned output receipts、prior-content exclusion 与验证规则，
+不得在该 protocol clean merge、branch cleanup 且 `master == origin/master` 前生成任何 Browser
+Research record 或 image。
 
 ## TOOL-001：工具 Schema 与任务定义
 

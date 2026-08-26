@@ -154,9 +154,13 @@ or cross-machine repeatability.
 
 ## Next gate
 
-After this exact protocol merges with checks, review, and conflict state clear,
-both feature-branch copies are deleted, and `master == origin/master`, the
-single next gate is `MM-005-browser-research-data-protocol-v1`. It must freeze
-seed, counts, template families, static source snapshots, deterministic DOM/
-page-text/screenshot alignment, output receipts, split isolation, and validation
-before generating any Browser Research record or image.
+PR #61 published this exact protocol as
+`d7e7b7f70ff298a47244c34cc22173c70c65e6c9`. All six Linux Python-matrix
+checks passed; reviews, issue comments, review comments, and review threads were
+all zero; the PR was `CLEAN`/`MERGEABLE`; both feature-branch copies were
+deleted; and local `master` was aligned with `origin/master`.
+
+The single next gate is `MM-005-browser-research-data-protocol-v1`. It must
+freeze seed, counts, template families, static source snapshots, deterministic
+DOM/page-text/screenshot alignment, output receipts, split isolation, and
+validation before generating any Browser Research record or image.
