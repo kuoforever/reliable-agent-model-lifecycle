@@ -399,7 +399,7 @@ true; model training/evaluation, repeatability, quality, safety, Serving,
 promotion, and Runtime eligibility remain false. See the
 [MM-005 Adapter/Verifier implementation](docs/MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md).
 
-### Document/Chart/PDF model-evaluation protocol v1
+### Document/Chart/PDF model-evaluation protocol and result review v1
 
 PR #55 merged the exact Adapter/Verifier implementation and conformance
 evidence as `ff52da51aba534b051f9e247518fb2d20d1db1e2` before evaluation protocol
@@ -411,10 +411,20 @@ It binds one exact Qwen2.5-VL base-plus-read-only-Adapter candidate, all 32
 synthetic records in fixed order, 32 gold/path-isolated prompt projections,
 strict compilation, deterministic total metrics, 1,800-second / 16.5-GB
 integrity caps, one owner-marked zero-retry attempt, and mutually exclusive
-terminal success/failure receipts. The output directory remains absent; no
-attempt, model import, model call, GPU measurement, training, Adapter write, or
-Runtime change has occurred. See the
-[MM-005 model-evaluation protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md).
+terminal success/failure receipts. PR #56 merged the freeze as
+`3be0083c3197111d57a4a5e5f70feced9f2c96f9`, after which its exact one-shot
+command completed all 32 calls with zero retry.
+
+The model-free review reconstructs the persisted result exactly. Compiler
+validity is 28/32 and joint exact is 19/32. Chart and table are each 8/8 joint
+exact, document text is 0/8, and page-region selection is 3/8. The 13 bad cases
+are nine compiler-valid answer errors plus four compiler-invalid outputs.
+Elapsed time was `216.03030519999447` seconds and peak allocated/reserved CUDA
+memory was `6,458,204,160` / `6,777,995,264` bytes, inside the registered caps.
+This establishes a completed fixed-suite measurement, not quality, safety,
+repeatability, Serving, promotion, or Runtime eligibility. See the
+[protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) and
+[result review](docs/MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -852,15 +862,18 @@ with 32 projections and 160 deterministic controls. The independent Adapter/
 Verifier implementation now reproduces them exactly; PR #55 published its
 102,117-byte evidence as
 `ff52da51aba534b051f9e247518fb2d20d1db1e2`. The separate 58,414-byte
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1` is now frozen locally
-with 32 closed prompt projections and one zero-retry attempt contract.
-Publishing that protocol is the single active objective; only after a clean
-merge may `MM-005-document-chart-pdf-model-evaluation-execution-v1` begin.
-Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
-read-only. This does not authorize training, model/Adapter writes, Runtime
-changes, real desktop/document capture, or reuse/retry of the consumed MM-004
-or MM-005 generation attempt. The model-evaluation attempt has not yet been
-consumed.
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` merged through PR #56
+as `3be0083c3197111d57a4a5e5f70feced9f2c96f9`. Its exact owner-marked
+zero-retry attempt is now consumed: 32 calls completed and the model-free
+review records 19/32 joint exact, with chart/table 16/16 but document text 0/8
+and page-region 3/8. Publishing the exact result artifacts and review is the
+single active objective. After a clean merge, the only next gate is
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1`, which
+must freeze before any second model import or call. Existing MM-002/MM-003/
+MM-004 evidence, the Adapter, generated data, and the consumed MM-005 baseline
+remain read-only. This does not authorize training, model/Adapter writes,
+Runtime changes, real desktop/document capture, quality/safety claims, or
+reuse/retry of any consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

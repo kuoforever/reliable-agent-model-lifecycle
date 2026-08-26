@@ -3,7 +3,6 @@ from __future__ import annotations
 import ast
 import copy
 import json
-import os
 import sys
 import unittest
 from contextlib import nullcontext
@@ -34,8 +33,10 @@ from scripts import (  # noqa: E402
 class MM005DocumentChartPdfModelEvaluationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.inputs = prepare.protocol_inputs()
-        cls.protocol = prepare.build_protocol()
+        cls.inputs = {**prepare.protocol_inputs(), "output_absent": True}
+        cls.protocol = contract.expected_preregistration(
+            freeze_status="frozen", **cls.inputs
+        )
         cls.payload = contract.artifact_json_bytes(cls.protocol)
         cls.records = [dict(item) for item in cls.inputs["records"]]
         cls.images = {
@@ -73,7 +74,7 @@ class MM005DocumentChartPdfModelEvaluationTests(unittest.TestCase):
         self.assertFalse(candidate["adapter_mutation_allowed"])
         self.assertFalse(candidate["model_or_tensor_save_allowed"])
         self.assertFalse(candidate["training_allowed"])
-        self.assertFalse(os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT))
+        self.assertTrue(self.protocol["freeze_preconditions"]["fixed_output_absent"])
 
     def test_prompt_projection_is_closed_gold_free_and_byte_bound(self) -> None:
         suite = self.protocol["input_suite"]
@@ -462,15 +463,27 @@ class MM005DocumentChartPdfModelEvaluationTests(unittest.TestCase):
     def test_formal_command_is_rejected_before_attempt_on_feature_branch(
         self,
     ) -> None:
+        with self.assertRaisesRegex(
+            RuntimeError,
+            "formal MM-005 evaluation requires aligned merged master",
+        ):
+            runner._validate_protocol_freeze_commit(
+                protocol_freeze_commit="a" * 40,
+                preregistration_payload=self.payload,
+                inputs=self.inputs,
+            )
+
+    def test_consumed_output_guard_rejects_replay_before_context(self) -> None:
         with (
             mock.patch.object(runner, "_validate_formal_python_execution_mode"),
+            mock.patch.object(runner.os.path, "lexists", return_value=True),
             self.assertRaisesRegex(
-                RuntimeError,
-                "formal MM-005 evaluation requires aligned merged master",
+                RuntimeError, "formal MM-005 evaluation output must be absent"
             ),
         ):
-            runner.execute_frozen_protocol(protocol_freeze_commit="a" * 40)
-        self.assertFalse(os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT))
+            runner.execute_frozen_protocol(
+                protocol_freeze_commit="3be0083c3197111d57a4a5e5f70feced9f2c96f9"
+            )
 
     def _cases(self, mode: str) -> list[dict[str, Any]]:
         return [

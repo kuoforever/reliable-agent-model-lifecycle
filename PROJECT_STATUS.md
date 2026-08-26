@@ -379,8 +379,8 @@ passed; the PR had zero reviews, comments, or review threads. Both feature-
 branch copies were deleted and `master == origin/master` was restored before
 the model-evaluation protocol slice began.
 
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1` is now frozen locally
-before any model import or call. Its 58,414-byte canonical artifact has SHA-256
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` froze before any model
+import or call. Its 58,414-byte canonical artifact has SHA-256
 `cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b`.
 It binds the exact Qwen2.5-VL base revision plus read-only MM-003 Adapter, the
 MM-004 candidate result lineage, the merged MM-005 Adapter/Verifier evidence,
@@ -389,43 +389,71 @@ are ordered once; their closed model payloads total 31,430 bytes and exact
 image payloads total 314,128 bytes, with gold, Verifier metadata, identity, and
 real paths isolated from the model.
 
-The future formal run is pre-registered for one fresh base load, one
+The formal run was pre-registered for one fresh base load, one
 independent Adapter load, 32 ordered offline calls, zero retry/training/write,
 1,800 seconds, and 16.5 GB peak allocated/reserved GPU memory. Strict compiler,
 deterministic Verifier, total metrics, owner-marked attempt consumption, and
 mutually exclusive terminal evidence/failure receipts are fixed before the
-result. Fourteen protocol-focused tests and the complete 78-test MM-005 chain,
-Ruff, scoped strict Mypy, `py_compile`, builder `--check`, and the unified-gate
-protocol probe pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the
-unified 738-test gate with four expected Windows privilege skips, 60 audited
-source files, and `valid=true`.
+result. PR #56 merged the exact protocol as
+`3be0083c3197111d57a4a5e5f70feced9f2c96f9`: all six Linux Python-matrix
+checks passed, the PR had zero reviews, comments, or review threads, and both
+feature-branch copies were deleted before execution.
 
-The fixed evaluation output is absent. No attempt, model import, model call, or
-GPU measurement has occurred. Model evaluation, quality, safety,
-repeatability, Serving, promotion, Runtime change, and Runtime eligibility
-remain false.
+The exact merged-master invocation then consumed the single registered
+owner-marked attempt. It completed one fresh base load, one independent
+read-only Adapter load, and 32/32 ordered offline calls with zero retry,
+network, training, or Adapter write. The formal measurement gate passed in
+`216.03030519999447` seconds with `6,458,204,160` peak allocated and
+`6,777,995,264` peak reserved CUDA bytes, within the registered caps.
+
+The fixed-suite result has compiler validity 28/32, answer and joint exact
+19/32, evidence and page exact 28/32, and four compiler-invalid outputs. Chart
+and table are each 8/8 joint exact, document text is 0/8, and page-region
+selection is 3/8. The exact 13-case failure taxonomy is nine compiler-valid
+answer-only errors plus four compiler-invalid outputs.
+
+The independent model-free review rebuilds the candidate, predictions,
+Verifier/scorer evidence, and review byte for byte. The four execution
+artifacts are 656 / 32,190 / 18,543 / 7,495 bytes with SHA-256
+`ca9e420fbce5582cab5944e0c290e569f97cad85ad3a5cf9e3c53aa13989d00b`,
+`e26f6a9ca03e826f627ae90aca5b2fdcf5bbed770d9752aa9ba74982ed7d12ea`,
+`f9a545175688451fc5025eb1e90a1e1354a59c536887a54fe62deb80a019fff7`,
+and `5e330dde1debe7a207638d164aade8ab2c63fbcd8149b3178d64a16afd0fc78e`.
+The 15,235-byte result review has SHA-256
+`7cc4990f900787123f078d2387855e4708b5eadb8d6705bb6364d8cab2f935a7`.
+
+Protocol/result-focused tests pass 15/15 and 12/12; the complete MM-005 chain
+passes 91/91. Full Ruff, scoped strict Mypy, `py_compile`, default result
+validation, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12, and
+3.13.7 each pass the unified 751-test gate with four expected Windows
+privilege skips, 60 audited source files, and `valid=true`, without a model
+reload or second attempt. This establishes only a completed fixed-suite
+measurement. Quality, safety, same-machine evaluation repeatability,
+training/resource repeatability, cross-machine reproducibility, Serving,
+promotion, Runtime change, and Runtime eligibility remain false.
 [Model-evaluation protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md).
+[Result review](docs/MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
 
 ## Single active objective
 
-Publish the MM-005 Document/Chart/PDF model-evaluation protocol:
+Publish the exact MM-005 Document/Chart/PDF model-evaluation result:
 
 ```text
-58,414-byte preregistration + 32 closed prompt projections + one attempt contract
+consumed owner + candidate + predictions + evidence + 15,235-byte review
         -> merge with checks/review/conflict state clear
-        -> preserve model, Adapter, generated data, and all prior evidence read-only
-        -> MM-005-document-chart-pdf-model-evaluation-execution-v1
+        -> preserve the baseline, model, Adapter, data, and prior evidence read-only
+        -> MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
-This publication branch may reconstruct the protocol and use fake dependencies
-in tests but must never import or call the formal model. Do not train, evaluate,
-modify, or save a model, claim or create the fixed attempt output, change the
-Runtime repository, capture real desktop/document content, or interpret
-protocol repeatability as model/training repeatability, quality, or safety
-evidence. The exact protocol must merge before formal execution can consume its
-single owner-marked attempt.
+This publication branch may only reconstruct tracked artifacts and use fake
+dependencies in tests; it must never import, load, or call the formal model.
+Do not train, evaluate again, modify or save a model, create another attempt,
+change the Runtime repository, capture real desktop/document content, or
+interpret a completed measurement as repeatability, quality, or safety
+evidence. After clean merge and branch cleanup, freeze the exact outcome-
+neutral repeatability protocol before any second model import or call.
 
 ## Preserved historical validation and deferred gates
 
@@ -1454,7 +1482,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF Adapter/Verifier implementation/evidence merged, outcome-neutral model-evaluation protocol frozen locally, protocol publication next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF one-shot model measurement completed and model-free result review validated locally, exact result publication next, then repeatability protocol |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

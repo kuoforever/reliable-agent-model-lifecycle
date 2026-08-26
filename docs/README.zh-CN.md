@@ -31,7 +31,8 @@ English (default): [README.md](README.md)
 | Document/Chart/PDF 数据生成协议 v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | merged-master 一次性 runner 已消费：49 outputs / 434,212 bytes 原子落盘、独立回读、独占 evidence 与零重试 |
 | Document/Chart/PDF Adapter/Verifier 协议 v1 | [MM-005 Adapter/Verifier protocol](MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md) | 冻结 model-free 32 projection、model payload gold/path 隔离与 160 个 deterministic 正负 Verifier controls；downstream conformance 已实现 |
 | Document/Chart/PDF Adapter/Verifier 实现 v1 | [MM-005 Adapter/Verifier implementation](MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md) | 独立 Adapter 与 strict compiler/Verifier 精确复现 32 projections 和 160 controls；未执行模型且无 Runtime authority |
-| Document/Chart/PDF 模型评测协议 v1 | [MM-005 model-evaluation protocol](MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) | outcome-neutral 单次 32-call 评测预注册，冻结 prompt lineage、total metrics、resource caps 与安全 failure receipts；尚未调用模型 |
+| Document/Chart/PDF 模型评测协议 v1 | [MM-005 model-evaluation protocol](MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) | outcome-neutral 单次 32-call 评测预注册，冻结 prompt lineage、total metrics、resource caps 与安全 failure receipts；exact attempt 后续已完成 |
+| Document/Chart/PDF 模型评测结果复核 v1 | [MM-005 model-evaluation result review](MM-005-document-chart-pdf-model-evaluation-result-review-v1.md) | 正式 measurement 完成；fixed-suite joint exact 19/32，chart/table 与 document/page-region 存在显著偏斜，repeatability、quality、Runtime claims 仍为 false |
 | 标准库离线基线 | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | Complete |
 | Python / 工具链环境 | [Environment baseline](environment.md) | Complete |
 | Tool Router schema / eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | Complete |
