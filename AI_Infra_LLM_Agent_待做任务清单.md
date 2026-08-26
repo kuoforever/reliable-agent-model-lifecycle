@@ -870,15 +870,38 @@ measurement completion。attempt 只在 fixed output directory 被 owner-marked 
 claim 后消费；成功必须持久化 candidate/predictions/evidence，失败只能持久化不含
 message/trace/path/secret 的安全 receipt，消费后不得 retry。
 
-当前 output directory 不存在，`attempt_consumed=false`、`evaluation_executed=false`、
-`model_evaluated=false`；quality/safety/repeatability/Serving/promotion/Runtime claims
-也仍为 false。protocol focused 14/14 tests 与完整 MM-005 chain 78/78 tests、Ruff、
-scoped strict Mypy、`py_compile`、builder `--check` 和统一 gate 的 protocol probe 已
-通过。本机 CPython 3.11.15、3.12.12、3.13.7 unified 738-test gates 全部通过，
-均有 4 个预期 Windows privilege skips、60 个 audited source files 和 `valid=true`。
-当前单一动作是发布该 protocol；clean merge 后唯一下一 gate 是
-`MM-005-document-chart-pdf-model-evaluation-execution-v1`，正式执行只能从 exact
-aligned merged `master` 消费一次 owner-marked attempt。
+在 protocol freeze 时 output directory 不存在，`attempt_consumed=false`、
+`evaluation_executed=false`、`model_evaluated=false`。该 exact protocol 后续已通过
+PR #56 合并为 `3be0083c3197111d57a4a5e5f70feced9f2c96f9`；6 个 Linux matrix checks
+全部通过，0 review/comment/thread，远近 feature branch 清理且
+`master == origin/master` 后才正式执行。
+
+`MM-005-document-chart-pdf-model-evaluation-execution-v1` 随后从该 exact merged
+commit 仅执行一次：one fresh base load、one independent read-only Adapter load、
+32/32 ordered calls、zero retry/network/training/write。正式 measurement gate 通过，
+elapsed `216.03030519999447` seconds，peak CUDA allocated/reserved
+`6,458,204,160` / `6,777,995,264` bytes。结果为 compiler validity 28/32，answer/joint
+exact 19/32，evidence/page exact 28/32；chart 与 table 均 8/8，document text 0/8，
+page-region 3/8。13 个 bad cases 精确分为 9 个 compiler-valid answer-only wrong 与
+4 个 compiler-invalid。
+
+独立 model-free review 已逐字节重建 candidate、predictions、Verifier/scorer evidence
+和 15,235-byte result review；review SHA-256 为
+`7cc4990f900787123f078d2387855e4708b5eadb8d6705bb6364d8cab2f935a7`。protocol/result
+focused 15/15 + 12/12、完整 MM-005 chain 91/91、Ruff、scoped strict Mypy、
+`py_compile`、default validator 与 `git diff --check` 通过。本机 CPython 3.11.15、
+3.12.12、3.13.7 unified 751-test gates 全部通过，均有 4 个预期 Windows privilege
+skips、60 个 audited source files 和 `valid=true`，且没有 model reload 或 second
+attempt。
+
+当前单一动作是发布 exact consumed result artifacts 与 review；clean merge 后唯一
+下一 gate 是
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1`。必须在任何
+second model import/call 前冻结 unchanged candidate/environment/32-case order/prompt/
+image/compiler/Verifier/generation 与 owner-marked zero-retry replay，并 outcome-neutral
+比较 raw/compiled/verdict/metrics/token/resource diagnostics。quality/safety/training/
+resource repeatability/cross-machine/Serving/promotion/Runtime claims 仍为 false，已消费
+baseline 不得 delete/reopen/reuse/overwrite/retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 

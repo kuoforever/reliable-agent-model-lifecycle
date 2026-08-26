@@ -2,7 +2,7 @@
 
 ## Outcome
 
-The outcome-neutral read-only model-evaluation protocol is frozen before any
+The outcome-neutral read-only model-evaluation protocol was frozen before any
 model import or call. Its canonical preregistration is
 `configs/mm005_document_chart_pdf_model_evaluation_protocol_v1.json`: 58,414
 bytes with SHA-256
@@ -14,8 +14,17 @@ exact conformance evidence as
 passed, there were no reviews, comments, or review threads, and both feature-
 branch copies were deleted before this protocol slice began.
 
-The fixed evaluation output directory is absent. No attempt has been claimed,
-no model has been imported or called, and no GPU measurement has occurred.
+PR #56 later merged this exact freeze as
+`3be0083c3197111d57a4a5e5f70feced9f2c96f9`; all six Linux Python-matrix
+checks passed, there were no reviews, comments, or review threads, and both
+feature-branch copies were deleted. The exact merged-master invocation then
+consumed its one registered attempt and completed all 32 calls with zero retry.
+The resulting fixed-suite behavior and narrow limitations are documented in
+the [result review](MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
+
+At protocol freeze, the fixed evaluation output directory was absent. No
+attempt had been claimed, no model had been imported or called, and no GPU
+measurement had occurred.
 
 ## Read-only candidate and lineage
 
@@ -129,8 +138,10 @@ or Runtime eligibility.
 
 ## Next gate
 
-After this exact protocol merges with checks, review state, and conflicts clear,
-the single next gate is
-`MM-005-document-chart-pdf-model-evaluation-execution-v1`. It may consume the
-one registered attempt from the aligned merged commit. A successful terminal
-routes to result review; a consumed failure routes to failure classification.
+The protocol's registered next gate was
+`MM-005-document-chart-pdf-model-evaluation-execution-v1`. It consumed the one
+registered attempt from the aligned merged commit and routed its successful
+terminal to model-free result review. That review is now complete; its single
+next gate is
+`MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1`, which
+must merge before any second model import or call.

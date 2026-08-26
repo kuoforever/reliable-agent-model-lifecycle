@@ -160,6 +160,13 @@ MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_BYTES = 58_414
 MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_SHA256 = (
     "sha256:cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b"
 )
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_PATH = (
+    ROOT / "baseline" / "mm005-document-chart-pdf-model-eval-v1-result-review.json"
+)
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_BYTES = 15_235
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_SHA256 = (
+    "sha256:7cc4990f900787123f078d2387855e4708b5eadb8d6705bb6364d8cab2f935a7"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -505,6 +512,9 @@ def main() -> int:
     )
     mm005_document_chart_pdf_model_evaluation = (
         _validate_mm005_document_chart_pdf_model_evaluation_protocol()
+    )
+    mm005_document_chart_pdf_model_evaluation_result = (
+        _validate_mm005_document_chart_pdf_model_evaluation_result_review()
     )
     tests_run = _run_tests()
 
@@ -1073,6 +1083,29 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_model_evaluation_next_gate": (
             mm005_document_chart_pdf_model_evaluation["next_gate"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_formal_gate_passed": (
+            mm005_document_chart_pdf_model_evaluation_result["formal_gate_passed"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_joint_exact_accuracy": (
+            mm005_document_chart_pdf_model_evaluation_result["joint_exact_accuracy"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_compiler_validity": (
+            mm005_document_chart_pdf_model_evaluation_result["compiler_validity"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_compiler_invalid_count": (
+            mm005_document_chart_pdf_model_evaluation_result["compiler_invalid_count"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_incorrect_case_count": (
+            mm005_document_chart_pdf_model_evaluation_result["incorrect_case_count"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_established": (
+            mm005_document_chart_pdf_model_evaluation_result[
+                "repeatability_established"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_result_next_gate": (
+            mm005_document_chart_pdf_model_evaluation_result["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3816,7 +3849,7 @@ def _validate_mm005_document_chart_pdf_model_evaluation_protocol() -> dict[str, 
     if contract.artifact_json_bytes(raw) != payload:
         raise GateError("MM-005 model-evaluation protocol is not canonical JSON")
 
-    inputs = prepare.protocol_inputs()
+    inputs = {**prepare.protocol_inputs(), "output_absent": True}
     expected = contract.validate_preregistration(raw, **inputs)
     input_suite = raw.get("input_suite")
     execution = raw.get("execution_protocol")
@@ -3902,6 +3935,64 @@ def _validate_mm005_document_chart_pdf_model_evaluation_protocol() -> dict[str, 
         "next_gate": raw["next_gate"],
         "protocol_sha256": digest,
     }
+
+
+def _validate_mm005_document_chart_pdf_model_evaluation_result_review() -> dict[
+    str, Any
+]:
+    from scripts import (
+        validate_mm005_document_chart_pdf_model_evaluation_result as validator,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_PATH,
+        "MM-005 Document/Chart/PDF model-evaluation result review",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_BYTES
+        or digest != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_SHA256
+    ):
+        raise GateError("MM-005 model-evaluation result-review hash mismatch")
+    try:
+        summary = validator.validate_repository(ROOT)
+    except validator.MM005DocumentChartPdfResultError as exc:
+        raise GateError(
+            f"MM-005 model-evaluation result-review validation failed: {exc}"
+        ) from exc
+    if (
+        summary.get("formal_gate_passed") is not True
+        or summary.get("classification")
+        != "fixed_synthetic_suite_joint_exact_19_of_32_with_task_family_skew"
+        or summary.get("record_count") != 32
+        or summary.get("joint_exact_accuracy") != 19 / 32
+        or summary.get("compiler_validity") != 28 / 32
+        or summary.get("compiler_invalid_count") != 4
+        or summary.get("answer_only_wrong_count") != 9
+        or summary.get("incorrect_case_count") != 13
+        or summary.get("chart_joint_exact_accuracy") != 1.0
+        or summary.get("document_text_joint_exact_accuracy") != 0.0
+        or summary.get("page_region_joint_exact_accuracy") != 3 / 8
+        or summary.get("table_joint_exact_accuracy") != 1.0
+        or summary.get("evaluation_executed") is not True
+        or summary.get("model_evaluated") is not True
+        or summary.get("quality_improved") is not False
+        or summary.get("repeatability_established") is not False
+        or summary.get("elapsed_seconds") != 216.03030519999447
+        or summary.get("peak_gpu_allocated_bytes") != 6_458_204_160
+        or summary.get("peak_gpu_reserved_bytes") != 6_777_995_264
+        or summary.get("evidence_sha256")
+        != "sha256:5e330dde1debe7a207638d164aade8ab2c63fbcd8149b3178d64a16afd0fc78e"
+        or summary.get("review_bytes")
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_BYTES
+        or summary.get("review_sha256")
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_SHA256
+        or summary.get("next_gate")
+        != "MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1"
+        or summary.get("runtime_eligible") is not False
+    ):
+        raise GateError("MM-005 model-evaluation result-review boundary mismatch")
+    return summary
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
