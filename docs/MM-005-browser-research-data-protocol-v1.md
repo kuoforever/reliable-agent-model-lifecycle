@@ -16,6 +16,12 @@ with SHA-256
 It binds the 76,364-byte parent Browser Research protocol and five exact
 implementation/source receipts.
 
+PR #63 published this exact preregistration as
+`9518d5b59fb11dbea237caa17fd245f4dcd5c2db`. All six Linux Python-matrix
+checks passed with no review, comment, thread, or merge-conflict blocker. Both
+feature-branch copies were deleted before local `master` was aligned with
+`origin/master`.
+
 ## Frozen data grid
 
 The deterministic seed is `55006`. Each of the four task families has eight
@@ -127,9 +133,10 @@ four expected Windows privilege skips, 63 audited source files, and
 
 ## Next gate
 
-The registered downstream gate is
-`MM-005-browser-research-data-generation-v1`. It may be designed only after
-this exact preregistration cleanly merges, both feature-branch copies are
-deleted, and `master == origin/master`. That later gate must independently
-freeze an atomic, exact-tree, zero-retry materialization boundary before any of
-the 139 outputs can be written.
+The registered downstream gate is now
+`MM-005-browser-research-data-generation-v1`. The data-preregistration merge,
+branch cleanup, and master alignment preconditions are satisfied, so the next
+slice may freeze its runner protocol. That later gate must independently bind
+the exact merge commit and 139 receipts and freeze an atomic, exact-tree,
+zero-retry materialization boundary before any output can be written. No runner
+or output is created by this closure update.

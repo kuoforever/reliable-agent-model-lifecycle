@@ -508,8 +508,8 @@ may be materialized before that protocol cleanly merges.
 
 ### Browser Research data protocol v1
 
-The separate model-free preregistration is now frozen locally as 73,476
-canonical bytes with SHA-256
+The separate model-free preregistration is published as 73,476 canonical bytes
+with SHA-256
 `38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a`.
 Seed `55006` defines eight template families per task (six train and two
 validation), 32 records, and explicit one-to-three-source bundles containing
@@ -525,6 +525,12 @@ Runtime path is used. See the
 Fourteen focused tests pass, and local CPython 3.11.15, 3.12.12, and 3.13.7
 each pass the complete unified 811-test gate with four expected Windows
 privilege skips, 63 audited source files, and `valid=true`.
+
+PR #63 merged the exact protocol as
+`9518d5b59fb11dbea237caa17fd245f4dcd5c2db`; all six Linux matrix checks
+passed with no review/comment/thread/conflict blocker. Both feature-branch
+copies were deleted and local `master` was aligned with `origin/master` before
+the separate generation-runner protocol begins.
 
 ### Reliability/Verifier Dataset v1
 
@@ -973,14 +979,14 @@ model-free review establishes only bounded same-machine fixed-suite evaluation
 repeatability. PR #59 published those exact artifacts and review as
 `5f60cbf44a311b46b312090d62d2783424c1dc85`, closing this lifecycle.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, generated data, and both
-consumed MM-005 attempts remain read-only. The published Browser Research
-environment protocol now has a separate locally frozen data preregistration:
-32 planned records, 68 static sources/screenshots, and 139 exact future outputs.
-Publishing that exact data protocol with clean checks/review/conflict state is
-the single active objective. It does not authorize data generation, live
-browser/network use, model calls or writes, training, Runtime changes, real
-browser/desktop/document capture, generalized quality/safety claims, resource
-or cross-machine repeatability claims, or reuse/retry of a consumed attempt.
+consumed MM-005 attempts remain read-only. The Browser Research environment and
+data protocols are now published; the latter registers 32 records, 68 static
+sources/screenshots, and 139 exact future outputs. Freezing the separate
+`MM-005-browser-research-data-generation-v1` runner protocol is the single
+active objective. It does not authorize data generation, live browser/network
+use, model calls or writes, training, Runtime changes, real browser/desktop/
+document capture, generalized quality/safety claims, resource or cross-machine
+repeatability claims, or reuse/retry of a consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
