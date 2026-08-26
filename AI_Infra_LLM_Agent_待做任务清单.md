@@ -943,10 +943,16 @@ false。正式 runner 在 generation 前强制 live environment exact，但 live
 新 result-review focused 13/13、完整 MM-005 chain 120/120 通过；Ruff、scoped strict
 Mypy、`py_compile`、default validator、unified result subcheck 与 `git diff --check` 通过。
 本机 CPython 3.11.15、3.12.12、3.13.7 unified 780-test gates 全部通过，均有 4 个预期
-Windows privilege skips、61 个 audited source files 和 `valid=true`。当前单一动作是
-发布 exact replay artifacts 与 review；clean merge 和 branch cleanup 后，下一 gate 为
-`MM-005-browser-research-environment-adaptation-protocol-v1`。两个已消费 MM-005 attempt
-均不得 delete/reopen/reuse/overwrite/retry。
+Windows privilege skips、61 个 audited source files 和 `valid=true`。PR #59 已把 exact
+replay artifacts、独立 review 与 strict validator 合并为
+`5f60cbf44a311b46b312090d62d2783424c1dc85`：6/6 checks 通过，0
+review/comment/thread，CLEAN/MERGEABLE，远近 feature branch 已清理且
+`master == origin/master`。Document/Chart/PDF repeatability lifecycle 至此关闭；当前唯一
+gate 为 model-free `MM-005-browser-research-environment-adaptation-protocol-v1`，必须在
+任何 data generation/model call/training/Serving/Runtime change 前冻结第三环境边界。它只
+允许界定未来 Browser Research 的 Adapter、任务集、Verifier 与数据，不复制 orchestration、
+Serving、审批、恢复或安全系统。两个已消费 MM-005 attempt 均不得
+delete/reopen/reuse/overwrite/retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 
