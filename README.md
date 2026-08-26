@@ -426,6 +426,32 @@ repeatability, Serving, promotion, or Runtime eligibility. See the
 [protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) and
 [result review](docs/MM-005-document-chart-pdf-model-evaluation-result-review-v1.md).
 
+### Document/Chart/PDF model-evaluation repeatability protocol v1
+
+PR #57 merged the exact baseline execution artifacts and independent result
+review as `056eb8d050eb0f0491ff21a07bd5b7716abf7eb8` before any repeat model
+call. The unchanged same-machine fixed-suite replay is now frozen as 47,974
+canonical bytes with SHA-256
+`4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7`.
+
+The protocol authenticates the baseline, candidate, environment, 32-case
+order, prompts, images, compiler, Verifier, metrics, generation settings, and
+12-source execution closure. It permits one fresh base load, one independent
+read-only Adapter load, 32 ordered offline calls, and zero retry, training,
+network, or model/Adapter writes. Raw UTF-8, compiled JSON, Verifier verdicts,
+metrics, and generated-token counts compare independently. Equality is an
+observed result rather than a measurement-completion gate; resource equality
+is diagnostic-only while the inherited caps remain integrity gates.
+
+The 16 focused tests and complete 107-test MM-005 chain pass. CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the unified 767-test gate with four expected
+Windows privilege skips, 61 audited source files, and `valid=true`.
+
+At freeze, the replay output is absent and no second model import or call has
+occurred. Replay execution and every repeatability, quality, safety,
+cross-machine, Serving, promotion, and Runtime claim remain false. See the
+[repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical

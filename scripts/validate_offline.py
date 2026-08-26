@@ -167,6 +167,15 @@ MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_BYTES = 15_235
 MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_RESULT_REVIEW_SHA256 = (
     "sha256:7cc4990f900787123f078d2387855e4708b5eadb8d6705bb6364d8cab2f935a7"
 )
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_PATH = (
+    ROOT
+    / "configs"
+    / "mm005_document_chart_pdf_model_evaluation_repeatability_protocol_v1.json"
+)
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_BYTES = 47_974
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_SHA256 = (
+    "sha256:4c5186cbfa542125d4f2b96dae14e31955effa330c42951f993413d276962ed7"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -515,6 +524,9 @@ def main() -> int:
     )
     mm005_document_chart_pdf_model_evaluation_result = (
         _validate_mm005_document_chart_pdf_model_evaluation_result_review()
+    )
+    mm005_document_chart_pdf_model_evaluation_repeatability = (
+        _validate_mm005_document_chart_pdf_model_evaluation_repeatability_protocol()
     )
     tests_run = _run_tests()
 
@@ -1106,6 +1118,38 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_model_evaluation_result_next_gate": (
             mm005_document_chart_pdf_model_evaluation_result["next_gate"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_protocol_frozen": (
+            mm005_document_chart_pdf_model_evaluation_repeatability[
+                "protocol_frozen"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_source_files": (
+            mm005_document_chart_pdf_model_evaluation_repeatability["source_files"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_cases": (
+            mm005_document_chart_pdf_model_evaluation_repeatability["case_count"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_generate_calls": (
+            mm005_document_chart_pdf_model_evaluation_repeatability["generate_calls"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_equality_is_gate": (
+            mm005_document_chart_pdf_model_evaluation_repeatability[
+                "equality_is_gate"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_replay_attempt_consumed": (
+            mm005_document_chart_pdf_model_evaluation_repeatability[
+                "replay_attempt_consumed"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_protocol_claim": (
+            mm005_document_chart_pdf_model_evaluation_repeatability[
+                "repeatability_established"
+            ]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_repeatability_next_gate": (
+            mm005_document_chart_pdf_model_evaluation_repeatability["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3993,6 +4037,142 @@ def _validate_mm005_document_chart_pdf_model_evaluation_result_review() -> dict[
     ):
         raise GateError("MM-005 model-evaluation result-review boundary mismatch")
     return summary
+
+
+def _validate_mm005_document_chart_pdf_model_evaluation_repeatability_protocol() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_document_chart_pdf_model_evaluation_repeatability as contract,
+    )
+    from scripts import (
+        prepare_mm005_document_chart_pdf_model_evaluation_repeatability as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_PATH,
+        "MM-005 Document/Chart/PDF model-evaluation repeatability protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_BYTES
+        or digest
+        != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 model-evaluation repeatability protocol hash mismatch")
+    raw = _load_json_payload(
+        payload,
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_PROTOCOL_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 model-evaluation repeatability protocol is not canonical JSON"
+        )
+
+    inputs = {**prepare.protocol_inputs(), "output_absent": True}
+    try:
+        expected = contract.validate_preregistration(raw, **inputs)
+    except contract.MM005EvaluationRepeatabilityError as exc:
+        raise GateError(
+            f"MM-005 model-evaluation repeatability validation failed: {exc}"
+        ) from exc
+    execution = raw.get("execution_protocol")
+    comparison = raw.get("comparison_protocol")
+    resources = raw.get("resource_protocol")
+    formal_gate = raw.get("formal_gate")
+    claims = raw.get("claims")
+    preconditions = raw.get("freeze_preconditions")
+    source_receipts = raw.get("source_receipts")
+    lineage = raw.get("source_lineage")
+    case_order = (
+        comparison.get("case_order", []) if isinstance(comparison, dict) else []
+    )
+    true_claims = (
+        {name for name, established in claims.items() if established}
+        if isinstance(claims, dict)
+        else set()
+    )
+    if (
+        contract.artifact_json_bytes(expected) != payload
+        or raw.get("gate_id") != contract.PROTOCOL_GATE_ID
+        or raw.get("freeze_status") != "frozen"
+        or raw.get("decision")
+        != "outcome_neutral_same_machine_fixed_32_case_replay_protocol"
+        or raw.get("next_gate") != contract.EXECUTION_GATE_ID
+        or not isinstance(lineage, dict)
+        or lineage.get("baseline_protocol_freeze_commit")
+        != contract.BASELINE_PROTOCOL_FREEZE_COMMIT
+        or lineage.get("baseline_result_merge_commit")
+        != contract.BASELINE_RESULT_MERGE_COMMIT
+        or not isinstance(source_receipts, dict)
+        or len(source_receipts) != len(contract.PROTOCOL_SOURCE_PATHS)
+        or len(inputs["source_receipts"]) != len(contract.PROTOCOL_SOURCE_PATHS)
+        or not isinstance(execution, dict)
+        or execution.get("run_count") != 1
+        or execution.get("fresh_base_loads") != 1
+        or execution.get("independent_adapter_loads") != 1
+        or execution.get("generate_calls") != 32
+        or execution.get("retry_count") != 0
+        or execution.get("network_used") is not False
+        or execution.get("training_runs") != 0
+        or execution.get("adapter_writes") != 0
+        or len(case_order) != 32
+        or len(set(case_order)) != 32
+        or not isinstance(comparison, dict)
+        or comparison.get("equality_required_for_measurement_completion") is not False
+        or comparison.get("drift_must_be_preserved") is not True
+        or comparison.get("drift_authorizes_retry") is not False
+        or set(comparison.get("layers", {}))
+        != {
+            "raw_output",
+            "compiled_output",
+            "verifier_verdict",
+            "metrics",
+            "generated_token_count",
+        }
+        or not isinstance(resources, dict)
+        or resources.get("comparison_is_diagnostic_only") is not True
+        or resources.get("equality_required") is not False
+        or resources.get("resource_repeatability_claimed") is not False
+        or not isinstance(formal_gate, dict)
+        or formal_gate.get("required_gates") != list(contract.REQUIRED_GATES)
+        or formal_gate.get("equality_is_gate") is not False
+        or formal_gate.get("quality_threshold_is_gate") is not False
+        or formal_gate.get("resource_caps_are_integrity_gate") is not True
+        or preconditions
+        != {
+            "fixed_replay_output_absent": True,
+            "second_model_imported_at_protocol_freeze": False,
+            "second_model_called_at_protocol_freeze": False,
+            "replay_attempt_consumed_at_protocol_freeze": False,
+        }
+        or claims != contract.FREEZE_CLAIMS
+        or true_claims
+        != {
+            "baseline_attempt_consumed",
+            "baseline_evaluation_executed",
+            "baseline_model_evaluated",
+            "baseline_formal_measurement_complete",
+            "repeatability_protocol_frozen",
+        }
+    ):
+        raise GateError(
+            "MM-005 model-evaluation repeatability protocol boundary mismatch"
+        )
+    return {
+        "protocol_frozen": True,
+        "source_files": len(source_receipts),
+        "case_count": len(case_order),
+        "generate_calls": execution["generate_calls"],
+        "equality_is_gate": formal_gate["equality_is_gate"],
+        "replay_attempt_consumed": claims["replay_attempt_consumed"],
+        "repeatability_established": claims[
+            "same_machine_fixed_suite_repeatability_established"
+        ],
+        "next_gate": raw["next_gate"],
+        "protocol_sha256": digest,
+    }
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
