@@ -516,11 +516,11 @@ validation), 32 records, and explicit one-to-three-source bundles containing
 68 static source snapshots and 68 unique 1280×900 PNG screenshots.
 
 Every source descriptor, DOM, page text, screenshot, record, split dataset, and
-manifest byte is rebuilt in memory. The 139 planned outputs total 986,989 bytes
-and have exact path/byte/SHA-256 receipts, while the fixed output root and
-execution evidence remain absent. The static descriptors are canonical JSON,
-not executable HTML; no live browser, JavaScript, network, model, capture, or
-Runtime path is used. See the
+manifest byte was rebuilt in memory before materialization. The 139 planned
+outputs total 986,989 bytes and have exact path/byte/SHA-256 receipts. At this
+data-protocol freeze the fixed output root and execution evidence were absent.
+The static descriptors are canonical JSON, not executable HTML; no live
+browser, JavaScript, network, model, capture, or Runtime path is used. See the
 [Browser Research data protocol](docs/MM-005-browser-research-data-protocol-v1.md).
 Fourteen focused tests pass, and local CPython 3.11.15, 3.12.12, and 3.13.7
 each pass the complete unified 811-test gate with four expected Windows
@@ -534,9 +534,10 @@ the separate generation-runner protocol begins.
 
 ### Browser Research data generation protocol v1
 
-The separate one-shot, model-free runner is frozen locally before any of the
-139 registered outputs is written. Its 64,590-byte canonical protocol has
-SHA-256
+The separate one-shot, model-free runner merged through PR #65 as
+`9739e2b86d8473d9b8e99ea32e541db6055e4523`. Both feature-branch copies were
+deleted, and the single registered invocation then ran from that exact aligned
+`master` with zero retry. Its 64,590-byte canonical protocol has SHA-256
 `78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`.
 It binds the published PR #63 merge commit, four exact data/generation source
 receipts, the unchanged data protocol, and all 986,989 planned output bytes.
@@ -550,14 +551,21 @@ same logical receipt paths, so deep screenshot paths do not depend on legacy
 Runtime path is available. See the
 [Browser Research generation protocol](docs/MM-005-browser-research-data-generation-protocol-v1.md).
 
+The tracked result contains 32 records, 68 static source snapshots, 68 PNG
+screenshots, and exactly 139 files / 986,989 bytes. Its 63,294-byte execution
+evidence has SHA-256
+`1c5a7898f9811171c963db95b13a4fd33427b7ec58a4058ab5d4f077110f7fea`.
+Only generation, records, source snapshots, screenshots, and dataset
+validation are true. Adapter/Verifier, live browser/network, model, quality,
+safety, real/external content, capture, Serving, promotion, and Runtime claims
+remain false. The consumed invocation must not be retried or overwritten.
+
 Seventeen focused adversarial tests pass. Ruff, scoped strict Mypy,
-`py_compile`, protocol `--check`, and `git diff --check` pass. Local CPython
-3.11.15, 3.12.12, and 3.13.7 each pass the complete unified 828-test gate with
-four expected Windows privilege skips, 64 audited source files, and
-`valid=true`. At this freeze the output root and execution evidence remain
-absent; generation and dataset validation remain false. One formal invocation
-is registered only after this protocol cleanly merges, both feature-branch
-copies are deleted, and `master == origin/master ==` its exact freeze commit.
+`py_compile`, protocol `--check`, `git diff --check`, and local CPython 3.11.15,
+3.12.12, and 3.13.7 complete unified 828-test gates pass with four expected
+Windows privilege skips, 64 audited source files, and `valid=true`. After this
+exact result is published, the next design gate is the model-free
+`MM-005-browser-research-adapter-verifier-protocol-v1`.
 
 ### Reliability/Verifier Dataset v1
 

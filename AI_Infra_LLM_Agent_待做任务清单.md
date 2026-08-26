@@ -992,25 +992,22 @@ bundles；68 个 sources 按 51/17 分布到 train/validation。每个 source �
 descriptor、DOM、visible-order page text 与 unique 1280×900 PNG 从同一 synthetic ground truth
 重建；不使用 executable HTML、browser engine、JavaScript、network、host font、OCR、model、
 capture 或 Runtime。68 snapshots、68 PNG、两份 dataset 和 manifest 合计 139 个 planned
-outputs / 986,989 bytes，全部 path/bytes/SHA-256 已在内存冻结；固定 output root 与 execution
-evidence 仍不存在。73,476-byte protocol SHA-256 为
+outputs / 986,989 bytes，全部 path/bytes/SHA-256 已在内存冻结；在该 data-protocol freeze
+时，固定 output root 与 execution evidence 尚不存在。73,476-byte protocol SHA-256 为
 `38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a`。
 
 14/14 focused adversarial tests、Ruff、scoped strict Mypy、`py_compile`、builder `--check` 与
 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均
 通过 811 tests、4 个预期 Windows privilege skips、63 个 audited source files，且
 `valid=true`。generation/dataset validation、Adapter/Verifier execution、live browser/network、
-model/quality/safety、Serving/promotion/Runtime claims 全部 false。PR #63 已将 exact protocol
-合并为 `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`；6/6 Linux matrix checks 通过，
-0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已清理且
-`master == origin/master`。当前唯一 gate 是
-`MM-005-browser-research-data-generation-v1`：必须先独立冻结 exact-master preflight、
-zero-retry/absent-target contract、staging-root atomic publication、exact-tree rejection 与 persisted-
-byte independent validation，且在该 generation protocol clean merge/branch cleanup/master 对齐前
-仍不得生成 139 个 outputs。
+model/quality/safety、Serving/promotion/Runtime claims 在该 freeze 全部 false。PR #63 已将
+exact protocol 合并为 `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`；6/6 Linux matrix
+checks 通过，0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已清理。
+PR #64 又以 `5ef3d495af1d10d203a1dbcbba5cc713c2b4ee62` 关闭其 publication status，未改
+data protocol 或 generator sources。其下游 generation gate 随后冻结并执行如下。
 
-该 `MM-005-browser-research-data-generation-v1` runner protocol 现已在任何 formal
-materialization 前本地冻结：64,590 canonical bytes，SHA-256 为
+该 `MM-005-browser-research-data-generation-v1` runner protocol 已在任何 formal
+materialization 前冻结：64,590 canonical bytes，SHA-256 为
 `78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`。它显式绑定
 PR #63 data-protocol merge commit `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`、四份
 data/generation source receipts、73,476-byte data protocol 与全部 139 outputs / 986,989
@@ -1019,15 +1016,25 @@ zero internal retry、same-parent staging-root atomic rename、path-escape/symli
 拒绝、persisted-byte independent readback 与 exclusive evidence；Windows physical I/O 使用
 extended-length path，但 registered logical receipts 不变。
 
-17/17 focused adversarial tests、full-repository Ruff、scoped strict Mypy、`py_compile`、protocol
-`--check` 与 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified
-gates 均通过 828 tests、4 个预期 Windows privilege skips、64 个 audited source files，且
-`valid=true`。固定 output root 与 execution evidence 仍不存在；generation/records/source
-snapshots/screenshots/dataset validation、Adapter/Verifier、live browser/network、model/quality/
-safety/capture/Serving/promotion/Runtime claims 全部 false。当前唯一动作是 clean publish 该
-generation protocol；只有 PR clean merge、远近 branch cleanup 且 `master == origin/master ==`
-exact freeze commit 后，one-shot `MM-005-browser-research-data-generation-execution-v1` 才成为
-唯一 successor action。
+PR #65 已把该 exact protocol 合并为
+`9739e2b86d8473d9b8e99ea32e541db6055e4523`；6/6 Linux Python-matrix checks 通过，
+0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已删除且本地
+`master == origin/master ==` 该 freeze commit。随后唯一登记命令执行一次、zero retry，原子
+生成并独立回读验证 32 records、68 static source snapshots、68 PNG screenshots 与完整
+139-file / 986,989-byte tree。63,294-byte exclusive execution evidence SHA-256 为
+`1c5a7898f9811171c963db95b13a4fd33427b7ec58a4058ab5d4f077110f7fea`，20 个 required
+gates 全部为 true。
+
+结果态 17/17 focused adversarial tests、full-repository Ruff、scoped strict Mypy、
+`py_compile`、protocol `--check` 与 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、
+3.13.7 complete unified gates 均通过 828 tests、4 个预期 Windows privilege skips、64 个
+audited source files，且 `valid=true`。仅 generation/records/source snapshots/screenshots/
+dataset validation 为 true；Adapter/Verifier、live browser/network、model/quality/safety/prompt-
+injection safety/real or external content/capture/Serving/promotion/cross-machine repeatability/
+Runtime claims 仍为 false。当前唯一动作是 publish 该 consumed exact result，且不得 delete/
+reopen/reuse/overwrite/regenerate/retry。只有 result clean merge、远近 branch cleanup 且
+`master == origin/master` 后，model-free
+`MM-005-browser-research-adapter-verifier-protocol-v1` 才成为唯一 successor gate。
 
 ## TOOL-001：工具 Schema 与任务定义
 

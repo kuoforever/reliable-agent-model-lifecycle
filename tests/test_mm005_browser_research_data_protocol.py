@@ -119,7 +119,9 @@ class MM005BrowserResearchDataProtocolTests(unittest.TestCase):
             list(contract.MULTI_SOURCE_COUNTS) * 3,
         )
 
-    def test_planned_outputs_rebuild_without_downstream_execution_state(self) -> None:
+    def test_planned_outputs_rebuild_independently_of_downstream_execution_state(
+        self,
+    ) -> None:
         summary = contract.validate_planned_output_payloads(
             self.outputs,
             parent_protocol_sha256=self.parent_receipt["sha256"],
@@ -145,8 +147,6 @@ class MM005BrowserResearchDataProtocolTests(unittest.TestCase):
                 "next_gate": contract.NEXT_GATE,
             },
         )
-        self.assertFalse((ROOT / contract.OUTPUT_ROOT).exists())
-        self.assertFalse((ROOT / contract.EVIDENCE_PATH).exists())
 
     def test_every_planned_output_receipt_binds_exact_bytes(self) -> None:
         receipts = self.preregistration["planned_outputs"]
@@ -387,8 +387,6 @@ class MM005BrowserResearchDataProtocolTests(unittest.TestCase):
             }
             self.assertTrue(forbidden.isdisjoint(roots))
         self.assertFalse(hasattr(contract, "materialize_outputs"))
-        self.assertFalse((ROOT / contract.OUTPUT_ROOT).exists())
-        self.assertFalse((ROOT / contract.EVIDENCE_PATH).exists())
 
 
 if __name__ == "__main__":
