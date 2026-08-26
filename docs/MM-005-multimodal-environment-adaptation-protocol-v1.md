@@ -147,5 +147,7 @@ and execution claims before creating any dataset or image. Its separate
 one-shot generation gate has since completed. The subsequent
 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen and its
 independent Adapter/Verifier implementation exactly conforms without model
-execution or Runtime change. The current next gate is the outcome-neutral
-model-evaluation protocol.
+execution or Runtime change. That implementation is merged, and the separate
+outcome-neutral model-evaluation protocol is now frozen locally before any
+model import or call. Its publication is current; formal execution remains the
+next downstream gate.

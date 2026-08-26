@@ -104,7 +104,10 @@ treating the consumed data and generation evidence as immutable. Its
 102,117-byte evidence has SHA-256
 `d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2`.
 
-The current single next gate is
+The registered downstream gate was
 `MM-005-document-chart-pdf-model-evaluation-protocol-v1`. It must freeze an
-outcome-neutral read-only measurement before any model import or call. No
-training, capture, network access, or Runtime change is authorized.
+outcome-neutral read-only measurement before any model import or call. That
+protocol is now frozen locally as a 58,414-byte canonical artifact with 32
+closed prompt projections, total metrics, resource caps, attempt ownership,
+and safe failure receipts. Publishing it is current; no training, capture,
+network access, model call, or Runtime change is authorized.

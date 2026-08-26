@@ -18,6 +18,11 @@ It binds five implementation/protocol source receipts, the exact protocol
 merge commit and artifact, all consumed read-only upstream data, 32 Adapter
 executions, and 160 compiler/Verifier executions.
 
+PR #55 merged that exact implementation/evidence as
+`ff52da51aba534b051f9e247518fb2d20d1db1e2` after six Linux Python-matrix
+checks passed with zero reviews, comments, or review threads. Both feature-
+branch copies were deleted before model-evaluation protocol work began.
+
 ## Implemented Adapter interface
 
 `AdaptedInput` separates the model-facing transport from audit metadata:
@@ -97,12 +102,15 @@ reconstruction on the registered local Python matrix. It does not establish
 model or training repeatability, cross-machine reproducibility, generalized
 quality, safety, Serving, promotion, or Runtime eligibility.
 
-## Next gate
+## Downstream protocol and next gate
 
-The single registered next gate is
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1`. It must freeze an
-outcome-neutral, read-only baseline measurement plan, candidate/model lineage,
-prompt projection, evaluation metrics, resource caps, attempt ownership, and
-failure receipts before any model import or call. This implementation evidence
-must merge first; no model execution or training is authorized by the current
-gate.
+The registered `MM-005-document-chart-pdf-model-evaluation-protocol-v1` is now
+frozen locally as 58,414 canonical bytes with SHA-256
+`cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b`.
+It binds the exact candidate/model lineage, 32 prompt projections, total
+metrics, resource caps, one owner-marked attempt, and terminal success/failure
+receipts before any model import or call.
+
+Publishing that protocol is current. After a clean merge, the single next gate
+is `MM-005-document-chart-pdf-model-evaluation-execution-v1`; no model execution
+or training is authorized on the protocol feature branch.

@@ -127,5 +127,6 @@ remain immutable. The downstream
 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1` is now frozen with 32
 Adapter projection receipts and 160 deterministic Verifier controls. The
 independent Adapter/Verifier implementation now reproduces every receipt and
-control exactly; its registered next gate is an outcome-neutral model-
-evaluation protocol.
+control exactly and is merged. The separate outcome-neutral model-evaluation
+protocol is now frozen locally with 32 closed prompt projections and a single-
+attempt execution contract; no model call has occurred.
