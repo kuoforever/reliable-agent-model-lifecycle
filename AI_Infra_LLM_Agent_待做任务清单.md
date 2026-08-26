@@ -954,6 +954,31 @@ gate 为 model-free `MM-005-browser-research-environment-adaptation-protocol-v1`
 Serving、审批、恢复或安全系统。两个已消费 MM-005 attempt 均不得
 delete/reopen/reuse/overwrite/retry。
 
+`MM-005-browser-research-environment-adaptation-protocol-v1` 已在任何 data
+generation、live browser/network、model call、training、Serving、capture 或 Runtime
+change 前本地冻结为 76,364 canonical bytes，SHA-256 为
+`62ef6c554c90d3523b7d9c2a0a102c2a8c783f3d3ba3496cd8c36dfebe04b06e`。它绑定
+Document/Chart/PDF 关闭证据与 102 个 exact source receipts，重算并排除 124 prior
+records、96 families、96 instruction/observation identities、124 target identities 和
+84 images。
+
+首个 Browser Research slice 仅允许 English、deterministic repository-generated
+synthetic static bundles；每个 record 含 1～3 个 source snapshots，并对齐 DOM、exact
+screenshot SHA-256 和由 visible DOM text 顺序重建的 page text。四个 task families 为
+single-source fact citation、multi-source synthesis、cross-source comparison 与 freshness
+conflict resolution；strict output 只有 `answer + citation_refs`，multi-source 必须引用至少
+两个来源，freshness 必须引用 latest published source。URL 仅允许 HTTPS `.invalid`，live
+retrieval/navigation、JavaScript、login/session、transaction、real/external web、prompt-
+injection safety 与 open-web source ranking 均 deferred。
+
+17/17 focused tests、Ruff、strict Mypy、`py_compile`、builder `--check` 与 unified Browser
+Research subcheck 已通过；本地 CPython 3.11.15、3.12.12、3.13.7 complete unified gates
+均通过 797 tests、4 个预期 Windows privilege skips、62 个 audited source files，且
+`valid=true`。Adapter/Verifier implementation、data、browsing、network、model、quality、
+safety、Serving、promotion、Runtime claims 全部 false。当前唯一动作是发布此 exact protocol；
+clean merge、branch cleanup 且 `master == origin/master` 后，下一 gate 才是
+`MM-005-browser-research-data-protocol-v1`。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：

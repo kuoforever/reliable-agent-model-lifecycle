@@ -471,6 +471,33 @@ validator as `5f60cbf44a311b46b312090d62d2783424c1dc85`. All six checks
 passed with no review, comment, thread, or merge-conflict blocker; both feature-
 branch copies were deleted and local `master` was aligned with `origin/master`.
 
+### Browser Research environment-adaptation protocol v1
+
+The model-free third-environment protocol is now frozen locally before any new
+data generation, live browser/network use, model call, training, Serving work,
+capture, or Runtime change. Its first vertical slice consumes one static
+synthetic research bundle with one to three sources. Every source aligns DOM
+nodes, an exact screenshot binding, and page text; strict output contains only
+an answer plus ordered source-bound citation refs.
+
+The four task families cover single-source fact citation, multi-source
+synthesis, cross-source comparison, and freshness conflict resolution. All
+URLs are HTTPS `.invalid` identities with fixed publication/snapshot times.
+Live navigation/retrieval, JavaScript, login/session state, transactions, real
+or external webpages, prompt-injection safety claims, and open-web source
+ranking remain deferred.
+
+The 76,364-byte canonical protocol has SHA-256
+`62ef6c554c90d3523b7d9c2a0a102c2a8c783f3d3ba3496cd8c36dfebe04b06e`.
+It reconstructs 102 exact source receipts and excludes 124 prior records, 96
+families, 96 instruction/observation identities, 124 target identities, and 84
+images. Adapter/Verifier implementation, data, browsing, model, quality,
+safety, Serving, promotion, and Runtime claims remain false. See the
+[Browser Research protocol](docs/MM-005-browser-research-environment-adaptation-protocol-v1.md).
+The 17 focused tests and complete unified 797-test gate pass on local CPython
+3.11.15, 3.12.12, and 3.13.7 with `valid=true`, four expected Windows privilege
+skips, and 62 audited source files.
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -918,12 +945,15 @@ model-free review establishes only bounded same-machine fixed-suite evaluation
 repeatability. PR #59 published those exact artifacts and review as
 `5f60cbf44a311b46b312090d62d2783424c1dc85`, closing this lifecycle.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, generated data, and both
-consumed MM-005 attempts remain read-only. The single active objective is the
-model-free `MM-005-browser-research-environment-adaptation-protocol-v1`. It
-does not authorize data generation, model calls or writes, training, Runtime
-changes, real browser/desktop/document capture, generalized quality/safety
-claims, resource or cross-machine repeatability claims, or reuse/retry of a
-consumed attempt.
+consumed MM-005 attempts remain read-only. The model-free
+`MM-005-browser-research-environment-adaptation-protocol-v1` is now frozen
+locally as 76,364 canonical bytes. It defines only static synthetic DOM,
+screenshot, page-text, and exact-citation interfaces; publishing this exact
+protocol with clean checks/review/conflict state is the single active
+objective. It does not authorize data generation, live browser/network use,
+model calls or writes, training, Runtime changes, real browser/desktop/document
+capture, generalized quality/safety claims, resource or cross-machine
+repeatability claims, or reuse/retry of a consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

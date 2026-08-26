@@ -185,6 +185,13 @@ MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_BYTES = 18
 MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_REPEATABILITY_RESULT_REVIEW_SHA256 = (
     "sha256:c5b5f12dfaffb387ca7e394c8acbd2b92fc00e3a256ed8cab0d4e624b28d0ec8"
 )
+MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_environment_adaptation_protocol_v1.json"
+)
+MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES = 76_364
+MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256 = (
+    "sha256:62ef6c554c90d3523b7d9c2a0a102c2a8c783f3d3ba3496cd8c36dfebe04b06e"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -539,6 +546,9 @@ def main() -> int:
     )
     mm005_document_chart_pdf_model_evaluation_repeatability_result = (
         _validate_mm005_document_chart_pdf_model_evaluation_repeatability_result_review()
+    )
+    mm005_browser_research_environment_adaptation = (
+        _validate_mm005_browser_research_environment_adaptation_protocol()
     )
     tests_run = _run_tests()
 
@@ -1210,6 +1220,36 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_model_evaluation_repeatability_result_next_gate": (
             mm005_document_chart_pdf_model_evaluation_repeatability_result["next_gate"]
+        ),
+        "mm005_browser_research_environment_adaptation_protocol_frozen": (
+            mm005_browser_research_environment_adaptation["protocol_frozen"]
+        ),
+        "mm005_browser_research_selected_environment": (
+            mm005_browser_research_environment_adaptation["selected_environment"]
+        ),
+        "mm005_browser_research_task_families": (
+            mm005_browser_research_environment_adaptation["task_family_count"]
+        ),
+        "mm005_browser_research_source_receipts": (
+            mm005_browser_research_environment_adaptation["source_receipt_count"]
+        ),
+        "mm005_browser_research_excluded_cases": (
+            mm005_browser_research_environment_adaptation["excluded_case_count"]
+        ),
+        "mm005_browser_research_excluded_families": (
+            mm005_browser_research_environment_adaptation["excluded_family_count"]
+        ),
+        "mm005_browser_research_excluded_images": (
+            mm005_browser_research_environment_adaptation["excluded_image_count"]
+        ),
+        "mm005_browser_research_dataset_generated": (
+            mm005_browser_research_environment_adaptation["dataset_generated"]
+        ),
+        "mm005_browser_research_live_browser_used": (
+            mm005_browser_research_environment_adaptation["live_browser_used"]
+        ),
+        "mm005_browser_research_next_gate": (
+            mm005_browser_research_environment_adaptation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -4294,6 +4334,130 @@ def _validate_mm005_document_chart_pdf_model_evaluation_repeatability_result_rev
             "MM-005 model-evaluation repeatability result-review boundary mismatch"
         )
     return summary
+
+
+def _validate_mm005_browser_research_environment_adaptation_protocol() -> dict[
+    str, Any
+]:
+    from fullcycle_bridge import (
+        browser_research_environment_adaptation as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_environment_adaptation_protocol as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH,
+        "MM-005 Browser Research environment-adaptation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser Research environment-adaptation protocol hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_PATH,
+    )
+    if contract.canonical_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser Research environment-adaptation protocol is not canonical JSON"
+        )
+
+    receipts = prepare.source_receipts()
+    exclusions = prepare.exclusion_registry()
+    expected = contract.expected_protocol(
+        freeze_status="frozen",
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    summary = contract.validate_protocol(
+        raw,
+        source_receipts=receipts,
+        exclusions=exclusions,
+    )
+    if expected != raw or contract.canonical_json_bytes(expected) != payload:
+        raise GateError(
+            "MM-005 Browser Research environment-adaptation reconstruction drift"
+        )
+
+    registry = raw.get("exclusion_registry")
+    closure = raw.get("prior_environment_closure")
+    sequence = raw.get("environment_sequence")
+    scope = raw.get("selected_scope")
+    delta = raw.get("component_delta_contract")
+    authority = raw.get("authority_contract")
+    if (
+        len(receipts) != 102
+        or sum(receipt["path"].endswith(".png") for receipt in receipts.values()) != 84
+        or not isinstance(registry, dict)
+        or {key: len(value) for key, value in registry.items()}
+        != {
+            "case_ids": 124,
+            "family_ids": 96,
+            "image_sha256": 84,
+            "instruction_content_sha256": 96,
+            "observation_content_sha256": 96,
+            "source_snapshot_sha256": 0,
+            "source_url_sha256": 0,
+            "target_content_sha256": 124,
+        }
+        or summary.task_family_count != 4
+        or summary.protocol_frozen is not True
+        or summary.dataset_generated is not False
+        or summary.live_browser_used is not False
+        or not isinstance(closure, dict)
+        or closure.get("environment") != "document_chart_pdf"
+        or closure.get("result_publication_merge_commit")
+        != "5f60cbf44a311b46b312090d62d2783424c1dc85"
+        or closure.get("closure_record_merge_commit")
+        != "0a608f01e7d92ae20878da356443d80d1de0fff8"
+        or closure.get("bounded_same_machine_fixed_suite_repeatability_established")
+        is not True
+        or closure.get("resource_repeatability_established") is not False
+        or not isinstance(sequence, dict)
+        or sequence.get("registered_order") != list(contract.ENVIRONMENT_ORDER)
+        or sequence.get("completed_environments")
+        != ["desktop_gui", "document_chart_pdf"]
+        or sequence.get("selected_environment") != contract.SELECTED_ENVIRONMENT
+        or sequence.get("selected_order_index") != 3
+        or sequence.get("sequence_skip_allowed") is not False
+        or not isinstance(scope, dict)
+        or scope.get("observation_modalities") != ["dom", "screenshot", "page_text"]
+        or scope.get("min_sources_per_record") != 1
+        or scope.get("max_sources_per_record") != 3
+        or not isinstance(delta, dict)
+        or delta.get("new_component_kinds")
+        != [
+            "environment_adapter",
+            "task_set",
+            "deterministic_verifier",
+            "synthetic_dataset",
+        ]
+        or delta.get("new_component_count") != 4
+        or delta.get("environment_specific_live_browser_or_network_stack_allowed")
+        is not False
+        or authority
+        != {
+            "page_content_has_instruction_or_execution_authority": False,
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "live_browser_navigation_authorized": False,
+            "network_retrieval_authorized": False,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or any(raw["claims"].values())
+        or summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError(
+            "MM-005 Browser Research environment-adaptation boundary mismatch"
+        )
+    return summary.to_dict()
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
