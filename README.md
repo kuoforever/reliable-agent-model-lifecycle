@@ -399,6 +399,23 @@ true; model training/evaluation, repeatability, quality, safety, Serving,
 promotion, and Runtime eligibility remain false. See the
 [MM-005 Adapter/Verifier implementation](docs/MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md).
 
+### Document/Chart/PDF model-evaluation protocol v1
+
+PR #55 merged the exact Adapter/Verifier implementation and conformance
+evidence as `ff52da51aba534b051f9e247518fb2d20d1db1e2` before evaluation protocol
+work began. The outcome-neutral read-only preregistration is now frozen as
+58,414 canonical bytes with SHA-256
+`cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b`.
+
+It binds one exact Qwen2.5-VL base-plus-read-only-Adapter candidate, all 32
+synthetic records in fixed order, 32 gold/path-isolated prompt projections,
+strict compilation, deterministic total metrics, 1,800-second / 16.5-GB
+integrity caps, one owner-marked zero-retry attempt, and mutually exclusive
+terminal success/failure receipts. The output directory remains absent; no
+attempt, model import, model call, GPU measurement, training, Adapter write, or
+Runtime change has occurred. See the
+[MM-005 model-evaluation protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md).
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -832,14 +849,18 @@ validate exactly. PR #53 published those exact consumed bytes; they must remain
 immutable. The separate
 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1` merged through PR #54
 with 32 projections and 160 deterministic controls. The independent Adapter/
-Verifier implementation now reproduces them exactly and has frozen local
-implementation evidence. Publishing that evidence is the single active
-objective; after a clean merge, the next gate is
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1`.
+Verifier implementation now reproduces them exactly; PR #55 published its
+102,117-byte evidence as
+`ff52da51aba534b051f9e247518fb2d20d1db1e2`. The separate 58,414-byte
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` is now frozen locally
+with 32 closed prompt projections and one zero-retry attempt contract.
+Publishing that protocol is the single active objective; only after a clean
+merge may `MM-005-document-chart-pdf-model-evaluation-execution-v1` begin.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, and generated data remain
 read-only. This does not authorize training, model/Adapter writes, Runtime
-changes, real desktop/document capture, or reuse/retry of either consumed
-MM-004 or MM-005 attempt.
+changes, real desktop/document capture, or reuse/retry of the consumed MM-004
+or MM-005 generation attempt. The model-evaluation attempt has not yet been
+consumed.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

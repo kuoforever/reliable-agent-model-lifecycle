@@ -122,6 +122,7 @@ immutable inputs to later gates. The registered next gate is
 `MM-005-document-chart-pdf-adapter-verifier-protocol-v1`. It is now frozen as
 a separate 126,032-byte model-free artifact with 32 Adapter projection
 receipts and 160 deterministic Verifier controls. The downstream independent
-Adapter/Verifier implementation now reproduces all of them exactly; its next
-gate is the separate outcome-neutral model-evaluation protocol. The consumed
-generation result remains immutable throughout.
+Adapter/Verifier implementation now reproduces all of them exactly and is
+merged. Its downstream outcome-neutral model-evaluation protocol is now frozen
+locally before any model import or call. The consumed generation result remains
+immutable throughout.

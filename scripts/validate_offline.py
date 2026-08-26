@@ -153,6 +153,13 @@ MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_BYTES = 102_11
 MM005_DOCUMENT_CHART_PDF_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_SHA256 = (
     "sha256:d4cbe61cac4cff60c15e769c35e481ca93f71524b23bf0dad4ddf75095d17bf2"
 )
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_document_chart_pdf_model_evaluation_protocol_v1.json"
+)
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_BYTES = 58_414
+MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_SHA256 = (
+    "sha256:cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -495,6 +502,9 @@ def main() -> int:
     )
     mm005_document_chart_pdf_adapter_verifier_implementation = (
         _validate_mm005_document_chart_pdf_adapter_verifier_implementation()
+    )
+    mm005_document_chart_pdf_model_evaluation = (
+        _validate_mm005_document_chart_pdf_model_evaluation_protocol()
     )
     tests_run = _run_tests()
 
@@ -1039,6 +1049,30 @@ def main() -> int:
         ),
         "mm005_document_chart_pdf_implementation_next_gate": (
             mm005_document_chart_pdf_adapter_verifier_implementation["next_gate"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_protocol_frozen": (
+            mm005_document_chart_pdf_model_evaluation["protocol_frozen"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_prompt_projections": (
+            mm005_document_chart_pdf_model_evaluation["prompt_projection_count"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_model_payload_bytes": (
+            mm005_document_chart_pdf_model_evaluation["model_payload_bytes"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_image_bytes": (
+            mm005_document_chart_pdf_model_evaluation["image_bytes"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_generate_calls": (
+            mm005_document_chart_pdf_model_evaluation["generate_calls"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_attempt_consumed": (
+            mm005_document_chart_pdf_model_evaluation["attempt_consumed"]
+        ),
+        "mm005_document_chart_pdf_model_evaluated": (
+            mm005_document_chart_pdf_model_evaluation["model_evaluated"]
+        ),
+        "mm005_document_chart_pdf_model_evaluation_next_gate": (
+            mm005_document_chart_pdf_model_evaluation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3756,6 +3790,117 @@ def _validate_mm005_document_chart_pdf_adapter_verifier_implementation() -> (
         "evidence_valid": True,
         **summary.to_dict(),
         "evidence_sha256": digest,
+    }
+
+
+def _validate_mm005_document_chart_pdf_model_evaluation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm005_document_chart_pdf_model_evaluation as contract,
+    )
+    from scripts import prepare_mm005_document_chart_pdf_model_evaluation as prepare
+
+    payload = _read_regular_file_once(
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_PATH,
+        "MM-005 Document/Chart/PDF model-evaluation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_BYTES
+        or digest != MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 model-evaluation protocol hash mismatch")
+    raw = _load_json_payload(
+        payload,
+        MM005_DOCUMENT_CHART_PDF_MODEL_EVALUATION_PROTOCOL_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-005 model-evaluation protocol is not canonical JSON")
+
+    inputs = prepare.protocol_inputs()
+    expected = contract.validate_preregistration(raw, **inputs)
+    input_suite = raw.get("input_suite")
+    execution = raw.get("execution_protocol")
+    formal_gate = raw.get("formal_gate")
+    freeze_preconditions = raw.get("freeze_preconditions")
+    claims = raw.get("claims")
+    source_receipts = raw.get("source_receipts")
+    prompt_projections = (
+        input_suite.get("prompt_projection_registry", [])
+        if isinstance(input_suite, dict)
+        else []
+    )
+    model_payload_bytes = sum(
+        projection.get("model_payload", {}).get("bytes", 0)
+        for projection in prompt_projections
+        if isinstance(projection, dict)
+    )
+    image_bytes = sum(
+        projection.get("image_payload", {}).get("bytes", 0)
+        for projection in prompt_projections
+        if isinstance(projection, dict)
+    )
+    true_claims = {
+        name for name, established in claims.items() if established
+    } if isinstance(claims, dict) else set()
+    if (
+        contract.artifact_json_bytes(expected) != payload
+        or raw.get("gate_id") != contract.PROTOCOL_GATE_ID
+        or raw.get("next_gate") != contract.EXECUTION_GATE_ID
+        or raw.get("freeze_status") != "frozen"
+        or raw.get("decision")
+        != "outcome_neutral_read_only_cross_environment_baseline_measurement_preregistration"
+        or not isinstance(input_suite, dict)
+        or input_suite.get("record_count") != 32
+        or input_suite.get("train_records") != 24
+        or input_suite.get("validation_records") != 8
+        or input_suite.get("all_records_measured") is not True
+        or len(prompt_projections) != 32
+        or model_payload_bytes != 31_430
+        or image_bytes != 314_128
+        or not isinstance(execution, dict)
+        or execution.get("run_count") != 1
+        or execution.get("fresh_base_loads") != 1
+        or execution.get("independent_adapter_loads") != 1
+        or execution.get("generate_calls") != 32
+        or execution.get("retry_count") != 0
+        or execution.get("network_used") is not False
+        or execution.get("training_runs") != 0
+        or not isinstance(formal_gate, dict)
+        or formal_gate.get("required_gates") != list(contract.REQUIRED_GATES)
+        or formal_gate.get("accuracy_threshold_gate") is not False
+        or formal_gate.get("resource_cap_is_integrity_gate") is not True
+        or freeze_preconditions
+        != {
+            "fixed_output_absent": True,
+            "model_imported_at_protocol_freeze": False,
+            "model_called_at_protocol_freeze": False,
+            "attempt_consumed_at_protocol_freeze": False,
+        }
+        or claims != contract.FREEZE_CLAIMS
+        or true_claims
+        != {
+            "generation_executed",
+            "dataset_validated",
+            "environment_adapter_implemented",
+            "environment_adapter_executed",
+            "verifier_implemented",
+            "verifier_executed",
+        }
+        or not isinstance(source_receipts, dict)
+        or len(source_receipts) != len(contract.PROTOCOL_SOURCE_PATHS)
+        or len(inputs["source_receipts"]) != len(contract.PROTOCOL_SOURCE_PATHS)
+    ):
+        raise GateError("MM-005 model-evaluation protocol boundary mismatch")
+    return {
+        "protocol_frozen": True,
+        "prompt_projection_count": len(prompt_projections),
+        "model_payload_bytes": model_payload_bytes,
+        "image_bytes": image_bytes,
+        "generate_calls": execution["generate_calls"],
+        "attempt_consumed": claims["attempt_consumed"],
+        "model_evaluated": claims["model_evaluated"],
+        "next_gate": raw["next_gate"],
+        "protocol_sha256": digest,
     }
 
 

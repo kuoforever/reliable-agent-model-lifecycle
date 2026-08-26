@@ -846,11 +846,39 @@ repeatability、quality、safety、Serving、promotion、Runtime change/eligibil
 false。implementation focused 12/12 tests（完整 MM-005 chain 50 tests）、Ruff、scoped
 strict Mypy、`py_compile`、builder `--check` 与 `git diff --check` 通过。本机 CPython
 3.11.15、3.12.12、3.13.7 unified 724-test gates 全部通过，均有 4 个预期 Windows
-privilege skips、59 个 audited source files 和 `valid=true`。当前单一动作是发布该
-implementation/evidence；clean merge 后下一 gate 是 outcome-neutral
-`MM-005-document-chart-pdf-model-evaluation-protocol-v1`，任何 model import/call 前
-必须先冻结 candidate lineage、prompt projection、metrics、resource caps、attempt
-ownership 与 failure receipts。
+privilege skips、59 个 audited source files 和 `valid=true`。该 exact
+implementation/evidence 已通过 PR #55 合并为
+`ff52da51aba534b051f9e247518fb2d20d1db1e2`；6 个 Linux matrix checks 全部通过，
+0 review/comment/thread，远近 feature branch 已清理且 `master == origin/master` 后才
+开始 model-evaluation protocol slice。
+
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` 现已在任何 model import/call
+前本地冻结为 58,414 canonical bytes，SHA-256 为
+`cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b`。它绑定 exact
+Qwen2.5-VL base revision + read-only `mm003-qlora-sft-v2` Adapter、MM-004 candidate
+result lineage、已合并 Adapter/Verifier evidence、全部 49 个已消费 dataset outputs、
+12 个 protocol source receipts，以及 32 个固定顺序 prompt projections。model payload
+只含 `instruction`、`observation`、`source_kind`、`task_family_id`，共 31,430 bytes；
+32 份 exact image payload 共 314,128 bytes，gold、Verifier metadata、identity 和真实
+path 均隔离。
+
+协议注册一次 fresh base load、一次 independent Adapter load、32 个 ordered generate
+calls、zero retry/network/training/write，1,800 seconds 与 16.5 GB allocated/reserved
+resource caps；strict compiler、deterministic Verifier 和 compiler/answer/evidence/page/
+joint + per-split/family/source total metrics 均固定，accuracy threshold 不改变
+measurement completion。attempt 只在 fixed output directory 被 owner-marked atomic
+claim 后消费；成功必须持久化 candidate/predictions/evidence，失败只能持久化不含
+message/trace/path/secret 的安全 receipt，消费后不得 retry。
+
+当前 output directory 不存在，`attempt_consumed=false`、`evaluation_executed=false`、
+`model_evaluated=false`；quality/safety/repeatability/Serving/promotion/Runtime claims
+也仍为 false。protocol focused 14/14 tests 与完整 MM-005 chain 78/78 tests、Ruff、
+scoped strict Mypy、`py_compile`、builder `--check` 和统一 gate 的 protocol probe 已
+通过。本机 CPython 3.11.15、3.12.12、3.13.7 unified 738-test gates 全部通过，
+均有 4 个预期 Windows privilege skips、60 个 audited source files 和 `valid=true`。
+当前单一动作是发布该 protocol；clean merge 后唯一下一 gate 是
+`MM-005-document-chart-pdf-model-evaluation-execution-v1`，正式执行只能从 exact
+aligned merged `master` 消费一次 owner-marked attempt。
 
 ## TOOL-001：工具 Schema 与任务定义
 

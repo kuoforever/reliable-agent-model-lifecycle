@@ -47,6 +47,7 @@ English companion documents.
 | Document/Chart/PDF data generation protocol v1 | [MM-005 generation protocol](MM-005-document-chart-pdf-data-generation-protocol-v1.md) | Consumed one-shot merged-master run: 49 outputs / 434,212 bytes generated and independently validated with exact receipts, exclusive evidence, and zero retry |
 | Document/Chart/PDF Adapter/Verifier protocol v1 | [MM-005 Adapter/Verifier protocol](MM-005-document-chart-pdf-adapter-verifier-protocol-v1.md) | Model-free 32-projection contract with model-payload gold/path isolation and 160 deterministic positive/negative Verifier controls; downstream conformance is now implemented |
 | Document/Chart/PDF Adapter/Verifier implementation v1 | [MM-005 Adapter/Verifier implementation](MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md) | Independent Adapter plus strict compiler/Verifier reproduce 32 projections and 160 controls exactly; no model execution or Runtime authority |
+| Document/Chart/PDF model-evaluation protocol v1 | [MM-005 model-evaluation protocol](MM-005-document-chart-pdf-model-evaluation-protocol-v1.md) | Outcome-neutral single-attempt 32-call measurement preregistration with closed prompt lineage, total metrics, resource caps, and safe failure receipts; no model call yet |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

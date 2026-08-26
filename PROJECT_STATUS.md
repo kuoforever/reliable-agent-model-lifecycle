@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-23.
+> Updated: 2026-08-26.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -373,25 +373,59 @@ full-repository Ruff 0.15.22, scoped strict Mypy 2.3.0, `py_compile`, builder
 skips, 59 audited source files, and `valid=true`.
 [Adapter/Verifier implementation](docs/MM-005-document-chart-pdf-adapter-verifier-implementation-v1.md).
 
+PR #55 merged that exact implementation and evidence as
+`ff52da51aba534b051f9e247518fb2d20d1db1e2`. All six Linux Python-matrix checks
+passed; the PR had zero reviews, comments, or review threads. Both feature-
+branch copies were deleted and `master == origin/master` was restored before
+the model-evaluation protocol slice began.
+
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` is now frozen locally
+before any model import or call. Its 58,414-byte canonical artifact has SHA-256
+`cdb8d1ea09221763d87cd79ba752d9af8264ce49b7cf600eed338a073a04561b`.
+It binds the exact Qwen2.5-VL base revision plus read-only MM-003 Adapter, the
+MM-004 candidate result lineage, the merged MM-005 Adapter/Verifier evidence,
+all consumed dataset outputs, and 12 protocol source receipts. All 32 records
+are ordered once; their closed model payloads total 31,430 bytes and exact
+image payloads total 314,128 bytes, with gold, Verifier metadata, identity, and
+real paths isolated from the model.
+
+The future formal run is pre-registered for one fresh base load, one
+independent Adapter load, 32 ordered offline calls, zero retry/training/write,
+1,800 seconds, and 16.5 GB peak allocated/reserved GPU memory. Strict compiler,
+deterministic Verifier, total metrics, owner-marked attempt consumption, and
+mutually exclusive terminal evidence/failure receipts are fixed before the
+result. Fourteen protocol-focused tests and the complete 78-test MM-005 chain,
+Ruff, scoped strict Mypy, `py_compile`, builder `--check`, and the unified-gate
+protocol probe pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the
+unified 738-test gate with four expected Windows privilege skips, 60 audited
+source files, and `valid=true`.
+
+The fixed evaluation output is absent. No attempt, model import, model call, or
+GPU measurement has occurred. Model evaluation, quality, safety,
+repeatability, Serving, promotion, Runtime change, and Runtime eligibility
+remain false.
+[Model-evaluation protocol](docs/MM-005-document-chart-pdf-model-evaluation-protocol-v1.md).
+
 ## Single active objective
 
-Publish the MM-005 Adapter/Verifier implementation and conformance evidence:
+Publish the MM-005 Document/Chart/PDF model-evaluation protocol:
 
 ```text
-102,117-byte evidence + 32 Adapter executions + 160 Verifier executions
+58,414-byte preregistration + 32 closed prompt projections + one attempt contract
         -> merge with checks/review/conflict state clear
-        -> preserve all consumed generation bytes immutably
-        -> MM-005-document-chart-pdf-model-evaluation-protocol-v1
+        -> preserve model, Adapter, generated data, and all prior evidence read-only
+        -> MM-005-document-chart-pdf-model-evaluation-execution-v1
 ```
 
 Do not delete, reopen, reuse, or retry the consumed MM-004 directory. Do not
 delete, reopen, reuse, overwrite, or retry the consumed MM-005 output/evidence.
-This publication branch may reconstruct and validate the Adapter/Verifier
-implementation but must never invoke generation or a model. Do not train,
-evaluate, modify, or save a model, change the Runtime repository, capture real
-desktop/document content, or interpret component conformance as model/training
-repeatability, quality, or safety evidence. The next model-evaluation protocol
-must merge before any model import or call.
+This publication branch may reconstruct the protocol and use fake dependencies
+in tests but must never import or call the formal model. Do not train, evaluate,
+modify, or save a model, claim or create the fixed attempt output, change the
+Runtime repository, capture real desktop/document content, or interpret
+protocol repeatability as model/training repeatability, quality, or safety
+evidence. The exact protocol must merge before formal execution can consume its
+single owner-marked attempt.
 
 ## Preserved historical validation and deferred gates
 
@@ -1420,7 +1454,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF Adapter/Verifier protocol merged, implementation and exact conformance evidence validated locally, implementation publication next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF Adapter/Verifier implementation/evidence merged, outcome-neutral model-evaluation protocol frozen locally, protocol publication next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
