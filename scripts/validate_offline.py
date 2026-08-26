@@ -192,6 +192,13 @@ MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_BYTES = 76_364
 MM005_BROWSER_RESEARCH_ENVIRONMENT_ADAPTATION_PROTOCOL_SHA256 = (
     "sha256:62ef6c554c90d3523b7d9c2a0a102c2a8c783f3d3ba3496cd8c36dfebe04b06e"
 )
+MM005_BROWSER_RESEARCH_DATA_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_data_protocol_v1.json"
+)
+MM005_BROWSER_RESEARCH_DATA_PROTOCOL_BYTES = 73_476
+MM005_BROWSER_RESEARCH_DATA_PROTOCOL_SHA256 = (
+    "sha256:38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -550,6 +557,7 @@ def main() -> int:
     mm005_browser_research_environment_adaptation = (
         _validate_mm005_browser_research_environment_adaptation_protocol()
     )
+    mm005_browser_research_data = _validate_mm005_browser_research_data_protocol()
     tests_run = _run_tests()
 
     result = {
@@ -1250,6 +1258,46 @@ def main() -> int:
         ),
         "mm005_browser_research_next_gate": (
             mm005_browser_research_environment_adaptation["next_gate"]
+        ),
+        "mm005_browser_research_data_protocol_frozen": (
+            mm005_browser_research_data["protocol_frozen"]
+        ),
+        "mm005_browser_research_data_seed": mm005_browser_research_data["seed"],
+        "mm005_browser_research_data_templates": (
+            mm005_browser_research_data["template_count"]
+        ),
+        "mm005_browser_research_data_records": (
+            mm005_browser_research_data["record_count"]
+        ),
+        "mm005_browser_research_data_source_snapshots": (
+            mm005_browser_research_data["source_snapshot_count"]
+        ),
+        "mm005_browser_research_data_screenshots": (
+            mm005_browser_research_data["screenshot_count"]
+        ),
+        "mm005_browser_research_data_sources": (
+            mm005_browser_research_data["source_count"]
+        ),
+        "mm005_browser_research_data_train_records": (
+            mm005_browser_research_data["train_records"]
+        ),
+        "mm005_browser_research_data_validation_records": (
+            mm005_browser_research_data["validation_records"]
+        ),
+        "mm005_browser_research_data_output_files": (
+            mm005_browser_research_data["output_file_count"]
+        ),
+        "mm005_browser_research_data_output_bytes": (
+            mm005_browser_research_data["output_bytes"]
+        ),
+        "mm005_browser_research_data_generation_executed": (
+            mm005_browser_research_data["generation_executed"]
+        ),
+        "mm005_browser_research_data_dataset_validated": (
+            mm005_browser_research_data["dataset_validated"]
+        ),
+        "mm005_browser_research_data_next_gate": (
+            mm005_browser_research_data["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -4458,6 +4506,118 @@ def _validate_mm005_browser_research_environment_adaptation_protocol() -> dict[
             "MM-005 Browser Research environment-adaptation boundary mismatch"
         )
     return summary.to_dict()
+
+
+def _validate_mm005_browser_research_data_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm005_browser_research_data as contract
+    from scripts import prepare_mm005_browser_research_data_protocol as prepare
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_DATA_PROTOCOL_PATH,
+        "MM-005 Browser Research data protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_BROWSER_RESEARCH_DATA_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_DATA_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Browser Research data protocol hash mismatch")
+    raw = _load_json_payload(payload, MM005_BROWSER_RESEARCH_DATA_PROTOCOL_PATH)
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError("MM-005 Browser Research data protocol is not canonical JSON")
+
+    sources = prepare.source_receipts()
+    parent_receipt = prepare.parent_protocol_receipt()
+    expected = contract.expected_preregistration(
+        freeze_status="frozen",
+        source_receipts=sources,
+        parent_protocol_receipt=parent_receipt,
+    )
+    summary = contract.validate_preregistration(
+        raw,
+        source_receipts=sources,
+        parent_protocol_receipt=parent_receipt,
+    )
+    if expected != raw or contract.artifact_json_bytes(expected) != payload:
+        raise GateError("MM-005 Browser Research data reconstruction drift")
+
+    planned = contract.validate_planned_output_payloads(
+        prepare.planned_output_payloads(),
+        parent_protocol_sha256=str(parent_receipt["sha256"]),
+        exclusions=prepare.exclusion_registry(),
+    )
+    plan = raw.get("generation_plan")
+    authority = raw.get("authority_contract")
+    if (
+        len(sources) != 5
+        or summary.template_count != 32
+        or summary.record_count != 32
+        or summary.source_count != 68
+        or summary.screenshot_count != 68
+        or summary.source_snapshot_count != 68
+        or summary.train_records != 24
+        or summary.validation_records != 8
+        or summary.train_sources != 51
+        or summary.validation_sources != 17
+        or summary.output_file_count != 139
+        or summary.output_bytes != 986_989
+        or summary.protocol_frozen is not True
+        or summary.generation_executed is not False
+        or summary.dataset_validated is not False
+        or planned
+        != {
+            "planned_output_rebuild_valid": True,
+            "template_count": 32,
+            "record_count": 32,
+            "source_count": 68,
+            "screenshot_count": 68,
+            "source_snapshot_count": 68,
+            "train_records": 24,
+            "validation_records": 8,
+            "train_sources": 51,
+            "validation_sources": 17,
+            "output_file_count": 139,
+            "output_bytes": 986_989,
+            "generation_executed": False,
+            "dataset_validated": False,
+            "next_gate": contract.NEXT_GATE,
+        }
+        or not isinstance(plan, dict)
+        or plan.get("seed") != 55_006
+        or len(plan.get("template_registry", [])) != 32
+        or plan.get("network_allowed") is not False
+        or plan.get("live_browser_allowed") is not False
+        or plan.get("model_dependencies_allowed") is not False
+        or plan.get("real_or_external_content_allowed") is not False
+        or plan.get("capture_allowed") is not False
+        or plan.get("source_snapshot", {}).get("executable_html_or_javascript")
+        is not False
+        or plan.get("renderer", {}).get("host_font_used") is not False
+        or plan.get("renderer", {}).get("browser_engine_used") is not False
+        or authority
+        != {
+            "page_content_has_instruction_or_execution_authority": False,
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "live_browser_navigation_authorized": False,
+            "network_retrieval_authorized": False,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or any(raw["claims"].values())
+        or summary.next_gate != contract.NEXT_GATE
+        or (ROOT / contract.OUTPUT_ROOT).exists()
+        or (ROOT / contract.EVIDENCE_PATH).exists()
+    ):
+        raise GateError("MM-005 Browser Research data protocol boundary mismatch")
+    return {
+        **summary.to_dict(),
+        "seed": contract.SEED,
+        "source_receipt_count": len(sources),
+        "planned_output_rebuild_valid": planned["planned_output_rebuild_valid"],
+        "execution_artifacts_present": False,
+    }
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
