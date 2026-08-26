@@ -986,7 +986,7 @@ screenshot deterministic alignment、planned output receipts、prior-content exc
 不得在该 protocol clean merge、branch cleanup 且 `master == origin/master` 前生成任何 Browser
 Research record 或 image。
 
-该 data protocol 现已在任何 Browser Research record/image 落盘前本地冻结：`seed=55006`，
+该 data protocol 已在任何 Browser Research record/image 落盘前冻结并发布：`seed=55006`，
 四 task 各 8 个 template family（6 train + 2 validation），共 32 records 与显式 1～3 source
 bundles；68 个 sources 按 51/17 分布到 train/validation。每个 source 的 canonical static JSON
 descriptor、DOM、visible-order page text 与 unique 1280×900 PNG 从同一 synthetic ground truth
@@ -1000,9 +1000,14 @@ evidence 仍不存在。73,476-byte protocol SHA-256 为
 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均
 通过 811 tests、4 个预期 Windows privilege skips、63 个 audited source files，且
 `valid=true`。generation/dataset validation、Adapter/Verifier execution、live browser/network、
-model/quality/safety、Serving/promotion/Runtime claims 全部 false。当前唯一剩余动作是将该
-exact protocol 通过 clean PR 发布并完成双端 branch cleanup/master 对齐；在此之前仍不得
-生成 139 个 outputs。
+model/quality/safety、Serving/promotion/Runtime claims 全部 false。PR #63 已将 exact protocol
+合并为 `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`；6/6 Linux matrix checks 通过，
+0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已清理且
+`master == origin/master`。当前唯一 gate 是
+`MM-005-browser-research-data-generation-v1`：必须先独立冻结 exact-master preflight、
+zero-retry/absent-target contract、staging-root atomic publication、exact-tree rejection 与 persisted-
+byte independent validation，且在该 generation protocol clean merge/branch cleanup/master 对齐前
+仍不得生成 139 个 outputs。
 
 ## TOOL-001：工具 Schema 与任务定义
 
