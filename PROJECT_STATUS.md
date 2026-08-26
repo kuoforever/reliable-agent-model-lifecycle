@@ -484,25 +484,32 @@ model reload or second replay.
 [Repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md).
 [Repeatability result review](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-result-review-v1.md).
 
+PR #59 published the exact replay artifacts, independent review, and strict
+validator as `5f60cbf44a311b46b312090d62d2783424c1dc85`. All six Linux
+Python-matrix checks passed; the PR had zero reviews/comments/threads, was
+`CLEAN`/`MERGEABLE`, and both feature-branch copies were deleted before local
+`master` was aligned with `origin/master`.
+
 ## Single active objective
 
-Publish the exact MM-005 Document/Chart/PDF model-evaluation repeatability
-result slice:
+Freeze `MM-005-browser-research-environment-adaptation-protocol-v1` as the
+third registered multimodal environment, before any new data generation,
+model call, training, Serving work, or Runtime change:
 
 ```text
-four consumed replay artifacts + byte-exact independent review + strict validator
-        -> merge with checks/review/conflict state clear
-        -> delete both feature-branch copies and align master == origin/master
-        -> MM-005-browser-research-environment-adaptation-protocol-v1
+closed Desktop GUI + Document/Chart/PDF evidence remains read-only
+        -> freeze Browser Research scope and environment interfaces model-free
+        -> constrain future additions to Adapter + task set + Verifier + data
+        -> inherit shared orchestration, Serving, safety, approval, recovery, and Runtime boundaries
 ```
 
 Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
-evaluation directory. This result branch may only reconstruct tracked
-artifacts; it must never import, load, or call the formal model. Do not train,
-modify or save a model, create another replay attempt, change the Runtime
-repository, capture real desktop/document content, or broaden the bounded
-same-machine fixed-suite claim. The next gate is authorized only after clean
-merge, branch cleanup, and aligned `master == origin/master`.
+evaluation directory. The Browser Research protocol must not generate data,
+import, load, or call the formal model, train or save a model/Adapter, change
+the Runtime repository, capture real browser/desktop/document content, or
+broaden the bounded same-machine fixed-suite claim. It must define the new
+environment boundary without duplicating shared orchestration, Serving,
+approval, recovery, or safety systems.
 
 ## Preserved historical validation and deferred gates
 
@@ -1531,7 +1538,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF baseline and same-machine fixed-suite repeatability measurements complete, exact repeatability result publication next, then Browser Research adaptation protocol |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; MM-005 Document/Chart/PDF baseline and bounded same-machine fixed-suite repeatability lifecycle closed through PR #59, Browser Research adaptation protocol next |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

@@ -466,6 +466,11 @@ gate with four expected Windows privilege skips, 61 audited source files, and
 `valid=true`. See the [repeatability protocol](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-protocol-v1.md)
 and [result review](docs/MM-005-document-chart-pdf-model-evaluation-repeatability-result-review-v1.md).
 
+PR #59 published the exact replay artifacts, independent review, and strict
+validator as `5f60cbf44a311b46b312090d62d2783424c1dc85`. All six checks
+passed with no review, comment, thread, or merge-conflict blocker; both feature-
+branch copies were deleted and local `master` was aligned with `origin/master`.
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical
@@ -902,20 +907,23 @@ with 32 projections and 160 deterministic controls. The independent Adapter/
 Verifier implementation now reproduces them exactly; PR #55 published its
 102,117-byte evidence as
 `ff52da51aba534b051f9e247518fb2d20d1db1e2`. The separate 58,414-byte
-  `MM-005-document-chart-pdf-model-evaluation-protocol-v1` merged through PR #56
-  as `3be0083c3197111d57a4a5e5f70feced9f2c96f9`. Its exact owner-marked
-  zero-retry baseline attempt is consumed and the model-free review records
-  19/32 joint exact, with chart/table 16/16 but document text 0/8 and page-region
-  3/8. The separate repeatability protocol merged through PR #58 as
-  `874f6c1a201a07d6680a3fa12217c1344b14c141`; its one replay is also consumed.
-  All five registered behavior layers are exact for 32/32 cases, and the new
-  model-free review establishes only bounded same-machine fixed-suite
-  evaluation repeatability. Publishing those exact replay artifacts and review
-  is the single active objective. Existing MM-002/MM-003/MM-004 evidence, the
-  Adapter, generated data, and both consumed MM-005 attempts remain read-only.
-  This does not authorize training, model/Adapter writes, Runtime changes, real
-  desktop/document capture, generalized quality/safety claims, resource or
-  cross-machine repeatability claims, or reuse/retry of a consumed attempt.
+`MM-005-document-chart-pdf-model-evaluation-protocol-v1` merged through PR #56
+as `3be0083c3197111d57a4a5e5f70feced9f2c96f9`. Its exact owner-marked
+zero-retry baseline attempt is consumed and the model-free review records
+19/32 joint exact, with chart/table 16/16 but document text 0/8 and page-region
+3/8. The separate repeatability protocol merged through PR #58 as
+`874f6c1a201a07d6680a3fa12217c1344b14c141`; its one replay is also consumed.
+All five registered behavior layers are exact for 32/32 cases, and the new
+model-free review establishes only bounded same-machine fixed-suite evaluation
+repeatability. PR #59 published those exact artifacts and review as
+`5f60cbf44a311b46b312090d62d2783424c1dc85`, closing this lifecycle.
+Existing MM-002/MM-003/MM-004 evidence, the Adapter, generated data, and both
+consumed MM-005 attempts remain read-only. The single active objective is the
+model-free `MM-005-browser-research-environment-adaptation-protocol-v1`. It
+does not authorize data generation, model calls or writes, training, Runtime
+changes, real browser/desktop/document capture, generalized quality/safety
+claims, resource or cross-machine repeatability claims, or reuse/retry of a
+consumed attempt.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

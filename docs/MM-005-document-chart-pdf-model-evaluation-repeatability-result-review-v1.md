@@ -134,8 +134,11 @@ gate with four expected Windows privilege skips, 61 audited source files, and
 
 ## Next gate
 
-After this exact result slice is published and the feature branch is deleted
-locally and remotely, the single next gate is
+PR #59 published this exact result slice as
+`5f60cbf44a311b46b312090d62d2783424c1dc85`; all six checks passed,
+no review/comment/thread or merge-conflict blocker existed, both feature-branch
+copies were deleted, and local `master` was aligned with `origin/master`. The
+single next gate is
 `MM-005-browser-research-environment-adaptation-protocol-v1`. It must remain
 model-free and freeze Browser Research boundaries before new data generation,
 model calls, training, Serving work, or Runtime changes.
