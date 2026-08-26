@@ -1009,6 +1009,26 @@ zero-retry/absent-target contract、staging-root atomic publication、exact-tree
 byte independent validation，且在该 generation protocol clean merge/branch cleanup/master 对齐前
 仍不得生成 139 个 outputs。
 
+该 `MM-005-browser-research-data-generation-v1` runner protocol 现已在任何 formal
+materialization 前本地冻结：64,590 canonical bytes，SHA-256 为
+`78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`。它显式绑定
+PR #63 data-protocol merge commit `9518d5b59fb11dbea237caa17fd245f4dcd5c2db`、四份
+data/generation source receipts、73,476-byte data protocol 与全部 139 outputs / 986,989
+bytes。formal runner 强制 published-data ancestry、exact aligned merged `master`、双目标不存在、
+zero internal retry、same-parent staging-root atomic rename、path-escape/symlink/reparse/extra-tree
+拒绝、persisted-byte independent readback 与 exclusive evidence；Windows physical I/O 使用
+extended-length path，但 registered logical receipts 不变。
+
+17/17 focused adversarial tests、full-repository Ruff、scoped strict Mypy、`py_compile`、protocol
+`--check` 与 `git diff --check` 通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified
+gates 均通过 828 tests、4 个预期 Windows privilege skips、64 个 audited source files，且
+`valid=true`。固定 output root 与 execution evidence 仍不存在；generation/records/source
+snapshots/screenshots/dataset validation、Adapter/Verifier、live browser/network、model/quality/
+safety/capture/Serving/promotion/Runtime claims 全部 false。当前唯一动作是 clean publish 该
+generation protocol；只有 PR clean merge、远近 branch cleanup 且 `master == origin/master ==`
+exact freeze commit 后，one-shot `MM-005-browser-research-data-generation-execution-v1` 才成为
+唯一 successor action。
+
 ## TOOL-001：工具 Schema 与任务定义
 
 首批工具建议：

@@ -12,7 +12,7 @@ import subprocess
 import sys
 import tomllib
 import unittest
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -198,6 +198,13 @@ MM005_BROWSER_RESEARCH_DATA_PROTOCOL_PATH = (
 MM005_BROWSER_RESEARCH_DATA_PROTOCOL_BYTES = 73_476
 MM005_BROWSER_RESEARCH_DATA_PROTOCOL_SHA256 = (
     "sha256:38e31afc46cf92603d191563bc5460062adeb702e7df3ee4ff18f485b034283a"
+)
+MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_data_generation_v1.json"
+)
+MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_BYTES = 64_590
+MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_SHA256 = (
+    "sha256:78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d"
 )
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
@@ -558,6 +565,9 @@ def main() -> int:
         _validate_mm005_browser_research_environment_adaptation_protocol()
     )
     mm005_browser_research_data = _validate_mm005_browser_research_data_protocol()
+    mm005_browser_research_generation = (
+        _validate_mm005_browser_research_generation_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -1298,6 +1308,24 @@ def main() -> int:
         ),
         "mm005_browser_research_data_next_gate": (
             mm005_browser_research_data["next_gate"]
+        ),
+        "mm005_browser_research_generation_protocol_frozen": (
+            mm005_browser_research_generation["protocol_frozen"]
+        ),
+        "mm005_browser_research_generation_planned_output_files": (
+            mm005_browser_research_generation["output_file_count"]
+        ),
+        "mm005_browser_research_generation_planned_output_bytes": (
+            mm005_browser_research_generation["output_bytes"]
+        ),
+        "mm005_browser_research_generation_executed": (
+            mm005_browser_research_generation["generation_executed"]
+        ),
+        "mm005_browser_research_generation_dataset_validated": (
+            mm005_browser_research_generation["dataset_validated"]
+        ),
+        "mm005_browser_research_generation_next_gate": (
+            mm005_browser_research_generation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -3554,8 +3582,8 @@ def _validate_mm005_document_chart_pdf_data_protocol() -> dict[str, Any]:
     )
     plan = raw.get("generation_plan")
     authority = raw.get("authority_contract")
-    output_exists = (ROOT / contract.OUTPUT_ROOT).exists()
-    evidence_exists = (ROOT / contract.EVIDENCE_PATH).exists()
+    output_exists = os.path.lexists(ROOT / contract.OUTPUT_ROOT)
+    evidence_exists = os.path.lexists(ROOT / contract.EVIDENCE_PATH)
     if (
         output_exists != evidence_exists
         or len(sources) != 5
@@ -3694,8 +3722,8 @@ def _validate_mm005_document_chart_pdf_generation_protocol() -> dict[str, Any]:
 
     output_root = ROOT / contract.OUTPUT_ROOT
     evidence_path = ROOT / contract.EVIDENCE_PATH
-    output_exists = output_root.exists()
-    evidence_exists = evidence_path.exists()
+    output_exists = os.path.lexists(output_root)
+    evidence_exists = os.path.lexists(evidence_path)
     if output_exists != evidence_exists:
         raise GateError("MM-005 generation execution artifacts are incomplete")
     if not output_exists:
@@ -4548,8 +4576,11 @@ def _validate_mm005_browser_research_data_protocol() -> dict[str, Any]:
     )
     plan = raw.get("generation_plan")
     authority = raw.get("authority_contract")
+    output_exists = os.path.lexists(ROOT / contract.OUTPUT_ROOT)
+    evidence_exists = os.path.lexists(ROOT / contract.EVIDENCE_PATH)
     if (
-        len(sources) != 5
+        output_exists != evidence_exists
+        or len(sources) != 5
         or summary.template_count != 32
         or summary.record_count != 32
         or summary.source_count != 68
@@ -4607,8 +4638,6 @@ def _validate_mm005_browser_research_data_protocol() -> dict[str, Any]:
         }
         or any(raw["claims"].values())
         or summary.next_gate != contract.NEXT_GATE
-        or (ROOT / contract.OUTPUT_ROOT).exists()
-        or (ROOT / contract.EVIDENCE_PATH).exists()
     ):
         raise GateError("MM-005 Browser Research data protocol boundary mismatch")
     return {
@@ -4616,13 +4645,240 @@ def _validate_mm005_browser_research_data_protocol() -> dict[str, Any]:
         "seed": contract.SEED,
         "source_receipt_count": len(sources),
         "planned_output_rebuild_valid": planned["planned_output_rebuild_valid"],
-        "execution_artifacts_present": False,
+        "execution_artifacts_present": output_exists,
+    }
+
+
+def _validate_mm005_browser_research_generation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import mm005_browser_research_data as data_contract
+    from fullcycle_bridge import mm005_browser_research_generation as contract
+    from scripts import run_mm005_browser_research_generation as runner
+
+    protocol_payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_PATH,
+        "MM-005 Browser Research generation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(protocol_payload).hexdigest()
+    if (
+        len(protocol_payload) != MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Browser Research generation protocol hash mismatch")
+    raw = _load_json_payload(
+        protocol_payload, MM005_BROWSER_RESEARCH_GENERATION_PROTOCOL_PATH
+    )
+    if contract.artifact_json_bytes(raw) != protocol_payload:
+        raise GateError(
+            "MM-005 Browser Research generation protocol is not canonical JSON"
+        )
+
+    data_payload, data_protocol, data_sources, parent_receipt = (
+        runner.data_protocol_context()
+    )
+    sources = runner.source_receipts()
+    expected = runner.expected_protocol(freeze_status="frozen")
+    validated = contract.validate_protocol(
+        raw,
+        source_receipts=sources,
+        data_protocol_payload=data_payload,
+    )
+    if expected != validated or contract.artifact_json_bytes(expected) != protocol_payload:
+        raise GateError("MM-005 Browser Research generation reconstruction drift")
+    plan = validated.get("execution_plan")
+    publication = validated.get("data_protocol_publication")
+    authority = validated.get("authority_contract")
+    if (
+        len(sources) != 4
+        or set(sources) != contract.SOURCE_RECEIPT_NAMES
+        or len(validated.get("planned_outputs", {})) != 139
+        or publication
+        != {
+            "merge_commit": contract.DATA_PROTOCOL_MERGE_COMMIT,
+            "generation_freeze_commit_must_descend_from_merge": True,
+            "published_protocol_bytes_must_match_current": True,
+        }
+        or not isinstance(plan, dict)
+        or plan.get("output_file_count") != 139
+        or plan.get("output_bytes") != 986_989
+        or plan.get("internal_retry_limit") != 0
+        or plan.get("network_allowed") is not False
+        or plan.get("live_browser_allowed") is not False
+        or plan.get("javascript_allowed") is not False
+        or plan.get("model_dependencies_allowed") is not False
+        or plan.get("real_or_external_content_allowed") is not False
+        or plan.get("capture_allowed") is not False
+        or plan.get("atomic_output_root_required") is not True
+        or plan.get("exclusive_evidence_write_required") is not True
+        or plan.get("exact_output_tree_required") is not True
+        or plan.get("independent_persisted_byte_validation_required") is not True
+        or plan.get("execution_targets_must_be_absent") is not True
+        or authority
+        != {
+            "page_content_has_instruction_or_execution_authority": False,
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "live_browser_navigation_authorized": False,
+            "network_retrieval_authorized": False,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or any(validated["claims"].values())
+        or validated.get("next_gate") != contract.EXECUTION_GATE_ID
+    ):
+        raise GateError("MM-005 Browser Research generation boundary mismatch")
+
+    parent_binding = data_protocol["parent_protocol"]
+    planned_outputs = data_contract.expected_output_payloads(
+        str(parent_binding["sha256"])
+    )
+    planned_summary = contract.validate_output_payloads(
+        planned_outputs,
+        protocol=validated,
+        data_protocol=data_protocol,
+        exclusions=runner.data_prepare.exclusion_registry(),
+    )
+    if (
+        planned_summary.output_file_count != 139
+        or planned_summary.output_bytes != 986_989
+        or planned_summary.template_count != 32
+        or planned_summary.record_count != 32
+        or planned_summary.source_count != 68
+        or planned_summary.screenshot_count != 68
+        or planned_summary.source_snapshot_count != 68
+        or planned_summary.train_sources != 51
+        or planned_summary.validation_sources != 17
+    ):
+        raise GateError(
+            "MM-005 Browser Research generation planned-output validation drift"
+        )
+
+    output_root = ROOT / contract.OUTPUT_ROOT
+    evidence_path = ROOT / contract.EVIDENCE_PATH
+    output_exists = os.path.lexists(output_root)
+    evidence_exists = os.path.lexists(evidence_path)
+    if output_exists != evidence_exists:
+        raise GateError("MM-005 Browser Research generation artifacts are incomplete")
+    if not output_exists:
+        return {
+            "protocol_frozen": True,
+            "protocol_freeze_commit": None,
+            "template_count": data_contract.TEMPLATE_COUNT,
+            "record_count": data_contract.RECORD_COUNT,
+            "source_count": data_contract.SOURCE_COUNT,
+            "screenshot_count": data_contract.SCREENSHOT_COUNT,
+            "source_snapshot_count": data_contract.SOURCE_SNAPSHOT_COUNT,
+            "train_records": data_contract.TRAIN_RECORDS,
+            "validation_records": data_contract.VALIDATION_RECORDS,
+            "train_sources": data_contract.TRAIN_SOURCE_COUNT,
+            "validation_sources": data_contract.VALIDATION_SOURCE_COUNT,
+            "output_file_count": data_contract.OUTPUT_FILE_COUNT,
+            "output_bytes": planned_summary.output_bytes,
+            "generation_executed": False,
+            "records_generated": False,
+            "source_snapshots_generated": False,
+            "screenshots_generated": False,
+            "dataset_validated": False,
+            "evidence_sha256": None,
+            "next_gate": contract.EXECUTION_GATE_ID,
+        }
+
+    planned_paths = set(validated["planned_outputs"])
+    _validate_mm005_output_tree(output_root, planned_paths)
+    output_payloads = {
+        path: _read_regular_file_once(
+            ROOT / path,
+            f"MM-005 Browser Research generated output {path}",
+        )
+        for path in sorted(planned_paths)
+    }
+    evidence_payload = _read_regular_file_once(
+        evidence_path,
+        "MM-005 Browser Research generation evidence",
+    )
+    evidence = _load_json_payload(evidence_payload, evidence_path)
+    if contract.artifact_json_bytes(evidence) != evidence_payload:
+        raise GateError("MM-005 Browser Research evidence is not canonical JSON")
+    freeze_commit = evidence.get("protocol_freeze_commit")
+    if not isinstance(freeze_commit, str):
+        raise GateError("MM-005 Browser Research freeze commit is missing")
+    ancestry = subprocess.run(
+        [
+            "git",
+            "merge-base",
+            "--is-ancestor",
+            contract.DATA_PROTOCOL_MERGE_COMMIT,
+            freeze_commit,
+        ],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+    )
+    if ancestry.returncode != 0:
+        raise GateError("MM-005 Browser Research data publication ancestry drift")
+    frozen_paths = {
+        contract.PROTOCOL_PATH,
+        contract.DATA_PROTOCOL_PATH,
+        *runner.SOURCE_PATHS.values(),
+    }
+    for relative in sorted(frozen_paths):
+        tracked = subprocess.run(
+            ["git", "show", f"{freeze_commit}:{relative}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        if tracked != _read_regular_file_once(
+            ROOT / relative,
+            f"MM-005 Browser Research frozen generation source {relative}",
+        ):
+            raise GateError(
+                f"MM-005 Browser Research generation freeze drift: {relative}"
+            )
+    published_data_protocol = subprocess.run(
+        [
+            "git",
+            "show",
+            f"{contract.DATA_PROTOCOL_MERGE_COMMIT}:{contract.DATA_PROTOCOL_PATH}",
+        ],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    if published_data_protocol != data_payload:
+        raise GateError("MM-005 Browser Research published data protocol drift")
+    evidence_summary = contract.validate_evidence(
+        evidence,
+        protocol_freeze_commit=freeze_commit,
+        protocol_payload=protocol_payload,
+        source_receipts=sources,
+        data_protocol_payload=data_payload,
+        data_source_receipts=data_sources,
+        parent_protocol_receipt=parent_receipt,
+        output_payloads=output_payloads,
+        exclusions=runner.data_prepare.exclusion_registry(),
+    )
+    _validate_mm005_output_tree(output_root, planned_paths)
+    if (
+        evidence["claims"] != contract.EXECUTION_CLAIMS
+        or evidence_summary.generation_executed is not True
+        or evidence_summary.dataset_validated is not True
+        or evidence_summary.next_gate != contract.NEXT_GATE
+    ):
+        raise GateError("MM-005 Browser Research generation claim drift")
+    return {
+        "protocol_frozen": True,
+        "protocol_freeze_commit": freeze_commit,
+        **evidence_summary.to_dict(),
+        "evidence_sha256": "sha256:"
+        + hashlib.sha256(evidence_payload).hexdigest(),
     }
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
     reparse_flag = getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0x400)
     actual_paths: set[str] = set()
+    actual_directories = {output_root.relative_to(ROOT).as_posix()}
     try:
         root_stat = output_root.lstat()
     except OSError as exc:
@@ -4646,9 +4902,22 @@ def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> 
                 )
             ):
                 raise GateError(f"unsafe MM-005 output directory: {directory}")
+            actual_directories.add(directory.relative_to(ROOT).as_posix())
         for name in filenames:
             actual_paths.add((current_path / name).relative_to(ROOT).as_posix())
-    if actual_paths != expected_paths:
+    root = PurePosixPath(output_root.relative_to(ROOT).as_posix())
+    expected_directories = {root.as_posix()}
+    for relative in expected_paths:
+        path = PurePosixPath(relative)
+        if root not in path.parents:
+            raise GateError(f"MM-005 output path escapes fixed root: {relative}")
+        parent = path.parent
+        while True:
+            expected_directories.add(parent.as_posix())
+            if parent == root:
+                break
+            parent = parent.parent
+    if actual_paths != expected_paths or actual_directories != expected_directories:
         raise GateError("MM-005 generation output tree mismatch")
 
 

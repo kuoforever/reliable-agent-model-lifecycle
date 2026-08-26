@@ -545,10 +545,31 @@ checks passed; the PR had zero reviews, issue comments, review comments, or
 review threads, was `CLEAN`/`MERGEABLE`, and both feature-branch copies were
 deleted before local `master` was aligned with `origin/master`.
 
+`MM-005-browser-research-data-generation-v1` is now frozen locally before
+materialization. Its 64,590-byte canonical protocol has SHA-256
+`78c60102d042b65e8046523e9c78cc03137bbf3bf8edbb45a0e067bd3e16aa0d`
+and binds PR #63's exact data-protocol merge commit, four closed
+data/generation source receipts, the unchanged 73,476-byte data protocol, and
+all 139 planned outputs / 986,989 bytes. The runner requires published-data
+ancestry, aligned exact merged `master`, absent targets, zero internal retry,
+same-parent staging-root atomic publication, exact-tree rejection, and
+independent persisted-byte readback. Windows extended-length physical paths
+preserve the registered logical receipts for deep screenshot trees.
+
+Seventeen focused adversarial tests, full-repository Ruff, scoped strict Mypy,
+`py_compile`, protocol `--check`, and `git diff --check` pass. Local CPython
+3.11.15, 3.12.12, and 3.13.7 each pass the complete unified 828-test gate with
+four expected Windows privilege skips, 64 audited source files, and
+`valid=true`. The output root and execution evidence remain absent;
+generation, records, source snapshots, screenshots, dataset validation,
+Adapter/Verifier, live browser/network, model, quality, safety, capture,
+Serving, promotion, and Runtime claims remain false.
+[Generation protocol](docs/MM-005-browser-research-data-generation-protocol-v1.md).
+
 ## Single active objective
 
-Freeze `MM-005-browser-research-data-generation-v1` before materializing any
-of the 139 registered Browser Research outputs:
+Publish the frozen `MM-005-browser-research-data-generation-v1` without
+materializing any of the 139 registered Browser Research outputs:
 
 ```text
 published data protocol merge commit + 139 exact output receipts
@@ -560,15 +581,14 @@ published data protocol merge commit + 139 exact output receipts
 ```
 
 Do not delete, reopen, reuse, overwrite, or retry either consumed MM-005
-evaluation directory. The generation-protocol slice may define only the
-formal materialization boundary; it must not write any registered output or
-execution evidence at protocol freeze. It must not access a live browser or
-network, import/load/call a model, train or save a model/Adapter, change the
-Runtime repository, capture real browser/desktop/document content, or broaden
-prior repeatability claims. One formal materialization invocation is
-authorized only after the generation protocol itself cleanly merges, both
-branch copies are deleted, and `master == origin/master` at its exact freeze
-commit.
+evaluation directory. This publication slice may define only the formal
+materialization boundary; it must not write any registered output or execution
+evidence, access a live browser or network, import/load/call a model, train or
+save a model/Adapter, change the Runtime repository, capture real browser/
+desktop/document content, or broaden prior repeatability claims. One formal
+materialization invocation becomes the single successor action only after the
+generation protocol itself cleanly merges, both branch copies are deleted, and
+`master == origin/master` at its exact freeze commit.
 
 ## Preserved historical validation and deferred gates
 
@@ -1597,7 +1617,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation protocol published through PR #61, data protocol published through PR #63, generation protocol next |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation/data protocols published through PR #61/#63, generation protocol frozen locally before publication/execution |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
