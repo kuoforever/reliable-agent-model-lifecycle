@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-26.
+> Updated: 2026-08-27.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -604,31 +604,66 @@ real/external content, capture, cross-machine reproducibility, Serving,
 promotion, and Runtime claims remain false.
 [Adapter/Verifier protocol](docs/MM-005-browser-research-adapter-verifier-protocol-v1.md).
 
+PR #67 published that exact protocol as
+`403cc240fec14d3d9123b6f207112a5290f4fc34`. The Linux Python 3.11, 3.12, and
+3.13 PR checks passed; the PR had zero reviews, issue comments, review
+comments, or review threads, was `CLEAN`/`MERGEABLE`, both feature-branch
+copies were deleted, and local `master` was aligned with `origin/master` at
+that commit before implementation began.
+
+The independent model-free
+`MM-005-browser-research-adapter-verifier-implementation-v1` is now
+implemented and executed locally against the frozen protocol. Its 195,994-byte
+canonical evidence has SHA-256
+`77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876`.
+It binds five implementation/protocol source receipts, PR #67's exact merge
+commit and protocol bytes, all consumed read-only generation inputs, 32 exact
+Adapter executions over 68 screenshot plus 68 source-snapshot bindings, and
+224 independently recomputed compiler/Verifier/citation-semantic outcomes.
+The implementation records 81,796 model-payload bytes, 600,604 screenshot
+bytes, 118,742 audit-only source-snapshot bytes, 160 compiler-valid plus 64
+compiler-invalid cases, 32 positive plus 192 negative verdicts, and all eight
+freshness latest-source-removal negatives with zero registered mismatch.
+
+Thirteen focused adversarial tests, full-repository Ruff, strict Mypy on the
+three typed implementation/evidence/builder files, `py_compile`, builder
+`--check`, and `git diff --check` pass. Local CPython 3.11.15, 3.12.12, and
+3.13.7 each pass the complete unified 852-test gate with four expected Windows
+privilege skips, 67 audited source files, and `valid=true`. Only the inherited
+generation claims plus model-free Adapter/Verifier implementation and
+execution are true. Model training/evaluation,
+model-evaluation repeatability, quality, safety, prompt-injection safety, live
+browser/network, real/external content, capture, cross-machine
+reproducibility, Serving, promotion, and Runtime claims remain false.
+[Adapter/Verifier implementation](docs/MM-005-browser-research-adapter-verifier-implementation-v1.md).
+
 ## Single active objective
 
-Publish the frozen
-`MM-005-browser-research-adapter-verifier-protocol-v1` without implementing or
-executing either component:
+Validate and publish the exact
+`MM-005-browser-research-adapter-verifier-implementation-v1` without loading or
+evaluating a model:
 
 ```text
-published immutable generation result
-        -> 68 screenshot + 68 source-snapshot bindings
-        -> 32 deterministic gold/path-isolated model projections
-        -> strict compiler + 224 citation/freshness controls
-        -> adversarial tests + unified Python 3.11/3.12/3.13 offline gates
+published immutable Adapter/Verifier protocol
+        -> independent Adapter over 32 records / 68 dual-artifact bindings
+        -> independent strict compiler + deterministic Verifier
+        -> exact replay of 224 citation/source/freshness controls
+        -> canonical implementation evidence + adversarial tests
+        -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research output tree or evidence. This protocol-publication slice may
-only freeze and validate the Adapter projection, compiler, and deterministic
-Verifier oracle; it must not add the formal implementation, access a live
-browser or network, import/load/call a model, train or save a model/Adapter,
-change the Runtime repository, capture real browser/desktop/document content,
-or broaden repeatability claims. Only after the exact protocol cleanly merges,
-both branch copies are deleted, and `master == origin/master` may the separate
-model-free `MM-005-browser-research-adapter-verifier-implementation-v1` become
-the single successor objective.
+Browser Research output tree or generation evidence. This implementation slice
+may only implement and model-free execute the Adapter, compiler, deterministic
+Verifier, and citation-semantic checks against frozen vectors. It must not
+access a live browser or network, import/load/call a model, train or save a
+model/Adapter, change the Runtime repository, capture real browser/desktop/
+document content, or broaden repeatability claims. Only after this exact
+implementation/evidence cleanly merges, both branch copies are deleted, and
+`master == origin/master` may the separate outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1` become the single
+successor objective.
 
 ## Preserved historical validation and deferred gates
 

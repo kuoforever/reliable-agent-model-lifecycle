@@ -599,6 +599,35 @@ false. After this protocol cleanly merges and both branch copies are deleted,
 the next gate is the model-free
 `MM-005-browser-research-adapter-verifier-implementation-v1`.
 
+### Browser Research Adapter/Verifier implementation v1
+
+The protocol merged through PR #67 as
+`403cc240fec14d3d9123b6f207112a5290f4fc34`. The independent model-free
+implementation now reproduces all 32 frozen Adapter projections and all 224
+compiler/Verifier/citation-semantics controls. Its 195,994-byte canonical
+evidence has SHA-256
+`77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876`.
+
+The Adapter exposes only canonical instruction/observation/source-kind/task-
+family JSON plus 68 ordered screenshot byte channels. Exact source-snapshot
+bytes and all repository paths remain audit-only. Missing, duplicate,
+tampered, unsafe, or cross-record bindings fail closed. The independent strict
+compiler and deterministic Verifier reproduce 160 compiler-valid and 64
+compiler-invalid cases, 32 joint-correct positives, 192 negatives, and all
+eight latest-source-removal freshness controls without a model or LLM judge.
+See the [Browser Research Adapter/Verifier implementation](docs/MM-005-browser-research-adapter-verifier-implementation-v1.md).
+
+Thirteen implementation-focused adversarial tests, full-repository Ruff,
+scoped strict Mypy, `py_compile`, builder `--check`, and `git diff --check`
+pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the complete unified
+852-test gate with four expected Windows privilege skips, 67 audited source
+files, and `valid=true`. Model training or evaluation, model-evaluation
+repeatability, quality, safety, live browser, network, real/external content,
+capture, cross-machine reproducibility, Serving, promotion, Runtime changes,
+and Runtime eligibility remain false. After clean PR validation, merge, branch
+cleanup, and master alignment, the next gate is the separate outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1`.
+
 ### Reliability/Verifier Dataset v1
 
 `FC-BRIDGE-002` deterministically maps accepted Runtime evidence to canonical

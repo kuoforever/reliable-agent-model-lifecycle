@@ -213,6 +213,15 @@ MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_BYTES = 271_406
 MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_PROTOCOL_SHA256 = (
     "sha256:a64f5d3d174ab2e8c7a003626d76981f43c15b9e739f8c999c4198df0c77156b"
 )
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_PATH = (
+    ROOT
+    / "baseline"
+    / "mm005-browser-research-adapter-verifier-implementation-v1.json"
+)
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_BYTES = 195_994
+MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_SHA256 = (
+    "sha256:77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -577,6 +586,9 @@ def main() -> int:
     )
     mm005_browser_research_adapter_verifier = (
         _validate_mm005_browser_research_adapter_verifier_protocol()
+    )
+    mm005_browser_research_adapter_verifier_implementation = (
+        _validate_mm005_browser_research_adapter_verifier_implementation()
     )
     tests_run = _run_tests()
 
@@ -1365,6 +1377,77 @@ def main() -> int:
         ),
         "mm005_browser_research_adapter_verifier_next_gate": (
             mm005_browser_research_adapter_verifier["next_gate"]
+        ),
+        "mm005_browser_research_adapter_verifier_implementation_evidence_valid": (
+            mm005_browser_research_adapter_verifier_implementation["evidence_valid"]
+        ),
+        "mm005_browser_research_implemented_adapter_projections": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "adapter_projection_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_source_bindings": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "source_binding_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_model_payload_bytes": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "model_payload_bytes"
+            ]
+        ),
+        "mm005_browser_research_implemented_screenshot_bytes": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "screenshot_bytes"
+            ]
+        ),
+        "mm005_browser_research_implemented_source_snapshot_bytes": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "source_snapshot_bytes"
+            ]
+        ),
+        "mm005_browser_research_implemented_verifier_cases": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "verifier_case_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_citation_semantics": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "citation_semantics_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_compiler_valid_cases": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "compiler_valid_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_compiler_invalid_cases": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "compiler_invalid_count"
+            ]
+        ),
+        "mm005_browser_research_implemented_freshness_negatives": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "freshness_negative_count"
+            ]
+        ),
+        "mm005_browser_research_environment_adapter_executed": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "environment_adapter_executed"
+            ]
+        ),
+        "mm005_browser_research_deterministic_verifier_executed": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "verifier_executed"
+            ]
+        ),
+        "mm005_browser_research_implementation_model_evaluated": (
+            mm005_browser_research_adapter_verifier_implementation[
+                "model_evaluated"
+            ]
+        ),
+        "mm005_browser_research_implementation_next_gate": (
+            mm005_browser_research_adapter_verifier_implementation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5079,6 +5162,141 @@ def _validate_mm005_browser_research_adapter_verifier_protocol() -> dict[str, An
     ):
         raise GateError("MM-005 Browser Research Adapter/Verifier boundary mismatch")
     return {"protocol_frozen": True, **summary.to_dict()}
+
+
+def _validate_mm005_browser_research_adapter_verifier_implementation() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_adapter_verifier_implementation as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_adapter_verifier_implementation as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_PATH,
+        "MM-005 Browser Research Adapter/Verifier implementation evidence",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser Adapter/Verifier implementation evidence hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser Adapter/Verifier evidence is not canonical JSON"
+        )
+
+    inputs = prepare.implementation_inputs()
+    summary = contract.validate_evidence(raw, **inputs)
+    protocol_binding = raw.get("protocol")
+    consumed = raw.get("consumed_inputs")
+    adapter = raw.get("adapter_implementation")
+    verifier = raw.get("verifier_implementation")
+    authority = raw.get("authority_contract")
+    true_claims = {
+        name for name, established in raw.get("claims", {}).items() if established
+    }
+    if (
+        raw.get("gate_id") != contract.GATE_ID
+        or raw.get("next_gate") != contract.NEXT_GATE
+        or not isinstance(protocol_binding, dict)
+        or protocol_binding.get("merge_commit") != contract.PROTOCOL_MERGE_COMMIT
+        or protocol_binding.get("required_before_implementation") is not True
+        or len(inputs["implementation_source_receipts"]) != 5
+        or summary.source_receipt_count != 5
+        or summary.record_count != 32
+        or summary.source_binding_count != 68
+        or summary.screenshot_count != 68
+        or summary.source_snapshot_count != 68
+        or summary.adapter_projection_count != 32
+        or summary.model_payload_bytes != 81_796
+        or summary.screenshot_bytes != 600_604
+        or summary.source_snapshot_bytes != 118_742
+        or summary.verifier_case_count != 224
+        or summary.citation_semantics_count != 224
+        or summary.compiler_valid_count != 160
+        or summary.compiler_invalid_count != 64
+        or summary.positive_case_count != 32
+        or summary.negative_case_count != 192
+        or summary.freshness_negative_count != 8
+        or summary.environment_adapter_implemented is not True
+        or summary.environment_adapter_executed is not True
+        or summary.verifier_implemented is not True
+        or summary.verifier_executed is not True
+        or summary.model_evaluated is not False
+        or summary.next_gate != contract.NEXT_GATE
+        or not isinstance(consumed, dict)
+        or consumed.get("read_only") is not True
+        or consumed.get("generation_rerun") is not False
+        or not isinstance(adapter, dict)
+        or adapter.get("screenshot_bytes_are_model_visual_channel") is not True
+        or adapter.get("source_snapshot_bytes_are_audit_only") is not True
+        or adapter.get("artifact_paths_exposed_to_model") is not False
+        or adapter.get("gold_or_verifier_fields_exposed_to_model") is not False
+        or adapter.get("projection_registry_exact") is not True
+        or len(adapter.get("execution_registry", [])) != 32
+        or not isinstance(verifier, dict)
+        or verifier.get("model_or_llm_judge_used") is not False
+        or verifier.get("invalid_output_is_wrong") is not True
+        or verifier.get("case_registry_exact") is not True
+        or verifier.get("citation_semantics_exact") is not True
+        or verifier.get("freshness_controls_exact") is not True
+        or verifier.get("case_distribution")
+        != {
+            "duplicate_citation": 32,
+            "exact_expected": 32,
+            "malformed_json": 32,
+            "unknown_dom_ref": 32,
+            "wrong_answer": 32,
+            "wrong_citation_sequence_or_coverage": 32,
+            "wrong_dom_ref": 32,
+        }
+        or len(verifier.get("execution_registry", [])) != 224
+        or raw.get("required_gates") != list(contract.REQUIRED_GATES)
+        or raw.get("gate_results")
+        != {gate: True for gate in contract.REQUIRED_GATES}
+        or authority
+        != {
+            "page_content_has_execution_authority": False,
+            "model_output_has_execution_authority": False,
+            "runtime_is_sole_policy_approval_wal_grounding_budget_dispatch_boundary": True,
+            "runtime_repository_changed": False,
+            "runtime_integration_authorized": False,
+            "capture_authorized": False,
+        }
+        or raw.get("claims") != contract.IMPLEMENTATION_CLAIMS
+        or true_claims
+        != {
+            "generation_executed",
+            "records_generated",
+            "source_snapshots_generated",
+            "screenshots_generated",
+            "dataset_validated",
+            "environment_adapter_implemented",
+            "environment_adapter_executed",
+            "verifier_implemented",
+            "verifier_executed",
+        }
+    ):
+        raise GateError(
+            "MM-005 Browser Adapter/Verifier implementation boundary mismatch"
+        )
+    return {
+        "evidence_valid": True,
+        **summary.to_dict(),
+        "evidence_sha256": digest,
+    }
 
 
 def _validate_mm005_output_tree(output_root: Path, expected_paths: set[str]) -> None:
