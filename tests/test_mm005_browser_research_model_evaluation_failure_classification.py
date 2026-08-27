@@ -172,7 +172,12 @@ class MM005BrowserResearchModelEvaluationFailureClassificationTests(
         if include_local:
             relative_paths.append(failure.LOCAL_ATTEMPT_OWNER_PATH)
         for relative in relative_paths:
-            source = ROOT / relative
+            source_relative = (
+                failure.TRACKED_ATTEMPT_OWNER_PATH
+                if relative == failure.LOCAL_ATTEMPT_OWNER_PATH
+                else relative
+            )
+            source = ROOT / source_relative
             target = temp_root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(source.read_bytes())
