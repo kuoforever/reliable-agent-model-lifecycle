@@ -1058,9 +1058,9 @@ reproducibility、live browser/network、model/quality/safety、Serving/promotio
 通过，0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已删除且本地
 `master == origin/master` 后才开始 implementation。
 
-当前唯一 gate 是 model-free
-`MM-005-browser-research-adapter-verifier-implementation-v1`。独立 Adapter、strict compiler、
-deterministic Verifier 与 citation/source/freshness semantics 已对全部 frozen vectors 执行；
+model-free `MM-005-browser-research-adapter-verifier-implementation-v1` 已完成。独立 Adapter、
+strict compiler、deterministic Verifier 与 citation/source/freshness semantics 已对全部 frozen
+vectors 执行；
 195,994-byte canonical evidence SHA-256 为
 `77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876`。它绑定 5 份
 implementation/protocol source receipts、PR #67 exact merge/protocol、immutable upstream，
@@ -1075,9 +1075,30 @@ Windows privilege skips、67 个 audited source files，且 `valid=true`。当�
 Adapter/Verifier implemented/executed claims；model training/evaluation、
 model-evaluation repeatability、quality/safety、live browser/
 network、real/external content、capture、cross-machine reproducibility、Serving/promotion/
-Runtime claims 仍为 false。只有 exact implementation/evidence clean merge、远近 branch cleanup
-且 `master == origin/master` 后，outcome-neutral
-`MM-005-browser-research-model-evaluation-protocol-v1` 才成为唯一 successor gate。
+Runtime claims 仍为 false。PR #68 已把该 exact implementation/evidence 合并为
+`1177d5649952af6c04f713f5cfbbde47388e3769`；6/6 Linux Python-matrix checks 通过，
+0 review/comment/thread、`CLEAN`/`MERGEABLE`，signed squash merge tree 与 implementation tree
+完全一致，远近 feature branch 已删除且本地 `master == origin/master` 后才开始 protocol freeze。
+
+当前唯一 gate 是 outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1`。它已在任何 model import/call 或 attempt
+claim 前冻结为 116,152 canonical bytes，SHA-256 为
+`84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`；绑定 12 份 source
+receipts、PR #68 implementation lineage、immutable MM-004 candidate/dataset、32 个固定顺序
+records、68 source/screenshot/audit-snapshot bindings、81,796 model-payload bytes、600,604
+screenshot bytes 与 118,742 audit-only source-snapshot bytes。
+
+未来 formal execution 仅登记 1 fresh base load、1 independent Adapter load、32 ordered calls、
+68 screenshot visual inputs、0 source-snapshot model inputs、zero retry/network/training；strict
+compiler 只接受 `answer` + `citation_refs`，Verifier 独立登记 answer/citation exact、DOM-ref
+binding、minimum source coverage、8-case latest-source freshness 及完整 grouped metrics。accuracy
+不得改变 measurement completion。16/16 focused adversarial tests、Ruff、scoped strict Mypy、
+`py_compile` 与 protocol `--check` 已通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete
+unified gates 均通过 868 tests、4 个预期 Windows privilege skips、68 个 audited source files，
+且 `valid=true`。当前 attempt/model/evaluation/formal measurement 均为 false。只有 exact
+protocol clean merge、远近 branch cleanup 且 `master == origin/master` 后，
+`MM-005-browser-research-model-evaluation-execution-v1` 才成为唯一 successor gate，并且只能
+消费一次 owner-marked、offline、zero-retry read-only attempt。
 
 ## TOOL-001：工具 Schema 与任务定义
 

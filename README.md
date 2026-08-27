@@ -624,9 +624,45 @@ pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass the complete unified
 files, and `valid=true`. Model training or evaluation, model-evaluation
 repeatability, quality, safety, live browser, network, real/external content,
 capture, cross-machine reproducibility, Serving, promotion, Runtime changes,
-and Runtime eligibility remain false. After clean PR validation, merge, branch
-cleanup, and master alignment, the next gate is the separate outcome-neutral
-`MM-005-browser-research-model-evaluation-protocol-v1`.
+and Runtime eligibility remain false. PR #68 published the exact implementation
+as `1177d5649952af6c04f713f5cfbbde47388e3769`; all six Linux matrix checks
+passed, no review/comment/thread/conflict blocker existed, both feature-branch
+copies were deleted, and local `master` was aligned with `origin/master` before
+the separate outcome-neutral model-evaluation protocol began.
+
+### Browser Research model-evaluation protocol v1
+
+The protocol is frozen locally before any model import or call as 116,152
+canonical bytes with SHA-256
+`84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`.
+It closes 12 source receipts, the exact PR #68 implementation lineage, the
+read-only MM-004 candidate, and all immutable Browser Research dataset bytes.
+The fixed 32-record suite contains 24 train and eight validation records with
+68 ordered source bindings.
+
+The model payloads total 81,796 bytes and expose only instruction,
+observation, source kind, and task family. Exactly 68 ordered PNG screenshots
+totaling 600,604 bytes are registered as visual inputs. The corresponding
+118,742 source-snapshot bytes are independently receipt-bound audit evidence
+and never enter the model. The strict two-key `answer`/`citation_refs`
+compiler and deterministic Verifier register answer/citation joint exactness,
+citation binding, minimum source coverage, latest-source freshness, and total
+per-group metrics without an LLM judge.
+
+The future owner-marked execution permits one fresh base load, one independent
+Adapter load, 32 ordered calls, zero retries, no network or training, 1,800
+seconds, and 16.5 GB peak allocated/reserved GPU memory. Accuracy cannot change
+measurement completion. Sixteen focused adversarial tests, Ruff, scoped strict
+Mypy, `py_compile`, and protocol `--check` pass locally. Local CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the complete unified 868-test gate with four
+expected Windows privilege skips, 68 audited source files, and `valid=true`.
+See the
+[Browser Research model-evaluation protocol](docs/MM-005-browser-research-model-evaluation-protocol-v1.md).
+
+No attempt is consumed and no model is evaluated at freeze. Clean PR
+publication, review/conflict audit, merge, branch cleanup, and master alignment
+remain required before the single successor
+`MM-005-browser-research-model-evaluation-execution-v1` may run.
 
 ### Reliability/Verifier Dataset v1
 
@@ -1076,15 +1112,18 @@ repeatability. PR #59 published those exact artifacts and review as
 `5f60cbf44a311b46b312090d62d2783424c1dc85`, closing this lifecycle.
 Existing MM-002/MM-003/MM-004 evidence, the Adapter, generated data, and both
 consumed MM-005 attempts remain read-only. The Browser Research environment and
-data protocols are now published; the latter registers 32 records, 68 static
-sources/screenshots, and 139 exact future outputs. The separate
-`MM-005-browser-research-data-generation-v1` runner protocol is now frozen
-locally; publishing it without materializing any output is the single active
-objective. It does not authorize data generation until its exact clean merge
-and branch cleanup, nor does it authorize live browser/network use, model calls
-or writes, training, Runtime changes, real browser/desktop/document capture,
-generalized quality/safety claims, resource or cross-machine repeatability
-claims, or reuse/retry of a consumed attempt.
+data/generation lifecycle is published, its one-shot 139-file generation is
+consumed, and its exact result is immutable. PR #67 published the model-free
+Adapter/Verifier protocol; PR #68 then published the independent implementation
+that reproduces all 32 projections and 224 citation/source/freshness controls.
+The separate 116,152-byte
+`MM-005-browser-research-model-evaluation-protocol-v1` is now frozen locally
+before any model import or call. Publishing this exact preregistration without
+consuming its attempt is the single active objective. It authorizes no live
+browser/network use, training, Runtime change, real browser/desktop/document
+capture, generalized quality/safety claim, repeatability claim, or reuse/retry
+of any consumed attempt. Only its exact clean merge and branch cleanup may
+activate the one registered zero-retry model-evaluation execution.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

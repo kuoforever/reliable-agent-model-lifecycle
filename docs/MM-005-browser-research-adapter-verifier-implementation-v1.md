@@ -17,6 +17,12 @@ It binds five implementation/protocol source receipts, the exact protocol
 merge commit and artifact, all consumed read-only upstream data, 32 Adapter
 executions, and 224 compiler/Verifier/semantic executions.
 
+PR #68 published this exact implementation as
+`1177d5649952af6c04f713f5cfbbde47388e3769`. All six Linux Python-matrix
+checks passed, there were no reviews, comments, review threads, or conflicts,
+the signed squash merge tree exactly matched the implementation tree, and both
+feature-branch copies were deleted.
+
 ## Implemented Adapter interface
 
 `AdaptedBrowserResearchInput` separates model-facing transports from audit
@@ -105,15 +111,14 @@ This establishes exact Adapter/Verifier conformance and deterministic evidence
 reconstruction on the registered local Python matrix. It does not establish
 model or training repeatability, cross-machine reproducibility, generalized
 quality, safety, Serving, promotion, or Runtime eligibility. Clean PR
-validation, merge, branch cleanup, and master alignment remain the publication
-gate.
+validation, merge, branch cleanup, and master alignment completed through PR
+#68 before the next protocol freeze began.
 
 ## Next gate
 
-Only after this exact implementation/evidence passes the complete local and PR
-validation matrices, merges cleanly, deletes both feature-branch copies, and
-leaves local `master` aligned with `origin/master` may the separate
-`MM-005-browser-research-model-evaluation-protocol-v1` become active. That
-future gate must freeze an outcome-neutral model-evaluation plan before any
-model import or call; this implementation branch authorizes no model
+The separate `MM-005-browser-research-model-evaluation-protocol-v1` is now
+active and frozen locally as an outcome-neutral preregistration before any
+model import or call. It must still pass its complete local and PR validation,
+merge, branch cleanup, and master-alignment gates before the one registered
+formal execution may run. The implementation itself authorizes no model
 execution.

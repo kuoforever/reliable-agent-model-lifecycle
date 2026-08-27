@@ -637,33 +637,63 @@ browser/network, real/external content, capture, cross-machine
 reproducibility, Serving, promotion, and Runtime claims remain false.
 [Adapter/Verifier implementation](docs/MM-005-browser-research-adapter-verifier-implementation-v1.md).
 
+PR #68 published that exact implementation as
+`1177d5649952af6c04f713f5cfbbde47388e3769`. All six Linux Python 3.11/3.12/
+3.13 checks passed; the PR had zero reviews, issue comments, review comments,
+or review threads, was `CLEAN`/`MERGEABLE`, and the signed squash merge tree
+exactly matched the implementation tree. Both feature-branch copies were
+deleted and local `master` was aligned with `origin/master` before protocol
+freeze began.
+
+The separate outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1` is now frozen locally
+before any model import or call as 116,152 canonical bytes with SHA-256
+`84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`.
+It binds 12 protocol source receipts, PR #68's exact implementation lineage,
+the immutable MM-004 candidate lineage, 32 records in fixed order, 68 source/
+screenshot/audit-snapshot bindings, 81,796 model-payload bytes, 600,604
+screenshot bytes, and 118,742 audit-only source-snapshot bytes.
+
+The future execution registers one fresh base load, one independent Adapter
+load, 32 ordered calls over 68 screenshot channels, zero source-snapshot model
+inputs, zero retry/network/training, and outcome-neutral answer/citation/source-
+coverage/freshness metrics. Sixteen focused adversarial tests, Ruff, scoped
+strict Mypy, `py_compile`, and protocol `--check` pass. Local CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the complete unified 868-test gate with four
+expected Windows privilege skips, 68 audited source files, and `valid=true`.
+No attempt is consumed, no model is evaluated, and live browser/network,
+training, quality, safety, real/external content, capture, repeatability,
+Serving, promotion, and Runtime claims remain false.
+[Browser Research model-evaluation protocol](docs/MM-005-browser-research-model-evaluation-protocol-v1.md).
+
 ## Single active objective
 
 Validate and publish the exact
-`MM-005-browser-research-adapter-verifier-implementation-v1` without loading or
+`MM-005-browser-research-model-evaluation-protocol-v1` without loading or
 evaluating a model:
 
 ```text
-published immutable Adapter/Verifier protocol
-        -> independent Adapter over 32 records / 68 dual-artifact bindings
-        -> independent strict compiler + deterministic Verifier
-        -> exact replay of 224 citation/source/freshness controls
-        -> canonical implementation evidence + adversarial tests
+published immutable Adapter/Verifier implementation
+        -> closed candidate + implementation + dataset lineage
+        -> 32 ordered prompts / 68 screenshot visual inputs
+        -> audit-only source snapshots + strict citation/freshness metrics
+        -> owner-marked one-attempt zero-retry execution contract
+        -> canonical preregistration + adversarial tests
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research output tree or generation evidence. This implementation slice
-may only implement and model-free execute the Adapter, compiler, deterministic
-Verifier, and citation-semantic checks against frozen vectors. It must not
-access a live browser or network, import/load/call a model, train or save a
-model/Adapter, change the Runtime repository, capture real browser/desktop/
+Browser Research generation output tree/evidence or any earlier consumed model
+attempt. This protocol slice may only freeze and validate the future
+measurement contract. It must not access a live browser or network,
+import/load/call a model, claim the evaluation output directory, train or save
+a model/Adapter, change the Runtime repository, capture real browser/desktop/
 document content, or broaden repeatability claims. Only after this exact
-implementation/evidence cleanly merges, both branch copies are deleted, and
-`master == origin/master` may the separate outcome-neutral
-`MM-005-browser-research-model-evaluation-protocol-v1` become the single
-successor objective.
+protocol cleanly merges, both branch copies are deleted, and
+`master == origin/master` may
+`MM-005-browser-research-model-evaluation-execution-v1` become the single
+successor objective and consume its one registered attempt.
 
 ## Preserved historical validation and deferred gates
 
@@ -1692,7 +1722,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF lifecycle closed through PR #59, Browser Research adaptation/data/generation protocols published through PR #61/#63/#65, one-shot generation consumed and awaiting exact result publication |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result, Adapter/Verifier protocol, and implementation published through PR #66/#67/#68; model-evaluation protocol frozen locally before execution |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
