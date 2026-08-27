@@ -222,6 +222,13 @@ MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_BYTES = 195_994
 MM005_BROWSER_RESEARCH_ADAPTER_VERIFIER_IMPLEMENTATION_EVIDENCE_SHA256 = (
     "sha256:77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876"
 )
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_model_evaluation_protocol_v1.json"
+)
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_BYTES = 116_152
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_SHA256 = (
+    "sha256:84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -589,6 +596,9 @@ def main() -> int:
     )
     mm005_browser_research_adapter_verifier_implementation = (
         _validate_mm005_browser_research_adapter_verifier_implementation()
+    )
+    mm005_browser_research_model_evaluation = (
+        _validate_mm005_browser_research_model_evaluation_protocol()
     )
     tests_run = _run_tests()
 
@@ -1448,6 +1458,39 @@ def main() -> int:
         ),
         "mm005_browser_research_implementation_next_gate": (
             mm005_browser_research_adapter_verifier_implementation["next_gate"]
+        ),
+        "mm005_browser_research_model_evaluation_protocol_frozen": (
+            mm005_browser_research_model_evaluation["protocol_frozen"]
+        ),
+        "mm005_browser_research_model_evaluation_source_files": (
+            mm005_browser_research_model_evaluation["source_receipt_count"]
+        ),
+        "mm005_browser_research_model_evaluation_prompt_projections": (
+            mm005_browser_research_model_evaluation["prompt_projection_count"]
+        ),
+        "mm005_browser_research_model_evaluation_source_bindings": (
+            mm005_browser_research_model_evaluation["source_binding_count"]
+        ),
+        "mm005_browser_research_model_evaluation_model_payload_bytes": (
+            mm005_browser_research_model_evaluation["model_payload_bytes"]
+        ),
+        "mm005_browser_research_model_evaluation_screenshot_bytes": (
+            mm005_browser_research_model_evaluation["screenshot_bytes"]
+        ),
+        "mm005_browser_research_model_evaluation_audit_snapshot_bytes": (
+            mm005_browser_research_model_evaluation["audit_snapshot_bytes"]
+        ),
+        "mm005_browser_research_model_evaluation_generate_calls": (
+            mm005_browser_research_model_evaluation["generate_calls"]
+        ),
+        "mm005_browser_research_model_evaluation_attempt_consumed": (
+            mm005_browser_research_model_evaluation["attempt_consumed"]
+        ),
+        "mm005_browser_research_model_evaluation_model_evaluated": (
+            mm005_browser_research_model_evaluation["model_evaluated"]
+        ),
+        "mm005_browser_research_model_evaluation_next_gate": (
+            mm005_browser_research_model_evaluation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5296,6 +5339,156 @@ def _validate_mm005_browser_research_adapter_verifier_implementation() -> (
         "evidence_valid": True,
         **summary.to_dict(),
         "evidence_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_model_evaluation_protocol() -> dict[str, Any]:
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation as contract,
+    )
+    from scripts import prepare_mm005_browser_research_model_evaluation as prepare
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_PATH,
+        "MM-005 Browser Research model-evaluation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_SHA256
+    ):
+        raise GateError("MM-005 Browser model-evaluation protocol hash mismatch")
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser model-evaluation protocol is not canonical JSON"
+        )
+
+    inputs = {**prepare.protocol_inputs(), "output_absent": True}
+    expected = contract.validate_preregistration(raw, **inputs)
+    input_suite = raw.get("input_suite")
+    prompt_contract = raw.get("prompt_contract")
+    compiler = raw.get("compiler")
+    metrics = raw.get("metrics")
+    execution = raw.get("execution_protocol")
+    formal_gate = raw.get("formal_gate")
+    freeze_preconditions = raw.get("freeze_preconditions")
+    claims = raw.get("claims")
+    source_receipts = raw.get("source_receipts")
+    prompt_projections = (
+        input_suite.get("prompt_projection_registry", [])
+        if isinstance(input_suite, dict)
+        else []
+    )
+    model_payload_bytes = sum(
+        projection.get("model_payload", {}).get("bytes", 0)
+        for projection in prompt_projections
+        if isinstance(projection, dict)
+    )
+    screenshot_bytes = sum(
+        screenshot.get("bytes", 0)
+        for projection in prompt_projections
+        if isinstance(projection, dict)
+        for screenshot in projection.get("screenshot_payloads", [])
+        if isinstance(screenshot, dict)
+    )
+    audit_snapshot_bytes = sum(
+        snapshot.get("bytes", 0)
+        for projection in prompt_projections
+        if isinstance(projection, dict)
+        for snapshot in projection.get("source_snapshot_payloads", [])
+        if isinstance(snapshot, dict)
+    )
+    true_claims = (
+        {name for name, established in claims.items() if established}
+        if isinstance(claims, dict)
+        else set()
+    )
+    if (
+        contract.artifact_json_bytes(expected) != payload
+        or raw.get("gate_id") != contract.PROTOCOL_GATE_ID
+        or raw.get("next_gate") != contract.EXECUTION_GATE_ID
+        or raw.get("freeze_status") != "frozen"
+        or raw.get("decision")
+        != "outcome_neutral_read_only_cross_environment_baseline_measurement_preregistration"
+        or not isinstance(input_suite, dict)
+        or input_suite.get("record_count") != 32
+        or input_suite.get("train_records") != 24
+        or input_suite.get("validation_records") != 8
+        or input_suite.get("source_binding_count") != 68
+        or input_suite.get("screenshot_binding_count") != 68
+        or input_suite.get("audit_only_source_snapshot_binding_count") != 68
+        or input_suite.get("all_records_measured") is not True
+        or len(prompt_projections) != 32
+        or model_payload_bytes != 81_796
+        or screenshot_bytes != 600_604
+        or audit_snapshot_bytes != 118_742
+        or not isinstance(prompt_contract, dict)
+        or prompt_contract.get("visual_transport")
+        != contract.SCREENSHOT_TRANSPORT_MARKER
+        or prompt_contract.get("source_snapshot_transport")
+        != contract.SOURCE_SNAPSHOT_TRANSPORT
+        or prompt_contract.get("source_snapshot_bytes_exposed") is not False
+        or prompt_contract.get("gold_or_verifier_fields_exposed") is not False
+        or not isinstance(compiler, dict)
+        or compiler.get("exact_keys") != ["answer", "citation_refs"]
+        or compiler.get("invalid_output_is_wrong") is not True
+        or not isinstance(metrics, dict)
+        or metrics.get("freshness_denominator") != 8
+        or metrics.get("quality_threshold_required") is not False
+        or metrics.get("accuracy_threshold_changes_measurement_completion") is not False
+        or not isinstance(execution, dict)
+        or execution.get("run_count") != 1
+        or execution.get("fresh_base_loads") != 1
+        or execution.get("independent_adapter_loads") != 1
+        or execution.get("generate_calls") != 32
+        or execution.get("ordered_screenshot_inputs") != 68
+        or execution.get("source_snapshot_inputs_to_model") != 0
+        or execution.get("retry_count") != 0
+        or execution.get("network_used") is not False
+        or execution.get("training_runs") != 0
+        or not isinstance(formal_gate, dict)
+        or formal_gate.get("required_gates") != list(contract.REQUIRED_GATES)
+        or formal_gate.get("accuracy_threshold_gate") is not False
+        or formal_gate.get("resource_cap_is_integrity_gate") is not True
+        or freeze_preconditions
+        != {
+            "fixed_output_absent": True,
+            "model_imported_at_protocol_freeze": False,
+            "model_called_at_protocol_freeze": False,
+            "attempt_consumed_at_protocol_freeze": False,
+        }
+        or claims != contract.FREEZE_CLAIMS
+        or true_claims
+        != {
+            "generation_executed",
+            "dataset_validated",
+            "environment_adapter_implemented",
+            "environment_adapter_executed",
+            "verifier_implemented",
+            "verifier_executed",
+        }
+        or not isinstance(source_receipts, dict)
+        or len(source_receipts) != len(contract.PROTOCOL_SOURCE_PATHS)
+        or len(inputs["source_receipts"]) != len(contract.PROTOCOL_SOURCE_PATHS)
+    ):
+        raise GateError("MM-005 Browser model-evaluation protocol boundary mismatch")
+    return {
+        "protocol_frozen": True,
+        "source_receipt_count": len(source_receipts),
+        "prompt_projection_count": len(prompt_projections),
+        "source_binding_count": input_suite["source_binding_count"],
+        "model_payload_bytes": model_payload_bytes,
+        "screenshot_bytes": screenshot_bytes,
+        "audit_snapshot_bytes": audit_snapshot_bytes,
+        "generate_calls": execution["generate_calls"],
+        "attempt_consumed": claims["attempt_consumed"],
+        "model_evaluated": claims["model_evaluated"],
+        "next_gate": raw["next_gate"],
+        "protocol_sha256": digest,
     }
 
 
