@@ -1037,9 +1037,8 @@ Runtime claims 仍为 false。PR #66 已把该 consumed exact result 合并为
 `master == origin/master`。139 outputs 与 evidence 继续 immutable，不得 delete/reopen/reuse/
 overwrite/regenerate/retry。
 
-当前唯一 gate 是 model-free
-`MM-005-browser-research-adapter-verifier-protocol-v1`。其 canonical artifact 已在任何
-formal Adapter/Verifier implementation 前冻结为 271,406 bytes，SHA-256 为
+model-free `MM-005-browser-research-adapter-verifier-protocol-v1` 已在任何 formal
+Adapter/Verifier implementation 前冻结为 271,406 bytes，SHA-256 为
 `a64f5d3d174ab2e8c7a003626d76981f43c15b9e739f8c999c4198df0c77156b`。它绑定
 PR #66 result commit、8 份 source receipts、全部 upstream protocol/evidence/dataset bytes、
 68 screenshot + 68 source-snapshot bindings、32 个 gold/path-isolated Adapter projections，
@@ -1054,8 +1053,31 @@ source coverage/latest freshness source 缺失、duplicate ref 与 malformed JSO
 fixed protocol/fixture/projection/oracle byte reconstruction；
 Adapter/Verifier implementation/execution、model-evaluation repeatability、cross-machine
 reproducibility、live browser/network、model/quality/safety、Serving/promotion/Runtime claims
-全部 false。只有 protocol clean merge、远近 branch cleanup 且 `master == origin/master` 后，
-`MM-005-browser-research-adapter-verifier-implementation-v1` 才成为唯一 successor gate。
+全部 false。PR #67 已把该 exact protocol 合并为
+`403cc240fec14d3d9123b6f207112a5290f4fc34`；Python 3.11/3.12/3.13 Linux PR checks
+通过，0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已删除且本地
+`master == origin/master` 后才开始 implementation。
+
+当前唯一 gate 是 model-free
+`MM-005-browser-research-adapter-verifier-implementation-v1`。独立 Adapter、strict compiler、
+deterministic Verifier 与 citation/source/freshness semantics 已对全部 frozen vectors 执行；
+195,994-byte canonical evidence SHA-256 为
+`77634e6202354641eef84cf1640c17588e902c073f804b535dfb3ada52d09876`。它绑定 5 份
+implementation/protocol source receipts、PR #67 exact merge/protocol、immutable upstream，
+32 projections、68 screenshot + 68 audit-only source snapshots，以及 224 个独立重算结果：
+160 compiler-valid + 64 invalid、32 positive + 192 negative、8 个 latest-source-removal
+freshness negatives，registered mismatch 为 0。
+
+13/13 focused adversarial tests、full-repository Ruff、3 个 typed implementation/evidence/
+builder 文件的 strict Mypy、`py_compile`、builder `--check` 与 `git diff --check` 已通过；
+本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均通过 852 tests、4 个预期
+Windows privilege skips、67 个 audited source files，且 `valid=true`。当前仅新增
+Adapter/Verifier implemented/executed claims；model training/evaluation、
+model-evaluation repeatability、quality/safety、live browser/
+network、real/external content、capture、cross-machine reproducibility、Serving/promotion/
+Runtime claims 仍为 false。只有 exact implementation/evidence clean merge、远近 branch cleanup
+且 `master == origin/master` 后，outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1` 才成为唯一 successor gate。
 
 ## TOOL-001：工具 Schema 与任务定义
 
