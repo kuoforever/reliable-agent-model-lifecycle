@@ -630,10 +630,10 @@ passed, no review/comment/thread/conflict blocker existed, both feature-branch
 copies were deleted, and local `master` was aligned with `origin/master` before
 the separate outcome-neutral model-evaluation protocol began.
 
-### Browser Research model-evaluation protocol v1
+### Browser Research model-evaluation protocol and v1 failure classification
 
-The protocol is frozen locally before any model import or call as 116,152
-canonical bytes with SHA-256
+The protocol was frozen before any model import or call as 116,152 canonical
+bytes with SHA-256
 `84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`.
 It closes 12 source receipts, the exact PR #68 implementation lineage, the
 read-only MM-004 candidate, and all immutable Browser Research dataset bytes.
@@ -659,10 +659,38 @@ expected Windows privilege skips, 68 audited source files, and `valid=true`.
 See the
 [Browser Research model-evaluation protocol](docs/MM-005-browser-research-model-evaluation-protocol-v1.md).
 
-No attempt is consumed and no model is evaluated at freeze. Clean PR
-publication, review/conflict audit, merge, branch cleanup, and master alignment
-remain required before the single successor
-`MM-005-browser-research-model-evaluation-execution-v1` may run.
+PR #69 published the exact protocol as signed squash commit
+`7af879457bd55c9b3f6b4f7abf33e43ed181c2e9`; its feature branch was cleaned up
+and `master == origin/master` before execution. A Windows `git show` long-path
+failure first rejected preflight before output claim and did not consume the
+attempt. After `core.longpaths=true` and a successful full preflight, the same
+registered command atomically claimed its owner and permanently consumed v1.
+An external controller interruption then terminated the active process before
+Python could persist a success or formal failure artifact.
+
+The immutable v1 directory therefore contains only its exact 649-byte owner;
+candidate, predictions, evidence, and failure receipt are absent. Exact model
+load/call progress, outputs, metrics, latency, and resources are unavailable
+and were not reconstructed. The 11,936-byte model-free failure classification
+has SHA-256
+`628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11`.
+It binds all 12 freeze-commit sources through `git cat-file blob`, the tracked
+owner, and the optional local owner-only topology. `formal_gate_passed`,
+`evaluation_executed`, `model_evaluated`, model-evaluation repeatability,
+quality, safety, Serving, promotion, and Runtime eligibility remain false.
+Nine focused tests pass, and local CPython 3.11.15, 3.12.12, and 3.13.7 each
+pass the complete 877-test unified gate with four expected Windows privilege
+skips, 69 audited source files, and `valid=true`.
+See the
+[failure classification](docs/MM-005-browser-research-model-evaluation-failure-classification-v1.md).
+
+The exact next gate is the separate
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2`. It must retain
+the v1 candidate, data/order, prompt, compiler, Verifier, metrics, seed,
+generation, resource caps, and authority boundaries while adding only a new
+identity/output/source closure, long-path-safe Git blob reading, and durable
+interruption progress/terminal recovery. It is a new experiment, never a v1
+retry.
 
 ### Reliability/Verifier Dataset v1
 
@@ -1117,13 +1145,15 @@ consumed, and its exact result is immutable. PR #67 published the model-free
 Adapter/Verifier protocol; PR #68 then published the independent implementation
 that reproduces all 32 projections and 224 citation/source/freshness controls.
 The separate 116,152-byte
-`MM-005-browser-research-model-evaluation-protocol-v1` is now frozen locally
-before any model import or call. Publishing this exact preregistration without
-consuming its attempt is the single active objective. It authorizes no live
-browser/network use, training, Runtime change, real browser/desktop/document
-capture, generalized quality/safety claim, repeatability claim, or reuse/retry
-of any consumed attempt. Only its exact clean merge and branch cleanup may
-activate the one registered zero-retry model-evaluation execution.
+`MM-005-browser-research-model-evaluation-protocol-v1` was published through PR
+#69. Its one owner-marked attempt is now consumed and immutable after an
+external controller interruption left only the authenticated owner. Publishing
+the model-free failure classification is the single active objective. Exact
+progress and metrics are unavailable; the evidence authorizes no v1 retry,
+live browser/network use, training, Runtime change, real capture, generalized
+quality/safety, model-evaluation repeatability, Serving, or promotion claim.
+Only a separately frozen and merged v2 recovery protocol may authorize a new
+experiment.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
