@@ -1031,10 +1031,31 @@ gates 全部为 true。
 audited source files，且 `valid=true`。仅 generation/records/source snapshots/screenshots/
 dataset validation 为 true；Adapter/Verifier、live browser/network、model/quality/safety/prompt-
 injection safety/real or external content/capture/Serving/promotion/cross-machine repeatability/
-Runtime claims 仍为 false。当前唯一动作是 publish 该 consumed exact result，且不得 delete/
-reopen/reuse/overwrite/regenerate/retry。只有 result clean merge、远近 branch cleanup 且
-`master == origin/master` 后，model-free
-`MM-005-browser-research-adapter-verifier-protocol-v1` 才成为唯一 successor gate。
+Runtime claims 仍为 false。PR #66 已把该 consumed exact result 合并为
+`6e990f0cf8ba4f76bd35a57479c3649c4cadc3aa`；6/6 Linux matrix checks 通过，
+0 review/comment/thread、`CLEAN`/`MERGEABLE`，远近 feature branch 已删除且本地
+`master == origin/master`。139 outputs 与 evidence 继续 immutable，不得 delete/reopen/reuse/
+overwrite/regenerate/retry。
+
+当前唯一 gate 是 model-free
+`MM-005-browser-research-adapter-verifier-protocol-v1`。其 canonical artifact 已在任何
+formal Adapter/Verifier implementation 前冻结为 271,406 bytes，SHA-256 为
+`a64f5d3d174ab2e8c7a003626d76981f43c15b9e739f8c999c4198df0c77156b`。它绑定
+PR #66 result commit、8 份 source receipts、全部 upstream protocol/evidence/dataset bytes、
+68 screenshot + 68 source-snapshot bindings、32 个 gold/path-isolated Adapter projections，
+以及 224 个 deterministic Verifier controls（32 positive + 192 negative）。七类 case 覆盖
+exact expected、wrong answer、existing-but-wrong DOM ref、unknown DOM ref、citation order/
+source coverage/latest freshness source 缺失、duplicate ref 与 malformed JSON；8 条 freshness
+记录各有一个去除 latest published source 的明确负例。
+
+11/11 focused adversarial tests、Ruff、scoped strict Mypy、`py_compile` 与 builder `--check`
+通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均通过 839 tests、
+4 个预期 Windows privilege skips、65 个 audited source files，且 `valid=true`。当前只建立
+fixed protocol/fixture/projection/oracle byte reconstruction；
+Adapter/Verifier implementation/execution、model-evaluation repeatability、cross-machine
+reproducibility、live browser/network、model/quality/safety、Serving/promotion/Runtime claims
+全部 false。只有 protocol clean merge、远近 branch cleanup 且 `master == origin/master` 后，
+`MM-005-browser-research-adapter-verifier-implementation-v1` 才成为唯一 successor gate。
 
 ## TOOL-001：工具 Schema 与任务定义
 

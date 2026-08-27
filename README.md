@@ -563,9 +563,41 @@ remain false. The consumed invocation must not be retried or overwritten.
 Seventeen focused adversarial tests pass. Ruff, scoped strict Mypy,
 `py_compile`, protocol `--check`, `git diff --check`, and local CPython 3.11.15,
 3.12.12, and 3.13.7 complete unified 828-test gates pass with four expected
-Windows privilege skips, 64 audited source files, and `valid=true`. After this
-exact result is published, the next design gate is the model-free
-`MM-005-browser-research-adapter-verifier-protocol-v1`.
+Windows privilege skips, 64 audited source files, and `valid=true`. PR #66
+published those exact result bytes as
+`6e990f0cf8ba4f76bd35a57479c3649c4cadc3aa`; all six Linux matrix checks
+passed, no review/comment/thread/conflict blocker existed, both feature-branch
+copies were deleted, and local `master` was aligned with `origin/master`.
+
+### Browser Research Adapter/Verifier protocol v1
+
+The separate model-free protocol is frozen as 271,406 canonical bytes with
+SHA-256
+`a64f5d3d174ab2e8c7a003626d76981f43c15b9e739f8c999c4198df0c77156b`.
+It binds PR #66's consumed result, eight source receipts, all upstream
+protocol/evidence/dataset bytes, 68 screenshot plus 68 source-snapshot
+bindings, 32 deterministic Adapter projection receipts, and 224 Verifier
+controls. The 32 model payloads contain only instruction, static observation,
+source kind, and task family; expected outputs, Verifier fields, identities,
+splits, provenance, and repository artifact paths remain hidden.
+
+The strict compiler accepts only `answer` plus unique ordered
+`citation_refs`. Seven cases per record produce 32 positive and 192 negative
+controls across wrong answers, wrong or unknown DOM refs, citation
+order/coverage drift, missing latest freshness sources, duplicates, and
+malformed JSON. No model or LLM judge is used. See the
+[Browser Research Adapter/Verifier protocol](docs/MM-005-browser-research-adapter-verifier-protocol-v1.md).
+
+Eleven focused adversarial tests, Ruff, scoped strict Mypy, `py_compile`, and
+builder `--check` pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass
+the complete unified 839-test gate with four expected Windows privilege skips,
+65 audited source files, and `valid=true`. Adapter/Verifier
+implementation/execution, live browser/network, model evaluation or
+repeatability, quality, safety,
+cross-machine reproducibility, Serving, promotion, and Runtime claims remain
+false. After this protocol cleanly merges and both branch copies are deleted,
+the next gate is the model-free
+`MM-005-browser-research-adapter-verifier-implementation-v1`.
 
 ### Reliability/Verifier Dataset v1
 
