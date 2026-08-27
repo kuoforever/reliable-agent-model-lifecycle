@@ -646,8 +646,8 @@ deleted and local `master` was aligned with `origin/master` before protocol
 freeze began.
 
 The separate outcome-neutral
-`MM-005-browser-research-model-evaluation-protocol-v1` is now frozen locally
-before any model import or call as 116,152 canonical bytes with SHA-256
+`MM-005-browser-research-model-evaluation-protocol-v1` was frozen before any
+model import or call as 116,152 canonical bytes with SHA-256
 `84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`.
 It binds 12 protocol source receipts, PR #68's exact implementation lineage,
 the immutable MM-004 candidate lineage, 32 records in fixed order, 68 source/
@@ -661,39 +661,74 @@ coverage/freshness metrics. Sixteen focused adversarial tests, Ruff, scoped
 strict Mypy, `py_compile`, and protocol `--check` pass. Local CPython 3.11.15,
 3.12.12, and 3.13.7 each pass the complete unified 868-test gate with four
 expected Windows privilege skips, 68 audited source files, and `valid=true`.
-No attempt is consumed, no model is evaluated, and live browser/network,
-training, quality, safety, real/external content, capture, repeatability,
-Serving, promotion, and Runtime claims remain false.
+At protocol freeze no attempt was consumed and no model was evaluated. Live
+browser/network, training, quality, safety, real/external content, capture,
+repeatability, Serving, promotion, and Runtime claims remained false.
 [Browser Research model-evaluation protocol](docs/MM-005-browser-research-model-evaluation-protocol-v1.md).
+
+PR #69 published that exact protocol as signed squash commit
+`7af879457bd55c9b3f6b4f7abf33e43ed181c2e9`; all six Linux Python-matrix checks
+passed, no review/comment/thread/conflict blocker existed, its merge tree
+exactly matched the feature tree, both branch copies were deleted, and local
+`master == origin/master` before execution. A first `git show` long-path
+preflight failure occurred before output claim/model import/call and consumed
+nothing. Repository-local `core.longpaths=true` corrected that environment
+boundary, and the full freeze-commit preflight then passed with the v1 output
+still absent.
+
+The registered command subsequently atomically persisted the 649-byte owner
+and permanently consumed v1 with `retry_allowed=false`. An external controller
+interruption terminated the active process before its Python exception handler
+could persist a terminal artifact. The stable immutable v1 directory contains
+only `attempt-owner.json`; exact counters, completed record IDs, model-load/call
+progress, raw/compiled outputs, metrics, latency, resources, and formal failure
+stage are unavailable and were not reconstructed. Transient checkpoint/GPU
+observations are not authenticated formal telemetry.
+
+The model-free failure classification now tracks the original owner
+byte-for-byte and binds the preregistration plus all 12 frozen protocol sources
+through long-path-safe `git cat-file blob`. The 11,936-byte classification has
+SHA-256
+`628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11`
+and internal report digest
+`sha256:8768a18c0aecc1da4bc693130b023b4949f5059b0eac6eabae6cbede6cae4d2a`.
+Nine focused tests, Ruff, strict Mypy, and `py_compile` pass. Local CPython
+3.11.15, 3.12.12, and 3.13.7 each pass the complete 877-test unified gate with
+four expected Windows privilege skips, 69 audited source files, and
+`valid=true`. Formal measurement,
+evaluation result, model evaluation, quality/safety, model/training/resource/
+cross-machine repeatability, Serving, promotion, and Runtime eligibility all
+remain false.
+[Failure classification](docs/MM-005-browser-research-model-evaluation-failure-classification-v1.md).
 
 ## Single active objective
 
-Validate and publish the exact
-`MM-005-browser-research-model-evaluation-protocol-v1` without loading or
-evaluating a model:
+Validate and publish the exact model-free
+`MM-005-browser-research-model-evaluation-failure-classification-v1` without
+loading or evaluating a model:
 
 ```text
-published immutable Adapter/Verifier implementation
-        -> closed candidate + implementation + dataset lineage
-        -> 32 ordered prompts / 68 screenshot visual inputs
-        -> audit-only source snapshots + strict citation/freshness metrics
-        -> owner-marked one-attempt zero-retry execution contract
-        -> canonical preregistration + adversarial tests
+published v1 protocol and aligned merged master
+        -> preclaim long-path failure corrected without consumption
+        -> authenticated owner claim permanently consumes v1
+        -> external interruption leaves owner-only terminal state
+        -> tracked owner + freeze-commit Git blob source bindings
+        -> fail-closed classification + v2 identity/delta lock
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research generation output tree/evidence or any earlier consumed model
-attempt. This protocol slice may only freeze and validate the future
-measurement contract. It must not access a live browser or network,
-import/load/call a model, claim the evaluation output directory, train or save
-a model/Adapter, change the Runtime repository, capture real browser/desktop/
-document content, or broaden repeatability claims. Only after this exact
-protocol cleanly merges, both branch copies are deleted, and
-`master == origin/master` may
-`MM-005-browser-research-model-evaluation-execution-v1` become the single
-successor objective and consume its one registered attempt.
+Browser Research generation output or v1 model-evaluation owner-only tree. Do
+not synthesize `failure.json`, infer exact progress, or convert transient
+controller observations into model results. This slice may only classify
+tracked evidence, lock a separate v2 recovery identity/delta, and validate the
+result without model import/call. It must not access a live browser/network,
+train or save a model/Adapter, change Runtime, capture real content, or broaden
+repeatability claims. Only after this classification cleanly merges, both
+branch copies are deleted, and `master == origin/master` may
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` become the
+single successor objective. V2 is a new experiment, not a v1 retry.
 
 ## Preserved historical validation and deferred gates
 

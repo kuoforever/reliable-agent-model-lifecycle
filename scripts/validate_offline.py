@@ -229,6 +229,15 @@ MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_BYTES = 116_152
 MM005_BROWSER_RESEARCH_MODEL_EVALUATION_PROTOCOL_SHA256 = (
     "sha256:84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f"
 )
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_PATH = (
+    ROOT
+    / "baseline"
+    / "mm005-browser-research-model-eval-v1-failure-classification.json"
+)
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_BYTES = 11_936
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_SHA256 = (
+    "sha256:628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -599,6 +608,9 @@ def main() -> int:
     )
     mm005_browser_research_model_evaluation = (
         _validate_mm005_browser_research_model_evaluation_protocol()
+    )
+    mm005_browser_research_model_evaluation_failure = (
+        _validate_mm005_browser_research_model_evaluation_failure_classification()
     )
     tests_run = _run_tests()
 
@@ -1483,14 +1495,29 @@ def main() -> int:
         "mm005_browser_research_model_evaluation_generate_calls": (
             mm005_browser_research_model_evaluation["generate_calls"]
         ),
-        "mm005_browser_research_model_evaluation_attempt_consumed": (
+        "mm005_browser_research_model_evaluation_protocol_freeze_attempt_consumed": (
             mm005_browser_research_model_evaluation["attempt_consumed"]
         ),
+        "mm005_browser_research_model_evaluation_attempt_consumed": (
+            mm005_browser_research_model_evaluation_failure["attempt_consumed"]
+        ),
         "mm005_browser_research_model_evaluation_model_evaluated": (
-            mm005_browser_research_model_evaluation["model_evaluated"]
+            mm005_browser_research_model_evaluation_failure["model_evaluated"]
+        ),
+        "mm005_browser_research_model_evaluation_formal_gate_passed": (
+            mm005_browser_research_model_evaluation_failure["formal_gate_passed"]
+        ),
+        "mm005_browser_research_model_evaluation_failure_classification": (
+            mm005_browser_research_model_evaluation_failure["classification"]
+        ),
+        "mm005_browser_research_model_evaluation_failure_owner_sha256": (
+            mm005_browser_research_model_evaluation_failure["owner_sha256"]
+        ),
+        "mm005_browser_research_model_evaluation_exact_progress_known": (
+            mm005_browser_research_model_evaluation_failure["exact_progress_known"]
         ),
         "mm005_browser_research_model_evaluation_next_gate": (
-            mm005_browser_research_model_evaluation["next_gate"]
+            mm005_browser_research_model_evaluation_failure["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5489,6 +5516,77 @@ def _validate_mm005_browser_research_model_evaluation_protocol() -> dict[str, An
         "model_evaluated": claims["model_evaluated"],
         "next_gate": raw["next_gate"],
         "protocol_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_model_evaluation_failure_classification() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_failure_classification as failure,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_PATH,
+        "MM-005 Browser Research model-evaluation v1 failure classification",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation failure classification hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_PATH,
+    )
+    result = failure.validate_failure_classification(ROOT, raw)
+    local = failure.verify_local_attempt_owner_if_present(ROOT)
+    claims = result["claims"]
+    attempt = result["attempt"]
+    reconstruction = result["reconstruction_scope"]
+    if (
+        result["formal_gate_passed"] is not False
+        or claims["evaluation_execution_attempted"] is not True
+        or claims["attempt_consumed"] is not True
+        or any(
+            value is not False
+            for name, value in claims.items()
+            if name not in {"evaluation_execution_attempted", "attempt_consumed"}
+        )
+        or result["attempt_owner"]["sha256"] != failure.ATTEMPT_OWNER_SHA256
+        or result["attempt_owner"]["contract_valid"] is not True
+        or attempt["directory_entries_observed"] != ["attempt-owner.json"]
+        or attempt["failure_receipt_present"] is not False
+        or attempt["exact_execution_progress"] != "unknown"
+        or reconstruction["classification_recomputable_from_tracked_inputs"]
+        is not True
+        or reconstruction["model_evaluation_repeatability_established"] is not False
+        or result["locked_next_action"]["gate_id"] != failure.NEXT_GATE_ID
+        or result["locked_next_action"]["execution_gate_id"]
+        != failure.RECOVERY_EXECUTION_GATE_ID
+        or result["locked_next_action"]["experiment_id"]
+        != failure.RECOVERY_EXPERIMENT_ID
+        or result["locked_next_action"]["new_experiment_not_v1_retry"] is not True
+        or local["tracked_owner_valid"] is not True
+        or result["runtime_eligible"] is not False
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation failure boundary mismatch"
+        )
+    return {
+        "attempt_consumed": claims["attempt_consumed"],
+        "formal_gate_passed": result["formal_gate_passed"],
+        "model_evaluated": claims["model_evaluated"],
+        "classification": result["failure"]["classification"],
+        "owner_sha256": result["attempt_owner"]["sha256"],
+        "exact_progress_known": False,
+        "next_gate": result["locked_next_action"]["gate_id"],
+        "artifact_sha256": digest,
     }
 
 

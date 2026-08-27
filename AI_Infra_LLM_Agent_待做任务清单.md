@@ -1080,8 +1080,8 @@ Runtime claims 仍为 false。PR #68 已把该 exact implementation/evidence 合
 0 review/comment/thread、`CLEAN`/`MERGEABLE`，signed squash merge tree 与 implementation tree
 完全一致，远近 feature branch 已删除且本地 `master == origin/master` 后才开始 protocol freeze。
 
-当前唯一 gate 是 outcome-neutral
-`MM-005-browser-research-model-evaluation-protocol-v1`。它已在任何 model import/call 或 attempt
+Outcome-neutral
+`MM-005-browser-research-model-evaluation-protocol-v1` 已在任何 model import/call 或 attempt
 claim 前冻结为 116,152 canonical bytes，SHA-256 为
 `84cd3d20d5a678a8ad0f7c38ad12e057225a4250e8143c5f004c2eaef8981f3f`；绑定 12 份 source
 receipts、PR #68 implementation lineage、immutable MM-004 candidate/dataset、32 个固定顺序
@@ -1095,10 +1095,34 @@ binding、minimum source coverage、8-case latest-source freshness 及完整 gro
 不得改变 measurement completion。16/16 focused adversarial tests、Ruff、scoped strict Mypy、
 `py_compile` 与 protocol `--check` 已通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete
 unified gates 均通过 868 tests、4 个预期 Windows privilege skips、68 个 audited source files，
-且 `valid=true`。当前 attempt/model/evaluation/formal measurement 均为 false。只有 exact
-protocol clean merge、远近 branch cleanup 且 `master == origin/master` 后，
-`MM-005-browser-research-model-evaluation-execution-v1` 才成为唯一 successor gate，并且只能
-消费一次 owner-marked、offline、zero-retry read-only attempt。
+且 `valid=true`。PR #69 随后把 exact protocol 合并为 signed squash commit
+`7af879457bd55c9b3f6b4f7abf33e43ed181c2e9`；6/6 checks 通过，0
+review/comment/thread/conflict，merge tree 与 feature tree 相同，远近 branch 已清理且
+`master == origin/master` 后才执行。
+
+第一次 formal command 在 output claim 前因 Windows `git show` long path 失败；owner/output/
+model import/call 均未发生，因此未消费 attempt。启用 repo-local `core.longpaths=true` 并完成一次
+独立 full freeze preflight 后，同一 registered command 原子写入 649-byte owner，v1 随即永久
+`attempt_consumed=true`、`retry_allowed=false`。之后 external controller interruption 终止 active
+process，Python exception handler 未能写 terminal artifact；稳定目录仅有 `attempt-owner.json`。
+exact counters、completed record IDs、model-load/call progress、raw/compiled outputs、metrics、
+latency/resources 与 formal failure stage 均不可恢复且不得推断。
+
+当前唯一 gate 是 model-free
+`MM-005-browser-research-model-evaluation-failure-classification-v1`。它已将原始 owner byte-for-byte
+tracked，并用 `git cat-file blob` 绑定 v1 preregistration 与 12 个 freeze-commit sources；11,936-byte
+classification SHA-256 为
+`628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11`，internal report digest 为
+`sha256:8768a18c0aecc1da4bc693130b023b4949f5059b0eac6eabae6cbede6cae4d2a`。9/9 focused tests、Ruff、
+strict Mypy、`py_compile` 已通过；CPython 3.11.15、3.12.12、3.13.7 unified gates 各通过 877
+tests、4 个预期 Windows privilege skips、69 audited source files、`valid=true`。formal
+measurement/evaluation result/model evaluation、
+quality/safety、model/training/resource/cross-machine repeatability、Serving/promotion/Runtime claims
+全部为 false。该 classification clean merge 与 branch cleanup 后，唯一 successor 才可切换为
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2`：必须保留 v1 candidate/data/order/
+prompt/compiler/Verifier/metrics/seed/generation/resource caps，仅允许新 identity/output/source closure、
+long-path-safe Git blob reader 与 durable interruption progress/terminal recovery；v2 是新 experiment，
+绝不是 v1 retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 
