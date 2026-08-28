@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-27.
+> Updated: 2026-08-29.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -701,19 +701,43 @@ cross-machine repeatability, Serving, promotion, and Runtime eligibility all
 remain false.
 [Failure classification](docs/MM-005-browser-research-model-evaluation-failure-classification-v1.md).
 
+PR #70 published that exact classification as signed squash commit
+`28211e62d907c16a6d2208bca20f139ee7e31f5f`; all six Linux Python-matrix checks
+passed, no review/comment/thread/conflict blocker existed, its merge tree
+matched the feature tree exactly, both branch copies were deleted, and local
+`master == origin/master` before the v2 protocol freeze.
+
+The separate model-free
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` is now frozen
+locally as 120,315 canonical bytes with SHA-256
+`512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`.
+It preserves 12 v1 semantic subtrees exactly and binds 18 protocol-source
+receipts. Separately, `source_lineage.recovery_lineage` binds the immutable v1
+preregistration, tracked owner, failure classification, and their published
+commit lineage. Its closed delta adds only a new experiment/output/source
+closure, long-path-safe `git cat-file blob`
+reading, atomic owner-plus-genesis and lifecycle-marker publication, a named
+lifecycle lease, append-only SHA-256-chained durable progress, and model-free
+exact terminal repair. Twenty-one focused adversarial tests, Ruff, Ruff format
+check, scoped strict Mypy, `py_compile`, and protocol `--check` pass. Local
+CPython 3.11.15, 3.12.12, and 3.13.7 each pass the complete 898-test unified
+gate with four expected Windows privilege skips, 71 audited source files, and
+`valid=true`. The v2 output and lifecycle roots remain absent, no v2 attempt is
+consumed, no model has been evaluated, and no result or quality claim exists.
+[Recovery protocol](docs/MM-005-browser-research-model-evaluation-recovery-protocol-v2.md).
+
 ## Single active objective
 
 Validate and publish the exact model-free
-`MM-005-browser-research-model-evaluation-failure-classification-v1` without
-loading or evaluating a model:
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` without loading
+or evaluating a model:
 
 ```text
-published v1 protocol and aligned merged master
-        -> preclaim long-path failure corrected without consumption
-        -> authenticated owner claim permanently consumes v1
-        -> external interruption leaves owner-only terminal state
-        -> tracked owner + freeze-commit Git blob source bindings
-        -> fail-closed classification + v2 identity/delta lock
+published v1 protocol + consumed owner-only immutable attempt
+        -> published PR #70 failure classification and aligned master
+        -> exact v1 semantic preservation + closed v2 delta
+        -> long-path-safe Git lineage + atomic lifecycle ownership
+        -> durable authenticated progress + model-free terminal repair
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
@@ -721,14 +745,14 @@ published v1 protocol and aligned merged master
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
 Browser Research generation output or v1 model-evaluation owner-only tree. Do
 not synthesize `failure.json`, infer exact progress, or convert transient
-controller observations into model results. This slice may only classify
-tracked evidence, lock a separate v2 recovery identity/delta, and validate the
-result without model import/call. It must not access a live browser/network,
-train or save a model/Adapter, change Runtime, capture real content, or broaden
-repeatability claims. Only after this classification cleanly merges, both
-branch copies are deleted, and `master == origin/master` may
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2` become the
-single successor objective. V2 is a new experiment, not a v1 retry.
+controller observations into model results. This slice may only freeze,
+validate, and publish the separate v2 recovery identity and lifecycle contract.
+It must not create the v2 output/lifecycle roots, import or call a model, access
+a live browser/network, train or save a model/Adapter, change Runtime, capture
+real content, or broaden repeatability claims. Only after this protocol cleanly
+merges, both branch copies are deleted, and `master == origin/master` may
+`MM-005-browser-research-model-evaluation-execution-v2` become the single
+successor objective. V2 is a new experiment, not a v1 retry.
 
 ## Preserved historical validation and deferred gates
 
@@ -1757,7 +1781,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result, Adapter/Verifier protocol, and implementation published through PR #66/#67/#68; model-evaluation protocol frozen locally before execution |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69, consumed owner-only attempt classified through PR #70, and recovery-v2 protocol frozen locally before any v2 execution |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

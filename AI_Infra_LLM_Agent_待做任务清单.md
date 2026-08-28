@@ -947,8 +947,8 @@ Windows privilege skips、61 个 audited source files 和 `valid=true`。PR #59 
 replay artifacts、独立 review 与 strict validator 合并为
 `5f60cbf44a311b46b312090d62d2783424c1dc85`：6/6 checks 通过，0
 review/comment/thread，CLEAN/MERGEABLE，远近 feature branch 已清理且
-`master == origin/master`。Document/Chart/PDF repeatability lifecycle 至此关闭；当前唯一
-gate 为 model-free `MM-005-browser-research-environment-adaptation-protocol-v1`，必须在
+`master == origin/master`。Document/Chart/PDF repeatability lifecycle 至此关闭；当时的唯一
+successor gate 为 model-free `MM-005-browser-research-environment-adaptation-protocol-v1`，必须在
 任何 data generation/model call/training/Serving/Runtime change 前冻结第三环境边界。它只
 允许界定未来 Browser Research 的 Adapter、任务集、Verifier 与数据，不复制 orchestration、
 Serving、审批、恢复或安全系统。两个已消费 MM-005 attempt 均不得
@@ -980,7 +980,7 @@ safety、Serving、promotion、Runtime claims 全部 false。PR #61 已将 exact
 reviews/issue comments/review comments/review threads 均为 0，PR 为 `CLEAN`/`MERGEABLE`，
 远端和本地 feature branch 均已删除，且 `master == origin/master`。
 
-当前唯一 gate 是 model-free `MM-005-browser-research-data-protocol-v1`：必须先冻结 seed、
+随后唯一 gate 切换为 model-free `MM-005-browser-research-data-protocol-v1`：必须先冻结 seed、
 counts、train/validation splits、template families、static source snapshots、DOM/page-text/
 screenshot deterministic alignment、planned output receipts、prior-content exclusion 与验证规则，
 不得在该 protocol clean merge、branch cleanup 且 `master == origin/master` 前生成任何 Browser
@@ -1108,21 +1108,35 @@ process，Python exception handler 未能写 terminal artifact；稳定目录仅
 exact counters、completed record IDs、model-load/call progress、raw/compiled outputs、metrics、
 latency/resources 与 formal failure stage 均不可恢复且不得推断。
 
-当前唯一 gate 是 model-free
-`MM-005-browser-research-model-evaluation-failure-classification-v1`。它已将原始 owner byte-for-byte
-tracked，并用 `git cat-file blob` 绑定 v1 preregistration 与 12 个 freeze-commit sources；11,936-byte
-classification SHA-256 为
+Model-free `MM-005-browser-research-model-evaluation-failure-classification-v1` 已将原始 owner
+byte-for-byte tracked，并用 `git cat-file blob` 绑定 v1 preregistration 与 12 个 freeze-commit
+sources；11,936-byte classification SHA-256 为
 `628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11`，internal report digest 为
 `sha256:8768a18c0aecc1da4bc693130b023b4949f5059b0eac6eabae6cbede6cae4d2a`。9/9 focused tests、Ruff、
 strict Mypy、`py_compile` 已通过；CPython 3.11.15、3.12.12、3.13.7 unified gates 各通过 877
 tests、4 个预期 Windows privilege skips、69 audited source files、`valid=true`。formal
 measurement/evaluation result/model evaluation、
 quality/safety、model/training/resource/cross-machine repeatability、Serving/promotion/Runtime claims
-全部为 false。该 classification clean merge 与 branch cleanup 后，唯一 successor 才可切换为
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2`：必须保留 v1 candidate/data/order/
-prompt/compiler/Verifier/metrics/seed/generation/resource caps，仅允许新 identity/output/source closure、
-long-path-safe Git blob reader 与 durable interruption progress/terminal recovery；v2 是新 experiment，
-绝不是 v1 retry。
+全部为 false。PR #70 已把该 exact classification clean merge 为 signed squash commit
+`28211e62d907c16a6d2208bca20f139ee7e31f5f`；6/6 Linux matrix checks 通过，0
+review/comment/thread/conflict，merge tree 与 feature tree 完全一致，远近 feature branch 已删除，
+且 local `master == origin/master` 后才开始 v2 freeze。
+
+当前唯一 gate 是 model-free
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2`。120,315-byte canonical config 的
+SHA-256 为 `512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`；它 exact
+保留 12 个 v1 semantic subtrees，绑定 18 个 protocol-source receipts，并通过独立
+`source_lineage.recovery_lineage` 绑定 immutable v1 preregistration、tracked owner、classification
+与 published commit lineage。它只增加新 experiment/output/source closure、long-path-safe
+`git cat-file blob` lineage、atomic owner+genesis/lifecycle-marker publish、
+named lifecycle lease、append-only SHA-256-chained durable progress 与 model-free exact terminal
+repair。21/21 focused adversarial tests、Ruff、Ruff format check、strict Mypy、`py_compile` 与
+protocol `--check` 已通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates
+均通过 898 tests、4 个预期 Windows privilege skips、71 audited source files，且
+`valid=true`。v2 output/lifecycle roots 仍 absent，`attempt_consumed=false`、
+`model_evaluated=false`，且没有 result/quality claim。
+该 protocol clean merge、branch cleanup 且 `master == origin/master` 后，唯一 successor 才可切换为
+`MM-005-browser-research-model-evaluation-execution-v2`；v2 是新 experiment，绝不是 v1 retry。
 
 ## TOOL-001：工具 Schema 与任务定义
 

@@ -238,6 +238,13 @@ MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_BYTES = 11_936
 MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_SHA256 = (
     "sha256:628f9a24267c292d318ca279eb0642c72fbc705b1211629ef8b9edf6318e6e11"
 )
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_PATH = (
+    ROOT / "configs" / "mm005_browser_research_model_evaluation_protocol_v2.json"
+)
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_BYTES = 120_315
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_SHA256 = (
+    "sha256:512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -611,6 +618,9 @@ def main() -> int:
     )
     mm005_browser_research_model_evaluation_failure = (
         _validate_mm005_browser_research_model_evaluation_failure_classification()
+    )
+    mm005_browser_research_model_evaluation_recovery = (
+        _validate_mm005_browser_research_model_evaluation_recovery_protocol_v2()
     )
     tests_run = _run_tests()
 
@@ -1518,6 +1528,36 @@ def main() -> int:
         ),
         "mm005_browser_research_model_evaluation_next_gate": (
             mm005_browser_research_model_evaluation_failure["next_gate"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_protocol_frozen": (
+            mm005_browser_research_model_evaluation_recovery["protocol_frozen"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_source_files": (
+            mm005_browser_research_model_evaluation_recovery["source_receipt_count"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_v1_subtrees_preserved": (
+            mm005_browser_research_model_evaluation_recovery["preserved_subtree_count"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_delta_valid": (
+            mm005_browser_research_model_evaluation_recovery["delta_valid"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_long_path_safe": (
+            mm005_browser_research_model_evaluation_recovery["long_path_safe"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_durable_progress": (
+            mm005_browser_research_model_evaluation_recovery["durable_progress"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_terminal_recovery": (
+            mm005_browser_research_model_evaluation_recovery["terminal_recovery"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_attempt_consumed": (
+            mm005_browser_research_model_evaluation_recovery["attempt_consumed"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_model_evaluated": (
+            mm005_browser_research_model_evaluation_recovery["model_evaluated"]
+        ),
+        "mm005_browser_research_model_evaluation_recovery_next_gate": (
+            mm005_browser_research_model_evaluation_recovery["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5587,6 +5627,111 @@ def _validate_mm005_browser_research_model_evaluation_failure_classification() -
         "exact_progress_known": False,
         "next_gate": result["locked_next_action"]["gate_id"],
         "artifact_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_model_evaluation_recovery_protocol_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_protocol_v2 as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_v2 as prepare,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_PATH,
+        "MM-005 Browser Research model-evaluation recovery protocol v2",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload) != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_BYTES
+        or digest != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation recovery protocol hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser model-evaluation recovery protocol is not canonical JSON"
+        )
+    if os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT) or os.path.lexists(
+        ROOT / contract.LIFECYCLE_LEASE_ROOT
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation recovery attempt already started"
+        )
+
+    inputs = prepare.protocol_inputs(freeze_output_absent=True)
+    expected = contract.validate_preregistration(raw, **inputs)
+    recovery_lineage = raw.get("source_lineage", {}).get("recovery_lineage")
+    delta = contract.validate_recovery_delta(
+        inputs["v1_preregistration"],
+        raw,
+        source_receipts=inputs["source_receipts"],
+        recovery_lineage=recovery_lineage,
+    )
+    source_receipts = raw.get("source_receipts")
+    claims = raw.get("claims")
+    reader = raw.get("freeze_blob_reader")
+    recovery = raw.get("durable_recovery_contract")
+    formal_gate = raw.get("formal_gate")
+    if (
+        contract.artifact_json_bytes(expected) != payload
+        or raw.get("gate_id") != contract.PROTOCOL_GATE_ID
+        or raw.get("next_gate") != contract.EXECUTION_GATE_ID
+        or raw.get("freeze_status") != "frozen"
+        or raw.get("experiment_id") != contract.EXPERIMENT_ID
+        or raw.get("run_id") != contract.RUN_ID
+        or not isinstance(source_receipts, dict)
+        or len(source_receipts) != len(contract.PROTOCOL_SOURCE_PATHS)
+        or len(source_receipts) != 18
+        or not isinstance(claims, dict)
+        or claims.get("attempt_consumed") is not False
+        or claims.get("evaluation_executed") is not False
+        or claims.get("model_evaluated") is not False
+        or claims.get("formal_measurement_complete") is not False
+        or claims.get("runtime_eligible") is not False
+        or not isinstance(reader, dict)
+        or reader.get("command") != "git cat-file blob <commit>:<path>"
+        or reader.get("depends_on_core_longpaths") is not False
+        or reader.get("git_show_path_read_used") is not False
+        or not isinstance(recovery, dict)
+        or recovery.get("first_checkpoint_committed_with_owner_claim") is not True
+        or recovery.get("lifecycle_lease_acquired_before_attempt_claim") is not True
+        or recovery.get("per_record_generation_attempt_and_completion_checkpoints")
+        is not True
+        or recovery.get("recovery_imports_or_calls_model") is not False
+        or recovery.get("recovery_uses_network") is not False
+        or recovery.get("recovery_retries_v1_or_v2_model_execution") is not False
+        or recovery.get("partial_terminal_repair")
+        != "exact_expected_canonical_prefix_only"
+        or recovery.get("success_and_failure_are_mutually_exclusive") is not True
+        or not isinstance(formal_gate, dict)
+        or formal_gate.get("required_gates") != list(contract.REQUIRED_GATES)
+        or len(delta.get("preserved_subtrees", []))
+        != len(contract.PRESERVED_V1_SUBTREES)
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation recovery protocol boundary mismatch"
+        )
+    return {
+        "protocol_frozen": True,
+        "source_receipt_count": len(source_receipts),
+        "preserved_subtree_count": len(delta["preserved_subtrees"]),
+        "delta_valid": True,
+        "long_path_safe": True,
+        "durable_progress": True,
+        "terminal_recovery": True,
+        "attempt_consumed": claims["attempt_consumed"],
+        "model_evaluated": claims["model_evaluated"],
+        "next_gate": raw["next_gate"],
+        "protocol_sha256": digest,
     }
 
 

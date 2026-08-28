@@ -630,7 +630,7 @@ passed, no review/comment/thread/conflict blocker existed, both feature-branch
 copies were deleted, and local `master` was aligned with `origin/master` before
 the separate outcome-neutral model-evaluation protocol began.
 
-### Browser Research model-evaluation protocol and v1 failure classification
+### Browser Research model-evaluation, v1 failure classification, and recovery v2
 
 The protocol was frozen before any model import or call as 116,152 canonical
 bytes with SHA-256
@@ -684,13 +684,34 @@ skips, 69 audited source files, and `valid=true`.
 See the
 [failure classification](docs/MM-005-browser-research-model-evaluation-failure-classification-v1.md).
 
-The exact next gate is the separate
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2`. It must retain
-the v1 candidate, data/order, prompt, compiler, Verifier, metrics, seed,
-generation, resource caps, and authority boundaries while adding only a new
-identity/output/source closure, long-path-safe Git blob reading, and durable
-interruption progress/terminal recovery. It is a new experiment, never a v1
-retry.
+PR #70 published that classification as signed squash commit
+`28211e62d907c16a6d2208bca20f139ee7e31f5f`; all six Linux Python-matrix checks
+passed, no review/comment/thread/conflict blocker existed, its merge tree
+matched the feature tree exactly, both branch copies were deleted, and local
+`master == origin/master` before the recovery protocol was frozen.
+
+The separate
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` is now frozen
+locally as 120,315 canonical bytes with SHA-256
+`512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`.
+It preserves 12 v1 semantic subtrees exactly and binds 18 protocol-source
+receipts. Separately, `source_lineage.recovery_lineage` binds the immutable v1
+preregistration, tracked owner, failure classification, and their published
+commit lineage. Its only semantic delta is a new experiment/output/source
+closure, `git cat-file blob` history reading, an
+atomic owner-plus-genesis claim, a named lifecycle lease, canonical append-only
+SHA-256-chained progress, and model-free exact terminal repair after an
+external interruption.
+
+Twenty-one focused adversarial tests, Ruff, Ruff format check, scoped strict
+Mypy, `py_compile`, and protocol `--check` pass. Local CPython 3.11.15,
+3.12.12, and 3.13.7 each pass the complete 898-test unified gate with four
+expected Windows privilege skips, 71 audited source files, and `valid=true`.
+V2 remains a new experiment, never a v1 retry. Its output and lifecycle roots
+remain absent, no v2 attempt is consumed, no model has been evaluated, and
+formal execution is not authorized until this protocol is published and
+merged from a clean, aligned `master`. See the
+[recovery protocol](docs/MM-005-browser-research-model-evaluation-recovery-protocol-v2.md).
 
 ### Reliability/Verifier Dataset v1
 
@@ -1147,13 +1168,21 @@ that reproduces all 32 projections and 224 citation/source/freshness controls.
 The separate 116,152-byte
 `MM-005-browser-research-model-evaluation-protocol-v1` was published through PR
 #69. Its one owner-marked attempt is now consumed and immutable after an
-external controller interruption left only the authenticated owner. Publishing
-the model-free failure classification is the single active objective. Exact
-progress and metrics are unavailable; the evidence authorizes no v1 retry,
-live browser/network use, training, Runtime change, real capture, generalized
-quality/safety, model-evaluation repeatability, Serving, or promotion claim.
-Only a separately frozen and merged v2 recovery protocol may authorize a new
-experiment.
+external controller interruption left only the authenticated owner. PR #70
+published the model-free failure classification as
+`28211e62d907c16a6d2208bca20f139ee7e31f5f`, with clean checks, review state,
+merge state, and branch cleanup. Exact v1 progress and metrics remain
+unavailable; the evidence authorizes no v1 retry, live browser/network use,
+training, Runtime change, real capture, generalized quality/safety,
+model-evaluation repeatability, Serving, or promotion claim.
+
+The separate 120,315-byte recovery-v2 preregistration is frozen locally with
+exact v1 semantic preservation, long-path-safe Git lineage, atomic
+owner/genesis publication, durable chained progress, and model-free terminal
+repair. Validating and publishing that protocol is the single active objective;
+its v2 output is absent, its attempt is unconsumed, and no model has been
+evaluated. Only after a clean merge, both branch copies are deleted, and
+`master == origin/master` may the new v2 execution gate become active.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
