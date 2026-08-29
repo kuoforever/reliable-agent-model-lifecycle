@@ -777,18 +777,47 @@ with four expected Windows privilege skips, 72 audited source files, and
 `false`/`0` and `true`/`1` substitutions.
 [Failure classification v2](docs/MM-005-browser-research-model-evaluation-failure-classification-v2.md).
 
+PR #72 published that exact classification as signed squash commit
+`e52060ff82b62f6042ec371b72f011e5fa5c0681`. All six Linux Python-matrix
+checks passed; no review, comment, thread, conflict, or merge-state blocker
+existed, the merge tree matched the feature tree exactly, both branch copies
+were deleted, and local `master == origin/master` before the successor slice.
+
+The separate 33,476-byte canonical generation-failure investigation protocol
+is now complete locally with SHA-256
+`be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`.
+It binds the PR #72 Git lineage and all upstream raw receipts, freezes the exact
+fourth record plus three authenticated completed-prefix and three same-shape
+static controls, and independently reconstructs Adapter, model-payload,
+prompt, ordered image/snapshot, PNG-header, and opaque-sentinel runtime-message
+receipts. It distinguishes journal facts from frozen-control-flow inference,
+current static recomputation, and still-unresolved runtime substages. The
+outcome-neutral rubric selects no result at freeze. No investigation result,
+processor/model/CUDA/network/browser execution, retry, recovery, training,
+capture, Runtime change, substage attribution, root-cause claim, remediation,
+or recovery-v3 authorization exists.
+[Generation-failure investigation protocol](docs/MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1.md).
+
+Sixteen focused adversarial tests pass on local CPython 3.11.15, 3.12.12, and
+3.13.7. Ruff 0.15.22, Ruff format check on the three new Python files, scoped
+strict Mypy 2.3.0 on the contract/builder, `py_compile`, protocol `--check`,
+and `git diff --check` pass. Each interpreter also passes the complete
+929-test unified offline gate with four expected Windows privilege skips, 73
+audited source files, and `valid=true`.
+
 ## Single active objective
 
 Validate and publish the exact model-free
-`MM-005-browser-research-model-evaluation-failure-classification-v2` without
-loading or evaluating a model:
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
+without executing the investigation or loading a processor/model:
 
 ```text
-published PR #71 recovery protocol + aligned master
-        -> one consumed v2 attempt + authenticated failure terminal
-        -> byte-identical owner/progress/failure tracked evidence
-        -> exact 14-frame progress and 4-start/3-completion boundary
-        -> root cause and non-authenticated controller text kept separate
+published PR #72 classification + aligned master
+        -> exact v2 owner/progress/failure/classification and Git lineage
+        -> exact fourth record + six preselected static controls
+        -> Adapter/payload/prompt/image/message reconstruction frozen
+        -> durable fact / control-flow inference / static evidence separated
+        -> outcome-neutral rubric + conditional new-identity routing
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
@@ -797,16 +826,19 @@ Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
 Browser Research generation output, v1 owner-only tree, or v2 three-file formal
 tree. Do not synthesize missing candidate/prediction/evidence artifacts, infer
 an unrecorded runtime substage or root cause, or convert transient controller
-observations into authenticated telemetry. This slice may only track and
-validate the exact raw artifacts, derive the model-free classification, update
-the canonical evidence/status, and publish that bounded change. It must not run
-recovery, import or call a model, use CUDA or a live browser/network, train or
-save a model/Adapter, change Runtime, capture real content, or broaden quality
-or repeatability claims. Only after this classification cleanly merges, both
-branch copies are deleted, and `master == origin/master` may
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
-become the single successor objective. That successor must freeze model-free
-diagnostics first; it does not authorize a v2 retry.
+observations into authenticated telemetry. This slice may only bind the
+published lineage, freeze the exact static investigation inputs, controls,
+steps, decision rubric, authority, and conditional routing, validate them,
+update canonical evidence/status, and publish that bounded change. It must not
+execute the investigation, add a result runner or result artifact, run
+recovery, import or call a processor/model, use CUDA or a live browser/network,
+train or save a model/Adapter, change Runtime, capture real content, or broaden
+quality or repeatability claims. Only after this protocol cleanly merges, both
+branch copies are deleted, and `master == origin/master` may the model-free
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`
+become the single successor objective. A model/CUDA diagnostic experiment
+remains conditional on a validated inconclusive static result and a separate
+new-identity, new-output protocol; recovery-v3 is not authorized.
 
 ## Preserved historical validation and deferred gates
 
@@ -1835,7 +1867,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71 and its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal; failure-classification-v2 is the current publication gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; model-free generation-failure investigation protocol v1 is the current publication gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

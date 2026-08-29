@@ -165,7 +165,9 @@ measurement, result, quality, safety, repeatability, resource, cross-machine,
 Serving, promotion, live-browser/network, real-content, capture, training, or
 Runtime claim was established. The later one-shot execution is now consumed;
 `formal_measurement_complete=false`, `evaluation_executed=false`, and
-`model_evaluated=false` remain exact. The current next gate is the model-free
-`MM-005-browser-research-model-evaluation-failure-classification-v2`; its
-successor, only after classification publication and cleanup, is the separate
-generation-failure investigation protocol.
+`model_evaluated=false` remain exact. PR #72 published the exact model-free
+`MM-005-browser-research-model-evaluation-failure-classification-v2` as signed
+squash commit `e52060ff82b62f6042ec371b72f011e5fa5c0681`. Its separate
+generation-failure investigation protocol is now complete locally; that
+protocol freezes only static diagnostics and does not authorize a v2 retry,
+processor, model, or CUDA execution.
