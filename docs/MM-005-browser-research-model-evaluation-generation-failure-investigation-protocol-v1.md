@@ -1,8 +1,10 @@
 # MM-005 Browser Research generation-failure investigation protocol v1
 
-> **Result: COMPLETE LOCALLY — an outcome-neutral, model-free static
-> investigation is frozen; the investigation has not executed and no runtime
-> substage, root cause, remediation, retry, or model/CUDA execution is
+> **Result: PUBLISHED THROUGH PR #73 — the outcome-neutral, model-free static
+> investigation protocol is frozen at signed squash commit
+> `fe430710924537a18e677b75202f0c19806d3f12`. Its implementation contract is
+> complete locally, but the investigation has not executed and no result,
+> runtime substage, root cause, remediation, retry, or model/CUDA execution is
 > authorized.**
 
 ## Predecessor and protocol identity
@@ -23,7 +25,9 @@ with SHA-256
 `be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`.
 The future result path is fixed separately as
 `baseline/mm005-browser-research-model-eval-v2-generation-failure-investigation-v1.json`;
-no result exists or is created by this slice.
+no result exists. PR #73 passed all six Linux Python-matrix checks with no
+blocking review, comment, thread, conflict, or merge-state finding; both
+feature-branch copies were deleted before the implementation successor began.
 
 The builder requires the PR #72 merge to be an ancestor and compares the v2
 preregistration, owner, progress, failure, classification, classifier,
@@ -113,10 +117,20 @@ No outcome is selected at freeze. A static failure can support only a
 deterministic static reproduction. A static pass does not establish historical
 runtime health, and a static difference does not establish causality.
 
-The investigation implementation must be a separate bounded slice conforming
-to this plan. This protocol does not freeze or silently pre-author that future
-implementation source. Result publication is exclusive, zero-retry, and bound
-to the fixed result path.
+The investigation implementation is a separate bounded slice conforming to
+this plan. This protocol did not freeze or silently pre-author that source.
+The current implementation closes the schema, mutually exclusive predicates,
+precedence, claim transitions, structural comparison dimensions, and
+protocol-only routing, and binds its result contract, runner, and focused test
+as a three-file implementation closure. Its read-only `--plan` validates the
+published protocol without executing the investigation. Result publication
+remains exclusive, zero-retry, clean-merged-master-only, and bound to the fixed
+result path. Before build or write, the runner derives the three-file
+introduction from canonical `origin/master` first-parent history and requires
+the complete PR #73-to-freeze delta to equal the exact ten reviewed slice
+paths. Historical checking binds PR #73 config/ten-source receipts before an
+isolated local/no-lazy-fetch `python -I -S -B` worker executes the exact freeze
+runner blob.
 
 ## Authority and future routing
 
@@ -144,8 +158,10 @@ semantic delta is authenticated.
 ## Validation
 
 ```powershell
-work\python-matrix\conda311\python.exe -m unittest tests.test_mm005_browser_research_model_evaluation_generation_failure_investigation -v
-work\python-matrix\conda311\python.exe scripts\prepare_mm005_browser_research_model_evaluation_generation_failure_investigation_protocol_v1.py --check
+work\python-matrix\conda311\python.exe -I -B tests\test_mm005_browser_research_model_evaluation_generation_failure_investigation.py -v
+work\python-matrix\conda311\python.exe -I -B tests\test_mm005_browser_research_model_evaluation_generation_failure_investigation_result.py -v
+work\python-matrix\conda311\python.exe -I -B scripts\prepare_mm005_browser_research_model_evaluation_generation_failure_investigation_protocol_v1.py --check
+work\python-matrix\conda311\python.exe -I -B scripts\run_mm005_browser_research_model_evaluation_generation_failure_investigation_v1.py --plan
 work\python-matrix\conda311\python.exe -I -B scripts\validate_offline.py
 work\training-env\Scripts\python.exe -I -B scripts\validate_offline.py
 python -I -B scripts\validate_offline.py
@@ -159,12 +175,14 @@ boolean/integer rejection, missing/extra/path/source drift, hardlink/symlink
 guards, overwrite refusal, attempt-ID privacy, and absence of model/network/
 CUDA capability.
 
-All 16 focused tests pass on local CPython 3.11.15, 3.12.12, and 3.13.7.
-Ruff 0.15.22, Ruff format check on the three new Python files, scoped strict
-Mypy 2.3.0 on the contract and builder, `py_compile`, protocol `--check`, and
-`git diff --check` pass. Each interpreter also passes the complete 929-test
-unified offline gate with four expected Windows privilege skips, 73 audited
-source files, and `valid=true`.
+The published protocol's 16 focused tests pass on local CPython 3.11.15,
+3.12.12, and 3.13.7. The implementation adds 30 focused tests. Current
+prepublication validation passes those tests, Ruff 0.15.22, Ruff format check,
+scoped strict Mypy 2.3.0, `py_compile`, protocol `--check`, and the complete
+CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates. Each unified gate
+passes 959 tests with four expected Windows privilege skips, 74 audited source
+files, `result_present=false`, `investigation_executed=false`,
+`runner_plan_valid=true`, `runner_check_valid=false`, and `valid=true`.
 
 Protocol freeze is not investigation execution. Model evaluation, completed
 formal measurement, quality, safety, repeatability, Serving, promotion, and

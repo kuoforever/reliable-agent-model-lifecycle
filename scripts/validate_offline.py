@@ -266,6 +266,11 @@ MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_BYTES = 33_476
 MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_SHA256 = (
     "sha256:be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494"
 )
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH = (
+    ROOT
+    / "baseline"
+    / "mm005-browser-research-model-eval-v2-generation-failure-investigation-v1.json"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -646,9 +651,10 @@ def main() -> int:
     mm005_browser_research_model_evaluation_failure_v2 = (
         _validate_mm005_browser_research_model_evaluation_failure_classification_v2()
     )
-    mm005_browser_research_generation_failure_investigation = (
-        _validate_mm005_browser_research_generation_failure_investigation_protocol()
-    )
+    (
+        mm005_browser_research_generation_failure_investigation,
+        mm005_browser_research_generation_failure_investigation_implementation,
+    ) = _validate_mm005_browser_research_generation_failure_investigation_state()
     tests_run = _run_tests()
 
     result = {
@@ -1645,13 +1651,65 @@ def main() -> int:
         "mm005_browser_research_generation_failure_investigation_target_record": (
             mm005_browser_research_generation_failure_investigation["target_record"]
         ),
-        "mm005_browser_research_generation_failure_investigation_executed": (
+        "mm005_browser_research_generation_failure_investigation_protocol_claims_executed": (
             mm005_browser_research_generation_failure_investigation[
                 "investigation_executed"
             ]
         ),
+        "mm005_browser_research_generation_failure_investigation_implementation_contract_valid": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "implementation_contract_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_runner_plan_valid": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "runner_plan_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_runner_check_valid": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "runner_check_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_implementation_source_files": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "implementation_source_files"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_result_present": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "result_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_result_valid": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "result_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_formal_execution_eligible": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "formal_execution_eligible"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_executed": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "investigation_executed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_static_complete": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "static_investigation_complete"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_selected_outcome": (
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "selected_outcome"
+            ]
+        ),
         "mm005_browser_research_generation_failure_investigation_next_gate": (
-            mm005_browser_research_generation_failure_investigation["next_gate"]
+            mm005_browser_research_generation_failure_investigation_implementation[
+                "next_gate"
+            ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -6050,6 +6108,342 @@ def _validate_mm005_browser_research_generation_failure_investigation_protocol()
         "investigation_executed": claims["investigation_executed"],
         "next_gate": checked["next_gate"],
         "protocol_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_investigation_state() -> (
+    tuple[dict[str, Any], dict[str, Any]]
+):
+    result_present = os.path.lexists(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH
+    )
+    if result_present:
+        implementation = _validate_mm005_browser_research_generation_failure_investigation_implementation()
+        if implementation.get("result_present") is not True:
+            raise GateError("MM-005 historical result state changed during validation")
+        protocol_summary = {
+            "protocol_frozen": implementation["protocol_frozen"],
+            "model_free": implementation["model_free"],
+            "diagnostic_records": implementation["diagnostic_records"],
+            "target_record": implementation["target_record"],
+            "investigation_executed": False,
+            "next_gate": implementation["next_gate"],
+            "protocol_sha256": implementation["protocol_sha256"],
+        }
+        if not os.path.lexists(
+            MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH
+        ):
+            raise GateError("MM-005 historical result state changed during validation")
+        return protocol_summary, implementation
+
+    protocol_summary = (
+        _validate_mm005_browser_research_generation_failure_investigation_protocol()
+    )
+    implementation = _validate_mm005_browser_research_generation_failure_investigation_implementation()
+    if implementation.get("result_present") is not False:
+        raise GateError("MM-005 pre-result state changed during validation")
+    if os.path.lexists(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH
+    ):
+        raise GateError("MM-005 pre-result state changed during validation")
+    return protocol_summary, implementation
+
+
+def _validate_mm005_browser_research_generation_failure_investigation_implementation() -> (
+    dict[str, Any]
+):
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_investigation_v1 as runner,
+    )
+
+    result_present = os.path.lexists(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH
+    )
+    if result_present:
+        checked = runner.run(check=True)
+        historical_outcome_next_gate = {
+            "protocol_or_lineage_invalid": None,
+            "deterministic_static_input_or_message_failure_reproduced": (
+                "MM-005-browser-research-model-evaluation-generation-failure-"
+                "static-remediation-protocol-v1"
+            ),
+            "static_difference_observed_without_causal_failure": (
+                "MM-005-browser-research-model-evaluation-generation-failure-"
+                "static-difference-isolation-protocol-v1"
+            ),
+            "static_pipeline_reconstructed_without_contract_violation": (
+                "MM-005-browser-research-model-evaluation-generation-failure-"
+                "diagnostic-protocol-v1"
+            ),
+            "static_investigation_inconclusive": (
+                "MM-005-browser-research-model-evaluation-generation-failure-"
+                "diagnostic-protocol-v1"
+            ),
+        }
+        selected_outcome = checked.get("selected_outcome")
+        report_digest = checked.get("report_digest")
+        if (
+            checked.get("checked") is not True
+            or checked.get("valid") is not True
+            or checked.get("static_investigation_complete") is not True
+            or not isinstance(selected_outcome, str)
+            or selected_outcome not in historical_outcome_next_gate
+            or checked.get("next_gate")
+            != historical_outcome_next_gate.get(selected_outcome)
+            or checked.get("runtime_root_cause_unresolved") is not True
+            or checked.get("runtime_eligible") is not False
+            or checked.get("protocol_merge_commit")
+            != "fe430710924537a18e677b75202f0c19806d3f12"
+            or checked.get("protocol_sha256")
+            != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_SHA256
+            or checked.get("diagnostic_records") != 7
+            or checked.get("target_record")
+            != "sha256:26b3a9da0467d1c18cc4a050ec10dc03a415a9c3a38a2a37de8b9805c67adaf7"
+            or not isinstance(report_digest, str)
+            or len(report_digest) != 71
+            or not report_digest.startswith("sha256:")
+            or any(character not in "0123456789abcdef" for character in report_digest[7:])
+            or checked.get("model_free") is not True
+        ):
+            raise GateError(
+                "MM-005 Browser generation-failure result check boundary mismatch"
+            )
+        return {
+            "implementation_contract_valid": True,
+            "runner_plan_valid": False,
+            "runner_check_valid": True,
+            "implementation_source_files": 3,
+            "result_present": True,
+            "result_valid": True,
+            "formal_execution_eligible": False,
+            "investigation_executed": True,
+            "static_investigation_complete": True,
+            "selected_outcome": checked["selected_outcome"],
+            "next_gate": checked["next_gate"],
+            "runtime_eligible": False,
+            "protocol_frozen": True,
+            "model_free": checked["model_free"],
+            "diagnostic_records": checked["diagnostic_records"],
+            "target_record": checked["target_record"],
+            "protocol_sha256": checked["protocol_sha256"],
+        }
+
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_investigation as protocol,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_investigation_result as contract,
+    )
+    specification = contract.result_contract()
+    observations = specification.get("observation_contract")
+    static_observations = specification.get("static_plan_observation_contract")
+    selection = specification.get("outcome_selection")
+    comparison = specification.get("structural_comparison_contract")
+    claims = specification.get("claims_contract")
+    publication = specification.get("publication_contract")
+    routes = specification.get("outcome_routes")
+    if not all(
+        isinstance(value, dict)
+        for value in (
+            observations,
+            static_observations,
+            selection,
+            comparison,
+            claims,
+            publication,
+            routes,
+        )
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure result contract sections are invalid"
+        )
+    assert isinstance(observations, dict)
+    assert isinstance(static_observations, dict)
+    assert isinstance(selection, dict)
+    assert isinstance(comparison, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(publication, dict)
+    assert isinstance(routes, dict)
+    expected_sources = {
+        "focused_tests": (
+            "tests/test_mm005_browser_research_model_evaluation_generation_"
+            "failure_investigation_result.py"
+        ),
+        "result_contract": (
+            "src/fullcycle_bridge/mm005_browser_research_model_evaluation_"
+            "generation_failure_investigation_result.py"
+        ),
+        "result_runner": (
+            "scripts/run_mm005_browser_research_model_evaluation_generation_"
+            "failure_investigation_v1.py"
+        ),
+    }
+    if (
+        specification.get("result_version") != 1
+        or specification.get("gate_id") != protocol.INVESTIGATION_GATE_ID
+        or specification.get("investigation_id") != protocol.INVESTIGATION_ID
+        or specification.get("fixed_result_path") != protocol.RESULT_PATH
+        or contract.PROTOCOL_MERGE_COMMIT != "fe430710924537a18e677b75202f0c19806d3f12"
+        or contract.PROTOCOL_BYTES
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_BYTES
+        or contract.PROTOCOL_SHA256
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_SHA256
+        or contract.IMPLEMENTATION_SOURCE_PATHS != expected_sources
+        or specification.get("required_top_level_keys")
+        != list(contract.RESULT_REQUIRED_TOP_LEVEL_KEYS)
+        or specification.get("formal_result_gates")
+        != list(contract.FORMAL_RESULT_GATES)
+        or len(contract.FORMAL_RESULT_GATES) != 15
+        or observations.get("required_boolean_keys") != list(contract.OBSERVATION_KEYS)
+        or observations.get("python_bool_required_not_integer_alias") is not True
+        or observations.get("contradictory_states_rejected") is not True
+        or observations.get("protocol_or_implementation_trust_failure_publishes_result")
+        is not False
+        or static_observations.get("steps") != list(protocol.STATIC_DIAGNOSTIC_STEPS)
+        or static_observations.get("deterministic_failure_domain_step_by_error_code")
+        != contract.DETERMINISTIC_FAILURE_DOMAIN_STEP_BY_CODE
+        or static_observations.get("monolithic_registry_failure_terminal_step")
+        != protocol.STATIC_DIAGNOSTIC_STEPS[1]
+        or static_observations.get(
+            "failure_domain_step_does_not_prove_prior_steps_completed"
+        )
+        is not True
+        or static_observations.get("unknown_or_unexpected_failure_publishes_result")
+        is not False
+        or static_observations.get(
+            "inconclusive_requires_explicit_closed_observer_reason"
+        )
+        is not True
+        or static_observations.get("caller_supplied_outcome_or_observations_allowed")
+        is not False
+        or selection.get("allowed_outcomes") != list(protocol.DECISION_OUTCOMES)
+        or selection.get("precedence") != list(contract.OUTCOME_PRECEDENCE)
+        or selection.get("exactly_one_selected") is not True
+        or comparison.get("closed_fields")
+        != list(contract.STRUCTURAL_COMPARISON_FIELDS)
+        or comparison.get("excluded_content_identity_fields")
+        != list(contract.EXCLUDED_CONTENT_IDENTITY_FIELDS)
+        or comparison.get("content_identity_difference_is_causal") is not False
+        or comparison.get("difference_outcome_requires_closed_field_difference")
+        is not True
+        or set(routes) != set(protocol.DECISION_OUTCOMES)
+        or any(
+            not isinstance(route, dict)
+            or route.get("protocol_freeze_only") is not True
+            or route.get("execution_authorized") is not False
+            for route in routes.values()
+        )
+        or any(
+            claims.get(name) is not False
+            for name in (
+                "formal_measurement_complete",
+                "model_evaluated",
+                "historical_runtime_health_established",
+                "static_root_cause_reproduced",
+                "failed_runtime_substage_isolated",
+                "remediation_delta_established",
+                "recovery_v3_justified",
+                "diagnostic_model_or_cuda_execution_authorized",
+                "runtime_eligible",
+            )
+        )
+        or publication.get(
+            "implementation_must_be_clean_merged_before_formal_execution"
+        )
+        is not True
+        or publication.get("exclusive_create") is not True
+        or publication.get("zero_internal_retry") is not True
+        or publication.get("check_mode_may_recompute_without_republishing") is not True
+        or publication.get("no_mutable_output_override") is not True
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure result contract boundary mismatch"
+        )
+
+    forbidden_imports = {
+        "torch",
+        "transformers",
+        "peft",
+        "bitsandbytes",
+        "PIL",
+        "socket",
+        "urllib",
+        "requests",
+        "httpx",
+        "webbrowser",
+        "playwright",
+        "selenium",
+    }
+    forbidden_calls = {
+        "generate",
+        "apply_chat_template",
+        "from_pretrained",
+        "synchronize",
+        "create_connection",
+        "urlopen",
+        "request",
+        "eval",
+        "exec",
+        "__import__",
+    }
+    for name, relative in sorted(expected_sources.items()):
+        payload = _read_regular_file_once(
+            ROOT / relative,
+            f"MM-005 generation-failure implementation source {name}",
+        )
+        try:
+            tree = ast.parse(payload.decode("utf-8"), filename=relative)
+        except (UnicodeDecodeError, SyntaxError) as exc:
+            raise GateError(
+                f"invalid MM-005 generation-failure implementation source: {name}"
+            ) from exc
+        for node in ast.walk(tree):
+            imported: str | None = None
+            called: str | None = None
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    if alias.name.partition(".")[0] in forbidden_imports:
+                        raise GateError(
+                            f"forbidden MM-005 implementation import in {name}"
+                        )
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported = node.module.partition(".")[0]
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Attribute):
+                    called = node.func.attr
+                elif isinstance(node.func, ast.Name):
+                    called = node.func.id
+            if imported in forbidden_imports or called in forbidden_calls:
+                raise GateError(f"forbidden MM-005 implementation capability in {name}")
+
+    plan = runner.run(plan=True)
+    if (
+        plan.get("plan_only") is not True
+        or plan.get("gate_id") != contract.GATE_ID
+        or plan.get("investigation_id") != contract.INVESTIGATION_ID
+        or plan.get("fixed_result_path") != contract.RESULT_PATH
+        or plan.get("result_present") is not False
+        or plan.get("formal_execution_eligible") is not False
+        or plan.get("outcome_precedence") != list(contract.OUTCOME_PRECEDENCE)
+        or plan.get("model_processor_pil_cuda_network_browser_authorized") is not False
+        or plan.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure runner plan boundary mismatch"
+        )
+    return {
+        "implementation_contract_valid": True,
+        "runner_plan_valid": True,
+        "runner_check_valid": False,
+        "implementation_source_files": len(expected_sources),
+        "result_present": False,
+        "result_valid": False,
+        "formal_execution_eligible": False,
+        "investigation_executed": False,
+        "static_investigation_complete": False,
+        "selected_outcome": None,
+        "next_gate": contract.GATE_ID,
+        "runtime_eligible": False,
     }
 
 

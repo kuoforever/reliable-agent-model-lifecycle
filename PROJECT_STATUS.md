@@ -783,61 +783,83 @@ checks passed; no review, comment, thread, conflict, or merge-state blocker
 existed, the merge tree matched the feature tree exactly, both branch copies
 were deleted, and local `master == origin/master` before the successor slice.
 
-The separate 33,476-byte canonical generation-failure investigation protocol
-is now complete locally with SHA-256
+PR #73 published the separate 33,476-byte canonical generation-failure
+investigation protocol as signed squash commit
+`fe430710924537a18e677b75202f0c19806d3f12`; SHA-256 is
 `be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`.
-It binds the PR #72 Git lineage and all upstream raw receipts, freezes the exact
+All six Linux Python-matrix checks passed with no blocking review, comment,
+thread, conflict, or merge-state finding. The merge tree matched the feature
+tree, both feature-branch copies were deleted, and local
+`master == origin/master` before this successor slice started. The protocol
+binds the PR #72 Git lineage and upstream raw receipts, freezes the exact
 fourth record plus three authenticated completed-prefix and three same-shape
 static controls, and independently reconstructs Adapter, model-payload,
 prompt, ordered image/snapshot, PNG-header, and opaque-sentinel runtime-message
-receipts. It distinguishes journal facts from frozen-control-flow inference,
-current static recomputation, and still-unresolved runtime substages. The
-outcome-neutral rubric selects no result at freeze. No investigation result,
-processor/model/CUDA/network/browser execution, retry, recovery, training,
-capture, Runtime change, substage attribution, root-cause claim, remediation,
-or recovery-v3 authorization exists.
+receipts. Its outcome-neutral rubric selected no result at freeze.
 [Generation-failure investigation protocol](docs/MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1.md).
 
-Sixteen focused adversarial tests pass on local CPython 3.11.15, 3.12.12, and
-3.13.7. Ruff 0.15.22, Ruff format check on the three new Python files, scoped
-strict Mypy 2.3.0 on the contract/builder, `py_compile`, protocol `--check`,
-and `git diff --check` pass. Each interpreter also passes the complete
-929-test unified offline gate with four expected Windows privilege skips, 73
-audited source files, and `valid=true`.
+The bounded implementation/result-contract slice is complete locally. It
+closes the result schema, strict Boolean observations, mutually exclusive
+five-outcome truth table and precedence, structural-versus-content comparison,
+truthful per-step observations, fail-closed claims, and protocol-only routing.
+The model-free runner binds PR #73 plus all ten protocol sources, derives the
+three-file implementation introduction from canonical `origin/master`
+first-parent history, and requires the exact PR #73-to-freeze Git delta to be
+the ten reviewed slice paths before any formal build or write. Historical
+checks validate that bootstrap before launching an isolated local/shared,
+no-LFS/no-lazy-fetch checkout with the exact runner blob under `-I -S -B`, then
+re-read the fixed result to reject late replacement. The unified gate invokes
+only `--plan` while the result is absent; its future present branch skips
+current semantic validation, AST audit, and plan execution but retains the
+current v1 import/parser bootstrap. The fixed result remains absent; no formal
+investigation, processor/model/PIL/torch/CUDA/network/browser execution, v1/v2
+retry, recovery, training, capture, Runtime change, substage attribution,
+root-cause claim, remediation, formal measurement, or recovery-v3
+authorization exists.
+[Generation-failure investigation implementation](docs/MM-005-browser-research-model-evaluation-generation-failure-investigation-implementation-v1.md).
+
+Thirty focused implementation tests pass on local CPython 3.11.15, 3.12.12,
+and 3.13.7. Ruff 0.15.22, Ruff format, scoped strict Mypy 2.3.0, and
+`py_compile` pass. Each complete unified offline gate passes 959 tests with
+four expected Windows privilege skips, 74 audited source files,
+`result_present=false`, `investigation_executed=false`,
+`runner_plan_valid=true`, `runner_check_valid=false`, and `valid=true`.
 
 ## Single active objective
 
 Validate and publish the exact model-free
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
-without executing the investigation or loading a processor/model:
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`
+implementation contract, runner, focused tests, unified integration, and docs
+without executing the formal investigation:
 
 ```text
-published PR #72 classification + aligned master
-        -> exact v2 owner/progress/failure/classification and Git lineage
-        -> exact fourth record + six preselected static controls
-        -> Adapter/payload/prompt/image/message reconstruction frozen
-        -> durable fact / control-flow inference / static evidence separated
-        -> outcome-neutral rubric + conditional new-identity routing
+published PR #73 protocol + aligned master
+        -> closed result schema + type-strict outcome predicates
+        -> truthful nine-step observations + closed structural comparator
+        -> exact PR #73 config/10-source Git binding
+        -> origin/master introduction + exact ten-path implementation slice
+        -> isolated historical worker + closed summary/check path
+        -> plan-only unified validation; fixed result remains absent
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
+        -> one formal model-free invocation from clean merged master
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
 Browser Research generation output, v1 owner-only tree, or v2 three-file formal
 tree. Do not synthesize missing candidate/prediction/evidence artifacts, infer
 an unrecorded runtime substage or root cause, or convert transient controller
-observations into authenticated telemetry. This slice may only bind the
-published lineage, freeze the exact static investigation inputs, controls,
-steps, decision rubric, authority, and conditional routing, validate them,
-update canonical evidence/status, and publish that bounded change. It must not
-execute the investigation, add a result runner or result artifact, run
-recovery, import or call a processor/model, use CUDA or a live browser/network,
-train or save a model/Adapter, change Runtime, capture real content, or broaden
-quality or repeatability claims. Only after this protocol cleanly merges, both
-branch copies are deleted, and `master == origin/master` may the model-free
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`
-become the single successor objective. A model/CUDA diagnostic experiment
-remains conditional on a validated inconclusive static result and a separate
+observations into authenticated telemetry. This slice may only publish the
+result contract, model-free runner, tests, plan-only unified validation, and
+canonical documentation. It must not create the fixed result, invoke the
+runner without `--plan`, run recovery, import or call a processor/model/PIL/
+torch, use CUDA or a live browser/network, train or save a model/Adapter,
+change Runtime, capture real content, or broaden quality or repeatability
+claims. Only after this implementation cleanly merges, both branch copies are
+deleted, and `master == origin/master` may one clean model-free formal
+invocation become the single exact successor action. Its fixed result must be
+validated and published separately. A model/CUDA diagnostic experiment
+remains conditional on that validated static result and a separate
 new-identity, new-output protocol; recovery-v3 is not authorized.
 
 ## Preserved historical validation and deferred gates
