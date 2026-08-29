@@ -1215,18 +1215,34 @@ that exact classification as signed squash commit
 `e52060ff82b62f6042ec371b72f011e5fa5c0681` with clean checks, review state,
 merge state, and branch cleanup.
 
-The separate 33,476-byte
+PR #73 published the separate 33,476-byte
 `MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
-is now complete locally. It binds the PR #72 lineage, exact fourth record,
-three authenticated completed-prefix controls, three same-shape static
-controls, Adapter/model-payload/prompt/image receipts, opaque-sentinel runtime
-message reconstruction, the durable-checkpoint boundary, and an
-outcome-neutral decision rubric. It runs no processor, model, CUDA, network,
-browser, retry, recovery, training, or Runtime path and creates no investigation
-result. Validating and publishing this protocol is the single active objective.
-Only after a clean merge, both branch copies are deleted, and
-`master == origin/master` may its model-free static investigation successor
-become active.
+as signed squash commit `fe430710924537a18e677b75202f0c19806d3f12` after
+all six Linux Python-matrix checks passed and review, comment, thread,
+conflict, merge-state, merge-tree, branch-cleanup, and local-master alignment
+were clear. It binds the PR #72 lineage, exact fourth record, three
+authenticated completed-prefix controls, three same-shape static controls,
+Adapter/model-payload/prompt/image receipts, opaque-sentinel runtime-message
+reconstruction, the durable-checkpoint boundary, and an outcome-neutral
+decision rubric.
+
+The bounded model-free implementation contract is now complete locally. It
+closes strict outcome predicates, precedence, per-step evidence, structural
+comparison, fail-closed claims and routing; binds a three-file implementation
+freeze; derives its trusted introduction from `origin/master`; requires the
+exact reviewed PR #73-to-freeze tree delta, clean aligned merged master, and
+exclusive zero-retry result publication; and supports an isolated local
+historical Git-blob `--check` with LFS, lazy fetch, hooks, inherited Git state,
+and Python `site` disabled. The unified gate uses only read-only `--plan` while
+the result is absent. Thirty focused tests and each 959-test CPython
+3.11.15/3.12.12/3.13.7 unified gate pass. The fixed result is absent, the
+formal investigation has not executed, and no processor, model, PIL, torch,
+CUDA, network, browser, retry, recovery, training, Runtime, root-cause,
+measurement, or downstream claim is authorized. Validating and publishing
+this implementation slice is the single active objective. Only after its
+clean merge, both branch copies are deleted, and `master == origin/master` may
+the one-shot model-free formal investigation become the exact successor
+action.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

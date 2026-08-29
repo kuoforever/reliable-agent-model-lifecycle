@@ -1173,23 +1173,33 @@ thread/conflict state、merge-tree equality 与双端 branch cleanup 均已确�
 `master == origin/master`。
 
 33,476-byte model-free
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1` 已 complete
-locally，SHA-256 为
-`be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`。它冻结 PR #72 lineage、
-exact fourth record、3 个 authenticated completed-prefix controls、3 个 same-shape static controls、
-Adapter/model-payload/prompt/image receipts、opaque-sentinel runtime-message reconstruction、durable
-checkpoint boundary 与 outcome-neutral rubric；未执行 investigation，也未运行或授权 processor/model/
-CUDA/network/browser/retry/recovery/training/Runtime。
-16/16 focused adversarial tests 在本机 CPython 3.11.15、3.12.12、3.13.7 均通过；三个 complete
-unified gates 各通过 929 tests、4 个预期 Windows privilege skips、73 audited source files，且
-`valid=true`。Ruff 0.15.22、三份新 Python 文件的 Ruff format check、contract/builder scoped strict
-Mypy 2.3.0、`py_compile`、protocol `--check` 与 `git diff --check` 均通过。
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1` 已通过 PR #73
+发布为 signed squash commit `fe430710924537a18e677b75202f0c19806d3f12`，SHA-256 为
+`be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`。six Linux Python-matrix
+checks、review/comment/thread/conflict/merge state、merge-tree equality、双端 branch cleanup 与 local
+master alignment 均已确认。它冻结 PR #72 lineage、exact fourth record、3 个 authenticated
+completed-prefix controls、3 个 same-shape static controls、Adapter/model-payload/prompt/image receipts、
+opaque-sentinel runtime-message reconstruction、durable checkpoint boundary 与 outcome-neutral rubric。
 
-当前唯一 gate 切换为该 investigation protocol 的验证与发布。其 clean merge、branch cleanup 且
-`master == origin/master` 后，唯一 successor 才可切换为纯静态
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`。只有该静态结果验证后仍
-inconclusive，才可另行冻结新 identity/output 的 diagnostic-experiment protocol；不得复用或重试
-v2，且本 protocol 不授权 diagnostic execution 或 recovery-v3。
+对应 model-free implementation/result contract 已 complete locally：闭合 strict Boolean observations、
+五 outcome 的 mutually-exclusive truth table 与 precedence、truthful nine-step evidence、closed structural
+comparator、fail-closed claims/routing、PR #73 config/10-source Git binding、three-file implementation
+freeze、canonical `origin/master` introduction、exact PR #73-to-freeze ten-path delta、clean aligned
+merged-master precondition、exclusive zero-retry publish 和 isolated local/no-lazy-fetch historical
+Git-blob `--check`。unified absent-result gate 只调用 `--plan`；fixed result 仍 absent，formal
+investigation 未执行，也未运行或授权 processor/model/PIL/torch/CUDA/network/browser/retry/recovery/
+training/Runtime/root-cause/formal-measurement 路径。30/30 focused tests 已在 Python 3.11.15、
+3.12.12、3.13.7 通过；Ruff 0.15.22、Ruff format、scoped strict Mypy 2.3.0 与 `py_compile` 通过。
+三个 complete unified gates 各通过 959 tests、4 个预期 Windows privilege skips、74 audited source
+files，且 `result_present=false`、`investigation_executed=false`、`runner_plan_valid=true`、
+`runner_check_valid=false`、`valid=true`。
+
+当前唯一 gate 是该 implementation contract/runner/tests/unified/docs bounded slice 的验证与发布，
+不得创建 fixed result 或执行 default runner。其 clean merge、双端 branch cleanup 且
+`master == origin/master` 后，唯一 exact successor action 才是从 clean merged master 执行一次纯静态
+formal investigation；result 必须在独立 slice 验证发布。只有 validated static result 仍未解决 runtime
+root cause 时，才可另行冻结新 identity/output 的 diagnostic-experiment protocol；不得复用或重试
+v2，且当前 slice 不授权 diagnostic execution 或 recovery-v3。
 
 ## TOOL-001：工具 Schema 与任务定义
 
