@@ -708,8 +708,8 @@ matched the feature tree exactly, both branch copies were deleted, and local
 `master == origin/master` before the v2 protocol freeze.
 
 The separate model-free
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2` is now frozen
-locally as 120,315 canonical bytes with SHA-256
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` was frozen as
+120,315 canonical bytes with SHA-256
 `512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`.
 It preserves 12 v1 semantic subtrees exactly and binds 18 protocol-source
 receipts. Separately, `source_lineage.recovery_lineage` binds the immutable v1
@@ -722,37 +722,91 @@ exact terminal repair. Twenty-one focused adversarial tests, Ruff, Ruff format
 check, scoped strict Mypy, `py_compile`, and protocol `--check` pass. Local
 CPython 3.11.15, 3.12.12, and 3.13.7 each pass the complete 898-test unified
 gate with four expected Windows privilege skips, 71 audited source files, and
-`valid=true`. The v2 output and lifecycle roots remain absent, no v2 attempt is
-consumed, no model has been evaluated, and no result or quality claim exists.
+`valid=true`. At freeze, the v2 output and lifecycle roots were absent, no v2
+attempt was consumed, no model had been evaluated, and no result or quality
+claim existed.
 [Recovery protocol](docs/MM-005-browser-research-model-evaluation-recovery-protocol-v2.md).
+
+PR #71 published that exact recovery protocol as signed squash commit
+`91b637c6b365ea8632b31335f5c74ac6c60e6b71`. All six Linux Python-matrix
+checks passed; no review/comment/thread/conflict blocker existed, its merge tree
+matched the feature tree exactly, both branch copies were deleted, and local
+`master == origin/master` before formal execution.
+
+After the complete frozen preflight passed, the registered v2 command was
+invoked exactly once on 2026-08-29. It loaded the frozen base once and the
+read-only Adapter independently once, durably completed the first three records
+in frozen order, and persisted the fourth `generation_started` checkpoint. Its
+Python exception handler then wrote an authenticated `RuntimeError` terminal
+for the registered `generation` stage. The consumed directory contains exactly
+the 938-byte owner, 22,782-byte 14-frame progress journal, and 2,675-byte
+failure receipt; candidate, predictions, and evidence are absent. Generation
+attempts/completions are `4/3`, screenshot inputs are `9`, and retry, network,
+training, backward, optimizer, Adapter-write, and model/tensor-save counters
+are all zero. The recovery command was neither needed nor run.
+
+All three raw artifacts are now tracked byte-for-byte. Their SHA-256 values are
+`a80cf6a2a9142fdfbc7a92646498a05e5036fc13227af88470297b98990aad87`,
+`a19709eb55fedc248eed32c1acbe9dbf0caa61f2cfc1a9ae7f5cf16b2a9a70b1`,
+and `46f3968482567db2810237c277f65d982ce9518f829c43ad96bd1fc7d2776bc7`.
+The 11,920-byte derived classification has SHA-256
+`169c78c7337eca32de8769c8598b9f514e2acc33a04ec50a0fdc4bc5a3895197`
+and internal report digest
+`sha256:425bcf20cdab6a70d2bf67ed9bdbd19bddc3c9020bdd99800fedac8d6c9bcbe1`.
+It validates the frozen preregistration and all 18 source blobs at the PR #71
+merge commit, the exact owner/progress/failure contracts, attempt-ID privacy,
+and the optional lease-guarded local three-file topology.
+
+The authenticated classification is
+`generation_stage_runtime_error_after_three_completed_calls_before_fourth_completion`
+in category
+`generation_pipeline_runtime_failure_without_attributable_substage`. The broad
+stage and safe exception class do not identify a failing runtime substage.
+Controller console text consistent with a CUDA illegal-memory-access error was
+not persisted in protocol evidence and is excluded from causal attribution.
+CUDA, GPU/driver, OOM/resource caps, model, Adapter, data/record, prompt,
+processor, compiler/Verifier, and runner-algorithm causes all remain
+unauthenticated. The attempt is consumed with no retry; formal measurement,
+evaluation result, model evaluation, quality/safety, evaluation/resource/
+cross-machine repeatability, Serving, promotion, and Runtime claims remain
+false.
+Fifteen focused adversarial tests pass on CPython 3.11.15, 3.12.12, and
+3.13.7. Each interpreter also passes the complete 913-test unified offline gate
+with four expected Windows privilege skips, 72 audited source files, and
+`valid=true`; the type-strict validator rejects Python's otherwise-equal
+`false`/`0` and `true`/`1` substitutions.
+[Failure classification v2](docs/MM-005-browser-research-model-evaluation-failure-classification-v2.md).
 
 ## Single active objective
 
 Validate and publish the exact model-free
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2` without loading
-or evaluating a model:
+`MM-005-browser-research-model-evaluation-failure-classification-v2` without
+loading or evaluating a model:
 
 ```text
-published v1 protocol + consumed owner-only immutable attempt
-        -> published PR #70 failure classification and aligned master
-        -> exact v1 semantic preservation + closed v2 delta
-        -> long-path-safe Git lineage + atomic lifecycle ownership
-        -> durable authenticated progress + model-free terminal repair
+published PR #71 recovery protocol + aligned master
+        -> one consumed v2 attempt + authenticated failure terminal
+        -> byte-identical owner/progress/failure tracked evidence
+        -> exact 14-frame progress and 4-start/3-completion boundary
+        -> root cause and non-authenticated controller text kept separate
         -> unified Python 3.11/3.12/3.13 offline gates
         -> clean merge, delete both branch copies, align master
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research generation output or v1 model-evaluation owner-only tree. Do
-not synthesize `failure.json`, infer exact progress, or convert transient
-controller observations into model results. This slice may only freeze,
-validate, and publish the separate v2 recovery identity and lifecycle contract.
-It must not create the v2 output/lifecycle roots, import or call a model, access
-a live browser/network, train or save a model/Adapter, change Runtime, capture
-real content, or broaden repeatability claims. Only after this protocol cleanly
-merges, both branch copies are deleted, and `master == origin/master` may
-`MM-005-browser-research-model-evaluation-execution-v2` become the single
-successor objective. V2 is a new experiment, not a v1 retry.
+Browser Research generation output, v1 owner-only tree, or v2 three-file formal
+tree. Do not synthesize missing candidate/prediction/evidence artifacts, infer
+an unrecorded runtime substage or root cause, or convert transient controller
+observations into authenticated telemetry. This slice may only track and
+validate the exact raw artifacts, derive the model-free classification, update
+the canonical evidence/status, and publish that bounded change. It must not run
+recovery, import or call a model, use CUDA or a live browser/network, train or
+save a model/Adapter, change Runtime, capture real content, or broaden quality
+or repeatability claims. Only after this classification cleanly merges, both
+branch copies are deleted, and `master == origin/master` may
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
+become the single successor objective. That successor must freeze model-free
+diagnostics first; it does not authorize a v2 retry.
 
 ## Preserved historical validation and deferred gates
 
@@ -1781,7 +1835,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69, consumed owner-only attempt classified through PR #70, and recovery-v2 protocol frozen locally before any v2 execution |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71 and its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal; failure-classification-v2 is the current publication gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

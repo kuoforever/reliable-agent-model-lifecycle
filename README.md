@@ -630,7 +630,7 @@ passed, no review/comment/thread/conflict blocker existed, both feature-branch
 copies were deleted, and local `master` was aligned with `origin/master` before
 the separate outcome-neutral model-evaluation protocol began.
 
-### Browser Research model-evaluation, v1 failure classification, and recovery v2
+### Browser Research model-evaluation lifecycle v1-v2
 
 The protocol was frozen before any model import or call as 116,152 canonical
 bytes with SHA-256
@@ -691,8 +691,8 @@ matched the feature tree exactly, both branch copies were deleted, and local
 `master == origin/master` before the recovery protocol was frozen.
 
 The separate
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2` is now frozen
-locally as 120,315 canonical bytes with SHA-256
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` was frozen as
+120,315 canonical bytes with SHA-256
 `512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`.
 It preserves 12 v1 semantic subtrees exactly and binds 18 protocol-source
 receipts. Separately, `source_lineage.recovery_lineage` binds the immutable v1
@@ -707,11 +707,38 @@ Twenty-one focused adversarial tests, Ruff, Ruff format check, scoped strict
 Mypy, `py_compile`, and protocol `--check` pass. Local CPython 3.11.15,
 3.12.12, and 3.13.7 each pass the complete 898-test unified gate with four
 expected Windows privilege skips, 71 audited source files, and `valid=true`.
-V2 remains a new experiment, never a v1 retry. Its output and lifecycle roots
-remain absent, no v2 attempt is consumed, no model has been evaluated, and
-formal execution is not authorized until this protocol is published and
-merged from a clean, aligned `master`. See the
+PR #71 published this protocol as signed squash commit
+`91b637c6b365ea8632b31335f5c74ac6c60e6b71`; all six Linux Python-matrix
+checks passed, no review/comment/thread/conflict blocker existed, its merge tree
+matched the feature tree, both branch copies were deleted, and local
+`master == origin/master` before execution. V2 remains a new experiment, never
+a v1 retry. See the
 [recovery protocol](docs/MM-005-browser-research-model-evaluation-recovery-protocol-v2.md).
+
+After the full frozen preflight passed, the registered v2 command was invoked
+exactly once. Its consumed output contains only a 938-byte owner, 22,782-byte
+14-frame progress journal, and 2,675-byte failure receipt. The journal
+authenticates one completed base load, one completed independent Adapter load,
+four generation-start checkpoints, three durable completed records in frozen
+order, nine screenshot inputs, and zero retry/network/training/write/save
+operations. The Python handler persisted `stage=generation` and
+`exception_type=RuntimeError`; candidate, predictions, evidence, metrics,
+latency, and resources are absent.
+
+The 11,920-byte model-free v2 failure classification has SHA-256
+`169c78c7337eca32de8769c8598b9f514e2acc33a04ec50a0fdc4bc5a3895197`
+and binds all three raw artifacts, the preregistration, and all 18 freeze-commit
+source blobs. It classifies the boundary as
+`generation_stage_runtime_error_after_three_completed_calls_before_fourth_completion`
+without attributing a runtime substage or cause. Controller console text
+consistent with a CUDA error was not persisted and is explicitly excluded from
+formal causal claims. The attempt is consumed with no retry; formal measurement,
+evaluation result, model evaluation, quality, safety, repeatability, Serving,
+promotion, and Runtime claims remain false. See the
+[v2 failure classification](docs/MM-005-browser-research-model-evaluation-failure-classification-v2.md).
+Fifteen focused adversarial tests and the complete 913-test unified offline
+gate pass on each of local CPython 3.11.15, 3.12.12, and 3.13.7, with four
+expected Windows privilege skips, 72 audited source files, and `valid=true`.
 
 ### Reliability/Verifier Dataset v1
 
@@ -1176,13 +1203,18 @@ unavailable; the evidence authorizes no v1 retry, live browser/network use,
 training, Runtime change, real capture, generalized quality/safety,
 model-evaluation repeatability, Serving, or promotion claim.
 
-The separate 120,315-byte recovery-v2 preregistration is frozen locally with
+PR #71 published the separate 120,315-byte recovery-v2 preregistration with
 exact v1 semantic preservation, long-path-safe Git lineage, atomic
 owner/genesis publication, durable chained progress, and model-free terminal
-repair. Validating and publishing that protocol is the single active objective;
-its v2 output is absent, its attempt is unconsumed, and no model has been
-evaluated. Only after a clean merge, both branch copies are deleted, and
-`master == origin/master` may the new v2 execution gate become active.
+repair. Its one formal v2 execution is now consumed: three records completed,
+the fourth generation-start checkpoint persisted, and the Python handler wrote
+an authenticated `RuntimeError` failure terminal. The raw owner/progress/failure
+artifacts and model-free derived classification preserve that exact boundary;
+they authorize no retry, result, root-cause, or Runtime claim. Validating and
+publishing the v2 classification is the single active objective. Only after a
+clean merge, both branch copies are deleted, and `master == origin/master` may
+the separate model-free generation-failure investigation protocol become
+active.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
