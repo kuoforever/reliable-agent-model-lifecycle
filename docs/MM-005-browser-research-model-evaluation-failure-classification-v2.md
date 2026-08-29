@@ -1,8 +1,9 @@
 # MM-005 Browser Research model-evaluation failure classification v2
 
-> **Result: COMPLETE LOCALLY — the registered v2 attempt is consumed, its
-> authenticated partial progress and failure terminal are preserved, and no
-> retry, completed measurement, or root-cause claim is authorized.**
+> **Result: PUBLISHED — PR #72 merged the exact classification as signed squash
+> commit `e52060ff82b62f6042ec371b72f011e5fa5c0681`; the registered v2 attempt
+> remains consumed and no retry, completed measurement, or root-cause claim is
+> authorized.**
 
 ## Observed lifecycle
 
@@ -117,12 +118,23 @@ promotion, or Runtime eligibility claim is established.
 
 ## Locked investigation protocol
 
-The exact next gate is the model-free
+PR #72 passed all six Linux Python-matrix checks with no blocking review,
+comment, thread, conflict, or merge-state finding. Its merge tree matched the
+reviewed feature tree, both feature-branch copies were deleted, and local
+`master == origin/master == e52060ff82b62f6042ec371b72f011e5fa5c0681`
+before the successor slice began.
+
+The exact successor gate is the model-free
 `MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`.
 The classification itself authorizes no model or CUDA execution. The protocol
 must first bind the v2 preregistration, owner, 14-frame progress journal,
 failure receipt, and derived classification, then statically inspect the fourth
 record's frozen inputs and message/prompt pipeline.
+
+That separate protocol is now complete locally and documented in the
+[generation-failure investigation protocol](MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1.md).
+Its only next gate is a still-model-free investigation implementation/result;
+protocol freeze is not investigation execution.
 
 If model-free investigation cannot isolate the boundary, any later diagnostic
 execution must be a separately preregistered experiment with a new identity

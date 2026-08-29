@@ -254,6 +254,18 @@ MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_BYTES = 11_920
 MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_SHA256 = (
     "sha256:169c78c7337eca32de8769c8598b9f514e2acc33a04ec50a0fdc4bc5a3895197"
 )
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_PATH = (
+    ROOT
+    / "configs"
+    / (
+        "mm005_browser_research_model_evaluation_generation_failure_"
+        "investigation_protocol_v1.json"
+    )
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_BYTES = 33_476
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_SHA256 = (
+    "sha256:be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -633,6 +645,9 @@ def main() -> int:
     )
     mm005_browser_research_model_evaluation_failure_v2 = (
         _validate_mm005_browser_research_model_evaluation_failure_classification_v2()
+    )
+    mm005_browser_research_generation_failure_investigation = (
+        _validate_mm005_browser_research_generation_failure_investigation_protocol()
     )
     tests_run = _run_tests()
 
@@ -1613,6 +1628,30 @@ def main() -> int:
         ),
         "mm005_browser_research_model_evaluation_v2_next_gate": (
             mm005_browser_research_model_evaluation_failure_v2["next_gate"]
+        ),
+        "mm005_browser_research_generation_failure_investigation_protocol_frozen": (
+            mm005_browser_research_generation_failure_investigation[
+                "protocol_frozen"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_model_free": (
+            mm005_browser_research_generation_failure_investigation["model_free"]
+        ),
+        "mm005_browser_research_generation_failure_investigation_records": (
+            mm005_browser_research_generation_failure_investigation[
+                "diagnostic_records"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_target_record": (
+            mm005_browser_research_generation_failure_investigation["target_record"]
+        ),
+        "mm005_browser_research_generation_failure_investigation_executed": (
+            mm005_browser_research_generation_failure_investigation[
+                "investigation_executed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_investigation_next_gate": (
+            mm005_browser_research_generation_failure_investigation["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5869,6 +5908,148 @@ def _validate_mm005_browser_research_model_evaluation_failure_classification_v2(
         "model_evaluated": claims["model_evaluated"],
         "next_gate": action["gate_id"],
         "artifact_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_investigation_protocol() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_failure_classification_v2 as failure,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_investigation as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_investigation_protocol_v1 as builder,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_PATH,
+        "MM-005 Browser Research generation-failure investigation protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_PROTOCOL_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure investigation protocol hash mismatch"
+        )
+    raw = contract.parse_strict_json_bytes(
+        payload, location="$.generation_failure_investigation_protocol"
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser generation-failure investigation protocol is not canonical"
+        )
+    checked = contract.validate_preregistration(
+        raw,
+        freeze_status="frozen",
+        output_absent=True,
+        **builder.protocol_inputs(),
+    )
+    source_lineage = checked.get("source_lineage")
+    failure_boundary = checked.get("authenticated_failure_boundary")
+    control_flow = checked.get("historical_control_flow_boundary")
+    static_plan = checked.get("static_investigation_plan")
+    static_contract = checked.get("static_investigation_contract")
+    future = checked.get("future_diagnostic_experiment_policy")
+    authority = checked.get("authority_contract")
+    claims = checked.get("claims")
+    if not all(
+        isinstance(value, dict)
+        for value in (
+            source_lineage,
+            failure_boundary,
+            control_flow,
+            static_plan,
+            static_contract,
+            future,
+            authority,
+            claims,
+        )
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure investigation sections are invalid"
+        )
+    assert isinstance(source_lineage, dict)
+    assert isinstance(failure_boundary, dict)
+    assert isinstance(control_flow, dict)
+    assert isinstance(static_plan, dict)
+    assert isinstance(static_contract, dict)
+    assert isinstance(future, dict)
+    assert isinstance(authority, dict)
+    assert isinstance(claims, dict)
+    registry = static_plan.get("record_registry")
+    rubric = static_plan.get("decision_rubric")
+    if not isinstance(registry, dict) or not isinstance(rubric, dict):
+        raise GateError("MM-005 Browser generation-failure static registry is invalid")
+    records = registry.get("records")
+    if (
+        checked.get("gate_id") != contract.GATE_ID
+        or checked.get("freeze_status") != "frozen"
+        or source_lineage.get("classification_merge_commit")
+        != contract.CLASSIFICATION_MERGE_COMMIT
+        or len(source_lineage.get("protocol_sources", {}))
+        != len(contract.PROTOCOL_SOURCE_PATHS)
+        or failure_boundary.get("event_count") != failure.EXPECTED_EVENT_COUNT
+        or failure_boundary.get("active_record_id") != contract.TARGET_RECORD_ID
+        or failure_boundary.get("completed_record_ids")
+        != list(contract.COMPLETED_PREFIX_CONTROL_IDS)
+        or failure_boundary.get("root_cause_authenticated") is not False
+        or control_flow.get("durably_authenticated_through")
+        != "generation_started_checkpoint_durably_persisted"
+        or control_flow.get("historical_root_cause_inferred_from_static_control_flow")
+        is not False
+        or static_plan.get("model_free") is not True
+        or static_plan.get("pure_static_and_canonical_reconstruction_only") is not True
+        or not isinstance(records, list)
+        or len(records) != 7
+        or records[0].get("record_id") != contract.TARGET_RECORD_ID
+        or records[0].get("case_order_index") != contract.TARGET_CASE_ORDER_INDEX
+        or records[0].get("dataset_record_index")
+        != contract.TARGET_DATASET_RECORD_INDEX
+        or records[0].get("runtime_message_transport_projection")
+        != records[0].get("prompt_projection")
+        or rubric.get("allowed_outcomes") != list(contract.DECISION_OUTCOMES)
+        or rubric.get("outcome_selected_at_protocol_freeze") is not None
+        or rubric.get("static_difference_does_not_establish_causality") is not True
+        or static_contract.get("fixed_result_path") != contract.RESULT_PATH
+        or static_contract.get("implementation_source_frozen_by_this_protocol")
+        is not False
+        or static_contract.get("model_import_or_call") is not False
+        or static_contract.get("processor_load_or_call") is not False
+        or static_contract.get("cuda") is not False
+        or static_contract.get("network") is not False
+        or future.get("currently_justified") is not False
+        or future.get("execution_authorized") is not False
+        or future.get("new_identity_and_output_required") is not True
+        or authority.get("model_or_cuda_execution_authorized") is not False
+        or authority.get("processor_execution_authorized") is not False
+        or authority.get("v1_or_v2_retry_authorized") is not False
+        or claims.get("investigation_protocol_frozen") is not True
+        or claims.get("investigation_executed") is not False
+        or claims.get("static_root_cause_reproduced") is not False
+        or claims.get("failed_runtime_substage_isolated") is not False
+        or claims.get("recovery_v3_justified") is not False
+        or claims.get("model_evaluated") is not False
+        or checked.get("next_gate") != contract.INVESTIGATION_GATE_ID
+        or checked.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure investigation boundary mismatch"
+        )
+    return {
+        "protocol_frozen": claims["investigation_protocol_frozen"],
+        "model_free": static_plan["model_free"],
+        "diagnostic_records": len(records),
+        "target_record": records[0]["record_id"],
+        "investigation_executed": claims["investigation_executed"],
+        "next_gate": checked["next_gate"],
+        "protocol_sha256": digest,
     }
 
 

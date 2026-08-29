@@ -1210,11 +1210,23 @@ repair. Its one formal v2 execution is now consumed: three records completed,
 the fourth generation-start checkpoint persisted, and the Python handler wrote
 an authenticated `RuntimeError` failure terminal. The raw owner/progress/failure
 artifacts and model-free derived classification preserve that exact boundary;
-they authorize no retry, result, root-cause, or Runtime claim. Validating and
-publishing the v2 classification is the single active objective. Only after a
-clean merge, both branch copies are deleted, and `master == origin/master` may
-the separate model-free generation-failure investigation protocol become
-active.
+they authorize no retry, result, root-cause, or Runtime claim. PR #72 published
+that exact classification as signed squash commit
+`e52060ff82b62f6042ec371b72f011e5fa5c0681` with clean checks, review state,
+merge state, and branch cleanup.
+
+The separate 33,476-byte
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`
+is now complete locally. It binds the PR #72 lineage, exact fourth record,
+three authenticated completed-prefix controls, three same-shape static
+controls, Adapter/model-payload/prompt/image receipts, opaque-sentinel runtime
+message reconstruction, the durable-checkpoint boundary, and an
+outcome-neutral decision rubric. It runs no processor, model, CUDA, network,
+browser, retry, recovery, training, or Runtime path and creates no investigation
+result. Validating and publishing this protocol is the single active objective.
+Only after a clean merge, both branch copies are deleted, and
+`master == origin/master` may its model-free static investigation successor
+become active.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

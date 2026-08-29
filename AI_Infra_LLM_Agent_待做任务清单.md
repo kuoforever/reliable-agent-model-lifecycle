@@ -1167,14 +1167,29 @@ complete unified gates 各通过 913 tests、4 个预期 Windows privilege skips
 files，且 `valid=true`。type-strict validator 额外拒绝 Python 原本相等的 `false`/`0` 与
 `true`/`1` substitutions。
 
-当前唯一 gate 切换为 model-free
-`MM-005-browser-research-model-evaluation-failure-classification-v2`：只允许验证并发布 exact raw
-evidence、derived classification 与 canonical tracker；不得运行 model/CUDA、recovery 或 v2 retry。
-该 classification clean merge、branch cleanup 且 `master == origin/master` 后，唯一 successor 才可
-切换为
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`。successor
-必须先冻结第四条 record/prompt/input 的 model-free diagnostics；只有仍无法隔离时，才可另行注册新
-identity/output 的 diagnostic experiment，绝不能复用 v2 output。
+PR #72 已将该 exact classification 以 signed squash commit
+`e52060ff82b62f6042ec371b72f011e5fa5c0681` 发布；six Linux Python-matrix checks、review/comment/
+thread/conflict state、merge-tree equality 与双端 branch cleanup 均已确认，successor 开始前 local
+`master == origin/master`。
+
+33,476-byte model-free
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1` 已 complete
+locally，SHA-256 为
+`be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`。它冻结 PR #72 lineage、
+exact fourth record、3 个 authenticated completed-prefix controls、3 个 same-shape static controls、
+Adapter/model-payload/prompt/image receipts、opaque-sentinel runtime-message reconstruction、durable
+checkpoint boundary 与 outcome-neutral rubric；未执行 investigation，也未运行或授权 processor/model/
+CUDA/network/browser/retry/recovery/training/Runtime。
+16/16 focused adversarial tests 在本机 CPython 3.11.15、3.12.12、3.13.7 均通过；三个 complete
+unified gates 各通过 929 tests、4 个预期 Windows privilege skips、73 audited source files，且
+`valid=true`。Ruff 0.15.22、三份新 Python 文件的 Ruff format check、contract/builder scoped strict
+Mypy 2.3.0、`py_compile`、protocol `--check` 与 `git diff --check` 均通过。
+
+当前唯一 gate 切换为该 investigation protocol 的验证与发布。其 clean merge、branch cleanup 且
+`master == origin/master` 后，唯一 successor 才可切换为纯静态
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`。只有该静态结果验证后仍
+inconclusive，才可另行冻结新 identity/output 的 diagnostic-experiment protocol；不得复用或重试
+v2，且本 protocol 不授权 diagnostic execution 或 recovery-v3。
 
 ## TOOL-001：工具 Schema 与任务定义
 
