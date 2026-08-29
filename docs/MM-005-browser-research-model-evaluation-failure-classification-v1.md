@@ -1,7 +1,7 @@
 # MM-005 Browser Research model-evaluation failure classification v1
 
-> **Result: COMPLETE LOCALLY — the registered v1 attempt is consumed, but no
-> authenticated terminal measurement exists and no retry is authorized.**
+> **Result: PUBLISHED THROUGH PR #70 — the registered v1 attempt is consumed,
+> but no authenticated terminal measurement exists and no retry is authorized.**
 
 ## Observed lifecycle
 
@@ -117,3 +117,10 @@ fail-closed claims, v2 identity, and artifact tamper. Local CPython 3.11.15,
 3.12.12, and 3.13.7 each pass the complete 877-test unified gate with four
 expected Windows privilege skips, 69 audited source files, and `valid=true`.
 This validation is model-free and does not consume another attempt.
+
+PR #70 published the exact classification as signed squash commit
+`28211e62d907c16a6d2208bca20f139ee7e31f5f`. All six Linux Python 3.11/3.12/3.13
+matrix checks passed; no review, issue comment, review comment, merge conflict,
+or other blocking finding existed. The merge tree matched the feature tree
+exactly, both feature-branch copies were deleted, and local
+`master == origin/master` before the separate recovery-v2 protocol was frozen.
