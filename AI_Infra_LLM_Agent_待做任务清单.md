@@ -1122,21 +1122,59 @@ quality/safety、model/training/resource/cross-machine repeatability、Serving/p
 review/comment/thread/conflict，merge tree 与 feature tree 完全一致，远近 feature branch 已删除，
 且 local `master == origin/master` 后才开始 v2 freeze。
 
-当前唯一 gate 是 model-free
-`MM-005-browser-research-model-evaluation-recovery-protocol-v2`。120,315-byte canonical config 的
-SHA-256 为 `512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`；它 exact
-保留 12 个 v1 semantic subtrees，绑定 18 个 protocol-source receipts，并通过独立
+Model-free
+`MM-005-browser-research-model-evaluation-recovery-protocol-v2` 已冻结为 120,315-byte canonical
+config，其 SHA-256 为
+`512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e`；它 exact 保留 12 个
+v1 semantic subtrees，绑定 18 个 protocol-source receipts，并通过独立
 `source_lineage.recovery_lineage` 绑定 immutable v1 preregistration、tracked owner、classification
 与 published commit lineage。它只增加新 experiment/output/source closure、long-path-safe
-`git cat-file blob` lineage、atomic owner+genesis/lifecycle-marker publish、
-named lifecycle lease、append-only SHA-256-chained durable progress 与 model-free exact terminal
-repair。21/21 focused adversarial tests、Ruff、Ruff format check、strict Mypy、`py_compile` 与
-protocol `--check` 已通过；本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates
-均通过 898 tests、4 个预期 Windows privilege skips、71 audited source files，且
-`valid=true`。v2 output/lifecycle roots 仍 absent，`attempt_consumed=false`、
-`model_evaluated=false`，且没有 result/quality claim。
-该 protocol clean merge、branch cleanup 且 `master == origin/master` 后，唯一 successor 才可切换为
-`MM-005-browser-research-model-evaluation-execution-v2`；v2 是新 experiment，绝不是 v1 retry。
+`git cat-file blob` lineage、atomic owner+genesis/lifecycle-marker publish、named lifecycle lease、
+append-only SHA-256-chained durable progress 与 model-free exact terminal repair。21/21 focused
+adversarial tests、Ruff、Ruff format check、strict Mypy、`py_compile` 与 protocol `--check` 已通过；
+本机 CPython 3.11.15、3.12.12、3.13.7 complete unified gates 均通过 898 tests、4 个预期 Windows
+privilege skips、71 audited source files，且 `valid=true`。冻结时 v2 output/lifecycle roots
+absent、`attempt_consumed=false`、`model_evaluated=false`，且没有 result/quality claim。PR #71
+已将 exact protocol clean merge 为 signed squash commit
+`91b637c6b365ea8632b31335f5c74ac6c60e6b71`；6/6 Linux matrix checks 通过，0
+review/comment/thread/conflict，merge tree 与 feature tree 完全一致，远近 feature branch 已删除，
+且 local `master == origin/master` 后才执行。
+
+完整 frozen preflight 通过后，registered v2 command 于 2026-08-29 exact 执行一次。它完成 1 次
+fresh base load、1 次 independent Adapter load、前三个 frozen records，并在第四条只持久化到
+`generation_started` checkpoint；随后 Python exception handler 写入 authenticated
+`stage=generation`、`exception_type=RuntimeError` terminal。consumed directory 恰有 938-byte
+owner、22,782-byte / 14-frame progress 与 2,675-byte failure；candidate/predictions/evidence
+均 absent。generate attempts/completions 为 `4/3`、screenshot inputs 为 `9`，retry/network/
+training/backward/optimizer/Adapter-write/model-save 均为 `0`。terminal 已完整落盘，因此未运行
+recovery command，v2 attempt 不得 retry。
+
+三份 raw artifacts 已 byte-for-byte tracked；SHA-256 分别为
+`a80cf6a2a9142fdfbc7a92646498a05e5036fc13227af88470297b98990aad87`、
+`a19709eb55fedc248eed32c1acbe9dbf0caa61f2cfc1a9ae7f5cf16b2a9a70b1`、
+`46f3968482567db2810237c277f65d982ce9518f829c43ad96bd1fc7d2776bc7`。11,920-byte model-free
+classification SHA-256 为
+`169c78c7337eca32de8769c8598b9f514e2acc33a04ec50a0fdc4bc5a3895197`，internal report digest 为
+`sha256:425bcf20cdab6a70d2bf67ed9bdbd19bddc3c9020bdd99800fedac8d6c9bcbe1`。classification 为
+`generation_stage_runtime_error_after_three_completed_calls_before_fourth_completion`，category 为
+`generation_pipeline_runtime_failure_without_attributable_substage`。protocol 未持久化 exception
+message、traceback 或 generation substage；controller console 中与 CUDA illegal-memory-access
+一致的文本只保留为 non-authenticated observation，不能归因 CUDA/GPU/driver/OOM/model/Adapter/
+data/prompt/processor/compiler/Verifier/runner。formal measurement/result/model evaluation、quality/
+safety/repeatability/Serving/promotion/Runtime claims 全部保持 false。
+15/15 focused adversarial tests 在本机 CPython 3.11.15、3.12.12、3.13.7 均通过；三个
+complete unified gates 各通过 913 tests、4 个预期 Windows privilege skips、72 audited source
+files，且 `valid=true`。type-strict validator 额外拒绝 Python 原本相等的 `false`/`0` 与
+`true`/`1` substitutions。
+
+当前唯一 gate 切换为 model-free
+`MM-005-browser-research-model-evaluation-failure-classification-v2`：只允许验证并发布 exact raw
+evidence、derived classification 与 canonical tracker；不得运行 model/CUDA、recovery 或 v2 retry。
+该 classification clean merge、branch cleanup 且 `master == origin/master` 后，唯一 successor 才可
+切换为
+`MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1`。successor
+必须先冻结第四条 record/prompt/input 的 model-free diagnostics；只有仍无法隔离时，才可另行注册新
+identity/output 的 diagnostic experiment，绝不能复用 v2 output。
 
 ## TOOL-001：工具 Schema 与任务定义
 

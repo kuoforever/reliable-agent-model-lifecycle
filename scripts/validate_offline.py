@@ -245,6 +245,15 @@ MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_BYTES = 120_315
 MM005_BROWSER_RESEARCH_MODEL_EVALUATION_RECOVERY_PROTOCOL_SHA256 = (
     "sha256:512b3523196bf80e7e137c7777c205fa92a57acf371464f3f65671c406706c2e"
 )
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_PATH = (
+    ROOT
+    / "baseline"
+    / "mm005-browser-research-model-eval-v2-failure-classification.json"
+)
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_BYTES = 11_920
+MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_SHA256 = (
+    "sha256:169c78c7337eca32de8769c8598b9f514e2acc33a04ec50a0fdc4bc5a3895197"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -621,6 +630,9 @@ def main() -> int:
     )
     mm005_browser_research_model_evaluation_recovery = (
         _validate_mm005_browser_research_model_evaluation_recovery_protocol_v2()
+    )
+    mm005_browser_research_model_evaluation_failure_v2 = (
+        _validate_mm005_browser_research_model_evaluation_failure_classification_v2()
     )
     tests_run = _run_tests()
 
@@ -1558,6 +1570,49 @@ def main() -> int:
         ),
         "mm005_browser_research_model_evaluation_recovery_next_gate": (
             mm005_browser_research_model_evaluation_recovery["next_gate"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_failure_classification": (
+            mm005_browser_research_model_evaluation_failure_v2["classification"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_attempt_consumed": (
+            mm005_browser_research_model_evaluation_failure_v2["attempt_consumed"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_exact_progress_known": (
+            mm005_browser_research_model_evaluation_failure_v2[
+                "exact_progress_known"
+            ]
+        ),
+        "mm005_browser_research_model_evaluation_v2_progress_frames": (
+            mm005_browser_research_model_evaluation_failure_v2["progress_frames"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_generate_attempts": (
+            mm005_browser_research_model_evaluation_failure_v2["generate_attempts"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_generate_calls": (
+            mm005_browser_research_model_evaluation_failure_v2["generate_calls"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_completed_records": (
+            mm005_browser_research_model_evaluation_failure_v2["completed_records"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_screenshot_inputs": (
+            mm005_browser_research_model_evaluation_failure_v2["screenshot_inputs"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_failure_stage": (
+            mm005_browser_research_model_evaluation_failure_v2["failure_stage"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_failure_exception_type": (
+            mm005_browser_research_model_evaluation_failure_v2["exception_type"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_formal_gate_passed": (
+            mm005_browser_research_model_evaluation_failure_v2[
+                "formal_gate_passed"
+            ]
+        ),
+        "mm005_browser_research_model_evaluation_v2_model_evaluated": (
+            mm005_browser_research_model_evaluation_failure_v2["model_evaluated"]
+        ),
+        "mm005_browser_research_model_evaluation_v2_next_gate": (
+            mm005_browser_research_model_evaluation_failure_v2["next_gate"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5660,13 +5715,6 @@ def _validate_mm005_browser_research_model_evaluation_recovery_protocol_v2() -> 
         raise GateError(
             "MM-005 Browser model-evaluation recovery protocol is not canonical JSON"
         )
-    if os.path.lexists(ROOT / contract.RUN_OUTPUT_ROOT) or os.path.lexists(
-        ROOT / contract.LIFECYCLE_LEASE_ROOT
-    ):
-        raise GateError(
-            "MM-005 Browser model-evaluation recovery attempt already started"
-        )
-
     inputs = prepare.protocol_inputs(freeze_output_absent=True)
     expected = contract.validate_preregistration(raw, **inputs)
     recovery_lineage = raw.get("source_lineage", {}).get("recovery_lineage")
@@ -5732,6 +5780,95 @@ def _validate_mm005_browser_research_model_evaluation_recovery_protocol_v2() -> 
         "model_evaluated": claims["model_evaluated"],
         "next_gate": raw["next_gate"],
         "protocol_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_model_evaluation_failure_classification_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_failure_classification_v2 as failure,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_protocol_v2 as contract,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_PATH,
+        "MM-005 Browser Research model-evaluation failure classification v2",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation v2 failure classification hash mismatch"
+        )
+    raw = _load_json_payload(
+        payload,
+        MM005_BROWSER_RESEARCH_MODEL_EVALUATION_FAILURE_CLASSIFICATION_V2_PATH,
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser model-evaluation v2 classification is not canonical JSON"
+        )
+    checked = failure.validate_failure_classification(ROOT, raw)
+    local = failure.verify_local_consumed_tree_if_present(ROOT)
+    progress = checked.get("authenticated_progress")
+    observed_failure = checked.get("failure")
+    claims = checked.get("claims")
+    action = checked.get("locked_next_action")
+    if (
+        not isinstance(progress, dict)
+        or not isinstance(observed_failure, dict)
+        or not isinstance(claims, dict)
+        or not isinstance(action, dict)
+        or checked.get("gate_id") != failure.CLASSIFICATION_GATE_ID
+        or checked.get("failed_gate_id") != failure.FAILED_GATE_ID
+        or progress.get("event_count") != failure.EXPECTED_EVENT_COUNT
+        or progress.get("terminal_sequence") != failure.EXPECTED_EVENT_COUNT - 1
+        or progress.get("last_event") != "failure_terminal_ready"
+        or progress.get("active_record_id") != failure.FAILED_RECORD_ID
+        or progress.get("completed_record_ids")
+        != list(failure.COMPLETED_RECORD_IDS)
+        or progress.get("counters") != failure.EXPECTED_COUNTERS
+        or observed_failure.get("stage") != "generation"
+        or observed_failure.get("exception_type") != "RuntimeError"
+        or observed_failure.get("root_cause_authenticated") is not False
+        or claims.get("attempt_consumed") is not True
+        or claims.get("evaluation_executed") is not False
+        or claims.get("formal_measurement_complete") is not False
+        or claims.get("model_evaluated") is not False
+        or checked.get("formal_gate_passed") is not False
+        or action.get("gate_id") != failure.NEXT_GATE_ID
+        or action.get("protocol_freeze_is_model_free") is not True
+        or action.get("model_or_cuda_execution_authorized_by_classification")
+        is not False
+        or local.get("tracked_artifacts_valid") is not True
+        or checked.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "MM-005 Browser model-evaluation v2 failure boundary mismatch"
+        )
+    counters = progress["counters"]
+    return {
+        "classification": observed_failure["classification"],
+        "attempt_consumed": claims["attempt_consumed"],
+        "exact_progress_known": True,
+        "progress_frames": progress["event_count"],
+        "generate_attempts": counters["generate_attempts"],
+        "generate_calls": counters["generate_calls"],
+        "completed_records": progress["completed_record_count"],
+        "screenshot_inputs": counters["screenshot_inputs"],
+        "failure_stage": observed_failure["stage"],
+        "exception_type": observed_failure["exception_type"],
+        "formal_gate_passed": checked["formal_gate_passed"],
+        "model_evaluated": claims["model_evaluated"],
+        "next_gate": action["gate_id"],
+        "artifact_sha256": digest,
     }
 
 

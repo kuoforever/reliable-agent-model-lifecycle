@@ -1,7 +1,8 @@
 # MM-005 Browser Research model-evaluation recovery protocol v2
 
-> **Result: FROZEN LOCALLY — the recovery protocol is model-free and validated;
-> no v2 attempt has been consumed and no model has been evaluated.**
+> **Result: PUBLISHED THROUGH PR #71 — the recovery protocol was frozen before
+> execution; its one v2 attempt is now consumed with an authenticated partial
+> progress journal and failure terminal, and no retry or result is authorized.**
 
 ## Why v2 exists
 
@@ -108,7 +109,8 @@ interrupted generation. Its only authority is to finish persistence of a
 terminal artifact whose complete canonical content is already determined by
 authenticated v2 checkpoints.
 
-After this protocol is published and merged, the registered commands are:
+After this protocol was published and merged as signed squash commit
+`91b637c6b365ea8632b31335f5c74ac6c60e6b71`, its registered commands were:
 
 ```powershell
 work\training-env\Scripts\python.exe -I -B -X pycache_prefix=NUL scripts\run_mm005_browser_research_model_evaluation_v2.py --protocol-freeze-commit <merged-protocol-commit>
@@ -118,7 +120,32 @@ work\training-env\Scripts\python.exe -I -B -X pycache_prefix=NUL scripts\recover
 
 The recovery command is applicable only after an interrupted v2 process has
 released the lifecycle lease. Neither command is authorized from a feature
-branch or before `master == origin/master == <merged-protocol-commit>`.
+branch or before `master == origin/master == <merged-protocol-commit>`. The
+formal runner completed its own exception handling, so the recovery command
+was not applicable and was not run.
+
+## Formal execution outcome
+
+PR #71 passed all six Linux Python-matrix checks with no review, comment,
+thread, conflict, or merge blocker. Its merge tree matched the feature tree,
+both branch copies were deleted, and local `master` was aligned with
+`origin/master` before formal execution.
+
+The registered v2 command was invoked exactly once on 2026-08-29 after the
+complete frozen preflight passed. It durably recorded one completed fresh base
+load, one completed independent Adapter load, three completed records in exact
+frozen order, nine screenshot inputs, and the fourth `generation_started`
+checkpoint. It then persisted a safe `RuntimeError` failure terminal for the
+broad `generation` stage. The consumed directory contains exactly
+`attempt-owner.json`, `progress.json`, and `failure.json`; candidate,
+predictions, and evidence are absent.
+
+This outcome proves that the durable journal and Python terminal-persistence
+path worked. It does not authenticate the failed runtime substage or root
+cause. Controller console text consistent with a CUDA illegal-memory-access
+error was not persisted and is excluded from the formal causal classification.
+The attempt must not be retried. See the
+[v2 failure classification](MM-005-browser-research-model-evaluation-failure-classification-v2.md).
 
 ## Validation and claim boundary
 
@@ -132,10 +159,13 @@ protocol `--check` pass. Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass
 all 21 focused tests and the complete 898-test unified gate with four expected
 Windows privilege skips, 71 audited source files, and `valid=true`.
 
-At freeze, the v2 output and lifecycle roots are absent,
+At freeze, the v2 output and lifecycle roots were absent,
 `attempt_consumed=false`, and `model_evaluated=false`. No Browser Research v2
 measurement, result, quality, safety, repeatability, resource, cross-machine,
 Serving, promotion, live-browser/network, real-content, capture, training, or
-Runtime claim is established. The only next gate after a clean protocol merge,
-branch cleanup, and aligned `master` is
-`MM-005-browser-research-model-evaluation-execution-v2`.
+Runtime claim was established. The later one-shot execution is now consumed;
+`formal_measurement_complete=false`, `evaluation_executed=false`, and
+`model_evaluated=false` remain exact. The current next gate is the model-free
+`MM-005-browser-research-model-evaluation-failure-classification-v2`; its
+successor, only after classification publication and cleanup, is the separate
+generation-failure investigation protocol.
