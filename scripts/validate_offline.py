@@ -667,9 +667,10 @@ def main() -> int:
         mm005_browser_research_generation_failure_investigation,
         mm005_browser_research_generation_failure_investigation_implementation,
     ) = _validate_mm005_browser_research_generation_failure_investigation_state()
-    mm005_browser_research_generation_failure_diagnostic = (
-        _validate_mm005_browser_research_generation_failure_diagnostic_protocol()
-    )
+    (
+        mm005_browser_research_generation_failure_diagnostic,
+        mm005_browser_research_generation_failure_diagnostic_implementation,
+    ) = _validate_mm005_browser_research_generation_failure_diagnostic_state()
     tests_run = _run_tests()
 
     result = {
@@ -1733,7 +1734,9 @@ def main() -> int:
             mm005_browser_research_generation_failure_diagnostic["output_absent"]
         ),
         "mm005_browser_research_generation_failure_diagnostic_executed": (
-            mm005_browser_research_generation_failure_diagnostic["diagnostic_executed"]
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "diagnostic_executed"
+            ]
         ),
         "mm005_browser_research_generation_failure_diagnostic_new_identity_and_output": (
             mm005_browser_research_generation_failure_diagnostic[
@@ -1741,13 +1744,129 @@ def main() -> int:
             ]
         ),
         "mm005_browser_research_generation_failure_diagnostic_checkpoint_count": (
-            mm005_browser_research_generation_failure_diagnostic["checkpoint_count"]
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "checkpoint_count"
+            ]
         ),
         "mm005_browser_research_generation_failure_diagnostic_next_gate": (
-            mm005_browser_research_generation_failure_diagnostic["next_gate"]
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "next_gate"
+            ]
         ),
         "mm005_browser_research_generation_failure_diagnostic_runtime_eligible": (
-            mm005_browser_research_generation_failure_diagnostic["runtime_eligible"]
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "runtime_eligible"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_contract_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "implementation_contract_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_check_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "implementation_check_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_runner_plan_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "runner_plan_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_runner_check_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "runner_check_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_source_files": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "implementation_source_files"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_execution_authority_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "execution_authority_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_execution_authority_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "execution_authority_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_execution_authority_published": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "execution_authority_published"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_attempt_owner_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "attempt_owner_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_progress_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "progress_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_success_result_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "success_result_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_failure_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "failure_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_lifecycle_lease_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "lifecycle_lease_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_reserved_sibling_staging_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "reserved_sibling_staging_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_terminal_reconciliation_required": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "terminal_reconciliation_required"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "result_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_schema_frozen": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "result_and_failure_schema_frozen"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_execution_authorized": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "diagnostic_execution_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_execution_path_invoked": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "execution_path_invoked_by_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_formal_execution_eligible": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "formal_execution_eligible"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_attempt_consumed": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "diagnostic_attempt_consumed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_selected_outcome": (
+            mm005_browser_research_generation_failure_diagnostic_implementation[
+                "selected_outcome"
+            ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -6259,6 +6378,379 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_protocol() ->
         "next_gate": checked["next_gate"],
         "runtime_eligible": checked["runtime_eligible"],
         "protocol_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_state() -> (
+    tuple[dict[str, Any], dict[str, Any]]
+):
+    protocol_summary = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_protocol()
+    )
+    implementation = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_implementation()
+    )
+    if (
+        protocol_summary.get("protocol_frozen") is not True
+        or protocol_summary.get("next_gate")
+        != implementation.get("implementation_gate_id")
+        or protocol_summary.get("protocol_sha256")
+        != implementation.get("protocol_sha256")
+        or implementation.get("diagnostic_executed") is not False
+        or implementation.get("execution_path_invoked_by_gate") is not False
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic state boundary mismatch"
+        )
+    return protocol_summary, implementation
+
+
+def _mm005_generation_failure_diagnostic_runtime_presence(
+    *, protocol: Any, contract: Any, runner: Any
+) -> dict[str, bool]:
+    output_paths = {
+        "execution_authority": contract.EXECUTION_AUTHORITY_PATH,
+        "output_root": protocol.RUN_OUTPUT_ROOT,
+        "attempt_owner": protocol.ATTEMPT_OWNER_PATH,
+        "progress": protocol.PROGRESS_PATH,
+        "success_result": protocol.SUCCESS_RESULT_PATH,
+        "failure": protocol.FAILURE_PATH,
+        "lifecycle_lease_root": protocol.LIFECYCLE_LEASE_ROOT,
+        "lifecycle_lease": protocol.LIFECYCLE_LEASE_PATH,
+    }
+    observed = {
+        name: os.path.lexists(ROOT / relative)
+        for name, relative in output_paths.items()
+    }
+    observed["reserved_sibling_staging"] = bool(
+        runner._reserved_sibling_staging_names()
+    )
+    return observed
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_implementation() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic as protocol,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result as contract,
+    )
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v1 as runner,
+    )
+
+    before = _mm005_generation_failure_diagnostic_runtime_presence(
+        protocol=protocol, contract=contract, runner=runner
+    )
+    if any(before.values()):
+        raise GateError(
+            "MM-005 diagnostic implementation freeze requires authority and outputs absent"
+        )
+
+    specification = contract.result_contract()
+    plan_contract = contract.execution_plan()
+    protocol_binding = specification.get("protocol_binding")
+    authority = specification.get("execution_authority_contract")
+    owner = specification.get("owner_contract")
+    journal = specification.get("journal_contract")
+    terminal = specification.get("terminal_contract")
+    result_schema = specification.get("result_schema")
+    failure_schema = specification.get("failure_schema")
+    selection = specification.get("outcome_selection")
+    claims = specification.get("claims_contract")
+    publication = specification.get("publication_contract")
+    sections = (
+        protocol_binding,
+        authority,
+        owner,
+        journal,
+        terminal,
+        result_schema,
+        failure_schema,
+        selection,
+        claims,
+        publication,
+    )
+    if not all(isinstance(section, dict) for section in sections):
+        raise GateError("MM-005 diagnostic implementation contract sections are invalid")
+    assert isinstance(protocol_binding, dict)
+    assert isinstance(authority, dict)
+    assert isinstance(owner, dict)
+    assert isinstance(journal, dict)
+    assert isinstance(terminal, dict)
+    assert isinstance(result_schema, dict)
+    assert isinstance(failure_schema, dict)
+    assert isinstance(selection, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(publication, dict)
+
+    expected_sources = {
+        "diagnostic_result_contract": (
+            "src/fullcycle_bridge/mm005_browser_research_model_evaluation_"
+            "generation_failure_diagnostic_result.py"
+        ),
+        "diagnostic_runner": (
+            "scripts/run_mm005_browser_research_model_evaluation_generation_"
+            "failure_diagnostic_v1.py"
+        ),
+        "diagnostic_result_tests": (
+            "tests/test_mm005_browser_research_model_evaluation_generation_"
+            "failure_diagnostic_result.py"
+        ),
+    }
+    expected_next_gate = (
+        "MM-005-browser-research-model-evaluation-generation-failure-"
+        "diagnostic-execution-authority-v1"
+    )
+    if (
+        specification.get("result_version") != 1
+        or specification.get("failure_version") != 1
+        or specification.get("attempt_owner_version") != 1
+        or specification.get("progress_version") != 1
+        or specification.get("execution_authority_version") != 1
+        or specification.get("gate_id") != protocol.IMPLEMENTATION_GATE_ID
+        or specification.get("next_gate_id") != expected_next_gate
+        or specification.get("reserved_execution_gate_id")
+        != contract.EXECUTION_GATE_ID
+        or contract.GATE_ID != protocol.IMPLEMENTATION_GATE_ID
+        or contract.PROTOCOL_MERGE_COMMIT
+        != "9c90c5e68d4386b30db613930ec7dc0147999c04"
+        or contract.PROTOCOL_BYTES
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_BYTES
+        or contract.PROTOCOL_SHA256
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_SHA256
+        or contract.IMPLEMENTATION_SOURCE_PATHS != expected_sources
+        or specification.get("critical_execution_dependency_source_paths")
+        != dict(contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS)
+        or specification.get("execution_authority_slice_paths")
+        != sorted(contract.EXECUTION_AUTHORITY_SLICE_PATHS)
+        or len(contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS) != 4
+        or len(contract.EXECUTION_AUTHORITY_SLICE_PATHS) != 10
+        or protocol_binding.get("merge_commit") != contract.PROTOCOL_MERGE_COMMIT
+        or protocol_binding.get("path") != protocol.PREREGISTRATION_PATH
+        or protocol_binding.get("bytes") != contract.PROTOCOL_BYTES
+        or protocol_binding.get("sha256") != contract.PROTOCOL_SHA256
+        or protocol_binding.get("all_thirteen_protocol_sources_bound_to_merge_blobs")
+        is not True
+        or authority.get("fixed_path") != contract.EXECUTION_AUTHORITY_PATH
+        or authority.get("separate_clean_merge_required") is not True
+        or authority.get("critical_execution_dependency_receipts_required")
+        is not True
+        or authority.get("authority_path_has_one_first_parent_introduction_commit")
+        is not True
+        or authority.get("authority_gate_has_exact_reviewed_slice_delta") is not True
+        or authority.get("execute_head_must_equal_authority_introduction_commit")
+        is not True
+        or authority.get("reconcile_head_must_equal_authority_introduction_commit")
+        is not True
+        or authority.get("clean_aligned_master_and_origin_master_required") is not True
+        or authority.get("assume_unchanged_or_skip_worktree_index_flags_forbidden")
+        is not True
+        or authority.get("git_fsmonitor_disabled_for_all_execution_checks")
+        is not True
+        or authority.get("implementation_gate_may_not_create_this_artifact")
+        is not True
+        or owner.get("lease_acquired_before_owner_claim") is not True
+        or owner.get("owner_and_genesis_published_atomically") is not True
+        or owner.get("reserved_sibling_staging_blocks_a_new_claim") is not True
+        or owner.get("formal_invocation_budget") != 1
+        or owner.get("retry_budget") != 0
+        or journal.get("session_lifecycle_events")
+        != list(protocol.SESSION_LIFECYCLE_EVENTS)
+        or journal.get("case_order") != list(protocol.DIAGNOSTIC_CASE_ORDER)
+        or journal.get("durable_checkpoint_events")
+        != list(protocol.DIAGNOSTIC_CHECKPOINTS)
+        or journal.get("per_record_checkpoint_count") != 18
+        or journal.get("maximum_checkpoint_count") != 126
+        or journal.get("no_frame_after_terminal") is not True
+        or terminal.get("success_and_failure_mutually_exclusive") is not True
+        or terminal.get("success_requires_exact_7_record_126_checkpoint_plan")
+        is not True
+        or terminal.get("failure_scopes") != list(contract.FAILURE_SCOPES)
+        or terminal.get("failure_allowed_text_fields") != ["exception_type"]
+        or terminal.get("message_traceback_args_absolute_path_or_secret_forbidden")
+        is not True
+        or result_schema.get("required_top_level_keys")
+        != list(contract.RESULT_REQUIRED_TOP_LEVEL_KEYS)
+        or result_schema.get("record_result_count") != 7
+        or result_schema.get("formal_result_gates")
+        != list(contract.FORMAL_RESULT_GATES)
+        or failure_schema.get("required_top_level_keys")
+        != list(contract.FAILURE_REQUIRED_TOP_LEVEL_KEYS)
+        or failure_schema.get("checkpoint_interval_is_not_causal_origin") is not True
+        or selection.get("allowed_outcomes") != list(protocol.ALLOWED_OUTCOMES)
+        or selection.get("precedence") != list(contract.OUTCOME_PRECEDENCE)
+        or selection.get("protocol_or_lineage_invalid_aborts_without_terminal_publication")
+        is not True
+        or selection.get("exactly_one_selected_after_valid_terminal") is not True
+        or any(value is not False for value in claims.values())
+        or publication.get("implementation_must_cleanly_merge_before_authority_freeze")
+        is not True
+        or publication.get("separate_execution_authority_and_resource_preflight_required")
+        is not True
+        or publication.get("clean_implementation_merge_alone_authorizes_execution")
+        is not False
+        or publication.get("plan_is_read_only") is not True
+        or publication.get("check_does_not_republish") is not True
+        or publication.get("zero_internal_retry") is not True
+        or publication.get("no_mutable_output_override") is not True
+    ):
+        raise GateError("MM-005 diagnostic implementation contract boundary mismatch")
+
+    selected_outcomes = {
+        contract.select_outcome(
+            protocol_and_lineage_valid=False,
+            terminal_kind=None,
+            failure_scope=None,
+        ),
+        contract.select_outcome(
+            protocol_and_lineage_valid=True,
+            terminal_kind="success",
+            failure_scope=None,
+        ),
+        contract.select_outcome(
+            protocol_and_lineage_valid=True,
+            terminal_kind="failure",
+            failure_scope="active_record_substage",
+        ),
+        *(
+            contract.select_outcome(
+                protocol_and_lineage_valid=True,
+                terminal_kind="failure",
+                failure_scope=scope,
+            )
+            for scope in contract.FAILURE_SCOPES
+            if scope != "active_record_substage"
+        ),
+    }
+    if selected_outcomes != set(protocol.ALLOWED_OUTCOMES):
+        raise GateError("MM-005 diagnostic outcome selection boundary mismatch")
+
+    runner_payload = _read_regular_file_once(
+        ROOT / expected_sources["diagnostic_runner"],
+        "MM-005 diagnostic implementation runner",
+    )
+    try:
+        runner_source = runner_payload.decode("utf-8")
+        runner_tree = ast.parse(
+            runner_source, filename=expected_sources["diagnostic_runner"]
+        )
+    except (UnicodeDecodeError, SyntaxError) as exc:
+        raise GateError("invalid MM-005 diagnostic implementation runner") from exc
+    heavy_modules = {"torch", "PIL", "transformers", "peft", "bitsandbytes"}
+    top_level_imports = {
+        alias.name.partition(".")[0]
+        for node in runner_tree.body
+        if isinstance(node, (ast.Import, ast.ImportFrom))
+        for alias in node.names
+    }
+    if (
+        top_level_imports & heavy_modules
+        or "add_mutually_exclusive_group(required=True)" not in runner_source
+        or 'if mode == "execute":' not in runner_source
+        or runner_source.index('if mode == "execute":')
+        >= runner_source.index("_output_topology()")
+        or "os.environ.get" in runner_source
+        or "diagnostic_execution_authorized=True" in runner_source
+        or "retry(" in runner_source.lower()
+    ):
+        raise GateError("MM-005 diagnostic runner authority boundary mismatch")
+
+    plan = runner.run(mode="plan")
+    check = runner.run(mode="check")
+    common_expected = {
+        "implementation_contract_valid": True,
+        "gate_id": contract.GATE_ID,
+        "next_gate_id": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "reserved_execution_gate_id": contract.EXECUTION_GATE_ID,
+        "protocol_merge_commit": contract.PROTOCOL_MERGE_COMMIT,
+        "protocol_sha256": contract.PROTOCOL_SHA256,
+        "implementation_source_files": len(expected_sources),
+        "result_and_failure_schema_frozen": True,
+        "maximum_checkpoint_count": 126,
+        "formal_execution_eligible": False,
+        "diagnostic_execution_authorized": False,
+        "diagnostic_attempt_consumed": False,
+        "diagnostic_executed": False,
+        "selected_outcome": None,
+        "model_processor_pil_torch_cuda_browser_network_authorized": False,
+        "recovery_v3_authorized": False,
+        "runtime_eligible": False,
+        "runner_check_valid": False,
+        "execution_path_invoked_by_gate": False,
+        "protocol_context_valid": True,
+        "protocol_source_files": 13,
+        "execution_authority_valid": False,
+        "execution_authority_published": False,
+        "execution_authority_present": False,
+        "attempt_owner_present": False,
+        "progress_present": False,
+        "success_result_present": False,
+        "failure_present": False,
+        "output_root_present": False,
+        "lifecycle_lease_present": False,
+        "reserved_sibling_staging_present": False,
+        "result_valid": False,
+        "terminal_reconciliation_required": False,
+        "contract_gate_id": contract.GATE_ID,
+    }
+    if any(
+        any(summary.get(name) != value for name, value in common_expected.items())
+        for summary in (plan, check)
+    ) or (
+        plan.get("plan_only") is not True
+        or plan.get("implementation_check_valid") is not False
+        or plan.get("runner_plan_valid") is not True
+        or check.get("plan_only") is not False
+        or check.get("implementation_check_valid") is not True
+        or check.get("runner_plan_valid") is not False
+        or plan.get("implementation_source_receipts")
+        != check.get("implementation_source_receipts")
+        or plan_contract.get("next_gate_id") != contract.EXECUTION_AUTHORITY_GATE_ID
+        or plan_contract.get("diagnostic_execution_authorized") is not False
+        or plan_contract.get("diagnostic_attempt_consumed") is not False
+        or plan_contract.get("diagnostic_executed") is not False
+        or plan_contract.get("selected_outcome") is not None
+    ):
+        raise GateError("MM-005 diagnostic runner read-only boundary mismatch")
+
+    after = _mm005_generation_failure_diagnostic_runtime_presence(
+        protocol=protocol, contract=contract, runner=runner
+    )
+    if after != before or any(after.values()):
+        raise GateError("MM-005 diagnostic implementation validation wrote output")
+    return {
+        "implementation_contract_valid": True,
+        "implementation_check_valid": True,
+        "runner_plan_valid": True,
+        "runner_check_valid": False,
+        "implementation_gate_id": contract.GATE_ID,
+        "implementation_source_files": len(expected_sources),
+        "execution_authority_valid": False,
+        "execution_authority_published": False,
+        "execution_authority_present": False,
+        "attempt_owner_present": False,
+        "progress_present": False,
+        "success_result_present": False,
+        "failure_present": False,
+        "output_root_present": False,
+        "lifecycle_lease_present": False,
+        "reserved_sibling_staging_present": False,
+        "result_valid": False,
+        "terminal_reconciliation_required": False,
+        "result_and_failure_schema_frozen": True,
+        "diagnostic_execution_authorized": False,
+        "execution_path_invoked_by_gate": False,
+        "formal_execution_eligible": False,
+        "diagnostic_attempt_consumed": False,
+        "diagnostic_executed": False,
+        "selected_outcome": None,
+        "checkpoint_count": protocol.FULL_SUCCESS_DURABLE_SUBSTAGE_EVENT_COUNT,
+        "next_gate": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "runtime_eligible": False,
+        "protocol_sha256": contract.PROTOCOL_SHA256,
     }
 
 

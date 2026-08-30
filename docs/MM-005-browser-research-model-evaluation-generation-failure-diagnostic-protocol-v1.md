@@ -4,16 +4,19 @@
 
 This artifact freezes the outcome-neutral protocol gate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`.
-It is a protocol-only slice: there is no diagnostic runner, no result contract,
-and no diagnostic execution. It does not import or call a processor, model,
-PIL, torch, or CUDA; use a browser or network; capture real content; train;
-write an Adapter; retry v1/v2; or change the Runtime repository.
+At this protocol freeze there was no diagnostic runner, result contract, or
+diagnostic execution. It did not import or call a processor, model, PIL, torch,
+or CUDA; use a browser or network; capture real content; train; write an
+Adapter; retry v1/v2; or change the Runtime repository. PR #76 published it as
+signed squash commit `9c90c5e68d4386b30db613930ec7dc0147999c04`.
 
-The next gate is the separate
+The current separate gate is
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`.
-That gate may freeze implementation and result semantics after this protocol is
-cleanly merged, but it still may not execute the diagnostic without separate
-authority and a complete resource preflight.
+It freezes implementation and result semantics without executing the
+diagnostic. Its successor is the still-separate
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`;
+neither the protocol merge nor an implementation merge grants execution
+authority.
 
 ## Immutable predecessor
 
@@ -146,17 +149,17 @@ receipts, seed, maximum new tokens, formal Python path, CUDA device map, and
 the registered 1,800-second / 16.5-GB integrity caps. The resource contract is
 independent from the consumed v2 attempt. Exact package, platform, driver,
 CUDA, GPU, and capability values were not durably authenticated by the
-predecessor result, so this protocol does not invent them. A future
-implementation preflight must bind every required value exactly; any missing
-or unverifiable value blocks execution. Resource comparison is diagnostic,
-not a quality or repeatability claim.
+predecessor result, so this protocol does not invent them. The now-frozen
+implementation preflight binds every required value exactly; any missing or
+unverifiable value blocks execution. Resource comparison is diagnostic, not a
+quality or repeatability claim.
 
 Success and failure terminals are mutually exclusive and exclusively created
-after a matching terminal-ready checkpoint. A future failure artifact may
-persist only safe `exception_type` text plus closed receipts and checkpoint
-state; message, traceback, absolute path, and secret text are forbidden. The
-exact terminal/result schemas are intentionally deferred to the implementation
-gate.
+after a matching terminal-ready checkpoint. At protocol freeze, a future
+failure artifact could persist only safe `exception_type` text plus closed
+receipts and checkpoint state; message, traceback, absolute path, and secret
+text were forbidden. The exact terminal/result schemas were deferred at this
+protocol freeze and are now separately frozen by the implementation gate.
 
 The protocol authorizes only its own freeze and, after a clean merge, the
 implementation-freeze gate. Diagnostic execution, processor/model/CUDA use,
@@ -173,8 +176,9 @@ Runtime eligibility all remain false.
 
 ## Outcome-neutral rubric
 
-No outcome is selected at freeze. A later closed result contract may select
-exactly one of:
+No outcome is selected at freeze. The separate implementation contract now
+permits exactly one of the following outcomes, but none is selected because no
+diagnostic has executed:
 
 - `diagnostic_protocol_or_lineage_invalid`
 - `diagnostic_completed_without_observed_runtime_failure`
@@ -199,6 +203,12 @@ This evidence establishes deterministic protocol reconstruction and fail-closed
 validation only. The frozen config still has `diagnostic_output_absent=true`,
 `diagnostic_executed=false`, `runtime_eligible=false`, and a 126-event maximum;
 no diagnostic result or earlier draft result is carried forward.
+
+The separate
+[diagnostic implementation freeze](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1.md)
+now defines the model-free result, failure, journal, owner, authority, runner,
+and reconciliation semantics. It preserves this protocol artifact byte for
+byte and still creates no authority or diagnostic output.
 
 ```powershell
 $pythons = @(

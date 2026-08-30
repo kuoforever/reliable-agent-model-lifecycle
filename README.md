@@ -1236,8 +1236,9 @@ model-free invocation at `2026-08-29T09:11:14Z` exclusively created the
 and zero internal retry. It selects
 `static_pipeline_reconstructed_without_contract_violation`: the static
 pipeline rebuilds, the claimed generation failure is not reproduced, and the
-Runtime root cause remains unresolved. Only the separate diagnostic protocol
-freeze is eligible; diagnostic execution and recovery v3 remain unauthorized.
+Runtime root cause remains unresolved. At that result gate, only the separate
+diagnostic protocol freeze was eligible; diagnostic execution and recovery v3
+remain unauthorized.
 
 The first real historical `--check` exposed two Windows parent-checker
 portability defects without changing the result: Git silently omitted 122
@@ -1253,25 +1254,39 @@ as verified signed squash commit
 review/comment/thread/conflict state, branch cleanup, and local-master alignment
 were clear. The default formal runner must not be invoked again.
 
-The single active objective is now the separate
+PR #76 published the separate 57,143-byte
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`
-freeze. Its canonical config is 57,143 bytes with SHA-256
+as signed squash commit `9c90c5e68d4386b30db613930ec7dc0147999c04`; its
+SHA-256 remains
 `13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
-It binds PR #75 and the unchanged fixed result, assigns a new
-experiment/run/output identity, preserves the historical three-record prefix
-before the target, closes seven explicit 18-event per-record plans and a
-126-event full-success grammar, closes the post-record terminalization-failure
-window, binds a selected 20-file c854 predecessor/publication closure plus the
-exact v2 source-receipt subtree, and freezes independent lifecycle, resource,
-terminal,
-authority, and outcome-neutral decision contracts. This protocol-only slice
-contains no runner and authorizes no diagnostic execution; its successor is
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`,
-an implementation-freeze-only gate including the result contract.
-All 26 focused tests and the canonical builder check pass on local CPython
-3.11.15, 3.12.12, and 3.13.7. Each complete unified gate passes 987 tests with
-four expected Windows privilege skips, 75 audited source files, and
-`valid=true`; diagnostic output remains absent and execution remains false.
+All six Linux Python-matrix checks and the review, comment, thread, conflict,
+merge-state, branch-cleanup, and local-master-alignment gates were clear.
+
+The single active objective is now the implementation-freeze-only
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`.
+Its exact 11-path slice adds a model-free typed result/failure/authority/owner
+contract, a canonical SHA-256-chained JSONL journal, four disjoint failure
+scopes, a 133-frame/126-checkpoint success grammar, and an explicitly gated
+future runner. Read-only plan/check and unified validation reject any authority,
+output, lease, or reserved staging state. Execution and reconciliation require
+the separately published authority's exact first-parent introduction commit,
+clean aligned Git state, exact environment and frozen inputs, one invocation,
+zero retry, strict resource caps, and repeated fail-closed lineage checks. A
+claimed interrupted prefix can only be reconciled model-free; it cannot rerun
+the diagnostic.
+
+Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass all 40
+implementation-focused tests and all 26 predecessor protocol tests. The
+protocol builder and runner plan/check agree that implementation is valid while
+authority, output, staging, execution, result, and Runtime eligibility remain
+false. Each complete unified gate passes 1,027 tests with four expected Windows
+privilege skips, 76 audited source files, and `valid=true`. Ruff 0.15.22 check,
+scoped format checks, strict Mypy 2.3.0 on the two core files, three-version
+`py_compile`, and diff validation also pass. No model, PIL, torch, CUDA,
+network, browser, or diagnostic work has run. The only successor after a clean
+implementation merge and branch cleanup is the separate
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
+freeze; the implementation merge alone grants no execution authority.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
