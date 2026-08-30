@@ -755,11 +755,44 @@ class MM005BrowserResearchGenerationFailureInvestigationResultV1Tests(
             self.assertIn("filter.lfs.process=", command)
             self.assertIn("filter.lfs.smudge=", command)
             self.assertIn("filter.lfs.required=false", command)
+            self.assertIn("core.longpaths=true", command)
             self.assertIn("core.symlinks=false", command)
             self.assertEqual(environment["GIT_LFS_SKIP_SMUDGE"], "1")
             self.assertEqual(environment["GIT_NO_LAZY_FETCH"], "1")
             self.assertEqual(environment["GIT_TERMINAL_PROMPT"], "0")
             self.assertNotIn("GIT_SSH_COMMAND", environment)
+
+    def test_historical_checkout_materializes_the_complete_frozen_tree(self) -> None:
+        runner_relative = result_contract.IMPLEMENTATION_SOURCE_PATHS["result_runner"]
+        introduction = runner._git_process(
+            "log",
+            runner._HISTORICAL_TRUSTED_MAINLINE_REF,
+            "--first-parent",
+            "--reverse",
+            "--format=%H",
+            "--diff-filter=A",
+            "--no-renames",
+            "--",
+            runner_relative,
+        )
+        self.assertEqual(introduction.returncode, 0)
+        freeze_commit = introduction.stdout.decode("ascii").splitlines()[0]
+        tracked = runner._git_process("ls-tree", "-rz", "--name-only", freeze_commit)
+        self.assertEqual(tracked.returncode, 0)
+        self.assertTrue(tracked.stdout.endswith(b"\0"))
+        paths = tracked.stdout.removesuffix(b"\0").split(b"\0")
+        self.assertEqual(len(paths), 769)
+
+        with tempfile.TemporaryDirectory(prefix="m5gfh-") as directory:
+            checkout = Path(directory) / "c"
+            runner._clone_historical_checkout(checkout, freeze_commit)
+            missing = [
+                path.decode("utf-8")
+                for path in paths
+                if not os.path.lexists(checkout / path.decode("utf-8"))
+            ]
+
+        self.assertEqual(missing, [])
 
     def test_parent_git_reads_are_sanitized_and_disable_lazy_fetch(self) -> None:
         completed = mock.Mock(returncode=0, stdout=b"", stderr=b"")
@@ -804,6 +837,7 @@ class MM005BrowserResearchGenerationFailureInvestigationResultV1Tests(
         }
 
         def create_checkout(checkout: Path, _: str) -> None:
+            self.assertEqual(checkout.name, "c")
             (checkout / "baseline").mkdir(parents=True)
 
         completed = mock.Mock(
@@ -811,6 +845,7 @@ class MM005BrowserResearchGenerationFailureInvestigationResultV1Tests(
             stdout=protocol.artifact_json_bytes(summary),
             stderr=b"",
         )
+        temporary_directory = tempfile.TemporaryDirectory
         with (
             mock.patch.dict(
                 os.environ,
@@ -834,10 +869,16 @@ class MM005BrowserResearchGenerationFailureInvestigationResultV1Tests(
                 "_run_bounded_process",
                 return_value=completed,
             ) as process_mock,
+            mock.patch.object(
+                runner.tempfile,
+                "TemporaryDirectory",
+                wraps=temporary_directory,
+            ) as temporary_directory_mock,
         ):
             observed = runner._invoke_historical_worker(b"{}\n", freeze_commit)
 
         self.assertEqual(observed, summary)
+        temporary_directory_mock.assert_called_once_with(prefix="m5gfh-")
         environment = process_mock.call_args.kwargs["environment"]
         self.assertNotIn("GIT_DIR", environment)
         self.assertNotIn("GIT_SSH_COMMAND", environment)
@@ -846,6 +887,67 @@ class MM005BrowserResearchGenerationFailureInvestigationResultV1Tests(
         self.assertEqual(
             environment[runner._HISTORICAL_WORKER_COMMIT_ENV], freeze_commit
         )
+
+    def test_historical_worker_wire_accepts_only_one_terminal_crlf(self) -> None:
+        freeze_commit = self.implementation_context["freeze_commit"]
+        summary = {
+            "checked": True,
+            "diagnostic_records": 7,
+            "gate_id": result_contract.GATE_ID,
+            "implementation_freeze_commit": freeze_commit,
+            "model_free": True,
+            "next_gate": result_contract.DIAGNOSTIC_PROTOCOL_GATE_ID,
+            "protocol_merge_commit": result_contract.PROTOCOL_MERGE_COMMIT,
+            "protocol_sha256": result_contract.PROTOCOL_SHA256,
+            "report_digest": self.result["report_digest"],
+            "runtime_eligible": False,
+            "runtime_root_cause_unresolved": True,
+            "selected_outcome": result_contract.OUTCOME_PRECEDENCE[3],
+            "static_investigation_complete": True,
+            "target_record": protocol.TARGET_RECORD_ID,
+            "valid": True,
+        }
+        canonical = protocol.artifact_json_bytes(summary)
+
+        def invoke(stdout: bytes) -> dict[str, Any]:
+            def create_checkout(checkout: Path, _: str) -> None:
+                (checkout / "baseline").mkdir(parents=True)
+
+            with (
+                mock.patch.object(
+                    runner,
+                    "_clone_historical_checkout",
+                    side_effect=create_checkout,
+                ),
+                mock.patch.object(
+                    runner,
+                    "_historical_worker_command",
+                    return_value=[sys.executable, "worker.py"],
+                ),
+                mock.patch.object(
+                    runner,
+                    "_run_bounded_process",
+                    return_value=mock.Mock(
+                        returncode=0,
+                        stdout=stdout,
+                        stderr=b"",
+                    ),
+                ),
+            ):
+                return runner._invoke_historical_worker(b"{}\n", freeze_commit)
+
+        self.assertEqual(invoke(canonical[:-1] + b"\r\n"), summary)
+        for invalid in (
+            canonical[:-1] + b"\r\r\n",
+            canonical.replace(b"{", b"{\r", 1),
+            canonical[:-1].replace(b":", b": ", 1) + b"\r\n",
+            canonical + b"\n",
+        ):
+            with (
+                self.subTest(invalid=invalid[-8:]),
+                self.assertRaisesRegex(RuntimeError, "historical check worker"),
+            ):
+                invoke(invalid)
 
     def test_historical_worker_summary_has_closed_route_and_receipts(self) -> None:
         freeze_commit = self.implementation_context["freeze_commit"]

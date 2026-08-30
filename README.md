@@ -1226,23 +1226,29 @@ Adapter/model-payload/prompt/image receipts, opaque-sentinel runtime-message
 reconstruction, the durable-checkpoint boundary, and an outcome-neutral
 decision rubric.
 
-The bounded model-free implementation contract is now complete locally. It
-closes strict outcome predicates, precedence, per-step evidence, structural
-comparison, fail-closed claims and routing; binds a three-file implementation
-freeze; derives its trusted introduction from `origin/master`; requires the
-exact reviewed PR #73-to-freeze tree delta, clean aligned merged master, and
-exclusive zero-retry result publication; and supports an isolated local
-historical Git-blob `--check` with LFS, lazy fetch, hooks, inherited Git state,
-and Python `site` disabled. The unified gate uses only read-only `--plan` while
-the result is absent. Thirty focused tests and each 959-test CPython
-3.11.15/3.12.12/3.13.7 unified gate pass. The fixed result is absent, the
-formal investigation has not executed, and no processor, model, PIL, torch,
-CUDA, network, browser, retry, recovery, training, Runtime, root-cause,
-measurement, or downstream claim is authorized. Validating and publishing
-this implementation slice is the single active objective. Only after its
-clean merge, both branch copies are deleted, and `master == origin/master` may
-the one-shot model-free formal investigation become the exact successor
-action.
+PR #74 published the bounded model-free implementation as signed squash commit
+`c2b04f68dfbb0f96423ecf83a8d73529fdf9d055` after all six Linux matrix jobs,
+review/comment/thread/conflict state, mergeability, branch cleanup, and local
+master alignment were clear. From that exact clean merged master, one formal
+model-free invocation at `2026-08-29T09:11:14Z` exclusively created the
+39,843-byte fixed result with file SHA-256
+`2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`
+and zero internal retry. It selects
+`static_pipeline_reconstructed_without_contract_violation`: the static
+pipeline rebuilds, the claimed generation failure is not reproduced, and the
+Runtime root cause remains unresolved. Only the separate diagnostic protocol
+freeze is eligible; diagnostic execution and recovery v3 remain unauthorized.
+
+The first real historical `--check` exposed two Windows parent-checker
+portability defects without changing the result: Git silently omitted 122
+long-path tracked files, and the exact c2b worker emitted terminal CRLF. The
+bounded result slice enables `core.longpaths`, shortens its isolated temp
+topology, and accepts only a single LF or terminal CRLF before strict canonical
+JSON comparison. The exact c2b runner then recomputes the saved result with
+`checked=true` and `valid=true`. Thirty-two focused tests and each 961-test
+CPython 3.11.15/3.12.12/3.13.7 present-result unified gate pass. Publishing the
+immutable result and this parent-only portability fix is the single active
+objective; the default formal runner must not be invoked again.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

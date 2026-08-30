@@ -176,14 +176,17 @@ guards, overwrite refusal, attempt-ID privacy, and absence of model/network/
 CUDA capability.
 
 The published protocol's 16 focused tests pass on local CPython 3.11.15,
-3.12.12, and 3.13.7. The implementation adds 30 focused tests. Current
+3.12.12, and 3.13.7. The result slice adds 32 focused tests. Current
 prepublication validation passes those tests, Ruff 0.15.22, Ruff format check,
-scoped strict Mypy 2.3.0, `py_compile`, protocol `--check`, and the complete
-CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates. Each unified gate
-passes 959 tests with four expected Windows privilege skips, 74 audited source
-files, `result_present=false`, `investigation_executed=false`,
-`runner_plan_valid=true`, `runner_check_valid=false`, and `valid=true`.
+scoped strict Mypy 2.3.0, `py_compile`, protocol `--check`, real historical
+`--check`, and the complete CPython 3.11.15, 3.12.12, and 3.13.7 unified
+offline gates. Each unified gate passes 961 tests with four expected Windows
+privilege skips, 74 audited source files, `result_present=true`,
+`investigation_executed=true`, `runner_plan_valid=false`,
+`runner_check_valid=true`, and `valid=true`.
 
-Protocol freeze is not investigation execution. Model evaluation, completed
-formal measurement, quality, safety, repeatability, Serving, promotion, and
-Runtime eligibility all remain false.
+The static investigation result selects
+`static_pipeline_reconstructed_without_contract_violation` and permits only a
+separate diagnostic-protocol freeze. Model evaluation, completed formal
+measurement, quality, safety, repeatability, diagnostic execution, Serving,
+promotion, and Runtime eligibility all remain false.

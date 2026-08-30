@@ -1,9 +1,10 @@
 # MM-005 Browser Research generation-failure investigation implementation v1
 
-> **Result: COMPLETE LOCALLY, NOT YET PUBLISHED — the closed result contract,
-> model-free runner, focused tests, and pre-result unified validation are
-> implemented. The fixed result does not exist and the formal investigation
-> has not executed.**
+> **Result: IMPLEMENTATION PUBLISHED; FIXED RESULT VALIDATED LOCALLY — PR #74
+> published the closed implementation. One clean merged-master model-free
+> invocation created the fixed result, and the patched historical checker
+> independently recomputes it. The result publication slice is not yet
+> merged.**
 
 ## Published predecessor
 
@@ -101,27 +102,44 @@ Runner modes are deliberately distinct:
   only a canonical closed summary and re-reads the fixed result bytes before
   returning, so late replacement or deletion fails closed.
 
+The result-publication slice also binds `core.longpaths=true` into every
+historical Git command and uses the short `m5gfh-*`/`c` temporary topology.
+This prevents Windows from silently omitting deep tracked fixtures and keeps
+Python cleanup below the Win32 path budget. Historical worker stdout may have
+exactly one terminal LF or the single terminal CRLF produced by Windows text
+stdout; CRLF is normalized to LF before the existing strict parse and exact
+canonical-byte comparison. Embedded or repeated CR/LF remains invalid.
+
 No mode imports or calls a processor, model, PIL, `torch`, CUDA, browser,
 network, training, or Runtime integration. The runner has no mutable output
 override.
 
 ## Current evidence and limits
 
-The 30-test focused suite covers all five predicate selections, bool/integer
+The 32-test focused suite covers all five predicate selections, bool/integer
 aliases, contradictions, allowlisted versus unknown exceptions, truthful
 composite-step sequencing, structural/content separation, real frozen-input
 in-memory reconstruction, exact PR #73 Git binding, canonical mainline
 introduction, exact tree-diff closure, bootstrap receipts, local/no-lazy Git
-isolation, exact historical runner bytes, closed summary routing, late
-swap/create/delete rejection, pre-write abort ordering, control-flow marker
-count/order, clean aligned master, exclusive publication, unsafe paths and
-links, attempt-ID privacy, claim/routing closure, and forbidden capabilities.
+isolation, complete 769-path historical materialization, exact historical
+runner bytes, LF/CRLF-closed summary routing, late swap/create/delete
+rejection, pre-write abort ordering, control-flow marker count/order, clean
+aligned master, exclusive publication, unsafe paths and links, attempt-ID
+privacy, claim/routing closure, and forbidden capabilities.
 
-The real frozen inputs currently reconstruct in memory to
-`static_pipeline_reconstructed_without_contract_violation`. That is a test of
-the deterministic builder with a synthetic timestamp and implementation
-commit; it is not the authenticated formal outcome and creates no fixed
-result.
+A clean shared clone of signed PR #74 merge commit
+`c2b04f68dfbb0f96423ecf83a8d73529fdf9d055` executed the default runner once
+at `2026-08-29T09:11:14Z`. It exclusively created the 39,843-byte fixed result
+with file SHA-256
+`2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`
+and report digest
+`001b44cdb9d0a11a4be48e10f6653074e4bf407a43daaad1930c6d92e5f8cde7`.
+The selected outcome is
+`static_pipeline_reconstructed_without_contract_violation`: the static
+pipeline rebuilds, the claimed generation failure is not reproduced, and the
+Runtime root cause remains unresolved. The formal gate permits only freezing
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`;
+it does not authorize diagnostic execution or recovery v3.
 
 The pre-result unified validator calls only `result_contract()` and
 `runner.run(plan=True)`, audits the exact three-file source closure, and
@@ -134,29 +152,29 @@ historical `--check`. It still imports the current frozen-v1 runner/protocol/
 result modules and uses their strict parser/bootstrap code; it does not claim
 zero current-import or parser dependency.
 
-A real end-to-end `isolated clone -> historical runner -> recomputation ->
-closed summary` check cannot execute in this pre-result slice because neither
-the merged implementation freeze nor result exists. The separate result slice
-must run the real `--check` before publication; mocked component coverage is
-not evidence for that future endpoint.
+The first real historical check exposed Windows long-path materialization and
+terminal-CRLF portability defects in the parent checker. It did not modify the
+result or consume another formal attempt. After the bounded parent-only fix,
+the exact c2b runner executed under `-I -S -B`, recomputed the saved result,
+and returned `checked=true` and `valid=true`. The fixed result bytes remained
+unchanged, and the default runner was not rerun.
 
 ## Exact next action
 
-Validate this bounded implementation slice on Python 3.11, 3.12, and 3.13;
-publish it through a clean pull request; wait for checks and review/conflict
-state; merge only when clear; delete both branch copies; and restore an
-aligned master. Only then may one clean merged-master invocation create
-`baseline/mm005-browser-research-model-eval-v2-generation-failure-investigation-v1.json`.
-That future result must be independently checked and published in its own
-bounded slice before any diagnostic protocol becomes active.
+Validate and publish the immutable fixed result plus the parent-only Windows
+historical-check portability fix in one bounded pull request. Wait for all
+checks and review/conflict state, merge only when clear, delete both branch
+copies, and restore aligned master. Only then may the separate outcome-neutral
+diagnostic protocol be frozen; diagnostic execution remains unauthorized.
 
 ## Validation
 
 The published protocol's 16 focused tests pass on local CPython 3.11.15,
-3.12.12, and 3.13.7. The implementation's 30 focused tests pass on the same
+3.12.12, and 3.13.7. The result slice's 32 focused tests pass on the same
 matrix. Ruff 0.15.22, Ruff format check, scoped strict Mypy 2.3.0,
-`py_compile`, protocol `--check`, and the complete CPython 3.11.15, 3.12.12,
-and 3.13.7 unified offline gates pass. Each unified gate runs 959 tests with
-four expected Windows privilege skips and 74 audited source files, and reports
-`result_present=false`, `investigation_executed=false`,
-`runner_plan_valid=true`, `runner_check_valid=false`, and `valid=true`.
+`py_compile`, protocol `--check`, real historical `--check`, and the complete
+CPython 3.11.15, 3.12.12, and 3.13.7 unified offline gates pass. Each unified
+gate runs 961 tests with four expected Windows privilege skips and 74 audited
+source files, and reports `result_present=true`,
+`investigation_executed=true`, `runner_plan_valid=false`,
+`runner_check_valid=true`, and `valid=true`.

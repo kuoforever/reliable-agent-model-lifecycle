@@ -798,69 +798,79 @@ prompt, ordered image/snapshot, PNG-header, and opaque-sentinel runtime-message
 receipts. Its outcome-neutral rubric selected no result at freeze.
 [Generation-failure investigation protocol](docs/MM-005-browser-research-model-evaluation-generation-failure-investigation-protocol-v1.md).
 
-The bounded implementation/result-contract slice is complete locally. It
-closes the result schema, strict Boolean observations, mutually exclusive
-five-outcome truth table and precedence, structural-versus-content comparison,
-truthful per-step observations, fail-closed claims, and protocol-only routing.
-The model-free runner binds PR #73 plus all ten protocol sources, derives the
-three-file implementation introduction from canonical `origin/master`
-first-parent history, and requires the exact PR #73-to-freeze Git delta to be
-the ten reviewed slice paths before any formal build or write. Historical
-checks validate that bootstrap before launching an isolated local/shared,
-no-LFS/no-lazy-fetch checkout with the exact runner blob under `-I -S -B`, then
-re-read the fixed result to reject late replacement. The unified gate invokes
-only `--plan` while the result is absent; its future present branch skips
-current semantic validation, AST audit, and plan execution but retains the
-current v1 import/parser bootstrap. The fixed result remains absent; no formal
-investigation, processor/model/PIL/torch/CUDA/network/browser execution, v1/v2
-retry, recovery, training, capture, Runtime change, substage attribution,
-root-cause claim, remediation, formal measurement, or recovery-v3
-authorization exists.
+PR #74 published the bounded implementation/result contract as signed squash
+commit `c2b04f68dfbb0f96423ecf83a8d73529fdf9d055`. All six Linux Python-matrix
+checks passed; no review, comment, thread, conflict, or merge-state blocker
+remained; both feature-branch copies were deleted; and local
+`master == origin/master`. The implementation closes the result schema, strict
+Boolean observations, mutually exclusive five-outcome truth table and
+precedence, structural-versus-content comparison, truthful per-step
+observations, fail-closed claims, protocol-only routing, exact PR #73
+config/ten-source bootstrap, canonical `origin/master` introduction, and exact
+PR #73-to-freeze ten-path delta.
 [Generation-failure investigation implementation](docs/MM-005-browser-research-model-evaluation-generation-failure-investigation-implementation-v1.md).
 
-Thirty focused implementation tests pass on local CPython 3.11.15, 3.12.12,
-and 3.13.7. Ruff 0.15.22, Ruff format, scoped strict Mypy 2.3.0, and
-`py_compile` pass. Each complete unified offline gate passes 959 tests with
-four expected Windows privilege skips, 74 audited source files,
-`result_present=false`, `investigation_executed=false`,
-`runner_plan_valid=true`, `runner_check_valid=false`, and `valid=true`.
+From a clean shared clone of that exact merge, one model-free formal invocation
+at `2026-08-29T09:11:14Z` exclusively created the 39,843-byte fixed result.
+Its file SHA-256 is
+`2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`;
+its report digest is
+`001b44cdb9d0a11a4be48e10f6653074e4bf407a43daaad1930c6d92e5f8cde7`.
+The formal execution count is one with zero internal retry. It selected
+`static_pipeline_reconstructed_without_contract_violation`: the static
+pipeline rebuilds, the claimed generation failure is not reproduced, and the
+Runtime root cause remains unresolved. The result permits only freezing
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`;
+diagnostic execution and recovery v3 remain unauthorized.
+
+The first real historical `--check` then exposed two parent-only Windows
+portability defects without changing the fixed result: the checkout silently
+omitted 122 long-path tracked files, and exact c2b worker stdout ended in CRLF.
+This result slice binds `core.longpaths=true`, shortens the isolated temp
+topology, and permits only single LF or terminal CRLF before strict canonical
+summary comparison. The patched parent executed the exact c2b runner under
+`-I -S -B`, recomputed the unchanged result, and returned `checked=true` and
+`valid=true`; the default runner was not rerun.
+
+Thirty-two focused implementation/result tests pass on local CPython 3.11.15,
+3.12.12, and 3.13.7. Ruff 0.15.22, Ruff format, scoped strict Mypy 2.3.0, and
+`py_compile` pass. Each complete present-result unified offline gate passes
+961 tests with four expected Windows privilege skips, 74 audited source files,
+`result_present=true`, `investigation_executed=true`,
+`runner_plan_valid=false`, `runner_check_valid=true`, and `valid=true`.
 
 ## Single active objective
 
-Validate and publish the exact model-free
+Validate and publish the immutable
 `MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`
-implementation contract, runner, focused tests, unified integration, and docs
-without executing the formal investigation:
+fixed result plus the parent-only Windows historical-check portability fix:
 
 ```text
-published PR #73 protocol + aligned master
-        -> closed result schema + type-strict outcome predicates
-        -> truthful nine-step observations + closed structural comparator
-        -> exact PR #73 config/10-source Git binding
-        -> origin/master introduction + exact ten-path implementation slice
-        -> isolated historical worker + closed summary/check path
-        -> plan-only unified validation; fixed result remains absent
-        -> unified Python 3.11/3.12/3.13 offline gates
-        -> clean merge, delete both branch copies, align master
-        -> one formal model-free invocation from clean merged master
+published PR #74 implementation + clean aligned master
+        -> exactly one model-free formal invocation; immutable c2b result
+        -> static pipeline reconstructed; Runtime root cause unresolved
+        -> real check exposes Windows long-path + terminal-CRLF defects
+        -> parent-only longpaths/short-temp/closed-wire portability fix
+        -> exact c2b historical worker recomputation; checked=true
+        -> present-result Python 3.11/3.12/3.13 offline gates
+        -> clean result PR, delete both branch copies, align master
+        -> separate outcome-neutral diagnostic-protocol freeze only
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research generation output, v1 owner-only tree, or v2 three-file formal
-tree. Do not synthesize missing candidate/prediction/evidence artifacts, infer
-an unrecorded runtime substage or root cause, or convert transient controller
-observations into authenticated telemetry. This slice may only publish the
-result contract, model-free runner, tests, plan-only unified validation, and
-canonical documentation. It must not create the fixed result, invoke the
-runner without `--plan`, run recovery, import or call a processor/model/PIL/
-torch, use CUDA or a live browser/network, train or save a model/Adapter,
-change Runtime, capture real content, or broaden quality or repeatability
-claims. Only after this implementation cleanly merges, both branch copies are
-deleted, and `master == origin/master` may one clean model-free formal
-invocation become the single exact successor action. Its fixed result must be
-validated and published separately. A model/CUDA diagnostic experiment
-remains conditional on that validated static result and a separate
-new-identity, new-output protocol; recovery-v3 is not authorized.
+Browser Research generation output, v1 owner-only tree, v2 three-file formal
+tree, or the newly fixed investigation result. Do not run the default formal
+runner again. Do not synthesize missing artifacts, infer an unrecorded Runtime
+substage/root cause, or convert transient controller observations into formal
+telemetry. This slice may only publish the unchanged result, parent checkout/
+wire portability fix, focused tests, present-result unified integration, and
+canonical documentation. It must not run diagnostic execution or recovery,
+import or call a processor/model/PIL/torch, use CUDA or a live browser/network,
+train or save a model/Adapter, change Runtime, capture real content, or broaden
+quality/repeatability claims. After a clean result merge, branch cleanup, and
+aligned master, the single exact successor is freezing the separate
+outcome-neutral diagnostic protocol. Diagnostic execution and recovery v3
+remain unauthorized.
 
 ## Preserved historical validation and deferred gates
 
@@ -1889,7 +1899,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; model-free generation-failure investigation protocol v1 is the current publication gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; the immutable static result and Windows historical-check portability fix are the current publication gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

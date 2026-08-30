@@ -280,11 +280,9 @@ def _invoke_historical_worker(
     freeze_commit: str,
 ) -> dict[str, Any]:
     _validate_git_commit(freeze_commit)
-    with tempfile.TemporaryDirectory(
-        prefix="mm005-generation-failure-historical-check-"
-    ) as directory:
+    with tempfile.TemporaryDirectory(prefix="m5gfh-") as directory:
         temporary_root = Path(directory).resolve(strict=True)
-        checkout = temporary_root / "checkout"
+        checkout = temporary_root / "c"
         _clone_historical_checkout(checkout, freeze_commit)
         if checkout.resolve(strict=True).parent != temporary_root:
             raise RuntimeError("historical checkout escaped temporary root")
@@ -308,10 +306,17 @@ def _invoke_historical_worker(
             or len(completed.stdout) > MAX_HISTORICAL_WORKER_OUTPUT_BYTES
         ):
             raise RuntimeError("historical check worker failed")
+        worker_payload = completed.stdout
+        if worker_payload.endswith(b"\r\n"):
+            if worker_payload.count(b"\r") != 1:
+                raise RuntimeError("historical check worker summary is not canonical")
+            worker_payload = worker_payload[:-2] + b"\n"
+        elif b"\r" in worker_payload:
+            raise RuntimeError("historical check worker summary is not canonical")
         summary = protocol.parse_strict_json_bytes(
-            completed.stdout, location="$.historical_check_worker_summary"
+            worker_payload, location="$.historical_check_worker_summary"
         )
-        if protocol.artifact_json_bytes(summary) != completed.stdout:
+        if protocol.artifact_json_bytes(summary) != worker_payload:
             raise RuntimeError("historical check worker summary is not canonical")
         return dict(summary)
 
@@ -332,6 +337,8 @@ def _clone_historical_checkout(checkout: Path, freeze_commit: str) -> None:
         "filter.lfs.clean=",
         "-c",
         "filter.lfs.required=false",
+        "-c",
+        "core.longpaths=true",
         "-c",
         "core.symlinks=false",
     ]
