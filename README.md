@@ -1247,8 +1247,31 @@ topology, and accepts only a single LF or terminal CRLF before strict canonical
 JSON comparison. The exact c2b runner then recomputes the saved result with
 `checked=true` and `valid=true`. Thirty-two focused tests and each 961-test
 CPython 3.11.15/3.12.12/3.13.7 present-result unified gate pass. Publishing the
-immutable result and this parent-only portability fix is the single active
-objective; the default formal runner must not be invoked again.
+immutable result and this parent-only portability fix completed through PR #75
+as verified signed squash commit
+`c8541147717870992c60c6d2ea1c2f4ff68ee1d2`; all six Linux matrix jobs,
+review/comment/thread/conflict state, branch cleanup, and local-master alignment
+were clear. The default formal runner must not be invoked again.
+
+The single active objective is now the separate
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`
+freeze. Its canonical config is 57,143 bytes with SHA-256
+`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
+It binds PR #75 and the unchanged fixed result, assigns a new
+experiment/run/output identity, preserves the historical three-record prefix
+before the target, closes seven explicit 18-event per-record plans and a
+126-event full-success grammar, closes the post-record terminalization-failure
+window, binds a selected 20-file c854 predecessor/publication closure plus the
+exact v2 source-receipt subtree, and freezes independent lifecycle, resource,
+terminal,
+authority, and outcome-neutral decision contracts. This protocol-only slice
+contains no runner and authorizes no diagnostic execution; its successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`,
+an implementation-freeze-only gate including the result contract.
+All 26 focused tests and the canonical builder check pass on local CPython
+3.11.15, 3.12.12, and 3.13.7. Each complete unified gate passes 987 tests with
+four expected Windows privilege skips, 75 audited source files, and
+`valid=true`; diagnostic output remains absent and execution remains false.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

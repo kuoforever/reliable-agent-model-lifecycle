@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-08-29.
+> Updated: 2026-08-30.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -839,38 +839,70 @@ Thirty-two focused implementation/result tests pass on local CPython 3.11.15,
 `result_present=true`, `investigation_executed=true`,
 `runner_plan_valid=false`, `runner_check_valid=true`, and `valid=true`.
 
+PR #75 published the immutable result and parent-only Windows historical-check
+portability fix as verified signed squash commit
+`c8541147717870992c60c6d2ea1c2f4ff68ee1d2`. All six Linux Python-matrix
+checks passed; no review, comment, thread, conflict, or merge-state blocker
+remained; both feature-branch copies were deleted; and local
+`master == origin/master`. The result remains exactly 39,843 bytes with file
+SHA-256 `2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`;
+the default formal runner was not invoked again.
+
 ## Single active objective
 
-Validate and publish the immutable
-`MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`
-fixed result plus the parent-only Windows historical-check portability fix:
+Freeze and publish only the outcome-neutral
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`
+from the clean PR #75 result publication:
 
 ```text
-published PR #74 implementation + clean aligned master
-        -> exactly one model-free formal invocation; immutable c2b result
-        -> static pipeline reconstructed; Runtime root cause unresolved
-        -> real check exposes Windows long-path + terminal-CRLF defects
-        -> parent-only longpaths/short-temp/closed-wire portability fix
-        -> exact c2b historical worker recomputation; checked=true
-        -> present-result Python 3.11/3.12/3.13 offline gates
-        -> clean result PR, delete both branch copies, align master
-        -> separate outcome-neutral diagnostic-protocol freeze only
+published PR #75 immutable result + clean aligned master
+        -> bind c854 result blob, 39,843 bytes, hash, report digest, outcome
+        -> new experiment ID + run ID + output/lease roots
+        -> three historical prefix controls, target fourth, three controls
+        -> seven records x nine substages x started/completed = 126 checkpoints
+        -> independent resource, terminal, authority, and decision contracts
+        -> canonical builder/check + focused adversarial tests + unified gate
+        -> clean protocol PR, delete both branch copies, align master
+        -> diagnostic-implementation-v1 freeze only, including result contract
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
 Browser Research generation output, v1 owner-only tree, v2 three-file formal
-tree, or the newly fixed investigation result. Do not run the default formal
+tree, or the immutable investigation result. Do not run the default formal
 runner again. Do not synthesize missing artifacts, infer an unrecorded Runtime
 substage/root cause, or convert transient controller observations into formal
-telemetry. This slice may only publish the unchanged result, parent checkout/
-wire portability fix, focused tests, present-result unified integration, and
-canonical documentation. It must not run diagnostic execution or recovery,
-import or call a processor/model/PIL/torch, use CUDA or a live browser/network,
-train or save a model/Adapter, change Runtime, capture real content, or broaden
-quality/repeatability claims. After a clean result merge, branch cleanup, and
-aligned master, the single exact successor is freezing the separate
-outcome-neutral diagnostic protocol. Diagnostic execution and recovery v3
-remain unauthorized.
+telemetry. This slice may only add the canonical protocol/config, typed
+contract, deterministic builder/check, focused tests, unified integration, and
+canonical documentation. It must not add a runner or result, execute the
+diagnostic or recovery, import or call a processor/model/PIL/torch, use CUDA or
+a live browser/network, train or save a model/Adapter, change Runtime, capture
+real content, or broaden quality/repeatability claims. A checkpoint observation
+may narrow an observed interval but cannot prove the origin of an asynchronous
+accelerator error. After a clean protocol merge, branch cleanup, and aligned
+master, the only successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`:
+an implementation-freeze-only gate including the result contract; diagnostic
+execution and recovery v3 remain unauthorized.
+
+The current protocol artifact is 57,143 canonical bytes with SHA-256
+`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
+It binds the exact v2 preregistration and its source-receipt subtree plus a
+selected 20-file c854 predecessor/publication closure, uses Windows-safe
+identity separation and a final
+multi-file/HEAD/output recheck, and freezes seven explicit 18-event record
+plans with a 126-event full-success grammar plus an exact post-record
+terminalization-failure window. On local CPython 3.11.15, 3.12.12,
+and 3.13.7, all 26 focused tests pass and the canonical builder reconstructs
+the same bytes. Each complete unified gate passes 987 tests with four expected
+Windows privilege skips, 75 audited source files, and `valid=true`. Ruff
+0.15.22 check, format checks on the new contract/builder/tests, scoped strict
+Mypy 2.3.0 on the typed contract/builder, `py_compile`, and `git diff --check`
+also pass. These results establish only the protocol freeze: diagnostic output
+is absent, `diagnostic_executed=false`, `runtime_eligible=false`, and no result
+from a superseded draft is counted. The portable builder does not claim
+resistance to a same-privilege concurrent repository-ancestor swap between its
+parent check and exclusive create; a hostile-concurrent-filesystem threat model
+would require Windows handle-relative/no-reparse creation.
 
 ## Preserved historical validation and deferred gates
 
@@ -1899,7 +1931,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; the immutable static result and Windows historical-check portability fix are the current publication gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; the new-identity/new-output diagnostic protocol freeze is the current gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

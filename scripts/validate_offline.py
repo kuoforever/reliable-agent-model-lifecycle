@@ -271,6 +271,18 @@ MM005_BROWSER_RESEARCH_GENERATION_FAILURE_INVESTIGATION_RESULT_PATH = (
     / "baseline"
     / "mm005-browser-research-model-eval-v2-generation-failure-investigation-v1.json"
 )
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_PATH = (
+    ROOT
+    / "configs"
+    / (
+        "mm005_browser_research_model_evaluation_generation_failure_"
+        "diagnostic_protocol_v1.json"
+    )
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_BYTES = 57_143
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_SHA256 = (
+    "sha256:13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -655,6 +667,9 @@ def main() -> int:
         mm005_browser_research_generation_failure_investigation,
         mm005_browser_research_generation_failure_investigation_implementation,
     ) = _validate_mm005_browser_research_generation_failure_investigation_state()
+    mm005_browser_research_generation_failure_diagnostic = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_protocol()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -1710,6 +1725,29 @@ def main() -> int:
             mm005_browser_research_generation_failure_investigation_implementation[
                 "next_gate"
             ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_frozen": (
+            mm005_browser_research_generation_failure_diagnostic["protocol_frozen"]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_output_absent": (
+            mm005_browser_research_generation_failure_diagnostic["output_absent"]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_executed": (
+            mm005_browser_research_generation_failure_diagnostic["diagnostic_executed"]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_new_identity_and_output": (
+            mm005_browser_research_generation_failure_diagnostic[
+                "new_identity_and_output"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_checkpoint_count": (
+            mm005_browser_research_generation_failure_diagnostic["checkpoint_count"]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic["next_gate"]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_runtime_eligible": (
+            mm005_browser_research_generation_failure_diagnostic["runtime_eligible"]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
         "tool_router_eval_records": router_summary["eval_records"],
@@ -5966,6 +6004,261 @@ def _validate_mm005_browser_research_model_evaluation_failure_classification_v2(
         "model_evaluated": claims["model_evaluated"],
         "next_gate": action["gate_id"],
         "artifact_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_protocol() -> dict[
+    str, Any
+]:
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v1 as builder,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_PATH,
+        "MM-005 Browser Research generation-failure diagnostic protocol",
+    )
+    digest = "sha256:" + hashlib.sha256(payload).hexdigest()
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_SHA256
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic protocol hash mismatch"
+        )
+    raw = contract.parse_strict_json_bytes(
+        payload, location="$.generation_failure_diagnostic_protocol"
+    )
+    if contract.artifact_json_bytes(raw) != payload:
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic protocol is not canonical"
+        )
+    checked = contract.validate_preregistration(raw, **builder.protocol_inputs())
+    lineage = checked.get("source_lineage")
+    preconditions = checked.get("freeze_preconditions")
+    separation = checked.get("identity_separation")
+    registry = checked.get("record_control_registry")
+    execution = checked.get("execution_protocol")
+    checkpoints = checked.get("diagnostic_checkpoint_contract")
+    resources = checked.get("resource_contract")
+    terminal = checked.get("terminal_contract")
+    rubric = checked.get("decision_rubric")
+    authority = checked.get("authority_contract")
+    claims = checked.get("claims")
+    action = checked.get("locked_next_action")
+    if not all(
+        isinstance(value, dict)
+        for value in (
+            lineage,
+            preconditions,
+            separation,
+            registry,
+            execution,
+            checkpoints,
+            resources,
+            terminal,
+            rubric,
+            authority,
+            claims,
+            action,
+        )
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic sections are invalid"
+        )
+    assert isinstance(lineage, dict)
+    assert isinstance(preconditions, dict)
+    assert isinstance(separation, dict)
+    assert isinstance(registry, dict)
+    assert isinstance(execution, dict)
+    assert isinstance(checkpoints, dict)
+    assert isinstance(resources, dict)
+    assert isinstance(terminal, dict)
+    assert isinstance(rubric, dict)
+    assert isinstance(authority, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(action, dict)
+    published = lineage.get("published_static_result")
+    v2_preregistration = lineage.get("v2_preregistration")
+    publication_receipts = lineage.get("result_publication_bound_receipts")
+    outputs = checked.get("outputs")
+    records = registry.get("records")
+    plans = checkpoints.get("per_record_checkpoint_plans")
+    success_grammar = terminal.get("success_grammar")
+    active_failure_grammar = terminal.get(
+        "active_record_substage_failure_grammar"
+    )
+    pre_record_failure_grammar = terminal.get(
+        "pre_record_lifecycle_failure_grammar"
+    )
+    transition_failure_grammar = terminal.get(
+        "inter_record_transition_failure_grammar"
+    )
+    terminalization_failure_grammar = terminal.get(
+        "post_record_terminalization_failure_grammar"
+    )
+    if not all(
+        isinstance(value, dict)
+        for value in (
+            published,
+            v2_preregistration,
+            publication_receipts,
+            outputs,
+            success_grammar,
+            active_failure_grammar,
+            pre_record_failure_grammar,
+            transition_failure_grammar,
+            terminalization_failure_grammar,
+        )
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic lineage is invalid"
+        )
+    assert isinstance(published, dict)
+    assert isinstance(v2_preregistration, dict)
+    assert isinstance(publication_receipts, dict)
+    assert isinstance(outputs, dict)
+    assert isinstance(success_grammar, dict)
+    assert isinstance(active_failure_grammar, dict)
+    assert isinstance(pre_record_failure_grammar, dict)
+    assert isinstance(transition_failure_grammar, dict)
+    assert isinstance(terminalization_failure_grammar, dict)
+    final_checkpoint_events = contract.PER_RECORD_CHECKPOINT_PLANS[-1][
+        "durable_events"
+    ]
+    if (
+        checked.get("gate_id") != contract.GATE_ID
+        or checked.get("freeze_status") != "frozen"
+        or checked.get("experiment_id") != contract.EXPERIMENT_ID
+        or checked.get("run_id") != contract.RUN_ID
+        or outputs.get("output_root") != contract.RUN_OUTPUT_ROOT
+        or lineage.get("result_publication_commit")
+        != contract.RESULT_PUBLICATION_COMMIT
+        or published.get("bytes") != contract.PUBLISHED_RESULT_BYTES
+        or published.get("sha256") != contract.PUBLISHED_RESULT_SHA256
+        or published.get("report_digest")
+        != contract.PUBLISHED_RESULT_REPORT_DIGEST
+        or v2_preregistration.get("bytes")
+        != contract.V2_PREREGISTRATION_BYTES
+        or v2_preregistration.get("sha256")
+        != contract.V2_PREREGISTRATION_SHA256
+        or v2_preregistration.get("bound_subtree_sha256")
+        != contract.V2_BOUND_SUBTREE_SHA256
+        or set(publication_receipts)
+        != set(contract.RESULT_PUBLICATION_BOUND_PATHS)
+        or len(publication_receipts) != 20
+        or len(lineage.get("protocol_sources", {}))
+        != len(contract.PROTOCOL_SOURCE_PATHS)
+        or preconditions.get("diagnostic_output_absent") is not True
+        or preconditions.get("lifecycle_lease_absent") is not True
+        or preconditions.get("formal_diagnostic_invocations") != 0
+        or separation.get("new_output_and_lease_roots_do_not_overlap") is not True
+        or registry.get("record_count") != 7
+        or registry.get("diagnostic_case_order")
+        != list(contract.DIAGNOSTIC_CASE_ORDER)
+        or registry.get("target_diagnostic_index")
+        != contract.TARGET_DIAGNOSTIC_INDEX
+        or not isinstance(records, list)
+        or len(records) != 7
+        or execution.get("implementation_frozen_by_this_protocol") is not False
+        or execution.get("diagnostic_execution_authorized") is not False
+        or execution.get("formal_invocation_budget") != 1
+        or execution.get("retry_budget") != 0
+        or checkpoints.get("substage_order")
+        != list(contract.DIAGNOSTIC_SUBSTAGES)
+        or checkpoints.get("durable_substage_events")
+        != list(contract.DIAGNOSTIC_CHECKPOINTS)
+        or checkpoints.get("per_record_durable_substage_event_count") != 18
+        or checkpoints.get("full_success_durable_substage_event_count") != 126
+        or checkpoints.get("maximum_durable_substage_event_count") != 126
+        or not isinstance(plans, list)
+        or len(plans) != 7
+        or resources.get("independent_from_v2_attempt") is not True
+        or resources.get(
+            "scientific_inputs_bound_to_exact_v2_preregistration_blob"
+        )
+        is not True
+        or resources.get("execution_environment_values_recorded_at_protocol_freeze")
+        is not False
+        or terminal.get("success_and_failure_are_mutually_exclusive") is not True
+        or success_grammar.get("durable_substage_event_count") != 126
+        or terminal.get("failure_scopes")
+        != [
+            "pre_record_lifecycle",
+            "inter_record_transition",
+            "active_record_substage",
+            "post_record_terminalization",
+        ]
+        or any(
+            grammar.get("terminal_event") != "failure_terminal_ready"
+            for grammar in (
+                pre_record_failure_grammar,
+                transition_failure_grammar,
+                active_failure_grammar,
+                terminalization_failure_grammar,
+            )
+        )
+        or active_failure_grammar.get(
+            "cross_record_or_session_checkpoint_reference_forbidden"
+        )
+        is not True
+        or terminalization_failure_grammar.get("completed_record_ids")
+        != list(contract.DIAGNOSTIC_CASE_ORDER)
+        or terminalization_failure_grammar.get("active_record_id") is not None
+        or terminalization_failure_grammar.get("active_record_diagnostic_index")
+        is not None
+        or terminalization_failure_grammar.get("active_record_events") != []
+        or terminalization_failure_grammar.get("durable_substage_event_count") != 126
+        or terminalization_failure_grammar.get("last_started_checkpoint")
+        != final_checkpoint_events[-2]
+        or terminalization_failure_grammar.get("last_completed_checkpoint")
+        != final_checkpoint_events[-1]
+        or terminalization_failure_grammar.get("success_terminal_ready_absent")
+        is not True
+        or terminalization_failure_grammar.get("allowed_outcome")
+        != "diagnostic_inconclusive"
+        or terminal.get("result_and_failure_schema_frozen_by_this_protocol")
+        is not False
+        or rubric.get("allowed_outcomes") != list(contract.ALLOWED_OUTCOMES)
+        or rubric.get("outcome_selected_at_protocol_freeze") is not None
+        or authority.get("diagnostic_execution_authorized") is not False
+        or authority.get("model_or_cuda_execution_authorized") is not False
+        or authority.get("processor_execution_authorized") is not False
+        or authority.get("v1_or_v2_retry_authorized") is not False
+        or claims.get("diagnostic_protocol_frozen") is not True
+        or claims.get("diagnostic_protocol_freeze_justified") is not True
+        or claims.get("diagnostic_executed") is not False
+        or claims.get("failed_runtime_substage_isolated") is not False
+        or claims.get("runtime_root_cause_established") is not False
+        or claims.get("model_evaluated") is not False
+        or action.get("next_gate_id") != contract.IMPLEMENTATION_GATE_ID
+        or action.get("implementation_freeze_only") is not True
+        or action.get("diagnostic_execution_authorized") is not False
+        or checked.get("next_gate") != contract.IMPLEMENTATION_GATE_ID
+        or checked.get("runtime_eligible") is not False
+    ):
+        raise GateError(
+            "MM-005 Browser generation-failure diagnostic boundary mismatch"
+        )
+    return {
+        "protocol_frozen": claims["diagnostic_protocol_frozen"],
+        "output_absent": preconditions["diagnostic_output_absent"],
+        "diagnostic_executed": claims["diagnostic_executed"],
+        "new_identity_and_output": all(
+            preconditions[name]
+            for name in ("new_experiment_id", "new_run_id", "new_output_root")
+        ),
+        "checkpoint_count": checkpoints[
+            "full_success_durable_substage_event_count"
+        ],
+        "next_gate": checked["next_gate"],
+        "runtime_eligible": checked["runtime_eligible"],
+        "protocol_sha256": digest,
     }
 
 

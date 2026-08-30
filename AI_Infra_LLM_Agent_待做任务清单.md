@@ -1201,11 +1201,37 @@ present-result unified gates 各通过 961 tests、4 个预期 Windows privilege
 files，且 `result_present=true`、`investigation_executed=true`、`runner_plan_valid=false`、
 `runner_check_valid=true`、`valid=true`。
 
-当前唯一 gate 是 immutable fixed result、parent-only portability fix、tests/unified/docs bounded slice
-的验证与发布；不得重跑 default runner、修改 result、执行 diagnostic experiment 或 recovery-v3。
-其 clean merge、双端 branch cleanup 且 `master == origin/master` 后，唯一 exact successor action 是冻结
-新 identity/output 的 outcome-neutral diagnostic protocol；仍不授权 processor/model/PIL/torch/CUDA/
-network/browser/training/Runtime execution。
+PR #75 已将 immutable fixed result 与 parent-only Windows historical-check portability fix 发布为
+verified signed squash commit `c8541147717870992c60c6d2ea1c2f4ff68ee1d2`；six Linux
+Python-matrix checks、review/comment/thread/conflict/merge state、双端 branch cleanup 与 local master
+alignment 均已确认。fixed result 仍严格为 39,843 bytes / SHA-256
+`2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`，default runner 未再次执行。
+
+当前唯一 gate 是 57,143-byte、SHA-256
+`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6` 的
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1` freeze。它只允许
+新 experiment/run/output/lease identity、PR #75 result binding、3 个 historical prefix controls 后 target
+保持第 4 个 attempt 再接 3 个 same-shape controls、每 record 9 个 substage 的 18 个 durable
+started/completed checkpoints、7-record/126-event full-success grammar、126th checkpoint 后且 success
+terminal 前的 exact post-record terminalization failure scope、selected 20-file c854 predecessor/publication
+closure + exact v2 source-receipt subtree、
+independent resource/terminal/authority/decision contract、canonical builder/check、focused tests、unified gate
+与文档。local CPython 3.11.15、3.12.12、3.13.7 各通过 26/26 focused tests，canonical builder
+均重建相同 bytes；三个 complete unified gates 各通过 987 tests、4 个预期 Windows privilege skips、
+75 audited source files，且 `valid=true`。Ruff 0.15.22 check、新 contract/builder/tests 的 format check、
+typed contract/builder 的 scoped strict Mypy 2.3.0、`py_compile` 与 `git diff --check` 也通过。
+这些证据只建立 protocol freeze：diagnostic output 仍 absent、`diagnostic_executed=false`、
+`runtime_eligible=false`，任何 superseded draft 的旧结果均不计入本 artifact。
+portable builder 不声明可抵抗同权限 actor 在 parent check 与 exclusive create 之间替换 repository
+ancestor；若 threat model 包含 hostile concurrent filesystem，后续必须使用 Windows handle-relative/
+no-reparse create primitive。
+
+本 slice 不得新增 runner/result、重跑 default runner、修改 fixed result、执行 diagnostic/recovery，或
+使用 processor/model/PIL/torch/CUDA/network/browser/training/Runtime。checkpoint 只能收窄 error 的
+observed interval，不能证明 asynchronous error 的 causal origin。其 clean merge、双端 branch cleanup
+且 `master == origin/master` 后，唯一 exact successor 是
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`，即 including
+result contract 的 implementation-freeze-only gate；仍不授权 diagnostic execution 或 recovery-v3。
 
 ## TOOL-001：工具 Schema 与任务定义
 
