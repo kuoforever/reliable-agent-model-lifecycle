@@ -944,11 +944,11 @@ class MM005BrowserResearchGenerationFailureDiagnosticProtocolV1Tests(unittest.Te
                     assert isinstance(command, ast.List)
                     self.assertIsInstance(command.elts[0], ast.Constant)
                     self.assertEqual(command.elts[0].value, "git")
-        self.assertFalse(
+        self.assertTrue(
             (
                 ROOT
                 / "scripts/run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v1.py"
-            ).exists()
+            ).is_file()
         )
 
 

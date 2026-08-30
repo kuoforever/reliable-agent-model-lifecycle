@@ -819,7 +819,8 @@ its report digest is
 The formal execution count is one with zero internal retry. It selected
 `static_pipeline_reconstructed_without_contract_violation`: the static
 pipeline rebuilds, the claimed generation failure is not reproduced, and the
-Runtime root cause remains unresolved. The result permits only freezing
+Runtime root cause remains unresolved. At that result gate, the result permitted
+only freezing
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`;
 diagnostic execution and recovery v3 remain unauthorized.
 
@@ -850,20 +851,27 @@ the default formal runner was not invoked again.
 
 ## Single active objective
 
-Freeze and publish only the outcome-neutral
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1`
-from the clean PR #75 result publication:
+PR #76 published the outcome-neutral 57,143-byte diagnostic protocol as signed
+squash commit `9c90c5e68d4386b30db613930ec7dc0147999c04`; its SHA-256 remains
+`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
+All six Linux Python-matrix checks passed; review, comment, thread, conflict,
+merge-state, merge-tree, branch-cleanup, and local-master alignment were clear.
+
+Freeze and publish only the separate
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`
+result/journal/failure contract and future runner semantics:
 
 ```text
-published PR #75 immutable result + clean aligned master
-        -> bind c854 result blob, 39,843 bytes, hash, report digest, outcome
-        -> new experiment ID + run ID + output/lease roots
-        -> three historical prefix controls, target fourth, three controls
-        -> seven records x nine substages x started/completed = 126 checkpoints
-        -> independent resource, terminal, authority, and decision contracts
-        -> canonical builder/check + focused adversarial tests + unified gate
-        -> clean protocol PR, delete both branch copies, align master
-        -> diagnostic-implementation-v1 freeze only, including result contract
+published PR #76 protocol + clean aligned master
+        -> typed result/failure/authority/owner contract + canonical JSONL chain
+        -> six session + seven x 18 record + terminal-ready = 133 success frames
+        -> four disjoint failure scopes + authenticated interrupted-prefix recovery
+        -> read-only plan/check + authority-gated one-shot future runner
+        -> exact-HEAD/Git/index/environment/input/resource fail-closed checks
+        -> reserved owner/lifecycle/unknown staging closure + model-free reconcile
+        -> focused adversarial tests + three-version unified gate
+        -> clean implementation PR, delete both branch copies, align master
+        -> separate diagnostic-execution-authority-v1 freeze only
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
@@ -871,38 +879,50 @@ Browser Research generation output, v1 owner-only tree, v2 three-file formal
 tree, or the immutable investigation result. Do not run the default formal
 runner again. Do not synthesize missing artifacts, infer an unrecorded Runtime
 substage/root cause, or convert transient controller observations into formal
-telemetry. This slice may only add the canonical protocol/config, typed
-contract, deterministic builder/check, focused tests, unified integration, and
-canonical documentation. It must not add a runner or result, execute the
-diagnostic or recovery, import or call a processor/model/PIL/torch, use CUDA or
-a live browser/network, train or save a model/Adapter, change Runtime, capture
-real content, or broaden quality/repeatability claims. A checkpoint observation
-may narrow an observed interval but cannot prove the origin of an asynchronous
-accelerator error. After a clean protocol merge, branch cleanup, and aligned
-master, the only successor is
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`:
-an implementation-freeze-only gate including the result contract; diagnostic
-execution and recovery v3 remain unauthorized.
+telemetry. This exact 11-path slice may only add the model-free result contract,
+future runner, focused tests, unified integration, and canonical documentation.
+It must not create authority, owner, progress, lifecycle lease, success,
+failure, output-root, or staging artifacts; call `--execute`; import or call a
+processor/model/PIL/torch; use CUDA or a live browser/network; train or save a
+model/Adapter; change Runtime; capture real content; or broaden
+quality/repeatability claims. A checkpoint observation may narrow an observed
+interval but cannot prove the origin of an asynchronous accelerator error.
 
-The current protocol artifact is 57,143 canonical bytes with SHA-256
-`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
-It binds the exact v2 preregistration and its source-receipt subtree plus a
-selected 20-file c854 predecessor/publication closure, uses Windows-safe
-identity separation and a final
-multi-file/HEAD/output recheck, and freezes seven explicit 18-event record
-plans with a 126-event full-success grammar plus an exact post-record
-terminalization-failure window. On local CPython 3.11.15, 3.12.12,
-and 3.13.7, all 26 focused tests pass and the canonical builder reconstructs
-the same bytes. Each complete unified gate passes 987 tests with four expected
-Windows privilege skips, 75 audited source files, and `valid=true`. Ruff
-0.15.22 check, format checks on the new contract/builder/tests, scoped strict
-Mypy 2.3.0 on the typed contract/builder, `py_compile`, and `git diff --check`
-also pass. These results establish only the protocol freeze: diagnostic output
-is absent, `diagnostic_executed=false`, `runtime_eligible=false`, and no result
-from a superseded draft is counted. The portable builder does not claim
-resistance to a same-privilege concurrent repository-ancestor swap between its
-parent check and exclusive create; a hostile-concurrent-filesystem threat model
-would require Windows handle-relative/no-reparse creation.
+The implementation freezes 133-frame success and four-scope failure grammars,
+canonical chained JSONL, private owner identity, exact authority and environment
+bindings, one formal invocation with zero retry, strict resource caps, and
+model-free reconciliation of a claimed interrupted prefix. Execution and
+reconciliation require clean aligned `master == origin/master == HEAD`, and
+`HEAD` must be the authority artifact's unique first-parent introduction
+commit. Trusted Git reads disable ambient config, hooks, replacement/graft
+mechanisms, filters, commit graph, fsmonitor, and hidden index flags; raw
+NUL-delimited UTF-8 path parsing preserves the Chinese checklist path. Any
+reserved owner/lifecycle/unknown staging sibling blocks plan, check, unified
+validation, and execution. `--plan` and `--check` are read-only, and missing
+authority makes `--execute` fail before output, dependency load, model, PIL,
+torch, or CUDA work.
+
+On local CPython 3.11.15, 3.12.12, and 3.13.7, all 40 implementation-focused
+tests and all 26 predecessor protocol tests pass. The protocol builder check and
+runner plan/check agree that the implementation is valid while authority,
+output, staging, execution, result, and Runtime eligibility remain false. Each
+complete unified gate passes 1,027 tests with four expected Windows privilege
+skips, 76 audited source files, and `valid=true`. Ruff 0.15.22 check, scoped
+format checks, strict Mypy 2.3.0 on the two core files, three-version
+`py_compile`, and `git diff --check` also pass. This evidence establishes
+implementation semantics only; no diagnostic execution or recovery-v3 result
+is claimed.
+
+After a clean implementation merge, branch cleanup, and aligned master, the
+only successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`.
+That separate freeze must publish and bind authority before any execution gate;
+a clean implementation merge alone grants no execution authority. The current
+interruption guarantee covers process restart, not portable Windows
+parent-directory fsync under host/power loss. The elapsed cap excludes final
+result construction/publication work, and repeated fail-closed checks reduce
+but do not eliminate same-privilege hostile-concurrent filesystem/source TOCTOU
+windows.
 
 ## Preserved historical validation and deferred gates
 
@@ -1931,7 +1951,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; the new-identity/new-output diagnostic protocol freeze is the current gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; PR #76 published the new-identity/new-output diagnostic protocol; the diagnostic implementation-only gate is current and its sole successor is the separate execution-authority freeze |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
