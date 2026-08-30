@@ -1,11 +1,11 @@
 # MM-005 Browser Research generation-failure investigation protocol v1
 
-> **Result: PUBLISHED THROUGH PR #73 — the outcome-neutral, model-free static
-> investigation protocol is frozen at signed squash commit
-> `fe430710924537a18e677b75202f0c19806d3f12`. Its implementation contract is
-> complete locally, but the investigation has not executed and no result,
-> runtime substage, root cause, remediation, retry, or model/CUDA execution is
-> authorized.**
+> **Result: PROTOCOL PUBLISHED THROUGH PR #73; IMPLEMENTATION THROUGH PR #74;
+> FIXED RESULT THROUGH PR #75 — the outcome-neutral model-free protocol is
+> frozen at `fe430710924537a18e677b75202f0c19806d3f12`. The later static result
+> reconstructed the pipeline without reproducing the claimed failure; the
+> Runtime substage/root cause remains unresolved and diagnostic execution,
+> remediation, retry, and model/CUDA use remain unauthorized.**
 
 ## Predecessor and protocol identity
 
@@ -23,9 +23,10 @@ and investigation ID
 [`configs/mm005_browser_research_model_evaluation_generation_failure_investigation_protocol_v1.json`](../configs/mm005_browser_research_model_evaluation_generation_failure_investigation_protocol_v1.json)
 with SHA-256
 `be8ecd067e884a8d60c9664013943d6887c769ac35a389934509b73338247494`.
-The future result path is fixed separately as
+At the PR #73 protocol freeze, the future result path was fixed separately as
 `baseline/mm005-browser-research-model-eval-v2-generation-failure-investigation-v1.json`;
-no result exists. PR #73 passed all six Linux Python-matrix checks with no
+no result existed then. PR #75 later published the immutable 39,843-byte result
+at that exact path. PR #73 passed all six Linux Python-matrix checks with no
 blocking review, comment, thread, conflict, or merge-state finding; both
 feature-branch copies were deleted before the implementation successor began.
 
@@ -93,9 +94,9 @@ historical causality.
 
 ## Static plan and decision rubric
 
-The next gate is
+At protocol freeze, the next gate was
 `MM-005-browser-research-model-evaluation-generation-failure-investigation-v1`.
-It may implement and execute only the frozen static plan:
+It could implement and execute only the frozen static plan:
 
 - validate the published failure lineage and raw terminal artifacts;
 - rebuild the exact dataset and artifact context;
@@ -141,15 +142,25 @@ weights, capture real content, or change the Runtime repository. The Runtime
 remains the sole policy, approval, WAL, grounding, budget, and desktop-dispatch
 boundary.
 
-A model/CUDA diagnostic experiment is not currently justified or authorized.
-Only a validated static result that remains inconclusive may route to a new
-diagnostic-protocol gate. That later protocol must use a new experiment ID,
-run ID, and output root, clean merged-master preconditions, independent
-authority/resource contracts, and durable checkpoints around message build,
-CUDA synchronization, chat template, processor tensorization/device transfer,
-generation, decode, post-synchronization, and case construction. It cannot
-reuse or retry v2. Observing an error at a synchronization checkpoint would
-still not by itself prove the asynchronous error originated there.
+The validated static result selected
+`static_pipeline_reconstructed_without_contract_violation` and justified only
+the separate diagnostic-protocol freeze. PR #75 published that immutable
+result as signed squash commit `c8541147717870992c60c6d2ea1c2f4ff68ee1d2`.
+The new diagnostic protocol artifact uses a new experiment ID, run ID, and
+output root, binds the published result, freezes independent authority/resource
+contracts, and closes seven explicit 18-event per-record plans around message
+build, CUDA synchronization, chat template, processor tensorization/device
+transfer, generation, decode, post-synchronization, and case construction. The
+full-success grammar therefore contains 126 durable events. Its 57,143-byte
+canonical config has SHA-256
+`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`;
+26 focused tests and all three 987-test unified gates pass with four expected
+Windows privilege skips and 75 audited source files. It cannot reuse or retry
+v2. After its clean merge, the locked successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`.
+Diagnostic execution remains unauthorized. Observing an error at a
+synchronization checkpoint would still not by itself prove the asynchronous
+error originated there.
 
 Recovery-v3 remains unjustified because v2 durable progress and terminal
 persistence succeeded, while neither a failed substage nor a remediating
@@ -176,8 +187,8 @@ guards, overwrite refusal, attempt-ID privacy, and absence of model/network/
 CUDA capability.
 
 The published protocol's 16 focused tests pass on local CPython 3.11.15,
-3.12.12, and 3.13.7. The result slice adds 32 focused tests. Current
-prepublication validation passes those tests, Ruff 0.15.22, Ruff format check,
+3.12.12, and 3.13.7. The published result slice adds 32 focused tests. PR #75
+publication validation passed those tests, Ruff 0.15.22, Ruff format check,
 scoped strict Mypy 2.3.0, `py_compile`, protocol `--check`, real historical
 `--check`, and the complete CPython 3.11.15, 3.12.12, and 3.13.7 unified
 offline gates. Each unified gate passes 961 tests with four expected Windows
@@ -187,6 +198,8 @@ privilege skips, 74 audited source files, `result_present=true`,
 
 The static investigation result selects
 `static_pipeline_reconstructed_without_contract_violation` and permits only a
-separate diagnostic-protocol freeze. Model evaluation, completed formal
+separate diagnostic-protocol freeze. That successor is now specified by
+[the diagnostic protocol](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1.md),
+without a runner or execution authority. Model evaluation, completed formal
 measurement, quality, safety, repeatability, diagnostic execution, Serving,
 promotion, and Runtime eligibility all remain false.

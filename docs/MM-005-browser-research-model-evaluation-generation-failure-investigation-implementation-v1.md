@@ -1,10 +1,10 @@
 # MM-005 Browser Research generation-failure investigation implementation v1
 
-> **Result: IMPLEMENTATION PUBLISHED; FIXED RESULT VALIDATED LOCALLY — PR #74
-> published the closed implementation. One clean merged-master model-free
-> invocation created the fixed result, and the patched historical checker
-> independently recomputes it. The result publication slice is not yet
-> merged.**
+> **Result: IMPLEMENTATION AND FIXED RESULT PUBLISHED — PR #74 published the
+> closed implementation. One clean merged-master model-free invocation created
+> the fixed result, the patched historical checker independently recomputes it,
+> and PR #75 published the immutable result and parent-only portability fix as
+> signed squash commit `c8541147717870992c60c6d2ea1c2f4ff68ee1d2`.**
 
 ## Published predecessor
 
@@ -161,11 +161,18 @@ unchanged, and the default runner was not rerun.
 
 ## Exact next action
 
-Validate and publish the immutable fixed result plus the parent-only Windows
-historical-check portability fix in one bounded pull request. Wait for all
-checks and review/conflict state, merge only when clear, delete both branch
-copies, and restore aligned master. Only then may the separate outcome-neutral
-diagnostic protocol be frozen; diagnostic execution remains unauthorized.
+PR #75 published the immutable fixed result plus the parent-only Windows
+historical-check portability fix as verified signed squash commit
+`c8541147717870992c60c6d2ea1c2f4ff68ee1d2`; all six Linux matrix checks,
+review/comment/thread/conflict state, branch cleanup, and local-master alignment
+were clear. At that publication boundary, the exact successor was the separate outcome-neutral
+[diagnostic protocol](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v1.md).
+It freezes a new identity/output, seven explicit 18-event per-record plans, and
+a 126-event full-success grammar; its 26 focused tests and all three 987-test
+unified gates pass with four expected Windows privilege skips and 75 audited
+source files. After that protocol cleanly merges, its locked successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`.
+Diagnostic execution remains unauthorized.
 
 ## Validation
 
