@@ -851,69 +851,81 @@ the default formal runner was not invoked again.
 
 ## Single active objective
 
-PR #77 published the exact 11-path diagnostic implementation as signed squash
-commit `7da39396c951a9248fe49c1bd69080923b827fa1`. All six feature/PR Linux
-Python-matrix checks passed; review, comment, thread, conflict, merge-state,
-merge-tree, dual branch cleanup, and local `master == origin/master` were clear.
-The implementation remains model-free and outcome-neutral: no authority,
-owner, progress, lifecycle lease, output, staging, execution, model, PIL,
-torch, CUDA, browser, network, training, or Runtime work occurred.
+PR #78 published the exact 10-path diagnostic execution-authority freeze as
+signed squash commit `0a271e2c27c65e9595953dadb98200ea5ec51acb`, whose sole
+parent is PR #77 commit `7da39396c951a9248fe49c1bd69080923b827fa1`.
+All six feature/PR Linux Python-matrix checks passed; review, comment, thread,
+conflict, merge-state, merge-tree, dual branch cleanup, and local master
+alignment were clear. The 2,706-byte authority artifact has SHA-256
+`903e681c2957e185da36ed1f991cc5b339b0e692e8c730da63069690277b9e6b`
+and exactly one first-parent introduction commit.
 
-Freeze and publish only the separate
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
-artifact and preflight contract:
+In a fresh short-path worktree, clean aligned
+`master == origin/master == HEAD == 0a271e2c...51acb`, exact authority/source
+lineage, the four dependency receipts, frozen model and dataset inputs,
+hydrated Adapter, local dependency wheel, exact 17-field Windows/CUDA
+environment, and read-only GPU capability preflights all passed. The v1 output,
+lifecycle, and reserved-staging roots were absent. The registered command was
+then invoked exactly once with no retry.
+
+The process exited `1` with controller-observed `RecoveryIOError` before the
+attempt claim. The frozen runner constructed a `DirectoryTreeGuard` for the
+missing safe `work/evaluation-runs` parent before lifecycle publication or
+owner/genesis claim. Guard construction therefore failed before the terminal
+handler, model body, model load, or CUDA workload. After exit there was still no
+output parent/root, lifecycle root/lease, owner, progress, success, failure, or
+reserved staging sibling.
+
+The authority's one formal invocation budget is spent and its retry budget is
+zero, while `diagnostic_attempt_consumed=false` and
+`diagnostic_executed=false`. The frozen failure grammar is owner-bound: every
+`pre_record_lifecycle` prefix begins with `attempt_claimed`. It cannot represent
+this zero-owner/zero-frame boundary. No failure scope, terminal artifact, or
+formal outcome was synthesized; controller observation is not formal terminal
+telemetry. Historical Runtime health, generation-failure reproduction, model
+quality, root cause, recovery-v3 justification, and Runtime eligibility remain
+unestablished.
+
+The current closeout gate is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-invocation-closeout-v1`.
+Its exact 10-path model-free slice adds only a 6,507-byte canonical closeout
+artifact, deterministic builder/validator, seven focused tests, unified gate
+integration, and canonical documentation. The artifact SHA-256 is
+`d8a64be5b0361322246faf4eeccde04f9921e0a9c586f3498b188a6477d1ddce`.
+It binds PR #76/#77/#78 lineage and exact frozen runner/recovery-I/O bytes,
+records formal invocation budget `1 -> 0`, retry `0`, exit code `1`, absent
+durable topology, unavailable failure scope, `selected_outcome=null`, and the
+no-retry/no-synthesis boundary.
+
+The focused closeout suite passes 7/7 tests. CPython 3.11.15, 3.12.12, and
+3.13.7 each pass the complete unified gate with 1,039 tests, four expected
+Windows privilege skips, 77 audited source files, and `valid=true`. The builder
+check, Ruff 0.15.2, strict Mypy 2.3.0, three-version `py_compile`, and diff
+validation also pass.
+
+This closeout must not invoke `--execute`; create or alter v1 runtime output;
+write an owner, progress frame, lifecycle lease, success/failure terminal, or
+staging sibling; import or call model/PIL/torch/CUDA; use live browser/network;
+train or save a model/Adapter; change Runtime; or recast controller observation
+as authenticated diagnostic telemetry. The v1 command must never run again.
+
+After the closeout publishes and both branch copies are deleted, the single
+exact next objective is the bounded `repository-ci-lfs-maintenance-v1` detour:
 
 ```text
-published PR #77 implementation + clean aligned master
-        -> canonical 2,706-byte authority artifact
-        -> exact PR #77 commit + 4 critical dependency byte receipts
-        -> exact 17-field Windows/CUDA environment + registered resource caps
-        -> one formal invocation + zero retry + one attempt per record
-        -> focused builder/contract tests + three-version unified gate
-        -> clean authority PR, delete both branch copies, align master
-        -> single diagnostic-execution-v1 gate only
+deduplicate feature-push and pull-request CI while preserving required context
+        -> add concurrency cancellation and job timeouts
+        -> three-version pointer-only contract gate
+        -> one separate hydrated LFS integrity gate
+        -> clean maintenance PR and branch cleanup
+        -> new diagnostic-v2 protocol only
 ```
 
-Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
-Browser Research generation output, v1 owner-only tree, v2 three-file formal
-tree, or the immutable investigation result. Do not run the default formal
-runner again. Do not synthesize missing artifacts, infer an unrecorded Runtime
-substage/root cause, or convert transient controller observations into formal
-telemetry. This exact 10-path slice may only add the canonical authority
-artifact, model-free builder, focused tests, unified integration, and canonical
-documentation. It must not create owner, progress, lifecycle lease, success,
-failure, output-root, or staging artifacts; call `--execute`; import or call a
-processor/model/PIL/torch; use a CUDA workload or live browser/network; train or
-save a model/Adapter; change Runtime; capture real content; or broaden any
-quality/repeatability claim.
-
-The 2,706-byte canonical authority artifact has SHA-256
-`903e681c2957e185da36ed1f991cc5b339b0e692e8c730da63069690277b9e6b`.
-It exact-binds PR #77, four direct critical dependency receipts, the frozen
-17-field Windows/CUDA environment, registered resource caps, one formal
-invocation, zero retry, and one attempt per record. Execution and reconciliation
-still require clean aligned `master == origin/master == HEAD`, and `HEAD` must
-equal the authority artifact's unique first-parent introduction commit. Any
-authority-following commit, environment/resource mismatch, hidden index flag,
-fsmonitor state, lineage drift, output, lease, or reserved staging sibling fails
-closed before model load or CUDA workload.
-
-All 5 authority-focused, 40 implementation-focused, and 26 predecessor-protocol
-tests pass on local CPython 3.11.15, 3.12.12, and 3.13.7. Each complete unified
-gate passes 1,032 tests with four expected Windows privilege skips, 76 audited
-source files, and `valid=true`. The authority builder check, runner plan/check,
-exact 17-field environment preflight, Ruff 0.15.22 check and format, strict Mypy
-2.3.0, three-version `py_compile`, and `git diff --check` also pass without
-entering the execution path.
-
-This gate freezes authority only; `diagnostic_attempt_consumed=false`,
-`diagnostic_executed=false`, `model_evaluated=false`, and
-`runtime_eligible=false`. After a clean authority merge, dual branch cleanup,
-and exact master alignment, the only successor is the single registered
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`
-gate. Do not add a closeout commit before that execution or auto-route its
-eventual terminal into recovery v3. The process-restart, Windows parent-fsync,
-elapsed-cap, and same-privilege TOCTOU limitations remain unchanged.
+After that maintenance merge, the preserved resume sequence is new-identity
+`diagnostic-protocol-v2 -> implementation-v2 -> execution-authority-v2 ->
+execution-v2`. V2 must use a new experiment/run/output identity and may fix the
+safe output-parent creation boundary plus a fresh-worktree execution regression
+test. It is not a v1 retry. Automatic recovery v3 remains unauthorized.
 
 ## Preserved historical validation and deferred gates
 
@@ -1942,7 +1954,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; PR #76 published the new-identity/new-output diagnostic protocol; PR #77 published the diagnostic implementation; the separate execution-authority freeze is current and its sole successor is the one-shot diagnostic execution gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard, so invocation closeout is current, CI/LFS maintenance is next, and only a later new diagnostic-v2 identity may resume execution |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

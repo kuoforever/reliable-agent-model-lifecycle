@@ -1269,29 +1269,44 @@ dual branch cleanup, and local master alignment were clear. No authority,
 output, lease, staging, execution, model, PIL, torch, CUDA, browser, network,
 training, or Runtime work occurred in that gate.
 
-The single active objective is now the separate
+PR #78 published the separate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
-freeze. Its exact ten-path slice adds a canonical 2,706-byte authority artifact
-with SHA-256 `903e681c...b9e6b`, a model-free builder, focused tests, unified
-validation, and canonical documentation. The artifact binds PR #77, four
-critical execution dependency receipts, the exact frozen 17-field Windows/CUDA
+freeze as signed squash commit `0a271e2c27c65e9595953dadb98200ea5ec51acb`.
+All six Linux Python-matrix checks passed, review/comment/thread/conflict state
+was clear, and both feature-branch copies were deleted. The authority artifact
+is the unique first-parent addition at that commit and binds PR #77, four
+critical dependency receipts, the exact frozen 17-field Windows/CUDA
 environment, registered resource caps, one formal invocation, zero retry, and
 one attempt per record.
 
-All 5 authority-focused, 40 implementation-focused, and 26 predecessor-protocol
-tests pass on local CPython 3.11.15, 3.12.12, and 3.13.7. Each complete unified
-gate passes 1,032 tests with four expected Windows privilege skips, 76 audited
-source files, and `valid=true`; builder check, runner plan/check, exact
-environment preflight, Ruff, strict Mypy, `py_compile`, and diff validation also
-pass without entering the execution path.
+From a fresh short-path worktree with clean aligned
+`master == origin/master == HEAD == 0a271e2c...51acb`, all lineage, input,
+environment, and read-only GPU preflights passed. The registered command was
+then invoked exactly once. It exited with controller-observed
+`RecoveryIOError` before lifecycle publication or owner/genesis claim because
+the frozen runner constructed a `DirectoryTreeGuard` for the missing safe
+`work/evaluation-runs` parent before creating it. No output root, lifecycle,
+owner, progress, staging, terminal, model load, or CUDA workload occurred.
 
-This gate consumes no attempt and runs no diagnostic. After a clean merge, the
-single execution requires `master == origin/master == HEAD` and `HEAD` equal to
-the authority artifact's unique first-parent introduction commit. Environment,
-resource, lineage, worktree/index, fsmonitor, output, lease, or reserved-staging
-drift fails closed before model load or CUDA work. Its only successor is
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`;
-an authority-following closeout commit would intentionally block that execution.
+The authority's formal invocation budget is spent and retry remains zero, but
+the diagnostic attempt is unconsumed. The frozen failure grammar begins with an
+owner-bound `attempt_claimed` frame, so the zero-owner/zero-progress state has no
+valid failure scope. No terminal artifact or formal outcome was synthesized.
+The model-free 6,507-byte
+[invocation closeout](baseline/mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v1-invocation-closeout.json)
+has SHA-256 `d8a64be5...d1ddce` and preserves that exact boundary.
+The 7/7 focused tests pass; CPython 3.11.15, 3.12.12, and 3.13.7 each pass
+the complete 1,039-test unified gate with four expected Windows privilege
+skips, 77 audited source files, and `valid=true`. Builder, Ruff, strict Mypy,
+three-version `py_compile`, and diff checks also pass.
+
+The single active objective is now the bounded
+`repository-ci-lfs-maintenance-v1` detour: deduplicate feature-push and PR CI,
+add concurrency cancellation and timeouts, separate the three-version
+pointer-only contract from one hydrated LFS integrity gate, and preserve the
+required check context. After that merge, resume only through a new diagnostic
+v2 identity in protocol -> implementation -> authority -> exact-once execution
+order. That future run is not a retry of v1.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

@@ -283,6 +283,18 @@ MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_BYTES = 57_143
 MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_SHA256 = (
     "sha256:13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6"
 )
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_PATH = (
+    ROOT
+    / "baseline"
+    / (
+        "mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v1-"
+        "invocation-closeout.json"
+    )
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_BYTES = 6_507
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_SHA256 = (
+    "sha256:d8a64be5b0361322246faf4eeccde04f9921e0a9c586f3498b188a6477d1ddce"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -671,6 +683,9 @@ def main() -> int:
         mm005_browser_research_generation_failure_diagnostic,
         mm005_browser_research_generation_failure_diagnostic_implementation,
     ) = _validate_mm005_browser_research_generation_failure_diagnostic_state()
+    mm005_browser_research_generation_failure_diagnostic_invocation_closeout = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_invocation_closeout()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -1866,6 +1881,41 @@ def main() -> int:
         "mm005_browser_research_generation_failure_diagnostic_selected_outcome": (
             mm005_browser_research_generation_failure_diagnostic_implementation[
                 "selected_outcome"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_invocation_budget_spent": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "formal_invocation_budget_spent"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_invocation_budget_remaining": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "formal_invocation_budget_remaining"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_closeout_attempt_consumed": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "diagnostic_attempt_consumed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_closeout_terminal_synthesized": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "terminal_synthesized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_closeout_selected_outcome": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "selected_outcome"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_closeout_classification": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "classification"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_closeout_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
+                "next_gate"
             ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
@@ -6403,6 +6453,146 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_state() -> (
             "MM-005 Browser generation-failure diagnostic state boundary mismatch"
         )
     return protocol_summary, implementation
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_invocation_closeout() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_invocation_closeout as contract,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result as result_contract,
+    )
+    from scripts import (
+        closeout_mm005_browser_research_model_evaluation_generation_failure_diagnostic_invocation_v1 as builder,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_PATH,
+        "MM-005 diagnostic invocation closeout",
+    )
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_BYTES
+        or contract.sha256_bytes(payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_SHA256
+    ):
+        raise GateError("MM-005 diagnostic invocation closeout receipt mismatch")
+
+    authority_payload = _read_regular_file_once(
+        ROOT / result_contract.EXECUTION_AUTHORITY_PATH,
+        "MM-005 diagnostic execution authority",
+    )
+    runner_payload = _read_regular_file_once(
+        ROOT / contract.RUNNER_PATH,
+        "MM-005 diagnostic v1 runner",
+    )
+    recovery_io_payload = _read_regular_file_once(
+        ROOT / contract.RECOVERY_IO_PATH,
+        "MM-005 diagnostic recovery I/O",
+    )
+    closeout = contract.parse_and_validate_invocation_closeout(
+        payload,
+        authority_payload=authority_payload,
+        runner_payload=runner_payload,
+        recovery_io_payload=recovery_io_payload,
+    )
+    rebuilt = builder.build_closeout()
+    invocation = closeout.get("invocation")
+    boundary = closeout.get("failure_boundary")
+    durable = closeout.get("durable_runtime_state")
+    grammar = closeout.get("frozen_failure_grammar")
+    outcome = closeout.get("formal_outcome")
+    claims = closeout.get("claims")
+    action = closeout.get("locked_next_action")
+    publication = closeout.get("publication")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            invocation,
+            boundary,
+            durable,
+            grammar,
+            outcome,
+            claims,
+            action,
+            publication,
+        )
+    ):
+        raise GateError("MM-005 diagnostic invocation closeout sections are invalid")
+    assert isinstance(invocation, dict)
+    assert isinstance(boundary, dict)
+    assert isinstance(durable, dict)
+    assert isinstance(grammar, dict)
+    assert isinstance(outcome, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(action, dict)
+    assert isinstance(publication, dict)
+    runtime_presence_keys = {
+        "output_parent_present",
+        "output_root_present",
+        "lifecycle_lease_root_present",
+        "lifecycle_lease_present",
+        "attempt_owner_present",
+        "progress_present",
+        "success_result_present",
+        "failure_present",
+        "reserved_sibling_staging_present",
+    }
+    if (
+        contract.artifact_json_bytes(rebuilt) != payload
+        or closeout.get("gate_id") != contract.GATE_ID
+        or closeout.get("failed_gate_id") != contract.FAILED_GATE_ID
+        or closeout.get("classification") != contract.CLASSIFICATION
+        or invocation.get("formal_invocation_budget") != 1
+        or invocation.get("formal_invocations_observed") != 1
+        or invocation.get("formal_invocation_budget_remaining") != 0
+        or invocation.get("retry_budget") != 0
+        or invocation.get("retries_observed") != 0
+        or invocation.get("retry_authorized") is not False
+        or invocation.get("same_identity_reinvocation_authorized") is not False
+        or boundary.get("controller_observed_exception_type") != "RecoveryIOError"
+        or boundary.get("output_parent_was_missing") is not True
+        or boundary.get("lifecycle_publication_entered") is not False
+        or boundary.get("owner_and_genesis_claim_entered") is not False
+        or boundary.get("terminal_handler_entered") is not False
+        or boundary.get("model_body_entered") is not False
+        or set(durable) != runtime_presence_keys | {"evidence_source"}
+        or any(durable.get(name) is not False for name in runtime_presence_keys)
+        or grammar.get("minimum_journal_event") != "attempt_claimed"
+        or grammar.get("this_failure_representable") is not False
+        or grammar.get("terminal_synthesis_authorized") is not False
+        or grammar.get("failure_scope") is not None
+        or outcome.get("selection_authorized") is not False
+        or outcome.get("selected_outcome") is not None
+        or claims.get("formal_invocation_budget_spent") is not True
+        or claims.get("diagnostic_attempt_consumed") is not False
+        or claims.get("diagnostic_executed") is not False
+        or claims.get("model_loaded") is not False
+        or claims.get("cuda_workload_executed") is not False
+        or claims.get("diagnostic_terminal_published") is not False
+        or claims.get("runtime_eligible") is not False
+        or action.get("next_gate_id") != contract.NEXT_GATE_ID
+        or action.get("resume_gate_id") != contract.NEW_IDENTITY_PROTOCOL_GATE_ID
+        or action.get("v1_retry_authorized") is not False
+        or action.get("v1_terminal_synthesis_authorized") is not False
+        or publication.get("slice_paths") != sorted(contract.CLOSEOUT_SLICE_PATHS)
+        or publication.get("slice_path_count") != 10
+        or len(contract.CLOSEOUT_SLICE_PATHS) != 10
+    ):
+        raise GateError("MM-005 diagnostic invocation closeout boundary mismatch")
+    return {
+        "classification": closeout["classification"],
+        "formal_invocation_budget_spent": claims["formal_invocation_budget_spent"],
+        "formal_invocation_budget_remaining": invocation[
+            "formal_invocation_budget_remaining"
+        ],
+        "diagnostic_attempt_consumed": claims["diagnostic_attempt_consumed"],
+        "terminal_synthesized": grammar["terminal_synthesis_authorized"],
+        "selected_outcome": outcome["selected_outcome"],
+        "next_gate": action["next_gate_id"],
+    }
 
 
 def _mm005_generation_failure_diagnostic_runtime_presence(
