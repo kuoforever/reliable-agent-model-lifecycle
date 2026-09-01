@@ -851,27 +851,27 @@ the default formal runner was not invoked again.
 
 ## Single active objective
 
-PR #76 published the outcome-neutral 57,143-byte diagnostic protocol as signed
-squash commit `9c90c5e68d4386b30db613930ec7dc0147999c04`; its SHA-256 remains
-`13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
-All six Linux Python-matrix checks passed; review, comment, thread, conflict,
-merge-state, merge-tree, branch-cleanup, and local-master alignment were clear.
+PR #77 published the exact 11-path diagnostic implementation as signed squash
+commit `7da39396c951a9248fe49c1bd69080923b827fa1`. All six feature/PR Linux
+Python-matrix checks passed; review, comment, thread, conflict, merge-state,
+merge-tree, dual branch cleanup, and local `master == origin/master` were clear.
+The implementation remains model-free and outcome-neutral: no authority,
+owner, progress, lifecycle lease, output, staging, execution, model, PIL,
+torch, CUDA, browser, network, training, or Runtime work occurred.
 
 Freeze and publish only the separate
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`
-result/journal/failure contract and future runner semantics:
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
+artifact and preflight contract:
 
 ```text
-published PR #76 protocol + clean aligned master
-        -> typed result/failure/authority/owner contract + canonical JSONL chain
-        -> six session + seven x 18 record + terminal-ready = 133 success frames
-        -> four disjoint failure scopes + authenticated interrupted-prefix recovery
-        -> read-only plan/check + authority-gated one-shot future runner
-        -> exact-HEAD/Git/index/environment/input/resource fail-closed checks
-        -> reserved owner/lifecycle/unknown staging closure + model-free reconcile
-        -> focused adversarial tests + three-version unified gate
-        -> clean implementation PR, delete both branch copies, align master
-        -> separate diagnostic-execution-authority-v1 freeze only
+published PR #77 implementation + clean aligned master
+        -> canonical 2,706-byte authority artifact
+        -> exact PR #77 commit + 4 critical dependency byte receipts
+        -> exact 17-field Windows/CUDA environment + registered resource caps
+        -> one formal invocation + zero retry + one attempt per record
+        -> focused builder/contract tests + three-version unified gate
+        -> clean authority PR, delete both branch copies, align master
+        -> single diagnostic-execution-v1 gate only
 ```
 
 Do not delete, reopen, reuse, overwrite, regenerate, or retry the consumed
@@ -879,50 +879,41 @@ Browser Research generation output, v1 owner-only tree, v2 three-file formal
 tree, or the immutable investigation result. Do not run the default formal
 runner again. Do not synthesize missing artifacts, infer an unrecorded Runtime
 substage/root cause, or convert transient controller observations into formal
-telemetry. This exact 11-path slice may only add the model-free result contract,
-future runner, focused tests, unified integration, and canonical documentation.
-It must not create authority, owner, progress, lifecycle lease, success,
+telemetry. This exact 10-path slice may only add the canonical authority
+artifact, model-free builder, focused tests, unified integration, and canonical
+documentation. It must not create owner, progress, lifecycle lease, success,
 failure, output-root, or staging artifacts; call `--execute`; import or call a
-processor/model/PIL/torch; use CUDA or a live browser/network; train or save a
-model/Adapter; change Runtime; capture real content; or broaden
-quality/repeatability claims. A checkpoint observation may narrow an observed
-interval but cannot prove the origin of an asynchronous accelerator error.
+processor/model/PIL/torch; use a CUDA workload or live browser/network; train or
+save a model/Adapter; change Runtime; capture real content; or broaden any
+quality/repeatability claim.
 
-The implementation freezes 133-frame success and four-scope failure grammars,
-canonical chained JSONL, private owner identity, exact authority and environment
-bindings, one formal invocation with zero retry, strict resource caps, and
-model-free reconciliation of a claimed interrupted prefix. Execution and
-reconciliation require clean aligned `master == origin/master == HEAD`, and
-`HEAD` must be the authority artifact's unique first-parent introduction
-commit. Trusted Git reads disable ambient config, hooks, replacement/graft
-mechanisms, filters, commit graph, fsmonitor, and hidden index flags; raw
-NUL-delimited UTF-8 path parsing preserves the Chinese checklist path. Any
-reserved owner/lifecycle/unknown staging sibling blocks plan, check, unified
-validation, and execution. `--plan` and `--check` are read-only, and missing
-authority makes `--execute` fail before output, dependency load, model, PIL,
-torch, or CUDA work.
+The 2,706-byte canonical authority artifact has SHA-256
+`903e681c2957e185da36ed1f991cc5b339b0e692e8c730da63069690277b9e6b`.
+It exact-binds PR #77, four direct critical dependency receipts, the frozen
+17-field Windows/CUDA environment, registered resource caps, one formal
+invocation, zero retry, and one attempt per record. Execution and reconciliation
+still require clean aligned `master == origin/master == HEAD`, and `HEAD` must
+equal the authority artifact's unique first-parent introduction commit. Any
+authority-following commit, environment/resource mismatch, hidden index flag,
+fsmonitor state, lineage drift, output, lease, or reserved staging sibling fails
+closed before model load or CUDA workload.
 
-On local CPython 3.11.15, 3.12.12, and 3.13.7, all 40 implementation-focused
-tests and all 26 predecessor protocol tests pass. The protocol builder check and
-runner plan/check agree that the implementation is valid while authority,
-output, staging, execution, result, and Runtime eligibility remain false. Each
-complete unified gate passes 1,027 tests with four expected Windows privilege
-skips, 76 audited source files, and `valid=true`. Ruff 0.15.22 check, scoped
-format checks, strict Mypy 2.3.0 on the two core files, three-version
-`py_compile`, and `git diff --check` also pass. This evidence establishes
-implementation semantics only; no diagnostic execution or recovery-v3 result
-is claimed.
+All 5 authority-focused, 40 implementation-focused, and 26 predecessor-protocol
+tests pass on local CPython 3.11.15, 3.12.12, and 3.13.7. Each complete unified
+gate passes 1,032 tests with four expected Windows privilege skips, 76 audited
+source files, and `valid=true`. The authority builder check, runner plan/check,
+exact 17-field environment preflight, Ruff 0.15.22 check and format, strict Mypy
+2.3.0, three-version `py_compile`, and `git diff --check` also pass without
+entering the execution path.
 
-After a clean implementation merge, branch cleanup, and aligned master, the
-only successor is
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`.
-That separate freeze must publish and bind authority before any execution gate;
-a clean implementation merge alone grants no execution authority. The current
-interruption guarantee covers process restart, not portable Windows
-parent-directory fsync under host/power loss. The elapsed cap excludes final
-result construction/publication work, and repeated fail-closed checks reduce
-but do not eliminate same-privilege hostile-concurrent filesystem/source TOCTOU
-windows.
+This gate freezes authority only; `diagnostic_attempt_consumed=false`,
+`diagnostic_executed=false`, `model_evaluated=false`, and
+`runtime_eligible=false`. After a clean authority merge, dual branch cleanup,
+and exact master alignment, the only successor is the single registered
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`
+gate. Do not add a closeout commit before that execution or auto-route its
+eventual terminal into recovery v3. The process-restart, Windows parent-fsync,
+elapsed-cap, and same-privilege TOCTOU limitations remain unchanged.
 
 ## Preserved historical validation and deferred gates
 
@@ -1951,7 +1942,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; PR #76 published the new-identity/new-output diagnostic protocol; the diagnostic implementation-only gate is current and its sole successor is the separate execution-authority freeze |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation published through PR #73/#74; PR #75 published the immutable static result and Windows historical-check portability fix; PR #76 published the new-identity/new-output diagnostic protocol; PR #77 published the diagnostic implementation; the separate execution-authority freeze is current and its sole successor is the one-shot diagnostic execution gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

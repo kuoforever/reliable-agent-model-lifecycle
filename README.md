@@ -1262,31 +1262,36 @@ SHA-256 remains
 All six Linux Python-matrix checks and the review, comment, thread, conflict,
 merge-state, branch-cleanup, and local-master-alignment gates were clear.
 
-The single active objective is now the implementation-freeze-only
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`.
-Its exact 11-path slice adds a model-free typed result/failure/authority/owner
-contract, a canonical SHA-256-chained JSONL journal, four disjoint failure
-scopes, a 133-frame/126-checkpoint success grammar, and an explicitly gated
-future runner. Read-only plan/check and unified validation reject any authority,
-output, lease, or reserved staging state. Execution and reconciliation require
-the separately published authority's exact first-parent introduction commit,
-clean aligned Git state, exact environment and frozen inputs, one invocation,
-zero retry, strict resource caps, and repeated fail-closed lineage checks. A
-claimed interrupted prefix can only be reconciled model-free; it cannot rerun
-the diagnostic.
+PR #77 published the exact 11-path implementation freeze as signed squash
+commit `7da39396c951a9248fe49c1bd69080923b827fa1`. All six feature/PR Linux
+Python-matrix checks passed; review/comment/thread/conflict state, merge tree,
+dual branch cleanup, and local master alignment were clear. No authority,
+output, lease, staging, execution, model, PIL, torch, CUDA, browser, network,
+training, or Runtime work occurred in that gate.
 
-Local CPython 3.11.15, 3.12.12, and 3.13.7 each pass all 40
-implementation-focused tests and all 26 predecessor protocol tests. The
-protocol builder and runner plan/check agree that implementation is valid while
-authority, output, staging, execution, result, and Runtime eligibility remain
-false. Each complete unified gate passes 1,027 tests with four expected Windows
-privilege skips, 76 audited source files, and `valid=true`. Ruff 0.15.22 check,
-scoped format checks, strict Mypy 2.3.0 on the two core files, three-version
-`py_compile`, and diff validation also pass. No model, PIL, torch, CUDA,
-network, browser, or diagnostic work has run. The only successor after a clean
-implementation merge and branch cleanup is the separate
+The single active objective is now the separate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
-freeze; the implementation merge alone grants no execution authority.
+freeze. Its exact ten-path slice adds a canonical 2,706-byte authority artifact
+with SHA-256 `903e681c...b9e6b`, a model-free builder, focused tests, unified
+validation, and canonical documentation. The artifact binds PR #77, four
+critical execution dependency receipts, the exact frozen 17-field Windows/CUDA
+environment, registered resource caps, one formal invocation, zero retry, and
+one attempt per record.
+
+All 5 authority-focused, 40 implementation-focused, and 26 predecessor-protocol
+tests pass on local CPython 3.11.15, 3.12.12, and 3.13.7. Each complete unified
+gate passes 1,032 tests with four expected Windows privilege skips, 76 audited
+source files, and `valid=true`; builder check, runner plan/check, exact
+environment preflight, Ruff, strict Mypy, `py_compile`, and diff validation also
+pass without entering the execution path.
+
+This gate consumes no attempt and runs no diagnostic. After a clean merge, the
+single execution requires `master == origin/master == HEAD` and `HEAD` equal to
+the authority artifact's unique first-parent introduction commit. Environment,
+resource, lineage, worktree/index, fsmonitor, output, lease, or reserved-staging
+drift fails closed before model load or CUDA work. Its only successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`;
+an authority-following closeout commit would intentionally block that execution.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
