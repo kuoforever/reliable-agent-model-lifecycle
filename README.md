@@ -1301,28 +1301,36 @@ skips, 77 audited source files, and `valid=true`. Builder, Ruff, strict Mypy,
 three-version `py_compile`, and diff checks also pass.
 
 PR #79 published that exact closeout as verified signed squash commit
-`fd552896df1aea817ba4d2ece3bf43a8f248424f`; all six feature/PR checks,
-review/conflict/strict-up-to-date state, exact tree, and dual branch cleanup
-were clear. Its post-merge `master` run `33473223877` completed all three legacy
-required contexts successfully at `2026-09-01T05:32:39Z`, activating the
-bounded [repository CI/LFS maintenance v1](docs/repository-ci-lfs-maintenance-v1.md)
-detour.
+`fd552896df1aea817ba4d2ece3bf43a8f248424f`; its exact post-merge run activated
+the bounded [repository CI/LFS maintenance v1](docs/repository-ci-lfs-maintenance-v1.md).
+PR #80 then passed all four split jobs in run `33480142139`, merged as verified
+signed squash `266e9b695af0f93ae4c82e36ac484cb2d3d3a521`, and passed the same
+four jobs on exact merge HEAD in run `33481002184`. Ruleset `19977219` now
+requires exactly the three pointer/stdlib matrix contexts plus
+`hydrated-lfs-integrity`; branch cleanup is complete. The maintenance invoked
+no diagnostic and changed no model, data, Adapter, Runtime, output, or result
+claim.
 
-The active maintenance keeps the exact three matrix context names but makes
-them pointer-and-stdlib-only on Python 3.11/3.12/3.13. A separate Python 3.11
-`hydrated-lfs-integrity` job proves pointer state before pull, hydrates and
-hashes exactly four registered objects totaling 110,524,520 bytes, runs an
-explicit LFS fsck, and alone runs the complete offline gate. Push is limited to
-`master`; PRs target `master`; concurrency cancellation, timeouts, read-only
-permissions, full history, and immutable Node 24 action pins are fixed. The
-fourth required context must be staged after all four jobs pass on both the
-maintenance PR and its post-merge run.
+The sole active gate is the protocol-only
+[generation-failure diagnostic protocol v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2.md).
+Its 62,653-byte canonical preregistration has SHA-256
+`0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`
+and freezes a new experiment, run, output root, fixed artifact names, and lease
+without adding a runner, result, authority, or runtime output.
 
-This detour changes no model, data, Adapter, Runtime, diagnostic output, or
-result claim and may not invoke any diagnostic. After its clean merge,
-four-job post-merge observation, required-context staging, and branch cleanup,
-resume only through a new diagnostic-v2 identity in protocol -> implementation
--> authority -> exact-once execution order. That future run is not a v1 retry.
+The scientific contract remains exactly seven records, 17 environment fields,
+nine substages, 126 durable checkpoints, 133 success frames, four failure
+scopes, four outcomes, seed 55006, and unchanged resource caps. V1 invocation
+budget remains spent while its attempt remains unconsumed; v1 retry, terminal
+synthesis, zero-owner scope, and recovery v3 remain forbidden.
+
+Plan/check/freeze do not create `work` or `work/evaluation-runs`. A future
+execution-v2 may create only the missing parent with exclusive `os.mkdir`
+after separate authority and clean-lineage gates, then must re-guard before
+lifecycle and atomic owner/genesis. Implementation-v2 must first prove that
+path in a real temporary filesystem and fail controllably at the first heavy
+boundary without model/CUDA entry. Protocol, implementation, authority, and
+exact-once execution remain separate; this is not a v1 retry.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

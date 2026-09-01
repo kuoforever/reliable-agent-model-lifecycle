@@ -1251,25 +1251,39 @@ three-version `py_compile` 与 `git diff --check` 均通过；本机 CPython 3.1
 3.13.7 complete unified gates 各通过 1,039 tests、4 个预期 Windows privilege skips、
 77 个 audited source files，且 `valid=true`。
 
-PR #79 已将该 closeout 发布为 verified signed squash commit
-`fd552896df1aea817ba4d2ece3bf43a8f248424f`；six feature/PR checks、review/conflict/
-strict-up-to-date、exact tree 与双端 branch cleanup 均 clear。post-merge `master` run
-`33473223877` 的三个 legacy required contexts 于 `2026-09-01T05:32:39Z` 全绿，因而唯一 active
-gate 已切换为 bounded `repository-ci-lfs-maintenance-v1`。
+PR #80 的四个 split jobs 已在 run `33480142139` 全绿，并以 verified signed squash
+`266e9b695af0f93ae4c82e36ac484cb2d3d3a521` 合并；exact merge HEAD 的 post-merge run
+`33481002184` 再次四绿。ruleset `19977219` 已在两次 observation 后更新并回读为 active/strict、
+zero bypass、exact 三个 `python-matrix (3.11/3.12/3.13)` 加 `hydrated-lfs-integrity` 四个 required
+contexts；双端 branch 与临时 worktree cleanup 完成。`repository-ci-lfs-maintenance-v1` 因而正式关闭，且
+全程未调用 diagnostic、未改 model/data/Adapter/Runtime/consumed output/result claim。
 
-该 maintenance 只修改 CI transport/gate placement、冻结的 4-object LFS inventory、stdlib validator/
-negative tests 与 canonical docs。exact 三个 `python-matrix (3.11/3.12/3.13)` context 改为
-pointer-and-stdlib-only，必须输出 `full_integrity_verified=false` 与 `lfs_payloads_read=0`；独立 Python
-3.11 `hydrated-lfs-integrity` 必须在 pull 前证明 pointer state，再精确 hydrate/hash 4 objects、执行
-`git lfs fsck --objects --pointers HEAD` 与 complete offline gate。feature push 不再触发 duplicate run；
-concurrency、timeout、read-only permission、full history 与 immutable Node 24 action pins 均固定。
+当前唯一 active gate 是 protocol-only
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`。其 62,653-byte
+canonical preregistration SHA-256 为
+`0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`，冻结全新：
 
-只有 maintenance PR 与 post-merge run 的四个 jobs 均绿后，才可把 hydrated context 加入 ruleset；任何
-required context rename、pointer job 读取 payload、inventory drift、full gate 缺失、check/review/conflict/
-strict-up-to-date 未清楚都必须停止。该 detour 不得调用 diagnostic，也不得改 model/data/Adapter/Runtime/
-consumed output/result claim。clean merge、post-merge 观察、required-context staging 与双端 cleanup 后才可从全新
-`diagnostic-protocol-v2 -> implementation-v2 -> execution-authority-v2 -> execution-v2` identity 恢复；
-新 experiment/run/output 不得称为 v1 retry，automatic recovery-v3 仍不授权。
+- experiment `mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2`；
+- run `mm005-browser-research-model-eval-v2-generation-failure-diagnostic-r2`；
+- output `work/evaluation-runs/mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2`；
+- fixed owner/progress/result/failure filenames 与 `<output>.lifecycle/lease`。
+
+它 exact-bind original-v2 introduction/static-result/base、v1 protocol/implementation/authority/closeout、
+maintenance lineage；保留 7 records、17 environment fields、9 substages、126 checkpoints、133 success
+frames、4 owner-bound failure scopes、4 outcomes、seed 55006 与 resource caps。v1 invocation budget 已耗尽、
+attempt 未消耗；v1 retry、zero-owner scope、terminal synthesis、outcome synthesis 与 recovery-v3 仍禁止。
+
+plan/check/freeze 对 `work` 完全只读且允许 `work/evaluation-runs` 缺失。仅 future execution-v2 在独立
+published authority、clean aligned HEAD、exact lineage、unclaimed topology 后，可先 guard `ROOT -> work`，
+exclusive `os.mkdir` 单一 parent，再重验 authority/lineage/remaining topology/ancestry、guard
+`ROOT -> work/evaluation-runs`，之后才 lifecycle 与 atomic owner/genesis。parent create 不是 claim/telemetry。
+
+下一 implementation-v2 必须用真实 temp FS（safe `work` 已存在、parent 缺失），不得 mock parent helper 或
+`DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy boundary 受控失败并证明
+model import/load、CUDA、network 未进入。当前 slice 不新增 runner/result/authority/output，不执行 diagnostic。
+clean merge 后唯一 successor 是 implementation-v2；authority-v2 与 exact-once execution-v2 继续独立，绝不称
+v1 retry。任何 receipt/scientific/identity drift、planned output 已存在、11-path 超限或 checks/review/conflict/
+strict-up-to-date 未清楚都必须停止。
 
 ## TOOL-001：工具 Schema 与任务定义
 
