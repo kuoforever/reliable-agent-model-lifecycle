@@ -1300,13 +1300,29 @@ the complete 1,039-test unified gate with four expected Windows privilege
 skips, 77 audited source files, and `valid=true`. Builder, Ruff, strict Mypy,
 three-version `py_compile`, and diff checks also pass.
 
-The single active objective is now the bounded
-`repository-ci-lfs-maintenance-v1` detour: deduplicate feature-push and PR CI,
-add concurrency cancellation and timeouts, separate the three-version
-pointer-only contract from one hydrated LFS integrity gate, and preserve the
-required check context. After that merge, resume only through a new diagnostic
-v2 identity in protocol -> implementation -> authority -> exact-once execution
-order. That future run is not a retry of v1.
+PR #79 published that exact closeout as verified signed squash commit
+`fd552896df1aea817ba4d2ece3bf43a8f248424f`; all six feature/PR checks,
+review/conflict/strict-up-to-date state, exact tree, and dual branch cleanup
+were clear. Its post-merge `master` run `33473223877` completed all three legacy
+required contexts successfully at `2026-09-01T05:32:39Z`, activating the
+bounded [repository CI/LFS maintenance v1](docs/repository-ci-lfs-maintenance-v1.md)
+detour.
+
+The active maintenance keeps the exact three matrix context names but makes
+them pointer-and-stdlib-only on Python 3.11/3.12/3.13. A separate Python 3.11
+`hydrated-lfs-integrity` job proves pointer state before pull, hydrates and
+hashes exactly four registered objects totaling 110,524,520 bytes, runs an
+explicit LFS fsck, and alone runs the complete offline gate. Push is limited to
+`master`; PRs target `master`; concurrency cancellation, timeouts, read-only
+permissions, full history, and immutable Node 24 action pins are fixed. The
+fourth required context must be staged after all four jobs pass on both the
+maintenance PR and its post-merge run.
+
+This detour changes no model, data, Adapter, Runtime, diagnostic output, or
+result claim and may not invoke any diagnostic. After its clean merge,
+four-job post-merge observation, required-context staging, and branch cleanup,
+resume only through a new diagnostic-v2 identity in protocol -> implementation
+-> authority -> exact-once execution order. That future run is not a v1 retry.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

@@ -1238,8 +1238,8 @@ formal invocation budget 已从 1 消耗到 0，retry budget 仍为 0；但
 owner-bound `attempt_claimed` frame，无法表达 zero-owner/zero-frame boundary。不得合成 failure terminal、
 failure scope 或 formal outcome；`selected_outcome=null`，controller observation 不属于 formal telemetry。
 
-当前 gate 是 model-free
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-invocation-closeout-v1`。其 exact
+model-free
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-invocation-closeout-v1` exact
 10-path slice 仅增加 6,507-byte canonical closeout、deterministic builder/validator、7 个 focused tests、
 unified integration 与 canonical docs。artifact SHA-256 为
 `d8a64be5b0361322246faf4eeccde04f9921e0a9c586f3498b188a6477d1ddce`。本 closeout 不得调用
@@ -1251,10 +1251,23 @@ three-version `py_compile` 与 `git diff --check` 均通过；本机 CPython 3.1
 3.13.7 complete unified gates 各通过 1,039 tests、4 个预期 Windows privilege skips、
 77 个 audited source files，且 `valid=true`。
 
-closeout clean merge 与双端 branch cleanup 后，唯一 exact next 是
-`repository-ci-lfs-maintenance-v1`：去除 feature-push/PR duplicate CI，增加 concurrency cancellation 与
-job timeout，将三版本 pointer-only contract 与单一 hydrated LFS integrity gate 分离，同时保持 required
-check context。maintenance 合并后才可从全新
+PR #79 已将该 closeout 发布为 verified signed squash commit
+`fd552896df1aea817ba4d2ece3bf43a8f248424f`；six feature/PR checks、review/conflict/
+strict-up-to-date、exact tree 与双端 branch cleanup 均 clear。post-merge `master` run
+`33473223877` 的三个 legacy required contexts 于 `2026-09-01T05:32:39Z` 全绿，因而唯一 active
+gate 已切换为 bounded `repository-ci-lfs-maintenance-v1`。
+
+该 maintenance 只修改 CI transport/gate placement、冻结的 4-object LFS inventory、stdlib validator/
+negative tests 与 canonical docs。exact 三个 `python-matrix (3.11/3.12/3.13)` context 改为
+pointer-and-stdlib-only，必须输出 `full_integrity_verified=false` 与 `lfs_payloads_read=0`；独立 Python
+3.11 `hydrated-lfs-integrity` 必须在 pull 前证明 pointer state，再精确 hydrate/hash 4 objects、执行
+`git lfs fsck --objects --pointers HEAD` 与 complete offline gate。feature push 不再触发 duplicate run；
+concurrency、timeout、read-only permission、full history 与 immutable Node 24 action pins 均固定。
+
+只有 maintenance PR 与 post-merge run 的四个 jobs 均绿后，才可把 hydrated context 加入 ruleset；任何
+required context rename、pointer job 读取 payload、inventory drift、full gate 缺失、check/review/conflict/
+strict-up-to-date 未清楚都必须停止。该 detour 不得调用 diagnostic，也不得改 model/data/Adapter/Runtime/
+consumed output/result claim。clean merge、post-merge 观察、required-context staging 与双端 cleanup 后才可从全新
 `diagnostic-protocol-v2 -> implementation-v2 -> execution-authority-v2 -> execution-v2` identity 恢复；
 新 experiment/run/output 不得称为 v1 retry，automatic recovery-v3 仍不授权。
 
