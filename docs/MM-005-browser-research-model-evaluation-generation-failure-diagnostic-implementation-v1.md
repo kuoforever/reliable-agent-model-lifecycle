@@ -10,7 +10,12 @@ It consumes the protocol published through PR #76 as signed squash commit
 SHA-256
 `13d1808168819414df2a0ca33d1f59e5e8efd52de6f0b49946d02cf070c992d6`.
 
-This is still an implementation-freeze-only gate. No execution-authority,
+PR #77 published this exact implementation slice as signed squash commit
+`7da39396c951a9248fe49c1bd69080923b827fa1`. All six feature/PR Linux
+Python-matrix checks passed, and review, conflict, merge-tree, branch-cleanup,
+and local-master-alignment gates were clear.
+
+This was an implementation-freeze-only gate. No execution-authority,
 owner, progress, lifecycle lease, success, failure, output-root, or reserved
 staging artifact is created. `--plan` and `--check` are read-only; `--execute`
 fails before output, lease, heavy dependency import, model, PIL, torch, or CUDA
@@ -144,9 +149,9 @@ success-frame/result construction, final lineage checks, and terminal fsync.
 The remaining same-privilege filesystem and source-check TOCTOU windows are not
 claimed resistant to a hostile concurrent actor.
 
-Do not create an authority artifact, call `--execute`, create or repair runtime
-output, load a model, use CUDA, or infer a causal Runtime substage in this gate.
-After a clean implementation merge and branch cleanup, perform only the
-separate
+This gate created no authority artifact, called no `--execute`, created or
+repaired no runtime output, loaded no model, used no CUDA workload, and inferred
+no causal Runtime substage. After its clean merge and branch cleanup, perform
+only the separate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`
 freeze. A clean implementation merge alone grants no execution authority.

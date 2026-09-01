@@ -6437,6 +6437,12 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
     from fullcycle_bridge import (
         mm005_browser_research_model_evaluation_generation_failure_diagnostic_result as contract,
     )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_protocol_v2 as v2,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v1 as authority_builder,
+    )
     from scripts import (
         run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v1 as runner,
     )
@@ -6444,10 +6450,86 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
     before = _mm005_generation_failure_diagnostic_runtime_presence(
         protocol=protocol, contract=contract, runner=runner
     )
-    if any(before.values()):
+    if before.get("execution_authority") is not True or any(
+        value for name, value in before.items() if name != "execution_authority"
+    ):
         raise GateError(
-            "MM-005 diagnostic implementation freeze requires authority and outputs absent"
+            "MM-005 diagnostic authority and outputs absent topology mismatch"
         )
+
+    authority_payload = _read_regular_file_once(
+        ROOT / contract.EXECUTION_AUTHORITY_PATH,
+        "MM-005 diagnostic execution authority",
+    )
+    expected_authority = authority_builder.build_authority()
+    if contract.artifact_json_bytes(expected_authority) != authority_payload:
+        raise GateError("MM-005 diagnostic execution authority mismatch")
+    authority_preflight = expected_authority.get("resource_preflight")
+    authority_budgets = expected_authority.get("budgets")
+    authority_contract = expected_authority.get("authority_contract")
+    authority_claims = expected_authority.get("claims")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            authority_preflight,
+            authority_budgets,
+            authority_contract,
+            authority_claims,
+        )
+    ):
+        raise GateError("MM-005 diagnostic execution authority sections are invalid")
+    assert isinstance(authority_preflight, dict)
+    assert isinstance(authority_budgets, dict)
+    assert isinstance(authority_contract, dict)
+    assert isinstance(authority_claims, dict)
+    expected_environment = authority_preflight.get("expected_environment")
+    if (
+        expected_authority.get(
+            "mm005_browser_research_generation_failure_diagnostic_execution_authority_version"
+        )
+        != 1
+        or expected_authority.get("gate_id") != contract.EXECUTION_AUTHORITY_GATE_ID
+        or expected_authority.get("next_gate") != contract.EXECUTION_GATE_ID
+        or expected_authority.get("implementation_freeze_commit")
+        != authority_builder.IMPLEMENTATION_FREEZE_COMMIT
+        or expected_authority.get("protocol_merge_commit")
+        != contract.PROTOCOL_MERGE_COMMIT
+        or not isinstance(expected_environment, dict)
+        or set(expected_environment) != set(protocol.OBSERVED_ENVIRONMENT_FIELDS)
+        or authority_preflight.get("resource_caps") != dict(v2.RESOURCE_CAPS)
+        or authority_preflight.get(
+            "exact_environment_match_required_before_model_load_or_cuda_workload"
+        )
+        is not True
+        or authority_preflight.get(
+            "read_only_cuda_capability_observation_allowed_for_exact_match"
+        )
+        is not True
+        or authority_preflight.get("missing_or_unverifiable_resource_blocks_execution")
+        is not True
+        or authority_budgets
+        != {"formal_invocations": 1, "per_record_attempts": 1, "retries": 0}
+        or authority_contract.get("diagnostic_execution_authorized") is not True
+        or authority_contract.get("v1_or_v2_retry_authorized") is not False
+        or authority_contract.get("recovery_v3_authorized") is not False
+        or authority_contract.get("live_browser_or_network_authorized") is not False
+        or authority_contract.get("training_authorized") is not False
+        or authority_contract.get("runtime_integration_changed") is not False
+        or authority_contract.get("runtime_policy_or_approval_bypass") is not False
+        or authority_contract.get("current_head_equals_authority_introduction_commit")
+        is not True
+        or authority_contract.get("reserved_sibling_staging_blocks_execution")
+        is not True
+        or authority_claims
+        != {
+            "authority_frozen": True,
+            "diagnostic_attempt_consumed": False,
+            "diagnostic_executed": False,
+            "model_evaluated": False,
+            "runtime_eligible": False,
+        }
+    ):
+        raise GateError("MM-005 diagnostic execution authority boundary mismatch")
 
     specification = contract.result_contract()
     plan_contract = contract.execution_plan()
@@ -6682,9 +6764,9 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "execution_path_invoked_by_gate": False,
         "protocol_context_valid": True,
         "protocol_source_files": 13,
-        "execution_authority_valid": False,
-        "execution_authority_published": False,
-        "execution_authority_present": False,
+        "execution_authority_valid": True,
+        "execution_authority_published": True,
+        "execution_authority_present": True,
         "attempt_owner_present": False,
         "progress_present": False,
         "success_result_present": False,
@@ -6719,8 +6801,12 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
     after = _mm005_generation_failure_diagnostic_runtime_presence(
         protocol=protocol, contract=contract, runner=runner
     )
-    if after != before or any(after.values()):
-        raise GateError("MM-005 diagnostic implementation validation wrote output")
+    if (
+        after != before
+        or after.get("execution_authority") is not True
+        or any(value for name, value in after.items() if name != "execution_authority")
+    ):
+        raise GateError("MM-005 diagnostic authority validation wrote runtime output")
     return {
         "implementation_contract_valid": True,
         "implementation_check_valid": True,
@@ -6728,9 +6814,9 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "runner_check_valid": False,
         "implementation_gate_id": contract.GATE_ID,
         "implementation_source_files": len(expected_sources),
-        "execution_authority_valid": False,
-        "execution_authority_published": False,
-        "execution_authority_present": False,
+        "execution_authority_valid": True,
+        "execution_authority_published": True,
+        "execution_authority_present": True,
         "attempt_owner_present": False,
         "progress_present": False,
         "success_result_present": False,
@@ -6741,14 +6827,14 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "result_valid": False,
         "terminal_reconciliation_required": False,
         "result_and_failure_schema_frozen": True,
-        "diagnostic_execution_authorized": False,
+        "diagnostic_execution_authorized": True,
         "execution_path_invoked_by_gate": False,
         "formal_execution_eligible": False,
         "diagnostic_attempt_consumed": False,
         "diagnostic_executed": False,
         "selected_outcome": None,
         "checkpoint_count": protocol.FULL_SUCCESS_DURABLE_SUBSTAGE_EVENT_COUNT,
-        "next_gate": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "next_gate": contract.EXECUTION_GATE_ID,
         "runtime_eligible": False,
         "protocol_sha256": contract.PROTOCOL_SHA256,
     }

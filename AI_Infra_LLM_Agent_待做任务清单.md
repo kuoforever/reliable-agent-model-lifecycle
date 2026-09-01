@@ -1213,33 +1213,37 @@ PR #76 已将 57,143-byte、SHA-256
 squash commit `9c90c5e68d4386b30db613930ec7dc0147999c04`；six Linux Python-matrix checks、
 review/comment/thread/conflict/merge state、双端 branch cleanup 与 local master alignment 均已确认。
 
-当前唯一 gate 是
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1`。其 exact
-11-path slice 只冻结 model-free typed result/failure/authority/owner contract、canonical SHA-256-chained
-JSONL journal、6 session + 7 x 18 record + terminal-ready = 133-frame success grammar、4 个 disjoint
-failure scopes、read-only plan/check、claimed interrupted-prefix 的 model-free reconciliation 与 future
-authority-gated runner。execution/reconciliation 必须满足 separately published authority 的 unique
-first-parent introduction commit 与 current `HEAD` exact equality、clean aligned
-`master == origin/master == HEAD`、exact environment/frozen inputs、one invocation、zero retry、strict
-resource caps 及 repeated fail-closed lineage checks。任何 owner/lifecycle/unknown reserved staging
-sibling 都会阻断 plan、check、unified validation 与 execution；claimed output 绝不允许 rerun model。
+PR #77 已将 exact 11-path diagnostic implementation 发布为 signed squash commit
+`7da39396c951a9248fe49c1bd69080923b827fa1`；six feature/PR Linux Python-matrix checks、
+review/comment/thread/conflict/merge state、merge tree、双端 branch cleanup 与 local master alignment
+均已确认。该 gate 未创建 authority/owner/progress/lifecycle/output/staging artifact，未调用
+`--execute`，也未使用 model/PIL/torch/CUDA/network/browser/training/Runtime。
 
-local CPython 3.11.15、3.12.12、3.13.7 各通过 40/40 implementation-focused tests 与 26/26
-predecessor protocol tests；protocol builder check 及 runner plan/check 均确认 implementation valid，且
-authority/output/staging/execution/result/Runtime eligibility 仍为 false。三个 complete unified gates 各通过
-1,027 tests、4 个预期 Windows privilege skips、76 audited source files，且 `valid=true`。Ruff 0.15.22
-check、scoped format checks、两个 core files 的 strict Mypy 2.3.0、three-version `py_compile` 与 diff
-validation 也通过。本 slice 不得创建 authority/owner/progress/lifecycle
-lease/success/failure/output/staging artifact，不得调用 `--execute`，不得重跑 default runner 或修改
-fixed result，也不得使用 processor/model/PIL/torch/CUDA/network/browser/training/Runtime。checkpoint
-只能收窄 observed interval，不能证明 asynchronous error 的 causal origin。
+当前唯一 gate 是独立的
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`。其 exact
+10-path slice 只新增 canonical 2,706-byte authority artifact、model-free builder、focused tests、unified
+integration 与 canonical documentation。artifact SHA-256 为
+`903e681c2957e185da36ed1f991cc5b339b0e692e8c730da63069690277b9e6b`，exact-bind PR #77、4 个
+critical execution dependency byte receipts、frozen 17-field Windows/CUDA environment、registered
+resource caps、formal invocation=1、retry=0、per-record attempt=1。
 
-其 clean merge、双端 branch cleanup 且 `master == origin/master` 后，唯一 exact successor 是
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`。该独立
-freeze 必须先发布并绑定 authority；implementation merge 本身不授权 diagnostic execution 或
-recovery-v3。当前 interruption claim 只覆盖 process restart，不声明 host/power-loss 下 portable Windows
-parent-directory fsync；elapsed cap 不覆盖最后 result construction/publication，反复 fail-closed checks
-也不等于消除同权限 hostile-concurrent filesystem/source TOCTOU。
+5/5 authority-focused、40/40 implementation-focused 与 26/26 predecessor protocol tests 在本机
+CPython 3.11.15、3.12.12、3.13.7 均通过；三个 complete unified gates 各通过 1,032 tests、4 个预期
+Windows privilege skips、76 audited source files，且 `valid=true`。authority builder `--check`、runner
+`--plan`/`--check`、exact 17-field environment preflight、Ruff 0.15.22 check/format、strict Mypy 2.3.0、
+three-version `py_compile` 与 `git diff --check` 也通过；所有检查均未进入 execution path。
+
+本 authority gate 不消耗 attempt，不创建 owner/progress/lifecycle/output/staging/success/failure，不得调用
+`--execute`，也不得运行 processor/model/PIL/torch/CUDA workload/network/browser/training/Runtime。
+authority clean merge、双端 branch cleanup 且 `master == origin/master == HEAD` 后，`HEAD` 还必须等于
+authority artifact 的 unique first-parent introduction commit；environment/resource/lineage/index/
+fsmonitor/output/lease/reserved-staging 任一 drift 都要在 model load/CUDA workload 前 fail closed。
+
+其唯一 exact successor 是一次性的
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`。在该 execution
+前不得增加 closeout commit，不得复用 v1/v2 identity，不得 retry consumed attempt，也不得把未来
+terminal 自动路由为 recovery-v3。当前 interruption、Windows parent-directory fsync、elapsed cap 与
+same-privilege TOCTOU limitations 保持不变。
 
 ## TOOL-001：工具 Schema 与任务定义
 
