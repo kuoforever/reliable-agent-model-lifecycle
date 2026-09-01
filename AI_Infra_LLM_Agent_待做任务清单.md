@@ -1219,31 +1219,44 @@ review/comment/thread/conflict/merge state、merge tree、双端 branch cleanup 
 均已确认。该 gate 未创建 authority/owner/progress/lifecycle/output/staging artifact，未调用
 `--execute`，也未使用 model/PIL/torch/CUDA/network/browser/training/Runtime。
 
-当前唯一 gate 是独立的
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1`。其 exact
-10-path slice 只新增 canonical 2,706-byte authority artifact、model-free builder、focused tests、unified
-integration 与 canonical documentation。artifact SHA-256 为
+PR #78 已将独立的
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1` exact
+10-path slice 发布为 signed squash commit `0a271e2c27c65e9595953dadb98200ea5ec51acb`。其
+canonical 2,706-byte artifact SHA-256 为
 `903e681c2957e185da36ed1f991cc5b339b0e692e8c730da63069690277b9e6b`，exact-bind PR #77、4 个
-critical execution dependency byte receipts、frozen 17-field Windows/CUDA environment、registered
-resource caps、formal invocation=1、retry=0、per-record attempt=1。
+critical dependency receipts、frozen 17-field Windows/CUDA environment、registered resource caps、
+formal invocation=1、retry=0、per-record attempt=1；authority artifact 仅由该 commit first-parent 引入。
 
-5/5 authority-focused、40/40 implementation-focused 与 26/26 predecessor protocol tests 在本机
-CPython 3.11.15、3.12.12、3.13.7 均通过；三个 complete unified gates 各通过 1,032 tests、4 个预期
-Windows privilege skips、76 audited source files，且 `valid=true`。authority builder `--check`、runner
-`--plan`/`--check`、exact 17-field environment preflight、Ruff 0.15.22 check/format、strict Mypy 2.3.0、
-three-version `py_compile` 与 `git diff --check` 也通过；所有检查均未进入 execution path。
+clean aligned short-path master、source/input/wheel/17-field environment/read-only GPU capability preflight
+全部通过后，registered v1 command 已严格调用一次且未重试。它在 lifecycle/owner/genesis 之前以
+controller-observed `RecoveryIOError` / exit code `1` 退出：fresh worktree 缺少安全
+`work/evaluation-runs` parent，而 frozen runner 在创建 parent 之前先构造 `DirectoryTreeGuard`。因此没有
+output/lifecycle/owner/progress/staging/terminal、model load 或 CUDA workload。
 
-本 authority gate 不消耗 attempt，不创建 owner/progress/lifecycle/output/staging/success/failure，不得调用
-`--execute`，也不得运行 processor/model/PIL/torch/CUDA workload/network/browser/training/Runtime。
-authority clean merge、双端 branch cleanup 且 `master == origin/master == HEAD` 后，`HEAD` 还必须等于
-authority artifact 的 unique first-parent introduction commit；environment/resource/lineage/index/
-fsmonitor/output/lease/reserved-staging 任一 drift 都要在 model load/CUDA workload 前 fail closed。
+formal invocation budget 已从 1 消耗到 0，retry budget 仍为 0；但
+`diagnostic_attempt_consumed=false`、`diagnostic_executed=false`。frozen failure grammar 最小状态是
+owner-bound `attempt_claimed` frame，无法表达 zero-owner/zero-frame boundary。不得合成 failure terminal、
+failure scope 或 formal outcome；`selected_outcome=null`，controller observation 不属于 formal telemetry。
 
-其唯一 exact successor 是一次性的
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v1`。在该 execution
-前不得增加 closeout commit，不得复用 v1/v2 identity，不得 retry consumed attempt，也不得把未来
-terminal 自动路由为 recovery-v3。当前 interruption、Windows parent-directory fsync、elapsed cap 与
-same-privilege TOCTOU limitations 保持不变。
+当前 gate 是 model-free
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-invocation-closeout-v1`。其 exact
+10-path slice 仅增加 6,507-byte canonical closeout、deterministic builder/validator、7 个 focused tests、
+unified integration 与 canonical docs。artifact SHA-256 为
+`d8a64be5b0361322246faf4eeccde04f9921e0a9c586f3498b188a6477d1ddce`。本 closeout 不得调用
+`--execute`，不得创建或修改任何 v1 runtime/terminal artifact，也不得运行 model/PIL/torch/CUDA/
+network/browser/training/Runtime；v1 command 永久禁止再次执行。
+
+7/7 closeout-focused tests、builder `--check`、Ruff 0.15.2、strict Mypy 2.3.0、
+three-version `py_compile` 与 `git diff --check` 均通过；本机 CPython 3.11.15、3.12.12、
+3.13.7 complete unified gates 各通过 1,039 tests、4 个预期 Windows privilege skips、
+77 个 audited source files，且 `valid=true`。
+
+closeout clean merge 与双端 branch cleanup 后，唯一 exact next 是
+`repository-ci-lfs-maintenance-v1`：去除 feature-push/PR duplicate CI，增加 concurrency cancellation 与
+job timeout，将三版本 pointer-only contract 与单一 hydrated LFS integrity gate 分离，同时保持 required
+check context。maintenance 合并后才可从全新
+`diagnostic-protocol-v2 -> implementation-v2 -> execution-authority-v2 -> execution-v2` identity 恢复；
+新 experiment/run/output 不得称为 v1 retry，automatic recovery-v3 仍不授权。
 
 ## TOOL-001：工具 Schema 与任务定义
 
