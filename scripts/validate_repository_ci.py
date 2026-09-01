@@ -1,0 +1,497 @@
+"""Validate the repository's split pointer-only and hydrated-LFS CI gates."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+import py_compile
+import subprocess
+import sys
+import tempfile
+import unittest
+from collections.abc import Iterator
+from contextlib import contextmanager
+from pathlib import Path, PurePosixPath
+from typing import Any, NoReturn
+
+ROOT = Path(__file__).resolve().parents[1]
+SRC = ROOT / "src"
+INVENTORY_PATH = ROOT / "configs" / "repository_ci_lfs_inventory_v1.json"
+GATE_ID = "repository-ci-lfs-maintenance-v1"
+SUPPORTED_PYTHON_MINORS = {(3, 11), (3, 12), (3, 13)}
+POINTER_SCOPE = "pointer_and_stdlib_only"
+POINTER_METADATA_SCOPE = "pointer_metadata_only"
+HYDRATED_SCOPE = "hydrated_lfs_integrity_preflight"
+POINTER_JOB_CONTEXTS = (
+    "python-matrix (3.11)",
+    "python-matrix (3.12)",
+    "python-matrix (3.13)",
+)
+POINTER_PYTHON_VERSIONS = ("3.11", "3.12", "3.13")
+HYDRATED_JOB_CONTEXT = "hydrated-lfs-integrity"
+HYDRATED_PYTHON_VERSION = "3.11"
+CORE_TEST_MODULES = (
+    "tests.test_bridge_consumer",
+    "tests.test_reliability_dataset",
+    "tests.test_runtime_freeze",
+    "tests.test_lane_b",
+    "tests.test_multimodal_trajectory",
+    "tests.test_gui_grounding_eval",
+    "tests.test_tool_router",
+)
+CORE_TEST_COUNT = 107
+EXPECTED_GITATTRIBUTES = {
+    "blob_oid": "sha1:e56bb119162726eed715ec43223d308318c46ead",
+    "bytes": 390,
+    "path": ".gitattributes",
+    "sha256": (
+        "sha256:25d24c1558f50fca6c058483faf4e5a9ab564252cca921e2b37393d631d00ce2"
+    ),
+}
+EXPECTED_LFS_OBJECTS = (
+    {
+        "oid": (
+            "sha256:1c58a3d08598250cc01bd35a3367fbcc778c551782e6117f686394ede3d65659"
+        ),
+        "path": ("baseline/adapters/fc-mvp-001-lora-sft-v1/adapter_model.safetensors"),
+        "pointer_bytes": 133,
+        "pointer_git_blob_oid": ("sha1:5945ce72f96244d9ee16cbdedc7f13d1f7684b1e"),
+        "size": 17_462_432,
+    },
+    {
+        "oid": (
+            "sha256:efb62471e105b8ef25641200967d447b8cc2f3ff565937bc47193fbf79f4f342"
+        ),
+        "path": ("baseline/adapters/fc-mvp-001-lora-sft-v2/adapter_model.safetensors"),
+        "pointer_bytes": 133,
+        "pointer_git_blob_oid": ("sha1:db6f62d5d65595819e7b367f9f9c64c530c1cd26"),
+        "size": 17_462_432,
+    },
+    {
+        "oid": (
+            "sha256:d93d2ea2d9f05564093cbb0b1286d2c368c54b01e847f1c37a98e00fb2914701"
+        ),
+        "path": (
+            "baseline/adapters/mm003-qwen2.5-vl-3b-qlora-sft-v2/"
+            "adapter_model.safetensors"
+        ),
+        "pointer_bytes": 133,
+        "pointer_git_blob_oid": ("sha1:2f5baf6575c863e5939aab12f4ec445a4ab17354"),
+        "size": 29_529_752,
+    },
+    {
+        "oid": (
+            "sha256:550175dfcfe14b0739aabf17573825a124180a6e21826e25d4b5ff733fb298a9"
+        ),
+        "path": "baseline/fc-mvp-001-fp32-attached-merge-numerics-v1-tensors.bin",
+        "pointer_bytes": 133,
+        "pointer_git_blob_oid": ("sha1:368b55bb2726683b7422ea9fa8f05eb1b99aa241"),
+        "size": 46_069_904,
+    },
+)
+TOTAL_LFS_PAYLOAD_BYTES = 110_524_520
+
+
+class RepositoryCIValidationError(RuntimeError):
+    """Fail-closed repository CI contract violation."""
+
+    def __init__(self, code: str, location: str) -> None:
+        self.code = code
+        self.location = location
+        super().__init__(f"{code} at {location}")
+
+
+def canonical_json_bytes(value: Any) -> bytes:
+    return (
+        json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        + "\n"
+    ).encode("utf-8")
+
+
+def expected_inventory() -> dict[str, Any]:
+    paths = [item["path"] for item in EXPECTED_LFS_OBJECTS]
+    return {
+        "gate_id": GATE_ID,
+        "gitattributes": dict(EXPECTED_GITATTRIBUTES),
+        "hydrated_gate": {
+            "job_context": HYDRATED_JOB_CONTEXT,
+            "lfs_include_paths": paths,
+            "pointer_preflight_mode": "pointer-metadata",
+            "python_version": HYDRATED_PYTHON_VERSION,
+        },
+        "lfs_objects": [dict(item) for item in EXPECTED_LFS_OBJECTS],
+        "pointer_gate": {
+            "full_integrity_verified": False,
+            "job_contexts": list(POINTER_JOB_CONTEXTS),
+            "lfs_payloads_read": 0,
+            "python_versions": list(POINTER_PYTHON_VERSIONS),
+            "scope": POINTER_SCOPE,
+            "stdlib_test_count": CORE_TEST_COUNT,
+            "stdlib_test_modules": list(CORE_TEST_MODULES),
+        },
+        "schema_version": 1,
+        "total_lfs_payload_bytes": TOTAL_LFS_PAYLOAD_BYTES,
+    }
+
+
+def load_inventory(payload: bytes) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                _fail("INVENTORY_DUPLICATE_KEY", f"$.{key}")
+            result[key] = value
+        return result
+
+    try:
+        value = json.loads(payload.decode("utf-8"), object_pairs_hook=unique_object)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RepositoryCIValidationError("INVENTORY_INVALID_JSON", "$") from exc
+    if type(value) is not dict:
+        _fail("INVENTORY_NOT_OBJECT", "$")
+    if canonical_json_bytes(value) != payload:
+        _fail("INVENTORY_NOT_CANONICAL", "$")
+    if value != expected_inventory():
+        _fail("INVENTORY_MISMATCH", "$")
+    return value
+
+
+def lfs_pointer_bytes(item: dict[str, Any]) -> bytes:
+    return (
+        "version https://git-lfs.github.com/spec/v1\n"
+        f"oid {item['oid']}\n"
+        f"size {item['size']}\n"
+    ).encode("ascii")
+
+
+def git_blob_oid(payload: bytes) -> str:
+    header = f"blob {len(payload)}\0".encode("ascii")
+    return "sha1:" + hashlib.sha1(header + payload).hexdigest()
+
+
+def _safe_relative_path(relative: str) -> Path:
+    if type(relative) is not str or "\\" in relative or ":" in relative:
+        _fail("UNSAFE_REPOSITORY_PATH", f"$.path[{relative!r}]")
+    logical = PurePosixPath(relative)
+    if (
+        logical.is_absolute()
+        or not logical.parts
+        or any(part in {"", ".", ".."} for part in logical.parts)
+    ):
+        _fail("UNSAFE_REPOSITORY_PATH", f"$.path[{relative!r}]")
+    if logical.as_posix() != relative:
+        _fail("NONCANONICAL_REPOSITORY_PATH", f"$.path[{relative!r}]")
+    candidate = ROOT.joinpath(*logical.parts)
+    resolved_root = ROOT.resolve()
+    if not candidate.resolve().is_relative_to(resolved_root):
+        _fail("REPOSITORY_PATH_ESCAPE", f"$.path[{relative!r}]")
+    return candidate
+
+
+def _run_git(*args: str, input_payload: bytes | None = None) -> bytes:
+    completed = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        input=input_payload,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode != 0:
+        command = " ".join(args[:3])
+        _fail("GIT_COMMAND_FAILED", f"$.git[{command!r}]")
+    return completed.stdout
+
+
+def _git_blob(relative: str) -> bytes:
+    _safe_relative_path(relative)
+    return _run_git("cat-file", "blob", f"HEAD:{relative}")
+
+
+def _git_object_id(relative: str) -> str:
+    _safe_relative_path(relative)
+    value = _run_git("rev-parse", f"HEAD:{relative}").decode("ascii").strip()
+    if len(value) != 40 or any(
+        character not in "0123456789abcdef" for character in value
+    ):
+        _fail("INVALID_GIT_OBJECT_ID", f"$.git[{relative!r}]")
+    return "sha1:" + value
+
+
+def _tracked_paths() -> tuple[str, ...]:
+    raw = _run_git("ls-files", "-z")
+    parts = raw.split(b"\0")
+    if parts[-1] != b"":
+        _fail("TRACKED_PATH_WIRE_INVALID", "$.git.ls_files")
+    try:
+        paths = tuple(part.decode("utf-8") for part in parts[:-1])
+    except UnicodeDecodeError as exc:
+        raise RepositoryCIValidationError(
+            "TRACKED_PATH_NOT_UTF8", "$.git.ls_files"
+        ) from exc
+    if tuple(sorted(paths)) != paths or len(set(paths)) != len(paths):
+        _fail("TRACKED_PATH_ORDER_INVALID", "$.git.ls_files")
+    return paths
+
+
+def _discover_lfs_paths(tracked_paths: tuple[str, ...]) -> tuple[str, ...]:
+    request = b"\0".join(path.encode("utf-8") for path in tracked_paths) + b"\0"
+    raw = _run_git(
+        "check-attr", "--cached", "-z", "filter", "--stdin", input_payload=request
+    )
+    fields = raw.split(b"\0")
+    if fields[-1] != b"" or (len(fields) - 1) % 3:
+        _fail("GIT_ATTRIBUTE_WIRE_INVALID", "$.gitattributes.filter")
+    lfs_paths: list[str] = []
+    for index in range(0, len(fields) - 1, 3):
+        path, attribute, value = fields[index : index + 3]
+        if attribute != b"filter":
+            _fail("GIT_ATTRIBUTE_NAME_INVALID", "$.gitattributes.filter")
+        if value == b"lfs":
+            try:
+                lfs_paths.append(path.decode("utf-8"))
+            except UnicodeDecodeError as exc:
+                raise RepositoryCIValidationError(
+                    "LFS_PATH_NOT_UTF8", "$.gitattributes.filter"
+                ) from exc
+    return tuple(lfs_paths)
+
+
+def _validate_lfs_attributes(relative: str) -> None:
+    raw = _run_git(
+        "check-attr",
+        "--cached",
+        "-z",
+        "filter",
+        "diff",
+        "merge",
+        "text",
+        "--",
+        relative,
+    )
+    fields = raw.split(b"\0")
+    if fields[-1] != b"" or len(fields) != 13:
+        _fail("LFS_ATTRIBUTE_WIRE_INVALID", f"$.lfs_objects[{relative!r}]")
+    observed: dict[str, str] = {}
+    for index in range(0, 12, 3):
+        path, attribute, value = fields[index : index + 3]
+        if path.decode("utf-8") != relative:
+            _fail("LFS_ATTRIBUTE_PATH_MISMATCH", f"$.lfs_objects[{relative!r}]")
+        observed[attribute.decode("ascii")] = value.decode("ascii")
+    if observed != {"diff": "lfs", "filter": "lfs", "merge": "lfs", "text": "unset"}:
+        _fail("LFS_ATTRIBUTES_MISMATCH", f"$.lfs_objects[{relative!r}]")
+
+
+def validate_git_metadata(inventory: dict[str, Any]) -> str:
+    top_level = Path(
+        _run_git("rev-parse", "--show-toplevel").decode("utf-8").strip()
+    ).resolve()
+    if top_level != ROOT.resolve():
+        _fail("UNEXPECTED_REPOSITORY_ROOT", "$.git.top_level")
+    head = _run_git("rev-parse", "HEAD").decode("ascii").strip()
+    if len(head) != 40 or any(
+        character not in "0123456789abcdef" for character in head
+    ):
+        _fail("INVALID_HEAD", "$.git.head")
+
+    attributes = inventory["gitattributes"]
+    attributes_payload = _git_blob(attributes["path"])
+    if (
+        len(attributes_payload) != attributes["bytes"]
+        or "sha256:" + hashlib.sha256(attributes_payload).hexdigest()
+        != attributes["sha256"]
+        or git_blob_oid(attributes_payload) != attributes["blob_oid"]
+        or _git_object_id(attributes["path"]) != attributes["blob_oid"]
+    ):
+        _fail("GITATTRIBUTES_RECEIPT_MISMATCH", "$.gitattributes")
+
+    expected_paths = tuple(item["path"] for item in inventory["lfs_objects"])
+    tracked_paths = _tracked_paths()
+    if _discover_lfs_paths(tracked_paths) != expected_paths:
+        _fail("LFS_TRACKED_PATH_INVENTORY_MISMATCH", "$.lfs_objects")
+    for item in inventory["lfs_objects"]:
+        pointer = _git_blob(item["path"])
+        if (
+            pointer != lfs_pointer_bytes(item)
+            or len(pointer) != item["pointer_bytes"]
+            or git_blob_oid(pointer) != item["pointer_git_blob_oid"]
+            or _git_object_id(item["path"]) != item["pointer_git_blob_oid"]
+        ):
+            _fail("LFS_POINTER_MISMATCH", f"$.lfs_objects[{item['path']!r}]")
+        _validate_lfs_attributes(item["path"])
+    return head
+
+
+def validate_pointer_worktree(inventory: dict[str, Any]) -> int:
+    pointer_bytes_read = 0
+    for item in inventory["lfs_objects"]:
+        path = _safe_relative_path(item["path"])
+        if not path.is_file() or path.is_symlink():
+            _fail("UNSAFE_OR_MISSING_POINTER", f"$.lfs_objects[{item['path']!r}]")
+        if path.stat().st_size != item["pointer_bytes"]:
+            _fail("HYDRATED_PAYLOAD_FORBIDDEN", f"$.lfs_objects[{item['path']!r}]")
+        payload = path.read_bytes()
+        if payload != lfs_pointer_bytes(item):
+            _fail("WORKTREE_POINTER_MISMATCH", f"$.lfs_objects[{item['path']!r}]")
+        pointer_bytes_read += len(payload)
+    return pointer_bytes_read
+
+
+def validate_hydrated_worktree(inventory: dict[str, Any]) -> tuple[int, int]:
+    payloads_read = 0
+    payload_bytes_read = 0
+    for item in inventory["lfs_objects"]:
+        path = _safe_relative_path(item["path"])
+        if not path.is_file() or path.is_symlink():
+            _fail("UNSAFE_OR_MISSING_PAYLOAD", f"$.lfs_objects[{item['path']!r}]")
+        if path.stat().st_size != item["size"]:
+            _fail("LFS_PAYLOAD_SIZE_MISMATCH", f"$.lfs_objects[{item['path']!r}]")
+        digest = hashlib.sha256()
+        observed_bytes = 0
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+                observed_bytes += len(chunk)
+        if (
+            observed_bytes != item["size"]
+            or "sha256:" + digest.hexdigest() != item["oid"]
+        ):
+            _fail("LFS_PAYLOAD_DIGEST_MISMATCH", f"$.lfs_objects[{item['path']!r}]")
+        payloads_read += 1
+        payload_bytes_read += observed_bytes
+    if payload_bytes_read != inventory["total_lfs_payload_bytes"]:
+        _fail("LFS_PAYLOAD_TOTAL_MISMATCH", "$.total_lfs_payload_bytes")
+    return payloads_read, payload_bytes_read
+
+
+def compile_tracked_python() -> int:
+    raw = _run_git("ls-files", "-z", "--", "*.py")
+    fields = raw.split(b"\0")
+    if fields[-1] != b"":
+        _fail("PYTHON_PATH_WIRE_INVALID", "$.tracked_python")
+    paths = tuple(field.decode("utf-8") for field in fields[:-1])
+    if not paths or tuple(sorted(paths)) != paths or len(set(paths)) != len(paths):
+        _fail("PYTHON_PATH_INVENTORY_INVALID", "$.tracked_python")
+    with tempfile.TemporaryDirectory(prefix="repository-ci-pycompile-") as temporary:
+        target_root = Path(temporary)
+        for relative in paths:
+            source = _safe_relative_path(relative)
+            if not source.is_file() or source.is_symlink():
+                _fail("UNSAFE_OR_MISSING_PYTHON", f"$.tracked_python[{relative!r}]")
+            target = target_root / (
+                hashlib.sha256(relative.encode("utf-8")).hexdigest() + ".pyc"
+            )
+            try:
+                py_compile.compile(
+                    str(source),
+                    cfile=str(target),
+                    dfile=relative,
+                    doraise=True,
+                )
+            except py_compile.PyCompileError as exc:
+                raise RepositoryCIValidationError(
+                    "PYTHON_COMPILE_FAILED", f"$.tracked_python[{relative!r}]"
+                ) from exc
+    return len(paths)
+
+
+@contextmanager
+def _core_test_subprocess_environment() -> Iterator[None]:
+    previous = os.environ.get("PYTHONPATH")
+    had_previous = "PYTHONPATH" in os.environ
+    os.environ["PYTHONPATH"] = str(SRC)
+    try:
+        yield
+    finally:
+        if had_previous:
+            assert previous is not None
+            os.environ["PYTHONPATH"] = previous
+        else:
+            os.environ.pop("PYTHONPATH", None)
+
+
+def run_core_tests() -> tuple[int, int]:
+    sys.path.insert(0, str(SRC))
+    sys.path.insert(0, str(ROOT))
+    suite = unittest.defaultTestLoader.loadTestsFromNames(CORE_TEST_MODULES)
+    if suite.countTestCases() != CORE_TEST_COUNT:
+        _fail("CORE_TEST_COUNT_MISMATCH", "$.pointer_gate.stdlib_test_count")
+    with _core_test_subprocess_environment():
+        result = unittest.TextTestRunner(stream=sys.stderr, verbosity=1).run(suite)
+    if not result.wasSuccessful() or result.testsRun != CORE_TEST_COUNT:
+        _fail("CORE_TESTS_FAILED", "$.pointer_gate.stdlib_test_modules")
+    return result.testsRun, len(result.skipped)
+
+
+def _fail(code: str, location: str) -> NoReturn:
+    raise RepositoryCIValidationError(code, location)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--mode",
+        choices=("pointer", "pointer-metadata", "hydrated-lfs"),
+        default="pointer",
+    )
+    arguments = parser.parse_args(argv)
+
+    os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
+    sys.dont_write_bytecode = True
+    version = (sys.version_info.major, sys.version_info.minor)
+    if version not in SUPPORTED_PYTHON_MINORS:
+        _fail("UNSUPPORTED_PYTHON", "$.python")
+
+    inventory = load_inventory(INVENTORY_PATH.read_bytes())
+    head = validate_git_metadata(inventory)
+    if arguments.mode in {"pointer", "pointer-metadata"}:
+        pointer_bytes_read = validate_pointer_worktree(inventory)
+        summary = {
+            "full_integrity_verified": False,
+            "gate_id": GATE_ID,
+            "git_head": head,
+            "lfs_object_count": len(inventory["lfs_objects"]),
+            "lfs_payload_bytes_read": 0,
+            "lfs_payloads_read": 0,
+            "pointer_bytes_read": pointer_bytes_read,
+            "python": sys.version.split()[0],
+            "scope": (
+                POINTER_SCOPE if arguments.mode == "pointer" else POINTER_METADATA_SCOPE
+            ),
+            "valid": True,
+        }
+        if arguments.mode == "pointer":
+            python_files_compiled = compile_tracked_python()
+            tests_run, tests_skipped = run_core_tests()
+            pointer_bytes_after_tests = validate_pointer_worktree(inventory)
+            if pointer_bytes_after_tests != pointer_bytes_read:
+                _fail("POINTER_BYTE_COUNT_DRIFT", "$.pointer_gate")
+            summary.update(
+                {
+                    "python_files_compiled": python_files_compiled,
+                    "stdlib_core_tests_run": tests_run,
+                    "stdlib_core_tests_skipped": tests_skipped,
+                }
+            )
+    else:
+        payloads_read, payload_bytes_read = validate_hydrated_worktree(inventory)
+        summary = {
+            "full_integrity_verified": False,
+            "gate_id": GATE_ID,
+            "git_head": head,
+            "lfs_object_count": len(inventory["lfs_objects"]),
+            "lfs_payload_bytes_read": payload_bytes_read,
+            "lfs_payloads_read": payloads_read,
+            "payload_integrity_verified": True,
+            "python": sys.version.split()[0],
+            "scope": HYDRATED_SCOPE,
+            "valid": True,
+        }
+    sys.stdout.buffer.write(canonical_json_bytes(summary))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

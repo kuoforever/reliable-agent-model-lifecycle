@@ -2,14 +2,26 @@ name: offline-baseline
 
 on:
   push:
+    branches:
+      - master
   pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
   python-matrix:
+    name: python-matrix (${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GIT_LFS_SKIP_SMUDGE: "1"
     strategy:
       fail-fast: false
       matrix:
@@ -18,15 +30,51 @@ jobs:
           - "3.12"
           - "3.13"
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout pointer-only repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
-          lfs: true
-      - uses: actions/setup-python@v5
+          lfs: false
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: ""
-      - name: Run stdlib-only offline baseline gate
+      - name: Validate pointers and standard-library core
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_repository_ci.py --mode pointer
+
+  hydrated-lfs-integrity:
+    name: hydrated-lfs-integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout pointer-only repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        env:
+          GIT_LFS_SKIP_SMUDGE: "1"
+        with:
+          fetch-depth: 0
+          lfs: false
+      - name: Set up Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+          cache: ""
+      - name: Prove checkout is pointer-only before hydration
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_repository_ci.py --mode pointer-metadata
+      - name: Hydrate and fsck the exact LFS inventory
+        run: |
+          git lfs pull origin --include="baseline/adapters/fc-mvp-001-lora-sft-v1/adapter_model.safetensors,baseline/adapters/fc-mvp-001-lora-sft-v2/adapter_model.safetensors,baseline/adapters/mm003-qwen2.5-vl-3b-qlora-sft-v2/adapter_model.safetensors,baseline/fc-mvp-001-fp32-attached-merge-numerics-v1-tensors.bin" --exclude=''
+          git lfs fsck --objects --pointers HEAD
+      - name: Validate hydrated LFS payload receipts
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_repository_ci.py --mode hydrated-lfs
+      - name: Run complete offline integrity gate
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -I scripts/validate_offline.py

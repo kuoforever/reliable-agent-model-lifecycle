@@ -17,6 +17,7 @@ English companion documents.
 | Agent instructions | [AGENTS](../AGENTS.md) | English source |
 | Career and learning hub | [Career index](career/) | Chinese-first working material derived from frozen evidence |
 | Interview handbook | [Principles, applications, and engineering](career/interview/) | Chinese-first interview material with explicit implementation boundaries |
+| Repository CI/LFS maintenance v1 | [Maintenance contract](repository-ci-lfs-maintenance-v1.md) | Frozen four-object LFS inventory, three pointer-only Python contexts, and one hydrated full-integrity gate |
 
 ## Implemented technical evidence
 
