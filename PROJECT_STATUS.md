@@ -869,47 +869,65 @@ zero-owner/zero-progress boundary is outside the frozen owner-bound failure
 grammar. No terminal, failure scope, or outcome was synthesized. The v1 command
 must never run again.
 
-The PR #79 post-merge `master` workflow run `33473223877` completed at
-`2026-09-01T05:32:39Z`; all three legacy required contexts passed on exact HEAD
-`fd552896...424f`. That timestamp closed the activation prerequisite for the
-single active `repository-ci-lfs-maintenance-v1` detour.
+Repository CI/LFS maintenance v1 is closed. PR #80 passed all four jobs in run
+`33480142139` and merged as verified signed squash commit
+`266e9b695af0f93ae4c82e36ac484cb2d3d3a521`; exact merge HEAD then passed the
+same four jobs in post-merge `master` run `33481002184`. Both branch copies and
+temporary worktrees were cleaned. Ruleset `19977219` was staged only after
+those observations and read back at `2026-09-01T15:25:20.893+08:00`: active,
+strict, no bypass, and exactly the three Python matrix contexts plus
+`hydrated-lfs-integrity` required. The maintenance changed no model, data,
+Adapter, Runtime, diagnostic output, or result claim and invoked no diagnostic.
 
-This maintenance is bounded to the workflow, one canonical four-object LFS
-inventory, one standard-library repository-CI validator with negative tests,
-and canonical documentation. It must:
+The sole active objective is now
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`.
+This exact 11-path, protocol-only slice freezes a new additive identity:
 
 ```text
-push(master) + pull_request(master), with same-branch concurrency cancellation
-        -> python-matrix (3.11/3.12/3.13), pointer and stdlib only, zero LFS payload
-        -> hydrated-lfs-integrity on 3.11, exact four-path pull and full gate
-        -> PR and post-merge four-job observation
-        -> add hydrated context to the ruleset only after both observations pass
-        -> clean maintenance merge and dual branch cleanup
+experiment = mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2
+run        = mm005-browser-research-model-eval-v2-generation-failure-diagnostic-r2
+output     = work/evaluation-runs/mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2
+lease      = <output>.lifecycle/lease
 ```
 
-The three existing required context names remain exact. Matrix jobs never call
-`validate_offline.py`; they validate the frozen 133-byte pointers, compile all
-tracked Python, and run 107 explicit stdlib core tests. The independent
-`hydrated-lfs-integrity` job proves pointer state before pull, hydrates exactly
-four registered objects, runs `git lfs fsck --objects --pointers HEAD`, hashes
-110,524,520 payload bytes, and alone runs the complete offline gate. Feature
-push no longer triggers a duplicate run. Full history, bounded timeouts,
-read-only permissions, and immutable Node 24 action pins are required.
+The 62,653-byte canonical preregistration has SHA-256
+`0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`.
+It independently binds original-v2 introduction `91b637c6...6b71`, static
+publication `c8541147...e1d2`, v1 protocol `9c90c5e...9c04`, v1 implementation
+`7da39396...7fa1`, v1 authority `0a271e2c...51acb`, v1 closeout
+`fd552896...424f`, and maintenance base `266e9b69...a521`. Original-v2, v1
+protocol, implementation, authority, closeout artifact/validator, static
+result, and recovery-I/O bytes are digest-bound to their named commits.
 
-Stop this slice if any required context is renamed, pointer work reads a
-hydrated payload, the frozen four-object inventory drifts, full validation is
-removed from the hydrated job, PR/post-merge checks are not green, or review,
-comment, thread, conflict, strict-up-to-date, signature, or branch-cleanup state
-is unresolved. It must not invoke any diagnostic, create/alter consumed output,
-change model/data/Adapter/Runtime behavior, or promote a result claim.
+The six immutable v1 scientific subtrees remain semantically exact: seven
+records, 17 environment fields, nine substages, 126 durable checkpoints, a
+133-frame success grammar, four owner-bound failure scopes, four outcomes,
+seed 55006, and unchanged resource caps. The v1 invocation budget remains
+spent, its attempt remains unconsumed, and v1 retry, zero-owner failure scope,
+terminal synthesis, and recovery v3 remain unauthorized.
 
-After clean maintenance merge, four-job post-merge success, required-context
-staging, and dual branch cleanup, the preserved single exact product resume is
-new-identity `diagnostic-protocol-v2 -> implementation-v2 ->
-execution-authority-v2 -> execution-v2`. V2 must use a new
-experiment/run/output identity and may repair the safe output-parent creation
-boundary plus add a fresh-worktree execution regression. It is not a v1 retry.
-Automatic recovery v3 remains unauthorized.
+Plan, check, and protocol freeze are read-only and may observe missing `work`
+and `work/evaluation-runs`; they create neither. Only future execution-v2,
+after its own published authority, clean aligned HEAD, exact lineage, and
+unclaimed topology, may guard `ROOT -> work`, exclusively `os.mkdir` the single
+`work/evaluation-runs` directory, revalidate authority/lineage/remaining
+unclaimed topology plus ancestry, guard `ROOT -> work/evaluation-runs`, enter
+lifecycle, atomically publish owner+genesis, and only then cross the first
+heavy-dependency boundary. Parent creation is not a claim or telemetry.
+
+The future implementation-v2 regression is mandatory: real temporary
+filesystem, safe existing `work`, missing `evaluation-runs`, no mocked parent
+helper or `DirectoryTreeGuard`, execute through lifecycle+owner+genesis, then a
+controlled first-heavy-boundary failure proving model import/load, CUDA, and
+network were never entered. This protocol does not add implementation,
+authority, runner, result, or output and does not execute a diagnostic.
+
+Stop if an immutable receipt or scientific subtree drifts, any v1 identity,
+path, command, or output is reused, planned v2 output/lifecycle exists, the
+11-path ceiling is exceeded, or checks/review/conflict/strict-up-to-date state
+is unresolved. After a clean protocol merge and post-merge observation, the
+only successor is implementation-v2; authority-v2 and exact-once execution-v2
+remain separate later gates.
 
 ## Preserved historical validation and deferred gates
 
@@ -1938,7 +1956,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance is current, and only a later new diagnostic-v2 identity may resume execution |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance closed through PR #80 and `266e9b695af0f93ae4c82e36ac484cb2d3d3a521`; `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2` is the sole active protocol-only gate, authorizes no diagnostic execution, and leaves implementation-v2 as the exact next gate only after this protocol merges |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

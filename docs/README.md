@@ -17,7 +17,7 @@ English companion documents.
 | Agent instructions | [AGENTS](../AGENTS.md) | English source |
 | Career and learning hub | [Career index](career/) | Chinese-first working material derived from frozen evidence |
 | Interview handbook | [Principles, applications, and engineering](career/interview/) | Chinese-first interview material with explicit implementation boundaries |
-| Repository CI/LFS maintenance v1 | [Maintenance contract](repository-ci-lfs-maintenance-v1.md) | Frozen four-object LFS inventory, three pointer-only Python contexts, and one hydrated full-integrity gate |
+| Repository CI/LFS maintenance v1 | [Maintenance contract](repository-ci-lfs-maintenance-v1.md) | Closed through PR #80, two four-job observations, exact four-context ruleset staging, and branch cleanup |
 
 ## Implemented technical evidence
 
@@ -66,6 +66,7 @@ English companion documents.
 | Browser Research generation-failure diagnostic implementation v1 | [MM-005 Browser Research generation-failure diagnostic implementation](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v1.md) | Published through PR #77 as `7da3939...27fa1`: model-free result/failure/owner/authority contracts, 133-frame chained journal, four failure scopes, exact-HEAD boundary, read-only staging closure, and reconciliation without rerun; that merge granted no execution authority |
 | Browser Research generation-failure diagnostic execution authority v1 | [MM-005 Browser Research generation-failure diagnostic execution authority](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v1.md) | Published through PR #78 as `0a271e2...51acb`: the canonical 2,706-byte artifact binds PR #77, four dependency receipts, exact Windows/CUDA environment, resource caps, one invocation, and zero retry |
 | Browser Research generation-failure diagnostic invocation closeout v1 | [MM-005 Browser Research generation-failure diagnostic invocation closeout](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-invocation-closeout-v1.md) | The sole formal invocation failed before lifecycle/owner/genesis because a fresh safe output parent was missing; invocation budget is spent, attempt remains unconsumed, the zero-owner state is outside terminal grammar, and no retry, terminal synthesis, or formal outcome is permitted |
+| Browser Research generation-failure diagnostic protocol v2 | [MM-005 Browser Research generation-failure diagnostic protocol v2](MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2.md) | Sole active protocol-only new identity; freezes future exclusive output-parent preparation and a real-filesystem implementation regression without execution authority |
 | Standard-library offline baseline | [ADR-0002](adr/ADR-0002-stdlib-offline-baseline.md) | English source |
 | Environment baseline | [environment.md](environment.md) | English source |
 | Tool Router schema/eval | [FC-MVP-001 schema/eval](FC-MVP-001-schema-eval.md) | English source |

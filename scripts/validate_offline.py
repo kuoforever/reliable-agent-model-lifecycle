@@ -295,6 +295,18 @@ MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_BYTES =
 MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_INVOCATION_CLOSEOUT_SHA256 = (
     "sha256:d8a64be5b0361322246faf4eeccde04f9921e0a9c586f3498b188a6477d1ddce"
 )
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_PATH = (
+    ROOT
+    / "configs"
+    / (
+        "mm005_browser_research_model_evaluation_generation_failure_"
+        "diagnostic_protocol_v2.json"
+    )
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_BYTES = 62_653
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_SHA256 = (
+    "sha256:0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52"
+)
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
 TOOL_ROUTER_DATA_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-data-v1.json"
@@ -685,6 +697,9 @@ def main() -> int:
     ) = _validate_mm005_browser_research_generation_failure_diagnostic_state()
     mm005_browser_research_generation_failure_diagnostic_invocation_closeout = (
         _validate_mm005_browser_research_generation_failure_diagnostic_invocation_closeout()
+    )
+    mm005_browser_research_generation_failure_diagnostic_protocol_v2 = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
     )
     tests_run = _run_tests()
 
@@ -1916,6 +1931,36 @@ def main() -> int:
         "mm005_browser_research_generation_failure_diagnostic_closeout_next_gate": (
             mm005_browser_research_generation_failure_diagnostic_invocation_closeout[
                 "next_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_frozen": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "protocol_frozen"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_future_output_parent_must_be_absent": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "future_output_parent_must_be_absent"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_parent_creation_deferred": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "parent_creation_deferred"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_execution_authorized": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "diagnostic_execution_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "next_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_protocol_v2_sha256": (
+            mm005_browser_research_generation_failure_diagnostic_protocol_v2[
+                "protocol_sha256"
             ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
@@ -6592,6 +6637,235 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_invocation_cl
         "terminal_synthesized": grammar["terminal_synthesis_authorized"],
         "selected_outcome": outcome["selected_outcome"],
         "next_gate": action["next_gate_id"],
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2 as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2 as builder,
+    )
+
+    payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_PATH,
+        "MM-005 generation-failure diagnostic protocol v2",
+    )
+    digest = contract.sha256_bytes(payload)
+    if (
+        len(payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_BYTES
+        or digest
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_SHA256
+    ):
+        raise GateError("MM-005 diagnostic protocol v2 receipt mismatch")
+    value = contract.parse_strict_json_bytes(
+        payload, location="$.generation_failure_diagnostic_protocol_v2"
+    )
+    if contract.artifact_json_bytes(value) != payload:
+        raise GateError("MM-005 diagnostic protocol v2 is not canonical")
+    checked = contract.validate_preregistration(value, **builder.protocol_inputs())
+
+    outputs = checked.get("outputs")
+    lineage = checked.get("source_lineage")
+    freeze = checked.get("freeze_preconditions")
+    separation = checked.get("identity_separation")
+    scientific = checked.get("immutable_scientific_contract")
+    execution = checked.get("execution_protocol")
+    parent = checked.get("output_parent_preparation_contract")
+    regression = checked.get("implementation_v2_regression_contract")
+    authority = checked.get("authority_contract")
+    claims = checked.get("claims")
+    action = checked.get("locked_next_action")
+    publication = checked.get("publication")
+    sections = (
+        outputs,
+        lineage,
+        freeze,
+        separation,
+        scientific,
+        execution,
+        parent,
+        regression,
+        authority,
+        claims,
+        action,
+        publication,
+    )
+    if not all(isinstance(section, dict) for section in sections):
+        raise GateError("MM-005 diagnostic protocol v2 sections are invalid")
+    assert isinstance(outputs, dict)
+    assert isinstance(lineage, dict)
+    assert isinstance(freeze, dict)
+    assert isinstance(separation, dict)
+    assert isinstance(scientific, dict)
+    assert isinstance(execution, dict)
+    assert isinstance(parent, dict)
+    assert isinstance(regression, dict)
+    assert isinstance(authority, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(action, dict)
+    assert isinstance(publication, dict)
+
+    original = lineage.get("original_v2_preregistration")
+    bound_artifacts = lineage.get("bound_artifacts")
+    source_receipts = lineage.get("protocol_sources")
+    initial_parent = parent.get("initial_output_parent_state")
+    ordered_steps = parent.get("ordered_steps")
+    regression_topology = regression.get("initial_topology")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            original,
+            bound_artifacts,
+            source_receipts,
+            initial_parent,
+            regression_topology,
+        )
+    ) or not isinstance(ordered_steps, list):
+        raise GateError("MM-005 diagnostic protocol v2 nested sections are invalid")
+    assert isinstance(original, dict)
+    assert isinstance(bound_artifacts, dict)
+    assert isinstance(source_receipts, dict)
+    assert isinstance(initial_parent, dict)
+    assert isinstance(regression_topology, dict)
+
+    if (
+        checked.get("gate_id") != contract.GATE_ID
+        or checked.get("freeze_status") != "frozen"
+        or checked.get("experiment_id") != contract.EXPERIMENT_ID
+        or checked.get("run_id") != contract.RUN_ID
+        or outputs.get("output_root") != contract.RUN_OUTPUT_ROOT
+        or outputs.get("attempt_owner") != contract.ATTEMPT_OWNER_PATH
+        or outputs.get("progress") != contract.PROGRESS_PATH
+        or outputs.get("success_result") != contract.SUCCESS_RESULT_PATH
+        or outputs.get("failure") != contract.FAILURE_PATH
+        or outputs.get("lifecycle_lease") != contract.LIFECYCLE_LEASE_PATH
+        or original.get("introduction_commit")
+        != contract.ORIGINAL_V2_INTRODUCTION_COMMIT
+        or original.get("static_result_binding_commit")
+        != contract.STATIC_RESULT_COMMIT
+        or original.get("protocol_v2_base_commit")
+        != contract.MAINTENANCE_MERGE_COMMIT
+        or original.get("sha256")
+        != contract.ORIGINAL_V2_PREREGISTRATION_SHA256
+        or original.get("unique_first_parent_introduction") is not True
+        or set(bound_artifacts) != set(contract.LINEAGE_BINDINGS)
+        or any(
+            receipt.get("current_bytes_equal_binding_commit_blob") is not True
+            for receipt in bound_artifacts.values()
+            if isinstance(receipt, dict)
+        )
+        or len(bound_artifacts) != len(contract.LINEAGE_BINDINGS)
+        or set(source_receipts) != set(contract.PROTOCOL_SOURCE_PATHS)
+        or freeze.get("all_bound_payloads_match_binding_commit_blobs") is not True
+        or freeze.get("v1_invocation_budget_spent") is not True
+        or freeze.get("v1_diagnostic_attempt_unconsumed") is not True
+        or freeze.get("v1_retry_authorized") is not False
+        or freeze.get("v1_terminal_synthesis_authorized") is not False
+        or freeze.get("planned_output_absent") is not True
+        or freeze.get("planned_lifecycle_absent") is not True
+        or freeze.get("work_root_presence_required_for_plan_check_or_freeze")
+        is not False
+        or freeze.get("output_parent_presence_required_for_plan_check_or_freeze")
+        is not False
+        or freeze.get("plan_check_and_freeze_create_output_parent") is not False
+        or freeze.get("formal_diagnostic_invocations") != 0
+        or freeze.get("diagnostic_attempts_consumed") != 0
+        or separation.get(
+            "windows_casefold_and_ancestor_unique_from_original_v2_and_v1"
+        )
+        is not True
+        or scientific.get("record_count") != 7
+        or scientific.get("required_environment_field_count") != 17
+        or scientific.get("diagnostic_substage_count") != 9
+        or scientific.get("durable_substage_checkpoint_count") != 126
+        or scientific.get("success_frame_count") != 133
+        or len(scientific.get("failure_scopes", [])) != 4
+        or len(scientific.get("allowed_outcomes", [])) != 4
+        or scientific.get("seed") != 55006
+        or scientific.get("record_registry_sha256")
+        != contract.RECORD_REGISTRY_SHA256
+        or execution.get("diagnostic_execution_authorized") is not False
+        or execution.get("formal_invocation_budget_spent") != 0
+        or execution.get("retry_budget") != 0
+        or parent.get("scope") != "future_execution_v2_only"
+        or parent.get("mutable_during_plan_check_or_protocol_freeze") is not False
+        or initial_parent.get("path") != contract.OUTPUT_PARENT_PATH
+        or initial_parent.get("must_be_absent") is not True
+        or len(ordered_steps) != 7
+        or ordered_steps[1].get("primitive") != "os.mkdir"
+        or ordered_steps[1].get("parents_created") is not False
+        or ordered_steps[1].get("exist_ok") is not False
+        or ordered_steps[2].get("operation")
+        != "revalidate_authority_lineage_remaining_topology_and_ancestry"
+        or ordered_steps[2].get(
+            "planned_output_root_lifecycle_owner_and_progress_unclaimed"
+        )
+        is not True
+        or ordered_steps[2].get(
+            "created_parent_excluded_from_precreate_absence_predicate"
+        )
+        is not True
+        or parent.get(
+            "authority_lineage_and_remaining_unclaimed_topology_revalidated_after_create_before_lifecycle"
+        )
+        is not True
+        or parent.get("directory_guard_verified_before_lifecycle") is not True
+        or parent.get("lifecycle_entered_before_owner_and_genesis_claim") is not True
+        or parent.get("parent_creation_is_attempt_claim") is not False
+        or parent.get("parent_creation_is_formal_telemetry") is not False
+        or parent.get("pre_owner_failure_scope") is not None
+        or parent.get("pre_owner_failure_outcome") is not None
+        or parent.get("pre_owner_failure_terminal_synthesis_authorized") is not False
+        or parent.get("pre_owner_failure_spends_formal_invocation_budget") is not True
+        or parent.get("pre_owner_failure_retry_authorized") is not False
+        or parent.get("same_privilege_toctou_eliminated") is not False
+        or regression.get("mandatory") is not True
+        or regression.get("real_temporary_filesystem") is not True
+        or regression_topology.get("work_root_exists") is not True
+        or regression_topology.get("output_parent_absent") is not True
+        or regression.get("output_parent_helper_mocked") is not False
+        or regression.get("directory_tree_guard_mocked") is not False
+        or regression.get("exercise_execute_path") is not True
+        or regression.get("controlled_exception_boundary")
+        != "first_heavy_dependency_boundary"
+        or regression.get("model_import_entered") is not False
+        or regression.get("model_load_entered") is not False
+        or regression.get("cuda_entered") is not False
+        or regression.get("expected_failure_scope") != "pre_record_lifecycle"
+        or authority.get("diagnostic_execution_authorized") is not False
+        or authority.get("v1_retry_authorized") is not False
+        or authority.get("v2_retry_authorized") is not False
+        or authority.get("recovery_v3_authorized") is not False
+        or claims.get("diagnostic_protocol_v2_frozen") is not True
+        or claims.get("v2_diagnostic_attempt_consumed") is not False
+        or claims.get("v2_diagnostic_executed") is not False
+        or claims.get("formal_measurement_complete") is not False
+        or action.get("next_gate_id") != contract.IMPLEMENTATION_GATE_ID
+        or action.get("implementation_freeze_only") is not True
+        or action.get("diagnostic_execution_authorized") is not False
+        or publication.get("slice_paths") != sorted(contract.PROTOCOL_SLICE_PATHS)
+        or publication.get("slice_path_count") != 11
+        or len(contract.PROTOCOL_SLICE_PATHS) != 11
+        or checked.get("next_gate") != contract.IMPLEMENTATION_GATE_ID
+        or checked.get("runtime_eligible") is not False
+    ):
+        raise GateError("MM-005 diagnostic protocol v2 boundary mismatch")
+    return {
+        "protocol_frozen": claims["diagnostic_protocol_v2_frozen"],
+        "future_output_parent_must_be_absent": initial_parent["must_be_absent"],
+        "parent_creation_deferred": not parent[
+            "mutable_during_plan_check_or_protocol_freeze"
+        ],
+        "diagnostic_execution_authorized": authority[
+            "diagnostic_execution_authorized"
+        ],
+        "next_gate": checked["next_gate"],
+        "protocol_sha256": digest,
     }
 
 

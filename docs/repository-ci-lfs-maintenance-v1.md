@@ -69,13 +69,21 @@ run for the same PR or branch. Events are limited to pull requests targeting
 `master` and pushes to `master`, eliminating the former feature-push/PR
 duplicate.
 
-## Rollout and expected transfer
+## Closed rollout and transfer
 
-The existing ruleset keeps only the three matrix contexts required while this
-workflow is introduced. `hydrated-lfs-integrity` must be added as a fourth
-required context after all four jobs pass on both the maintenance pull request
-and its post-merge `master` run; staging the ruleset this way avoids a
-required-check deadlock.
+PR #80 passed all four jobs in workflow run `33480142139` and merged as
+verified signed squash commit
+`266e9b695af0f93ae4c82e36ac484cb2d3d3a521`. The exact merge HEAD then passed
+all four jobs again in post-merge `master` run `33481002184`. Review, comment,
+thread, conflict, strict-up-to-date, signature, branch-cleanup, and temporary
+worktree checks were clear.
+
+Only after both observations passed, ruleset `19977219` was updated and read
+back at `2026-09-01T15:25:20.893+08:00`. It remains active and strict, keeps
+thread resolution, stale-review dismissal, deletion, non-fast-forward, pull
+request, and status-check rules, has no bypass actors, and now requires exactly
+the three matrix contexts plus `hydrated-lfs-integrity`. The staged rollout is
+therefore closed without a required-check deadlock.
 
 For one feature push, one PR run, and one post-merge run, the old workflow
 hydrated nine copies of the four objects: 994,720,680 bytes, or approximately
@@ -93,9 +101,8 @@ four registered payload receipts and the existing complete offline gate; it
 does not establish a new model result, quality improvement, Runtime cause, or
 diagnostic execution.
 
-After this maintenance merges cleanly and branch cleanup plus the four-job
-post-merge observation are complete, the only product successor remains a new
-identity sequence:
+This maintenance is complete. Its only product successor is the new-identity
+sequence:
 
 ```text
 diagnostic-protocol-v2
@@ -104,5 +111,7 @@ diagnostic-protocol-v2
         -> exact-once execution-v2
 ```
 
-That future execution is not a v1 retry, and automatic recovery v3 remains
-unauthorized.
+The first successor is now the protocol-only
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`
+gate. It cannot execute a diagnostic. Any future execution is not a v1 retry,
+and automatic recovery v3 remains unauthorized.
