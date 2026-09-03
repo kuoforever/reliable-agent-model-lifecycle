@@ -701,6 +701,9 @@ def main() -> int:
     mm005_browser_research_generation_failure_diagnostic_protocol_v2 = (
         _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
     )
+    mm005_browser_research_generation_failure_diagnostic_implementation_v2 = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_implementation_v2()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -1961,6 +1964,41 @@ def main() -> int:
         "mm005_browser_research_generation_failure_diagnostic_protocol_v2_sha256": (
             mm005_browser_research_generation_failure_diagnostic_protocol_v2[
                 "protocol_sha256"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_contract_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "implementation_contract_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_check_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "implementation_check_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_runner_plan_valid": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "runner_plan_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_output_parent_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "output_parent_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_execution_authority_present": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "execution_authority_present"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_execution_authorized": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "diagnostic_execution_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_implementation_v2_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "next_gate"
             ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
@@ -6866,6 +6904,356 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
         ],
         "next_gate": checked["next_gate"],
         "protocol_sha256": digest,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_implementation_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2 as protocol,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2 as contract,
+    )
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
+    )
+
+    before = runner._output_topology()
+    runner._validate_output_topology(before)
+    if before.get("output_parent") is not False or any(
+        before.get(name) is not False
+        for name in (
+            "execution_authority",
+            "output_root",
+            "attempt_owner",
+            "progress",
+            "success_result",
+            "failure",
+            "lifecycle_lease_root",
+            "lifecycle_lease",
+            "reserved_sibling_staging",
+        )
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 topology mismatch")
+
+    implementation = contract.result_contract()
+    base_binding = implementation.get("implementation_base_binding")
+    authority = implementation.get("execution_authority_contract")
+    owner = implementation.get("owner_contract")
+    parent = implementation.get("output_parent_preparation_contract")
+    regression = implementation.get("implementation_regression_contract")
+    publication = implementation.get("publication_contract")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            base_binding,
+            authority,
+            owner,
+            parent,
+            regression,
+            publication,
+        )
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 sections are invalid")
+    assert isinstance(base_binding, dict)
+    assert isinstance(authority, dict)
+    assert isinstance(owner, dict)
+    assert isinstance(parent, dict)
+    assert isinstance(regression, dict)
+    assert isinstance(publication, dict)
+
+    expected_sources = contract.IMPLEMENTATION_SOURCE_PATHS
+    if (
+        contract.PROTOCOL_MERGE_COMMIT
+        != "eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9"
+        or contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
+        != "e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54"
+        or contract.IMPLEMENTATION_BASE_COMMIT
+        != "8c679eba08a979fb60bfd87fbe8c73c8725d89c0"
+        or contract.RESULT_VERSION != 2
+        or contract.FAILURE_VERSION != 2
+        or contract.ATTEMPT_OWNER_VERSION != 2
+        or contract.PROGRESS_VERSION != 2
+        or contract.EXECUTION_AUTHORITY_VERSION != 2
+        or implementation.get("gate_id") != protocol.IMPLEMENTATION_GATE_ID
+        or implementation.get("next_gate_id") != protocol.AUTHORITY_GATE_ID
+        or implementation.get("reserved_execution_gate_id")
+        != protocol.EXECUTION_GATE_ID
+        or implementation.get("protocol_binding")
+        != {
+            "merge_commit": contract.PROTOCOL_MERGE_COMMIT,
+            "path": protocol.PREREGISTRATION_PATH,
+            "bytes": contract.PROTOCOL_BYTES,
+            "sha256": contract.PROTOCOL_SHA256,
+            "all_protocol_sources_bound_to_merge_blobs": True,
+        }
+        or base_binding
+        != {
+            "commit": contract.IMPLEMENTATION_BASE_COMMIT,
+            "unique_parent": contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+            "zero_bandwidth_maintenance_commit": (
+                contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
+            ),
+            "zero_bandwidth_maintenance_unique_parent": (
+                contract.PROTOCOL_MERGE_COMMIT
+            ),
+            "non_lifecycle_zero_bandwidth_ci_prerequisite": True,
+            "non_lifecycle_exact_head_ci_prerequisite": True,
+            "protocol_merge_commit_remains_receipt_and_ancestor": True,
+            "implementation_freeze_must_have_base_as_unique_parent": True,
+            "exact_reviewed_slice_delta_starts_at_base": True,
+        }
+        or implementation.get("implementation_source_paths") != expected_sources
+        or implementation.get("execution_authority_slice_paths")
+        != sorted(contract.EXECUTION_AUTHORITY_SLICE_PATHS)
+        or len(expected_sources) != 3
+        or len(runner.IMPLEMENTATION_SLICE_PATHS) != 11
+        or authority.get("exact_implementation_base_commit_required") is not True
+        or authority.get(
+            "authority_introduction_has_implementation_as_unique_parent"
+        )
+        is not True
+        or authority.get("implementation_gate_may_not_create_this_artifact")
+        is not True
+        or authority.get("clean_aligned_master_and_origin_master_required")
+        is not True
+        or owner.get("lease_acquired_before_owner_claim") is not True
+        or owner.get("owner_and_genesis_published_atomically") is not True
+        or owner.get("retry_budget") != 0
+        or parent.get("work_root") != protocol.WORK_ROOT_PATH
+        or parent.get("output_parent") != protocol.OUTPUT_PARENT_PATH
+        or parent.get("public_execute_requires_published_authority") is not True
+        or parent.get("clean_aligned_exact_authority_head_required_before_mkdir")
+        is not True
+        or parent.get("work_directory_guard_verified_before_mkdir") is not True
+        or parent.get("exclusive_single_component_primitive") != "os.mkdir"
+        or parent.get("parents_created") is not False
+        or parent.get("exist_ok") is not False
+        or parent.get(
+            "authority_lineage_sources_and_remaining_topology_revalidated_after_create"
+        )
+        is not True
+        or parent.get("root_work_and_parent_identity_revalidated_after_create")
+        is not True
+        or parent.get("created_parent_directory_guard_verified_before_lifecycle")
+        is not True
+        or parent.get("lifecycle_before_atomic_owner_and_genesis") is not True
+        or parent.get("atomic_owner_and_genesis_before_first_heavy_boundary")
+        is not True
+        or parent.get("parent_creation_is_attempt_claim") is not False
+        or parent.get("parent_creation_is_formal_telemetry") is not False
+        or parent.get("pre_owner_terminal_scope_or_outcome_available") is not False
+        or parent.get("post_create_pre_lifecycle_failure_may_leave_parent_only")
+        is not True
+        or parent.get(
+            "parent_only_continuation_or_terminal_reconciliation_forbidden"
+        )
+        is not True
+        or parent.get("post_lifecycle_pre_owner_failure_may_leave_lifecycle_only")
+        is not True
+        or parent.get(
+            "lifecycle_only_continuation_or_terminal_reconciliation_forbidden"
+        )
+        is not True
+        or parent.get("owner_staging_failure_remains_durable_and_unretryable")
+        is not True
+        or parent.get("same_privilege_toctou_eliminated") is not False
+        or regression.get("real_temporary_git_and_filesystem") is not True
+        or regression.get("initial_work_root_exists") is not True
+        or regression.get("initial_output_parent_absent") is not True
+        or regression.get("parent_helper_mocked") is not False
+        or regression.get("directory_tree_guard_mocked") is not False
+        or regression.get("lease_claim_or_io_mocked") is not False
+        or regression.get("only_executed_injected_boundary")
+        != "first_heavy_dependency_boundary"
+        or regression.get("fail_on_call_spies_required")
+        != ["socket", "network", "model_load", "cuda_workload"]
+        or regression.get("owner_and_genesis_exist_before_controlled_exception")
+        is not True
+        or regression.get("controlled_failure_scope") != "pre_record_lifecycle"
+        or regression.get("model_import_or_load_entered") is not False
+        or regression.get("cuda_or_network_entered") is not False
+        or regression.get("formal_invocation_budget_consumed") is not False
+        or publication.get(
+            "separate_execution_authority_and_resource_preflight_required"
+        )
+        is not True
+        or publication.get("clean_implementation_merge_alone_authorizes_execution")
+        is not False
+        or publication.get("plan_is_read_only") is not True
+        or publication.get("check_does_not_republish") is not True
+        or publication.get(
+            "protocol_merge_maintenance_and_implementation_base_recorded_in_owner_and_terminal"
+        )
+        is not True
+        or publication.get("zero_internal_retry") is not True
+        or publication.get("no_mutable_output_override") is not True
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 boundary mismatch")
+
+    implementation_freeze_commit = runner._git_text("rev-parse", "HEAD")
+    try:
+        runner._require_unique_parent(
+            contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+            contract.PROTOCOL_MERGE_COMMIT,
+        )
+        runner._require_unique_parent(
+            contract.IMPLEMENTATION_BASE_COMMIT,
+            contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        runner._require_unique_parent(
+            implementation_freeze_commit, contract.IMPLEMENTATION_BASE_COMMIT
+        )
+    except RuntimeError as exc:
+        raise GateError(
+            "MM-005 diagnostic implementation v2 direct-parent lineage mismatch"
+        ) from exc
+    if set(
+        runner._git_name_only_paths(
+            contract.IMPLEMENTATION_BASE_COMMIT, implementation_freeze_commit
+        )
+    ) != set(runner.IMPLEMENTATION_SLICE_PATHS):
+        raise GateError("MM-005 diagnostic implementation v2 slice mismatch")
+
+    for name, relative in sorted(expected_sources.items()):
+        payload = _read_regular_file_once(
+            ROOT / relative,
+            f"MM-005 diagnostic implementation v2 source {name}",
+        )
+        if not payload:
+            raise GateError("MM-005 diagnostic implementation v2 source is empty")
+
+    runner_path = expected_sources["diagnostic_runner"]
+    runner_payload = _read_regular_file_once(
+        ROOT / runner_path,
+        "MM-005 diagnostic implementation v2 runner",
+    )
+    try:
+        runner_source = runner_payload.decode("utf-8")
+        runner_tree = ast.parse(runner_source, filename=runner_path)
+    except (UnicodeDecodeError, SyntaxError) as exc:
+        raise GateError("invalid MM-005 diagnostic implementation v2 runner") from exc
+    heavy_modules = {"torch", "PIL", "transformers", "peft", "bitsandbytes"}
+    top_level_imports = {
+        alias.name.partition(".")[0]
+        for node in runner_tree.body
+        if isinstance(node, (ast.Import, ast.ImportFrom))
+        for alias in node.names
+    }
+    functions = {
+        node.name: node
+        for node in runner_tree.body
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+    }
+    core = functions.get("_execute_validated_context")
+    public_execute = functions.get("_execute_authorized_diagnostic")
+    if core is None or public_execute is None:
+        raise GateError("MM-005 diagnostic implementation v2 core is missing")
+    mkdir_calls = [
+        node
+        for node in ast.walk(core)
+        if isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Attribute)
+        and isinstance(node.func.value, ast.Name)
+        and node.func.value.id == "os"
+        and node.func.attr == "mkdir"
+    ]
+    core_source = ast.get_source_segment(runner_source, core)
+    public_source = ast.get_source_segment(runner_source, public_execute)
+    if (
+        top_level_imports & heavy_modules
+        or len(mkdir_calls) != 1
+        or len(mkdir_calls[0].args) != 1
+        or mkdir_calls[0].keywords
+        or core_source is None
+        or public_source is None
+        or "_validated_execution_context_from_published_authority"
+        not in public_source
+        or "first_heavy_boundary" not in core_source
+        or "os.environ.get" in runner_source
+        or "diagnostic_execution_authorized=True" in runner_source
+        or "retry(" in runner_source.lower()
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 runner boundary mismatch")
+
+    plan = runner.run(mode="plan")
+    check = runner.run(mode="check")
+    common_expected = {
+        "implementation_contract_valid": True,
+        "gate_id": contract.GATE_ID,
+        "next_gate_id": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "reserved_execution_gate_id": contract.EXECUTION_GATE_ID,
+        "protocol_merge_commit": contract.PROTOCOL_MERGE_COMMIT,
+        "zero_bandwidth_maintenance_commit": (
+            contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
+        ),
+        "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+        "protocol_sha256": contract.PROTOCOL_SHA256,
+        "implementation_source_files": len(expected_sources),
+        "result_and_failure_schema_frozen": True,
+        "output_parent_preparation_frozen": True,
+        "real_filesystem_regression_required": True,
+        "formal_execution_eligible": False,
+        "diagnostic_execution_authorized": False,
+        "diagnostic_attempt_consumed": False,
+        "diagnostic_executed": False,
+        "selected_outcome": None,
+        "model_processor_pil_torch_cuda_browser_network_authorized": False,
+        "recovery_v3_authorized": False,
+        "runtime_eligible": False,
+        "runner_check_valid": False,
+        "execution_path_invoked_by_gate": False,
+        "protocol_context_valid": True,
+        "protocol_source_files": len(protocol.PROTOCOL_SOURCE_PATHS),
+        "execution_authority_valid": False,
+        "execution_authority_published": False,
+        "execution_authority_present": False,
+        "output_parent_present": False,
+        "attempt_owner_present": False,
+        "progress_present": False,
+        "success_result_present": False,
+        "failure_present": False,
+        "output_root_present": False,
+        "lifecycle_lease_present": False,
+        "reserved_sibling_staging_present": False,
+        "result_valid": False,
+        "terminal_reconciliation_required": False,
+        "contract_gate_id": contract.GATE_ID,
+    }
+    if any(
+        any(summary.get(name) != value for name, value in common_expected.items())
+        for summary in (plan, check)
+    ) or (
+        plan.get("plan_only") is not True
+        or plan.get("implementation_check_valid") is not False
+        or plan.get("runner_plan_valid") is not True
+        or check.get("plan_only") is not False
+        or check.get("implementation_check_valid") is not True
+        or check.get("runner_plan_valid") is not False
+        or plan.get("implementation_source_receipts")
+        != check.get("implementation_source_receipts")
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 read-only mismatch")
+
+    after = runner._output_topology()
+    runner._validate_output_topology(after)
+    if after != before:
+        raise GateError("MM-005 diagnostic implementation v2 wrote runtime output")
+    return {
+        "implementation_contract_valid": True,
+        "implementation_check_valid": True,
+        "runner_plan_valid": True,
+        "output_parent_present": False,
+        "execution_authority_present": False,
+        "diagnostic_execution_authorized": False,
+        "next_gate": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "protocol_merge_commit": contract.PROTOCOL_MERGE_COMMIT,
+        "zero_bandwidth_maintenance_commit": (
+            contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
+        ),
+        "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
     }
 
 
