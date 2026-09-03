@@ -1337,30 +1337,42 @@ path in a real temporary filesystem and fail controllably at the first heavy
 boundary without model/CUDA entry. Protocol, implementation, authority, and
 exact-once execution remain separate; this is not a v1 retry.
 
-The monthly Git LFS bandwidth balance is now unavailable, so implementation-v2
-is paused at the exact local 11-path resume point in
-`C:\Users\Alienware\raml-v2i`. The sole active work item is the independent
-zero-bandwidth CI transport prerequisite; it does not consume, replace, or
-advance the formal lifecycle `next_gate`, which remains implementation-v2.
-Automatic CI retains the legacy required
-`hydrated-lfs-integrity` context name but performs only pointer metadata,
-immutable anchor ancestry, and protected-path no-drift checks, reading zero LFS
-payload bytes and explicitly leaving current hydration, payload rehash,
-complete current-HEAD integrity, and remote availability false. The three
-Python jobs additionally run the 18 anchor protocol tests before
-implementation-v2, then the implementation's exact 19 protocol plus 43 result
-tests (62 total) after its exact four-file topology is complete; a partial
-topology fails closed.
+The monthly Git LFS bandwidth balance is unavailable, so implementation-v2 is
+paused at the exact local 11-path resume point in
+`C:\Users\Alienware\raml-v2i`. PR #82 has now published the independent
+zero-bandwidth CI transport prerequisite as verified signed squash commit
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`; its exact merge-HEAD run
+`33707078027` passed all four required jobs while reading zero LFS payload
+bytes. The legacy `hydrated-lfs-integrity` context now performs only pointer
+metadata, immutable anchor ancestry, and protected-path no-drift checks and
+explicitly leaves current hydration, payload rehash, complete current-HEAD
+integrity, and remote availability false. The three Python jobs retain the 18
+anchor protocol tests before implementation-v2, then the implementation's
+exact 19 protocol plus 43 result tests (62 total) after its exact four-file
+topology is complete; a partial topology fails closed.
+
+The sole active work item is the second independent non-lifecycle transport
+prerequisite, `repository-ci-exact-head-checkout-v1`, based on exact PR #82
+merge commit `e5e618b...f0f54`. Both automatic jobs select
+`${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}`
+as the checkout `ref`, pass that same value to a strict lowercase 40-hex
+`exact-checkout` validator, and fail unless it equals `git rev-parse HEAD`.
+They retain full history, pointer-only checkout, and skipped LFS smudge while
+disabling credential persistence. This prevents strict feature-lineage gates
+from treating GitHub's synthetic pull-request merge ref as the submitted
+feature head; it does not use `pull_request_target`, test the prospective merge
+commit, or advance any lifecycle state.
 
 Full hydration remains available only through a separate
 `workflow_dispatch` job and distinct `manual-hydrated-lfs-integrity` context,
 after the exact `DOWNLOAD 110524520 LFS BYTES` acknowledgement. It must not be
-dispatched without available bandwidth. This maintenance adds no authority and
-executes no diagnostic. After it is cleanly published and observed on merge
-HEAD, implementation-v2 must rebase onto that merge, bind the merge SHA as its
-literal `IMPLEMENTATION_BASE_COMMIT`, retain `eb2aea3...eb3fc9` as the protocol
-receipt and ancestor, and prove that the base-to-implementation delta is still
-the registered exact 11 paths. It remains the sole next formal lifecycle gate.
+dispatched without available bandwidth. Neither transport prerequisite adds
+authority or executes a diagnostic. After the exact-head correction is cleanly
+published and observed on its merge HEAD, implementation-v2 must rebase onto
+that newest merge, bind the exact-head correction's merge SHA as its literal
+`IMPLEMENTATION_BASE_COMMIT`, retain `eb2aea3...eb3fc9` as the protocol receipt
+and ancestor, and prove that the base-to-implementation delta is still the
+registered exact 11 paths. It remains the sole next formal lifecycle gate.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

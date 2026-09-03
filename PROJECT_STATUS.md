@@ -920,13 +920,15 @@ unclaimed topology plus ancestry, guard `ROOT -> work/evaluation-runs`, enter
 lifecycle, atomically publish owner+genesis, and only then cross the first
 heavy-dependency boundary. Parent creation is not a claim or telemetry.
 
-A bounded implementation-v2 slice is prepared locally but is now explicitly
-paused because the repository owner's monthly Git LFS bandwidth is exhausted.
-Its safe resume point is
+A bounded implementation-v2 slice is prepared locally but remains explicitly
+paused while the repository-CI transport prerequisites are completed. Its safe
+resume point is
 `C:\Users\Alienware\raml-v2i`, branch
-`feat/mm005-generation-failure-diagnostic-implementation-v2`, based on exact
-`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`. The intended ceiling remains
-exactly these 11 paths:
+`feat/mm005-generation-failure-diagnostic-implementation-v2`, at safe local
+checkpoint `684c7e13226eb6b67f5b23845c937e0a709113f7` whose unique parent is PR #82
+merge `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. Protocol commit
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9` remains its frozen receipt and
+ancestor. The intended ceiling remains exactly these 11 paths:
 
 1. `AI_Infra_LLM_Agent_待做任务清单.md`
 2. `PROJECT_STATUS.md`
@@ -940,52 +942,63 @@ exactly these 11 paths:
 10. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2.py`
 11. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2.py`
 
-That paused slice must resume by rebasing onto clean master only after the
-current maintenance is published and its merge-HEAD checks are observed. It
-must add a literal `IMPLEMENTATION_BASE_COMMIT` binding to that maintenance
-merge within the same registered 11 paths, retain `eb2aea3...eb3fc9` as the
-protocol receipt and ancestor, require the maintenance merge as its unique
-first parent, and prove an exact 11-path base-to-implementation delta. Its
-mandatory regression remains a real temporary filesystem with safe existing
-`work`, missing `evaluation-runs`, no mocked parent helper or
-`DirectoryTreeGuard`, lifecycle plus atomic owner/genesis, and a controlled
-first-heavy-boundary failure proving model import/load, CUDA, and network were
-not entered. It has no authority and must not execute the formal diagnostic.
+PR #82 closed the independent 10-path
+`repository-ci-lfs-zero-bandwidth-v2` prerequisite as verified signed squash
+commit `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. All four required PR jobs and
+all four jobs on exact merge HEAD passed; post-merge workflow run
+`33707078027` was successful. Automatic CI retains the legacy required context
+name `hydrated-lfs-integrity`, but performs only full-history anchor ancestry,
+protected LFS path/control-plane no-drift, and exact pointer metadata checks.
+It reads zero LFS payload bytes and truthfully leaves current hydration,
+payload rehash, remote availability, and full current-HEAD integrity false.
+The separate acknowledged manual hydration workflow remains unchanged and was
+not dispatched.
 
-The sole active work item is now the independent 10-path
-`repository-ci-lfs-zero-bandwidth-v2` repository-CI transport prerequisite.
-Its config `gate_id` is not a formal lifecycle gate: this detour does not
-consume, replace, or advance the protocol's `next_gate`, which remains
-implementation-v2. It binds successful
-hydrated anchor commit `eb2aea3...eb3fc9`, tree `bddfdadc...9a77d`, workflow run
-`33501136645`, and hydrated job `99834499141`. Automatic CI retains the legacy
-required context name `hydrated-lfs-integrity`, but that context now performs
-only full-history anchor ancestry, protected LFS path/control-plane no-drift,
-and exact pointer metadata checks. It reads zero LFS payload bytes and must
-report `current_hydration_verified=false`,
-`current_payload_integrity_verified=false`,
-`remote_availability_verified=false`, and `full_integrity_verified=false`.
+The sole active work item is now the second independent non-lifecycle
+transport prerequisite, `repository-ci-exact-head-checkout-v1`, based on exact
+PR #82 merge commit `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. GitHub's
+default pull-request checkout selects a synthetic merge ref, which can make a
+strict feature-lineage check reject a valid submitted head. Both automatic
+jobs must instead check out
+`${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}`,
+export that same SHA to the `exact-checkout` validator, and fail closed unless
+the required lowercase 40-hex value exactly equals `git rev-parse HEAD`.
+`fetch-depth: 0`, `lfs: false`, `GIT_LFS_SKIP_SMUDGE=1`, and the existing job
+contexts remain fixed; both checkouts disable credential persistence.
+`pull_request_target` and synthetic merge-ref identity are forbidden.
 
-The three Python matrix jobs keep their frozen 107 core tests and add the
-diagnostic-v2 focused gate: exact 18 anchor protocol tests while all four
-implementation files are absent, then the implementation's exact 19 protocol
-plus 43 result tests (62 total) when all four are present, and fail-closed
-rejection for any partial topology. A separate
-`manual-hydrated-lfs-integrity` workflow has only an explicit
-`workflow_dispatch` trigger and requires the exact
-`DOWNLOAD 110524520 LFS BYTES` acknowledgement before its bounded pull, fsck,
-payload hashing, and complete offline gate. It must not be dispatched while
-bandwidth remains unavailable.
+This correction has an exact nine-path ceiling:
 
-Stop if the anchor evidence is not independently verified, any protected
-pointer, inventory, attribute controller, or endpoint configuration drifts,
-an LFS payload command appears in automatic CI, the maintenance exceeds its
-10-path ceiling, implementation-v2 is resumed early, or
-checks/review/conflict/strict-up-to-date state is unresolved. After a clean
-maintenance merge and post-merge observation, implementation-v2 remains the
-sole next formal lifecycle gate, subject to its literal maintenance-base,
-first-parent, protocol-ancestor, and exact 11-path bindings; authority-v2 and
-exact-once execution-v2 remain separate later gates.
+1. `.github/workflows/offline-baseline.yml`
+2. `configs/repository_ci_lfs_trust_anchor_v1.json`
+3. `scripts/validate_repository_ci.py`
+4. `tests/test_validate_repository_ci.py`
+5. `docs/repository-ci-lfs-zero-bandwidth-v2.md`
+6. `PROJECT_STATUS.md`
+7. `README.md`
+8. `docs/README.md`
+9. `AI_Infra_LLM_Agent_待做任务清单.md`
+
+Its config `gate_id` is not a formal lifecycle gate. It changes no LFS
+inventory or pointer, manual workflow, model, data, Adapter, Runtime, output,
+result, authority, or invocation state and runs no diagnostic. The three Python
+versions must each pass the exact 20 repository-CI tests and 18 protocol-focused
+tests, followed by Ruff, strict Mypy, and diff checks.
+
+Stop if either automatic checkout lacks the exact event-head `ref`, the runtime
+HEAD/SHA equality check or `persist-credentials: false`; if the expected SHA is
+optional or accepts a non-lowercase/non-40-hex value; if any LFS payload command
+or `pull_request_target` appears; if scope exceeds the nine paths; if
+implementation-v2 resumes early; or if checks/review/conflict/strict-up-to-date
+state is unresolved. After this correction merges and exact merge-HEAD checks
+are observed, implementation-v2 remains the sole next formal lifecycle gate.
+It must rebase onto that merge and bind that new merge SHA as its literal
+`IMPLEMENTATION_BASE_COMMIT`, retain `eb2aea3...eb3fc9` as protocol receipt and
+ancestor, require the exact-head merge as its unique first parent, and preserve
+the registered exact 11-path base-to-implementation delta. Its mandatory real
+temporary-filesystem regression and all no-authority/no-diagnostic boundaries
+remain unchanged; authority-v2 and exact-once execution-v2 remain separate
+later gates.
 
 ## Preserved historical validation and deferred gates
 
@@ -2014,7 +2027,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; implementation-v2 is paused at its exact 11-path local resume point while `repository-ci-lfs-zero-bandwidth-v2` is the sole active 10-path maintenance gate |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; zero-bandwidth transport prerequisite published through PR #82 as `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`; implementation-v2 is paused at its exact 11-path local resume point while `repository-ci-exact-head-checkout-v1` is the sole active nine-path non-lifecycle transport correction |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
