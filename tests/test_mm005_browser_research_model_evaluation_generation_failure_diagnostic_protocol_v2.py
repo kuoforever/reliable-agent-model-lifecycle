@@ -825,6 +825,10 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
             result_contract.IMPLEMENTATION_BASE_COMMIT,
             "8c679eba08a979fb60bfd87fbe8c73c8725d89c0",
         )
+        self.assertEqual(
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+            "e185c76e0d0ace44a13e10f06d8644939e1981b8",
+        )
         self.assertEqual(implementation["gate_id"], contract.IMPLEMENTATION_GATE_ID)
         self.assertEqual(implementation["next_gate_id"], contract.AUTHORITY_GATE_ID)
         self.assertEqual(base["commit"], result_contract.IMPLEMENTATION_BASE_COMMIT)
@@ -841,7 +845,16 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
             result_contract.PROTOCOL_MERGE_COMMIT,
         )
         self.assertTrue(base["protocol_merge_commit_remains_receipt_and_ancestor"])
-        self.assertTrue(base["implementation_freeze_must_have_base_as_unique_parent"])
+        self.assertEqual(
+            base["initial_implementation_publication_commit"],
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
+        self.assertTrue(
+            base["initial_implementation_publication_has_base_as_unique_parent"]
+        )
+        self.assertTrue(
+            base["implementation_freeze_has_initial_publication_as_unique_parent"]
+        )
         self.assertTrue(authority["exact_implementation_base_commit_required"])
         self.assertTrue(
             authority["authority_introduction_has_implementation_as_unique_parent"]
@@ -870,9 +883,33 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
             ["socket", "network", "model_load", "cuda_workload"],
         )
         self.assertFalse(regression["formal_invocation_budget_consumed"])
+        authority_context = (
+            runner._optional_execution_authority_context()
+            if before["execution_authority"]
+            else None
+        )
         plan = runner.run(mode="plan")
         check = runner.run(mode="check")
         checkout_commit = runner._git_text("rev-parse", "HEAD")
+        implementation_freeze_commit = (
+            checkout_commit
+            if authority_context is None
+            else str(authority_context["implementation_freeze_commit"])
+        )
+        implementation_context = runner._implementation_source_context(
+            implementation_freeze_commit
+        )
+        self.assertEqual(
+            implementation_context["initial_implementation_publication_commit"],
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
+        self.assertEqual(
+            implementation_context["freeze_commit"], implementation_freeze_commit
+        )
+        if authority_context is not None:
+            self.assertEqual(
+                implementation_context, authority_context["implementation_context"]
+            )
         runner._require_unique_parent(
             result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
             result_contract.PROTOCOL_MERGE_COMMIT,
@@ -881,15 +918,58 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
             result_contract.IMPLEMENTATION_BASE_COMMIT,
             result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         )
+        runner._require_unique_parent(
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+            result_contract.IMPLEMENTATION_BASE_COMMIT,
+        )
+        runner._require_unique_parent(
+            implementation_freeze_commit,
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
         self.assertEqual(
             set(
                 runner._git_name_only_paths(
                     result_contract.IMPLEMENTATION_BASE_COMMIT,
-                    checkout_commit,
+                    result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
                 )
             ),
             set(runner.IMPLEMENTATION_SLICE_PATHS),
         )
+        self.assertEqual(
+            set(
+                runner._git_name_only_paths(
+                    result_contract.IMPLEMENTATION_BASE_COMMIT,
+                    implementation_freeze_commit,
+                )
+            ),
+            set(runner.IMPLEMENTATION_SLICE_PATHS),
+        )
+        compatibility_delta = set(
+            runner._git_name_only_paths(
+                result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+                implementation_freeze_commit,
+            )
+        )
+        self.assertTrue(compatibility_delta)
+        self.assertTrue(compatibility_delta.issubset(runner.IMPLEMENTATION_SLICE_PATHS))
+        if authority_context is None:
+            self.assertEqual(checkout_commit, implementation_freeze_commit)
+        elif authority_context["published"]:
+            authority_source_context = authority_context["authority_source_context"]
+            self.assertIsInstance(authority_source_context, dict)
+            assert isinstance(authority_source_context, dict)
+            authority_freeze_commit = str(authority_source_context["freeze_commit"])
+            runner._require_unique_parent(
+                authority_freeze_commit, implementation_freeze_commit
+            )
+            self.assertEqual(
+                set(
+                    runner._git_name_only_paths(
+                        implementation_freeze_commit, authority_freeze_commit
+                    )
+                ),
+                set(result_contract.EXECUTION_AUTHORITY_SLICE_PATHS),
+            )
         self.assertTrue(plan["runner_plan_valid"])
         self.assertTrue(check["implementation_check_valid"])
         self.assertEqual(
@@ -901,13 +981,26 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
             result_contract.IMPLEMENTATION_BASE_COMMIT,
         )
         self.assertEqual(
+            plan["initial_implementation_publication_commit"],
+            result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
+        self.assertEqual(
             check["protocol_merge_commit"], result_contract.PROTOCOL_MERGE_COMMIT
         )
         self.assertEqual(
             check["implementation_base_commit"],
             result_contract.IMPLEMENTATION_BASE_COMMIT,
         )
-        self.assertFalse(plan["execution_authority_present"])
+        self.assertEqual(
+            plan["execution_authority_present"], before["execution_authority"]
+        )
+        self.assertEqual(
+            plan["execution_authority_valid"], authority_context is not None
+        )
+        self.assertEqual(
+            plan["execution_authority_published"],
+            bool(authority_context is not None and authority_context["published"]),
+        )
         self.assertFalse(check["execution_path_invoked_by_gate"])
         self.assertEqual(runner._output_topology(), before)
 

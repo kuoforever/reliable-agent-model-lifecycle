@@ -1382,11 +1382,16 @@ after the exact `DOWNLOAD 110524520 LFS BYTES` acknowledgement. It must not be
 dispatched without available bandwidth. Neither transport prerequisite adds
 authority or executes a diagnostic. Implementation-v2 now binds literal
 `IMPLEMENTATION_BASE_COMMIT=8c679eba08a979fb60bfd87fbe8c73c8725d89c0`,
-retains `eb2aea3...eb3fc9` as the protocol receipt and ancestor, requires the
-exact chain `eb2aea3 -> e5e618b -> 8c679eb -> implementation`, and proves that
-the M2-to-implementation delta remains the registered exact 11 paths. It is
-the sole active formal lifecycle gate; authority-v2 and exact-once execution
-v2 remain separate later gates.
+retains `eb2aea3...eb3fc9` as the protocol receipt and ancestor, and records
+PR #84 commit `e185c76e0d0ace44a13e10f06d8644939e1981b8` as initial
+implementation publication I1. The compatibility-corrected final freeze I2
+must complete the exact unique-parent chain
+`eb2aea3 -> e5e618b -> 8c679eb -> e185c76 -> I2`; both M2-to-I1 and M2-to-I2
+deltas remain the registered exact 11 paths, while I1-to-I2 is a non-empty
+subset of that ceiling. The three implementation sources are first introduced
+at I1 and their final bytes bind I2. I2 is the sole active formal lifecycle
+gate; it creates no authority, and authority-v2 plus exact-once execution v2
+remain separate later gates.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

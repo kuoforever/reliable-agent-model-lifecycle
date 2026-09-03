@@ -14,7 +14,11 @@ ancestor. Non-lifecycle zero-LFS-bandwidth CI maintenance M1 is
 protocol merge. The literal implementation base is the later non-lifecycle
 exact-head checkout maintenance M2
 `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, whose unique parent is M1. The
-implementation freeze must in turn have M2 as its unique direct parent.
+initial implementation publication I1 is
+`e185c76e0d0ace44a13e10f06d8644939e1981b8`, whose unique parent is M2.
+The compatibility-corrected final implementation freeze I2 must in turn have
+I1 as its unique direct parent; its SHA is intentionally supplied by Git after
+this commit rather than hard-coded into its own sources.
 
 This gate publishes no execution-authority artifact and performs no formal
 diagnostic invocation. `--plan` and `--check` are read-only. Public
@@ -26,9 +30,11 @@ retry of v1.
 
 ## Exact implementation slice
 
-The reviewed implementation freeze must have
-`8c679eba08a979fb60bfd87fbe8c73c8725d89c0` as its unique direct parent and
-must differ from that implementation base by exactly these 11 paths:
+The reviewed initial publication I1 must have M2
+`8c679eba08a979fb60bfd87fbe8c73c8725d89c0` as its unique direct parent, and
+the final compatibility freeze I2 must have I1 as its unique direct parent.
+Both M2-to-I1 and M2-to-I2 must differ by exactly these 11 paths; the
+I1-to-I2 correction must be non-empty and confined to the same path set:
 
 1. `AI_Infra_LLM_Agent_待做任务清单.md`
 2. `PROJECT_STATUS.md`
@@ -43,8 +49,8 @@ must differ from that implementation base by exactly these 11 paths:
 11. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2.py`
 
 The result contract, runner, and result tests are three new implementation
-sources. They must share the implementation's unique first-parent introduction
-commit and equal that commit's Git blobs. The immutable protocol config,
+sources. They must share I1 as their unique first-parent introduction commit,
+while their current bytes must equal the final I2 Git blobs. The immutable protocol config,
 protocol contract/builder, every v1 implementation or output, recovery I/O,
 model/data artifacts, Adapter, and Runtime remain unchanged.
 
@@ -85,11 +91,14 @@ not claim to eliminate every same-privilege TOCTOU window.
 All owner, progress, result, failure, and authority schema versions are
 explicitly v2. The owner exact-binds `protocol_merge_commit`,
 `zero_bandwidth_maintenance_commit`, `implementation_base_commit`,
-implementation freeze, authority introduction, full authority payload, and
+`initial_implementation_publication_commit`, implementation freeze, authority
+introduction, full authority payload, and
 one private 64-lowercase-hex attempt ID. Owner and genesis are published
-together. Every canonical JSONL journal frame records P, M1, and M2, while
+together. Every canonical JSONL journal frame records P, M1, M2, I1, and I2,
+while
 terminal protocol lineage records both unique-parent edges P-to-M1 and
-M1-to-M2. The journal retains the immutable seven-record,
+M1-to-M2 and terminal implementation lineage records M2-to-I1-to-I2. The
+journal retains the immutable seven-record,
 17-environment-field, 9-substage, 126-checkpoint, 133-frame success grammar and
 four owner-bound failure scopes.
 
@@ -102,15 +111,17 @@ state may be repaired, while lineage drift or reserved staging fails closed.
 
 ## Mandatory real Git/filesystem regression
 
-The implementation test creates a real temporary clone beginning at the exact
-implementation base `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, verifies
-its unique parent M1 `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54` and M1's
+The implementation test creates a real temporary clone and explicitly checks
+out I1 `e185c76e0d0ace44a13e10f06d8644939e1981b8`, verifies its unique parent
+M2 `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, M2's unique parent M1
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`, and M1's
 unique parent/protocol receipt
-`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`, commits an exact 11-path
-implementation fixture, then commits one synthetic test-only authority. It
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`. It commits a non-empty
+same-slice compatibility I2 fixture, verifies both M2 deltas are the exact 11
+paths, then commits one synthetic test-only exact-10-path authority. It
 aligns local and remote `master`, creates safe `work`, and leaves
 `work/evaluation-runs` absent. The regression also rejects an implementation
-freeze separated from M2 by even an empty intermediate commit before any
+freeze separated from I1 by even an empty intermediate commit before any
 output-parent mutation. This test-only lineage is passed only to the private
 typed core and grants no production authority.
 
@@ -138,11 +149,15 @@ Focused protocol/result tests must pass on CPython 3.11, 3.12, and 3.13. The
 protocol builder `--check`, runner `--plan`/`--check`, Ruff check/format,
 scoped strict Mypy, three-version `py_compile`, diff validation, and at least
 one current-commit CPython 3.11 complete unified gate must all pass before
-publication. The unified validator must observe the authority, parent,
+publication. At I2 the unified validator must observe authority absent; at a
+later canonical authority stage it obtains I2 from the validated authority
+rather than assuming current HEAD is I2. In both stages it must observe parent,
 lifecycle, owner, progress, success, and failure paths absent before and after
 plan/check.
 
-After a clean implementation merge and exact merge-HEAD checks, the only
+After the compatibility-corrected I2 clean merge and exact merge-HEAD checks,
+I1 remains the initial publication/source-introduction receipt and I2 becomes
+the sole final implementation freeze. The only
 successor is
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`.
 That later gate must independently bind the clean implementation commit,

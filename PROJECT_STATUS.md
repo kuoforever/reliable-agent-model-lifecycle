@@ -936,10 +936,16 @@ commit `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, tree
 selects the exact pull-request head rather than GitHub's synthetic merge ref
 and advanced no lifecycle state.
 
-Implementation-v2 is again the sole active formal lifecycle gate in
-`C:\Users\Alienware\raml-v2i`, branch
-`feat/mm005-generation-failure-diagnostic-implementation-v2`, based on exact
-PR #83 merge M2. Its ceiling remains exactly these 11 paths:
+PR #84 published implementation-v2 as initial implementation publication I1
+`e185c76e0d0ace44a13e10f06d8644939e1981b8`, tree
+`6074af877331ed7e2dc66d5b986d37be55a83588`, with exact PR #83 merge M2 as
+its unique parent. A stage-compatibility review then proved that authority
+could not legally follow while the implementation gate still conflated source
+introduction with the final authority parent. The sole active gate is therefore
+the compatibility-corrected final implementation freeze I2 in
+`C:\Users\Alienware\raml-diagnostic-v1`, branch
+`fix/mm005-diagnostic-v2-authority-stage-compatibility`. Its ceiling remains
+exactly these same 11 paths:
 
 1. `AI_Infra_LLM_Agent_待做任务清单.md`
 2. `PROJECT_STATUS.md`
@@ -980,17 +986,21 @@ contexts remain fixed; both checkouts disable credential persistence.
 The slice retains `eb2aea3...eb3fc9` as its immutable protocol receipt and
 ancestor, records M1 `e5e618b...2df0f54` as the zero-bandwidth prerequisite,
 binds literal `IMPLEMENTATION_BASE_COMMIT` to M2 `8c679eb...2d89c0`, requires
-the chain `P -> M1 -> M2 -> implementation` to be unique-parent exact, and
-proves an exact 11-path M2-to-implementation delta. Its
+the chain `P -> M1 -> M2 -> I1 -> I2` to be unique-parent exact, fixes literal
+`INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT` to I1 `e185c76...981b8`, and
+proves that both M2-to-I1 and M2-to-I2 are the exact 11 paths while I1-to-I2 is
+a non-empty subset of them. The three implementation sources were first
+introduced at I1 and their final bytes bind I2. Its
 mandatory regression remains a real temporary filesystem with safe existing
 `work`, missing `evaluation-runs`, no mocked parent helper or
 `DirectoryTreeGuard`, lifecycle plus atomic owner/genesis, and a controlled
 first-heavy-boundary failure, with fail-on-call spies proving the registered
 Python socket APIs, model-load-capable production boundary, and CUDA workload
-were not entered. It has no authority and must
+were not entered. I2 has no authority and must
 not execute the formal diagnostic.
 
-This correction has an exact nine-path ceiling:
+The already closed repository-CI zero-bandwidth correction has an exact
+nine-path ceiling:
 
 1. `.github/workflows/offline-baseline.yml`
 2. `configs/repository_ci_lfs_trust_anchor_v1.json`
@@ -1043,8 +1053,10 @@ work.
 
 Stop if an immutable receipt or scientific subtree drifts, any v1 identity,
 path, command, or output is reused, planned v2 output/lifecycle already exists,
-the literal M2 base or any of `P -> M1 -> M2 -> implementation` direct-parent
-relations differs, the M2-to-implementation 11-path ceiling is exceeded, an
+the literal M2 base, literal I1 receipt, or any of
+`P -> M1 -> M2 -> I1 -> I2` direct-parent relations differs, either
+M2-to-implementation exact-11 delta drifts, the non-empty I1-to-I2 correction
+escapes that ceiling, an
 authority or execution output would be published, or
 checks/review/conflict/strict-up-to-date state is unresolved. Authority-v2 and
 exact-once execution-v2 remain separate later gates.
@@ -2076,7 +2088,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; PR #82 published the non-lifecycle zero-bandwidth prerequisite as `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`; PR #83 published its exact-head checkout successor as `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`; `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2` is the sole active implementation-freeze gate, authorizes no diagnostic execution, and leaves authority-v2 as the exact successor only after a clean merge |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; PR #82 published the non-lifecycle zero-bandwidth prerequisite as `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`; PR #83 published its exact-head checkout successor as `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`; PR #84 published initial implementation I1 as `e185c76e0d0ace44a13e10f06d8644939e1981b8`; the same exact-11-path implementation-v2 compatibility correction I2 is the sole active freeze gate, authorizes no diagnostic execution, and leaves authority-v2 as the exact successor only after I2 cleanly merges |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

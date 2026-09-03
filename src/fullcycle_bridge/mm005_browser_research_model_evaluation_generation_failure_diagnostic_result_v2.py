@@ -44,6 +44,7 @@ RESULT_REVIEW_GATE_ID = (
 PROTOCOL_MERGE_COMMIT = "eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9"
 ZERO_BANDWIDTH_MAINTENANCE_COMMIT = "e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54"
 IMPLEMENTATION_BASE_COMMIT = "8c679eba08a979fb60bfd87fbe8c73c8725d89c0"
+INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT = "e185c76e0d0ace44a13e10f06d8644939e1981b8"
 PROTOCOL_BYTES = 62_653
 PROTOCOL_SHA256 = (
     "sha256:0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52"
@@ -222,8 +223,14 @@ def result_contract() -> dict[str, Any]:
             "non_lifecycle_zero_bandwidth_ci_prerequisite": True,
             "non_lifecycle_exact_head_ci_prerequisite": True,
             "protocol_merge_commit_remains_receipt_and_ancestor": True,
-            "implementation_freeze_must_have_base_as_unique_parent": True,
-            "exact_reviewed_slice_delta_starts_at_base": True,
+            "initial_implementation_publication_commit": (
+                INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
+            "initial_implementation_publication_has_base_as_unique_parent": True,
+            "implementation_freeze_has_initial_publication_as_unique_parent": True,
+            "initial_exact_reviewed_slice_delta_starts_at_base": True,
+            "final_exact_reviewed_slice_delta_starts_at_base": True,
+            "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
         },
         "implementation_source_paths": dict(IMPLEMENTATION_SOURCE_PATHS),
         "critical_execution_dependency_source_paths": dict(
@@ -234,6 +241,7 @@ def result_contract() -> dict[str, Any]:
             "fixed_path": EXECUTION_AUTHORITY_PATH,
             "separate_clean_merge_required": True,
             "exact_implementation_base_commit_required": True,
+            "exact_initial_implementation_publication_commit_required": True,
             "exact_implementation_freeze_commit_required": True,
             "exact_environment_and_resource_caps_required": True,
             "critical_execution_dependency_receipts_required": True,
@@ -363,6 +371,7 @@ def result_contract() -> dict[str, Any]:
         "publication_contract": {
             "implementation_must_cleanly_merge_before_authority_freeze": True,
             "protocol_merge_maintenance_and_implementation_base_recorded_in_owner_and_terminal": True,
+            "initial_implementation_publication_recorded_in_authority_owner_and_terminal": True,
             "separate_execution_authority_and_resource_preflight_required": True,
             "clean_implementation_merge_alone_authorizes_execution": False,
             "implementation_freeze_commit_recorded_in_owner_and_terminal": True,
@@ -387,6 +396,9 @@ def execution_plan() -> dict[str, Any]:
         "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "protocol_sha256": PROTOCOL_SHA256,
         "implementation_source_files": len(IMPLEMENTATION_SOURCE_PATHS),
         "result_and_failure_schema_frozen": True,
@@ -456,6 +468,9 @@ def build_execution_authority_contract(
         "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "implementation_freeze_commit": implementation_freeze_commit,
         "critical_execution_dependency_receipts": dependency_receipts,
         "resource_preflight": {
@@ -520,6 +535,9 @@ def build_attempt_owner(
         "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "implementation_freeze_commit": implementation_freeze_commit,
         "execution_authority": {
             "freeze_commit": authority_freeze_commit,
@@ -1135,6 +1153,9 @@ def _expected_progress_event(
         "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "implementation_freeze_commit": owner["implementation_freeze_commit"],
         "execution_authority_freeze_commit": _mapping(
             owner["execution_authority"], "$.attempt_owner.execution_authority"
@@ -1608,6 +1629,9 @@ def _validated_terminal_context(
             "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
             "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
             "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+            "initial_implementation_publication_commit": (
+                INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
             "zero_bandwidth_maintenance_unique_parent_is_protocol_merge_commit": True,
             "implementation_base_unique_parent_is_zero_bandwidth_maintenance_commit": (
                 True
@@ -1682,14 +1706,20 @@ def _validated_implementation_context(
         "protocol_merge_commit": PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         "implementation_base_commit": IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "freeze_commit": implementation_freeze_commit,
         "source_bindings": normalized,
         "protocol_merge_commit_is_ancestor_of_implementation_base": True,
         "zero_bandwidth_maintenance_unique_parent_is_protocol_merge_commit": True,
         "implementation_base_unique_parent_is_zero_bandwidth_maintenance_commit": True,
-        "implementation_base_is_unique_parent_of_freeze_commit": True,
+        "implementation_base_is_unique_parent_of_initial_publication_commit": True,
+        "initial_implementation_publication_is_unique_parent_of_freeze_commit": True,
         "three_sources_share_first_parent_introduction_commit": True,
-        "exact_reviewed_slice_delta": True,
+        "initial_exact_reviewed_slice_delta": True,
+        "final_exact_reviewed_slice_delta": True,
+        "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
     }
     if not _json_equal(observed, expected_context):
         _fail("IMPLEMENTATION_CONTEXT_MISMATCH", "$.implementation_context")
@@ -2072,6 +2102,7 @@ __all__ = [
     "FORMAL_RESULT_GATES",
     "GATE_ID",
     "IMPLEMENTATION_BASE_COMMIT",
+    "INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT",
     "IMPLEMENTATION_SOURCE_PATHS",
     "MM005GenerationFailureDiagnosticResultError",
     "OUTCOME_PRECEDENCE",
