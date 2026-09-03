@@ -1331,9 +1331,20 @@ scopes, four outcomes, seed 55006, and unchanged resource caps. V1 invocation
 budget remains spent while its attempt remains unconsumed; v1 retry, terminal
 synthesis, zero-owner scope, and recovery v3 remain forbidden.
 
-The sole active gate is the separate
-[generation-failure diagnostic implementation v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2.md).
-Plan/check remain read-only. The implementation freezes published authority
+PR #84 published initial implementation I1 as
+`e185c76e0d0ace44a13e10f06d8644939e1981b8`; PR #85 published the final
+stage-compatible I2 as `ac052a3781246deb7365914dacfa271d37cfef59`, with I1 as
+its unique parent. The sole active gate is now the separate
+[generation-failure diagnostic execution authority v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2.md).
+Its canonical 2,944-byte artifact has SHA-256
+`b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0`
+and binds I2, four critical dependency receipts, the frozen expected 17-field
+environment, resource caps, one formal invocation, zero retry, and one attempt
+per record. The builder and unified validator independently verify three I2
+implementation-source receipts; those receipts are not fields in the closed
+authority JSON.
+
+Plan/check remain read-only. The implementation freezes published-authority
 and clean-lineage checks before any mutation, a real guard of `ROOT -> work`,
 one exclusive single-component `os.mkdir`, post-create authority/source/
 topology and identity revalidation, the created-parent guard, lifecycle, and
@@ -1346,9 +1357,18 @@ injected to fail after owner/genesis; it produces an authenticated
 `pre_record_lifecycle` failure, with fail-on-call spies proving the registered
 Python socket APIs, model-load-capable production boundary, and CUDA workload
 remain uncalled, and consumes no formal invocation
-budget. This gate adds no authority or runtime output and invokes no
-diagnostic. Protocol, implementation, authority, and exact-once execution
+budget. The authority gate adds only its closed artifact, builder, local tests,
+unified validation, and documentation; it creates no runtime output and invokes
+no diagnostic. Protocol, implementation, authority, and exact-once execution
 remain separate; this is not a v1 retry.
+
+The final draft-stage combined focused suite passes 72/72 tests on each of
+CPython 3.11.15, 3.12.12, and 3.13.7: the established 19 protocol-v2 and 43
+result-v2 tests plus 10 authority-v2 tests. The CPython 3.11.15 unified offline
+gate passes 1,131 tests with five expected Windows privilege skips, audits 79
+source files, and reports `valid=true`. Ruff, scoped Mypy, three-version
+`py_compile`, builder check, runner plan/check, exact diff, canonical artifact,
+and non-LFS checks also pass without formal execution or network transfer.
 
 The monthly Git LFS bandwidth balance remains unavailable. PR #82 published
 the independent zero-bandwidth CI transport prerequisite as verified signed
@@ -1384,14 +1404,23 @@ authority or executes a diagnostic. Implementation-v2 now binds literal
 `IMPLEMENTATION_BASE_COMMIT=8c679eba08a979fb60bfd87fbe8c73c8725d89c0`,
 retains `eb2aea3...eb3fc9` as the protocol receipt and ancestor, and records
 PR #84 commit `e185c76e0d0ace44a13e10f06d8644939e1981b8` as initial
-implementation publication I1. The compatibility-corrected final freeze I2
-must complete the exact unique-parent chain
-`eb2aea3 -> e5e618b -> 8c679eb -> e185c76 -> I2`; both M2-to-I1 and M2-to-I2
-deltas remain the registered exact 11 paths, while I1-to-I2 is a non-empty
-subset of that ceiling. The three implementation sources are first introduced
-at I1 and their final bytes bind I2. I2 is the sole active formal lifecycle
-gate; it creates no authority, and authority-v2 plus exact-once execution v2
-remain separate later gates.
+implementation publication I1. Final freeze I2
+`ac052a3781246deb7365914dacfa271d37cfef59` completes the exact unique-parent
+chain `eb2aea3 -> e5e618b -> 8c679eb -> e185c76 -> ac052a3`; both M2-to-I1
+and M2-to-I2 deltas are the registered exact 11 paths, while I1-to-I2 is a
+non-empty subset of that ceiling. The three implementation sources were first
+introduced at I1 and their final bytes bind I2.
+
+The authority-v2 candidate must uniquely follow I2 with the registered exact
+ten-path delta, and its config must have one first-parent introduction at that
+commit. It binds only the frozen expected environment; current machine/GPU
+matching is deliberately not observed until the post-merge execution
+preflight. The authority contract authorizes the later gate while
+`formal_execution_eligible=false`, attempt/execution/model/runtime claims stay
+false, and all output-parent/lifecycle/reserved state stays absent. After clean
+merge, exact-head checks, branch cleanup, and master alignment, the sole next
+gate is the one-shot diagnostic execution v2. The manual hydrated-LFS workflow
+must remain undispatched while monthly bandwidth is unavailable.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

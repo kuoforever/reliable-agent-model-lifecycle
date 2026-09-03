@@ -16,12 +16,15 @@ exact-head checkout maintenance M2
 `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, whose unique parent is M1. The
 initial implementation publication I1 is
 `e185c76e0d0ace44a13e10f06d8644939e1981b8`, whose unique parent is M2.
-The compatibility-corrected final implementation freeze I2 must in turn have
-I1 as its unique direct parent; its SHA is intentionally supplied by Git after
-this commit rather than hard-coded into its own sources.
+The compatibility-corrected final implementation freeze I2 was published
+through PR #85 as `ac052a3781246deb7365914dacfa271d37cfef59`, with I1 as its
+unique direct parent. Both the initial and final implementation deltas and the
+in-slice compatibility correction are now immutable receipts.
 
-This gate publishes no execution-authority artifact and performs no formal
-diagnostic invocation. `--plan` and `--check` are read-only. Public
+The implementation gate published no execution-authority artifact and
+performed no formal diagnostic invocation. Its separate authority-v2 successor
+now freezes a canonical candidate bound to I2, without consuming an attempt or
+creating runtime state. `--plan` and `--check` remain read-only. Public
 `--execute` can enter the implementation core only through a separately
 published canonical authority at clean aligned exact `master`; no CLI flag,
 environment variable, test mode, or public API bypass exists. Authority-v2
@@ -155,13 +158,19 @@ rather than assuming current HEAD is I2. In both stages it must observe parent,
 lifecycle, owner, progress, success, and failure paths absent before and after
 plan/check.
 
-After the compatibility-corrected I2 clean merge and exact merge-HEAD checks,
-I1 remains the initial publication/source-introduction receipt and I2 becomes
-the sole final implementation freeze. The only
-successor is
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`.
-That later gate must independently bind the clean implementation commit,
-environment, dependencies, budgets, and authority introduction. Do not create
-authority or execute the diagnostic in this gate. Stop on receipt, identity,
-scientific, path-ceiling, topology, check, review, conflict, or strict
-up-to-date drift.
+I1 remains the initial publication/source-introduction receipt and I2 is the
+sole final implementation freeze. The separate
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`
+candidate now independently binds I2, the frozen expected environment,
+resource caps, four critical dependency receipts, three I2 implementation
+source receipts, budgets, and its future exact introduction topology. Its
+canonical artifact is intentionally outside this implementation commit.
+
+After that exact ten-path authority commit cleanly merges, its exact-HEAD
+checks and branch cleanup pass, and local master is aligned to the authority
+introduction commit, the sole successor is the one-shot
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-v2`
+gate. The authority freeze itself must not observe GPU state, execute the
+diagnostic, consume an attempt, or create output/lifecycle state. Stop on
+receipt, identity, scientific, path-ceiling, topology, check, review, conflict,
+strict-up-to-date, or zero-bandwidth drift.
