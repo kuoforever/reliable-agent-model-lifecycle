@@ -112,6 +112,7 @@ class _ValidatedExecutionContext:
     protocol_merge_commit: str
     zero_bandwidth_maintenance_commit: str
     implementation_base_commit: str
+    initial_implementation_publication_commit: str
     implementation_freeze_commit: str
     authority_freeze_commit: str
     authority_payload: bytes
@@ -308,6 +309,9 @@ def _optional_execution_authority_context(
     if result_contract.artifact_json_bytes(expected) != authority_payload:
         raise RuntimeError("execution authority artifact is not canonical and exact")
     implementation_freeze_commit = str(authority["implementation_freeze_commit"])
+    initial_implementation_publication_commit = str(
+        authority["initial_implementation_publication_commit"]
+    )
     zero_bandwidth_maintenance_commit = str(
         authority["zero_bandwidth_maintenance_commit"]
     )
@@ -319,7 +323,13 @@ def _optional_execution_authority_context(
         raise RuntimeError("execution authority zero-bandwidth maintenance differs")
     if implementation_base_commit != result_contract.IMPLEMENTATION_BASE_COMMIT:
         raise RuntimeError("execution authority implementation base differs")
+    if (
+        initial_implementation_publication_commit
+        != result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+    ):
+        raise RuntimeError("execution authority initial implementation differs")
     _require_commit_ancestor(implementation_freeze_commit)
+    _require_commit_ancestor(initial_implementation_publication_commit)
     _require_commit_ancestor(zero_bandwidth_maintenance_commit)
     _require_commit_ancestor(implementation_base_commit)
     _require_commit_ancestor(result_contract.PROTOCOL_MERGE_COMMIT)
@@ -328,6 +338,12 @@ def _optional_execution_authority_context(
     )
     _require_unique_parent(
         implementation_base_commit, zero_bandwidth_maintenance_commit
+    )
+    _require_unique_parent(
+        initial_implementation_publication_commit, implementation_base_commit
+    )
+    _require_unique_parent(
+        implementation_freeze_commit, initial_implementation_publication_commit
     )
     implementation_context = _implementation_source_context(
         implementation_freeze_commit
@@ -354,6 +370,9 @@ def _optional_execution_authority_context(
         "published": tracked,
         "zero_bandwidth_maintenance_commit": zero_bandwidth_maintenance_commit,
         "implementation_base_commit": implementation_base_commit,
+        "initial_implementation_publication_commit": (
+            initial_implementation_publication_commit
+        ),
         "implementation_freeze_commit": implementation_freeze_commit,
         "implementation_context": implementation_context,
         "protocol_context": protocol_context,
@@ -530,6 +549,9 @@ def _verify_execution_lineage(
         authority_context["zero_bandwidth_maintenance_commit"]
     )
     implementation_base_commit = str(authority_context["implementation_base_commit"])
+    initial_implementation_publication_commit = str(
+        authority_context["initial_implementation_publication_commit"]
+    )
     authority_freeze_commit = authority_context.get("authority_freeze_commit")
     if type(authority_freeze_commit) is not str:
         raise RuntimeError("published execution authority freeze commit is missing")
@@ -561,9 +583,13 @@ def _verify_execution_lineage(
         zero_bandwidth_maintenance_commit
         != result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
         or implementation_base_commit != result_contract.IMPLEMENTATION_BASE_COMMIT
+        or initial_implementation_publication_commit
+        != result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
         or authority.get("zero_bandwidth_maintenance_commit")
         != zero_bandwidth_maintenance_commit
         or authority.get("implementation_base_commit") != implementation_base_commit
+        or authority.get("initial_implementation_publication_commit")
+        != initial_implementation_publication_commit
         or current_protocol.get("zero_bandwidth_maintenance_commit")
         != zero_bandwidth_maintenance_commit
         or current_protocol.get("implementation_base_commit")
@@ -572,6 +598,8 @@ def _verify_execution_lineage(
         != zero_bandwidth_maintenance_commit
         or current_implementation.get("implementation_base_commit")
         != implementation_base_commit
+        or current_implementation.get("initial_implementation_publication_commit")
+        != initial_implementation_publication_commit
         or current_protocol != captured_protocol
         or current_implementation != captured_implementation
         or current_authority.get("freeze_commit") != authority_freeze_commit
@@ -631,6 +659,9 @@ def _validated_execution_context_from_published_authority(
         authority_context["zero_bandwidth_maintenance_commit"]
     )
     implementation_base_commit = str(authority_context["implementation_base_commit"])
+    initial_implementation_publication_commit = str(
+        authority_context["initial_implementation_publication_commit"]
+    )
     implementation_context = _mapping(
         authority_context.get("implementation_context"), "$.implementation_context"
     )
@@ -684,6 +715,9 @@ def _validated_execution_context_from_published_authority(
         protocol_merge_commit=result_contract.PROTOCOL_MERGE_COMMIT,
         zero_bandwidth_maintenance_commit=zero_bandwidth_maintenance_commit,
         implementation_base_commit=implementation_base_commit,
+        initial_implementation_publication_commit=(
+            initial_implementation_publication_commit
+        ),
         implementation_freeze_commit=implementation_freeze_commit,
         authority_freeze_commit=authority_freeze_commit,
         authority_payload=authority_payload,
@@ -706,6 +740,7 @@ def _validated_execution_context(
     protocol_merge_commit: str,
     zero_bandwidth_maintenance_commit: str,
     implementation_base_commit: str,
+    initial_implementation_publication_commit: str,
     implementation_freeze_commit: str,
     authority_freeze_commit: str,
     authority_payload: bytes,
@@ -722,10 +757,16 @@ def _validated_execution_context(
     _require_safe_directory(root)
     work = root / protocol.WORK_ROOT_PATH
     _require_safe_directory(work)
+    if (
+        initial_implementation_publication_commit
+        != result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+    ):
+        raise RuntimeError("validated initial implementation commit differs")
     for name, commit in (
         ("protocol", protocol_merge_commit),
         ("zero-bandwidth maintenance", zero_bandwidth_maintenance_commit),
         ("implementation base", implementation_base_commit),
+        ("initial implementation", initial_implementation_publication_commit),
         ("implementation", implementation_freeze_commit),
         ("authority", authority_freeze_commit),
     ):
@@ -762,6 +803,8 @@ def _validated_execution_context(
         != zero_bandwidth_maintenance_commit
         or implementation_context.get("implementation_base_commit")
         != implementation_base_commit
+        or implementation_context.get("initial_implementation_publication_commit")
+        != initial_implementation_publication_commit
         or implementation_context.get("freeze_commit") != implementation_freeze_commit
     ):
         raise RuntimeError("validated implementation context differs")
@@ -799,6 +842,8 @@ def _validated_execution_context(
         or authority.get("zero_bandwidth_maintenance_commit")
         != zero_bandwidth_maintenance_commit
         or authority.get("implementation_base_commit") != implementation_base_commit
+        or authority.get("initial_implementation_publication_commit")
+        != initial_implementation_publication_commit
         or _mapping(
             preflight.get("expected_environment"),
             "$.execution_authority.resource_preflight.expected_environment",
@@ -846,6 +891,9 @@ def _validated_execution_context(
         protocol_merge_commit=protocol_merge_commit,
         zero_bandwidth_maintenance_commit=zero_bandwidth_maintenance_commit,
         implementation_base_commit=implementation_base_commit,
+        initial_implementation_publication_commit=(
+            initial_implementation_publication_commit
+        ),
         implementation_freeze_commit=implementation_freeze_commit,
         authority_freeze_commit=authority_freeze_commit,
         authority_payload=authority_payload,
@@ -1238,6 +1286,11 @@ def _revalidate_execution_context(
 
     if phase not in {"pre_parent", "post_parent", "lifecycle", "claimed"}:
         raise RuntimeError("invalid execution revalidation phase")
+    if (
+        context.initial_implementation_publication_commit
+        != result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+    ):
+        raise RuntimeError("initial implementation publication changed")
     root = context.repository_root
     work = root / protocol.WORK_ROOT_PATH
     parent = root / protocol.OUTPUT_PARENT_PATH
@@ -1279,7 +1332,14 @@ def _revalidate_execution_context(
         context.zero_bandwidth_maintenance_commit,
     )
     _require_unique_parent_at(
-        root, context.implementation_freeze_commit, context.implementation_base_commit
+        root,
+        context.initial_implementation_publication_commit,
+        context.implementation_base_commit,
+    )
+    _require_unique_parent_at(
+        root,
+        context.implementation_freeze_commit,
+        context.initial_implementation_publication_commit,
     )
     _require_unique_parent_at(
         root, context.authority_freeze_commit, context.implementation_freeze_commit
@@ -1288,10 +1348,31 @@ def _revalidate_execution_context(
         _git_name_only_paths_at(
             root,
             context.implementation_base_commit,
+            context.initial_implementation_publication_commit,
+        )
+    ) != set(context.implementation_slice_paths):
+        raise RuntimeError("initial implementation slice changed during execution")
+    if set(
+        _git_name_only_paths_at(
+            root,
+            context.implementation_base_commit,
             context.implementation_freeze_commit,
         )
     ) != set(context.implementation_slice_paths):
         raise RuntimeError("implementation slice changed during execution")
+    compatibility_delta = set(
+        _git_name_only_paths_at(
+            root,
+            context.initial_implementation_publication_commit,
+            context.implementation_freeze_commit,
+        )
+    )
+    if not compatibility_delta or not compatibility_delta.issubset(
+        context.implementation_slice_paths
+    ):
+        raise RuntimeError(
+            "implementation compatibility delta changed during execution"
+        )
     if set(
         _git_name_only_paths_at(
             root,
@@ -1310,6 +1391,14 @@ def _revalidate_execution_context(
             raise RuntimeError(f"execution source changed: {item.name}")
 
     for name, relative in sorted(result_contract.IMPLEMENTATION_SOURCE_PATHS.items()):
+        current = _read_regular_file_once(root / relative)
+        final_implementation = _git_blob_bytes_at(
+            root, context.implementation_freeze_commit, relative
+        )
+        if current != final_implementation:
+            raise RuntimeError(
+                f"implementation source differs from final freeze: {name}"
+            )
         introduced = tuple(
             line
             for line in _git_text_at(
@@ -1323,7 +1412,7 @@ def _revalidate_execution_context(
             ).splitlines()
             if line
         )
-        if introduced != (context.implementation_freeze_commit,):
+        if introduced != (context.initial_implementation_publication_commit,):
             raise RuntimeError(f"implementation introduction changed: {name}")
     authority_introduction = tuple(
         line
@@ -2070,6 +2159,8 @@ def _require_aligned_clean_master() -> str:
 
 def _implementation_source_context(commit: str) -> dict[str, Any]:
     _require_commit_ancestor(commit)
+    initial_commit = result_contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+    _require_commit_ancestor(initial_commit)
     _require_unique_parent(
         result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         result_contract.PROTOCOL_MERGE_COMMIT,
@@ -2078,9 +2169,21 @@ def _implementation_source_context(commit: str) -> dict[str, Any]:
         result_contract.IMPLEMENTATION_BASE_COMMIT,
         result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
     )
-    _require_unique_parent(commit, result_contract.IMPLEMENTATION_BASE_COMMIT)
-    diff = set(_git_name_only_paths(result_contract.IMPLEMENTATION_BASE_COMMIT, commit))
-    if diff != set(IMPLEMENTATION_SLICE_PATHS):
+    _require_unique_parent(initial_commit, result_contract.IMPLEMENTATION_BASE_COMMIT)
+    _require_unique_parent(commit, initial_commit)
+    initial_diff = set(
+        _git_name_only_paths(result_contract.IMPLEMENTATION_BASE_COMMIT, initial_commit)
+    )
+    final_diff = set(
+        _git_name_only_paths(result_contract.IMPLEMENTATION_BASE_COMMIT, commit)
+    )
+    compatibility_diff = set(_git_name_only_paths(initial_commit, commit))
+    if (
+        initial_diff != set(IMPLEMENTATION_SLICE_PATHS)
+        or final_diff != set(IMPLEMENTATION_SLICE_PATHS)
+        or not compatibility_diff
+        or not compatibility_diff.issubset(IMPLEMENTATION_SLICE_PATHS)
+    ):
         raise RuntimeError("implementation freeze tree delta is not the reviewed slice")
     bindings: dict[str, dict[str, Any]] = {}
     introductions: set[str] = set()
@@ -2100,7 +2203,7 @@ def _implementation_source_context(commit: str) -> dict[str, Any]:
             ).splitlines()
             if line
         ]
-        if introduced != [commit]:
+        if introduced != [initial_commit]:
             raise RuntimeError(f"implementation source introduction differs: {name}")
         introductions.add(introduced[0])
         bindings[name] = {
@@ -2109,7 +2212,7 @@ def _implementation_source_context(commit: str) -> dict[str, Any]:
             "sha256": protocol.sha256_bytes(payload),
             "tracked_bytes_equal_implementation_freeze_commit_blob": True,
         }
-    if introductions != {commit}:
+    if introductions != {initial_commit}:
         raise RuntimeError("implementation sources do not share one introduction")
     return {
         "protocol_merge_commit": result_contract.PROTOCOL_MERGE_COMMIT,
@@ -2117,6 +2220,7 @@ def _implementation_source_context(commit: str) -> dict[str, Any]:
             result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
         ),
         "implementation_base_commit": result_contract.IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": initial_commit,
         "freeze_commit": commit,
         "source_bindings": bindings,
         "protocol_merge_commit_is_ancestor_of_implementation_base": True,
@@ -2124,9 +2228,12 @@ def _implementation_source_context(commit: str) -> dict[str, Any]:
         "implementation_base_unique_parent_is_zero_bandwidth_maintenance_commit": (
             True
         ),
-        "implementation_base_is_unique_parent_of_freeze_commit": True,
+        "implementation_base_is_unique_parent_of_initial_publication_commit": True,
+        "initial_implementation_publication_is_unique_parent_of_freeze_commit": True,
         "three_sources_share_first_parent_introduction_commit": True,
-        "exact_reviewed_slice_delta": True,
+        "initial_exact_reviewed_slice_delta": True,
+        "final_exact_reviewed_slice_delta": True,
+        "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
     }
 
 

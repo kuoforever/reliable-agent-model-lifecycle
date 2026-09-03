@@ -6925,7 +6925,6 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
     if before.get("output_parent") is not False or any(
         before.get(name) is not False
         for name in (
-            "execution_authority",
             "output_root",
             "attempt_owner",
             "progress",
@@ -6972,6 +6971,8 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         != "e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54"
         or contract.IMPLEMENTATION_BASE_COMMIT
         != "8c679eba08a979fb60bfd87fbe8c73c8725d89c0"
+        or contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        != "e185c76e0d0ace44a13e10f06d8644939e1981b8"
         or contract.RESULT_VERSION != 2
         or contract.FAILURE_VERSION != 2
         or contract.ATTEMPT_OWNER_VERSION != 2
@@ -7002,8 +7003,14 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             "non_lifecycle_zero_bandwidth_ci_prerequisite": True,
             "non_lifecycle_exact_head_ci_prerequisite": True,
             "protocol_merge_commit_remains_receipt_and_ancestor": True,
-            "implementation_freeze_must_have_base_as_unique_parent": True,
-            "exact_reviewed_slice_delta_starts_at_base": True,
+            "initial_implementation_publication_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
+            "initial_implementation_publication_has_base_as_unique_parent": True,
+            "implementation_freeze_has_initial_publication_as_unique_parent": True,
+            "initial_exact_reviewed_slice_delta_starts_at_base": True,
+            "final_exact_reviewed_slice_delta_starts_at_base": True,
+            "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
         }
         or implementation.get("implementation_source_paths") != expected_sources
         or implementation.get("execution_authority_slice_paths")
@@ -7011,6 +7018,10 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         or len(expected_sources) != 3
         or len(runner.IMPLEMENTATION_SLICE_PATHS) != 11
         or authority.get("exact_implementation_base_commit_required") is not True
+        or authority.get(
+            "exact_initial_implementation_publication_commit_required"
+        )
+        is not True
         or authority.get(
             "authority_introduction_has_implementation_as_unique_parent"
         )
@@ -7088,12 +7099,26 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             "protocol_merge_maintenance_and_implementation_base_recorded_in_owner_and_terminal"
         )
         is not True
+        or publication.get(
+            "initial_implementation_publication_recorded_in_authority_owner_and_terminal"
+        )
+        is not True
         or publication.get("zero_internal_retry") is not True
         or publication.get("no_mutable_output_override") is not True
     ):
         raise GateError("MM-005 diagnostic implementation v2 boundary mismatch")
 
-    implementation_freeze_commit = runner._git_text("rev-parse", "HEAD")
+    authority_context = (
+        runner._optional_execution_authority_context()
+        if before["execution_authority"]
+        else None
+    )
+    checkout_commit = runner._git_text("rev-parse", "HEAD")
+    implementation_freeze_commit = (
+        checkout_commit
+        if authority_context is None
+        else str(authority_context["implementation_freeze_commit"])
+    )
     try:
         runner._require_unique_parent(
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
@@ -7104,18 +7129,58 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         )
         runner._require_unique_parent(
-            implementation_freeze_commit, contract.IMPLEMENTATION_BASE_COMMIT
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+            contract.IMPLEMENTATION_BASE_COMMIT,
+        )
+        runner._require_unique_parent(
+            implementation_freeze_commit,
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
         )
     except RuntimeError as exc:
         raise GateError(
             "MM-005 diagnostic implementation v2 direct-parent lineage mismatch"
         ) from exc
-    if set(
+    initial_delta = set(
+        runner._git_name_only_paths(
+            contract.IMPLEMENTATION_BASE_COMMIT,
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
+    )
+    final_delta = set(
         runner._git_name_only_paths(
             contract.IMPLEMENTATION_BASE_COMMIT, implementation_freeze_commit
         )
-    ) != set(runner.IMPLEMENTATION_SLICE_PATHS):
+    )
+    compatibility_delta = set(
+        runner._git_name_only_paths(
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+            implementation_freeze_commit,
+        )
+    )
+    if (
+        initial_delta != set(runner.IMPLEMENTATION_SLICE_PATHS)
+        or final_delta != set(runner.IMPLEMENTATION_SLICE_PATHS)
+        or not compatibility_delta
+        or not compatibility_delta.issubset(runner.IMPLEMENTATION_SLICE_PATHS)
+        or (authority_context is None and checkout_commit != implementation_freeze_commit)
+    ):
         raise GateError("MM-005 diagnostic implementation v2 slice mismatch")
+
+    try:
+        implementation_context = runner._implementation_source_context(
+            implementation_freeze_commit
+        )
+    except RuntimeError as exc:
+        raise GateError(
+            "MM-005 diagnostic implementation v2 source lineage mismatch"
+        ) from exc
+    if (
+        implementation_context.get("initial_implementation_publication_commit")
+        != contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        or implementation_context.get("freeze_commit")
+        != implementation_freeze_commit
+    ):
+        raise GateError("MM-005 diagnostic implementation v2 context mismatch")
 
     for name, relative in sorted(expected_sources.items()):
         payload = _read_regular_file_once(
@@ -7190,6 +7255,9 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
         ),
         "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
         "protocol_sha256": contract.PROTOCOL_SHA256,
         "implementation_source_files": len(expected_sources),
         "result_and_failure_schema_frozen": True,
@@ -7207,9 +7275,11 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "execution_path_invoked_by_gate": False,
         "protocol_context_valid": True,
         "protocol_source_files": len(protocol.PROTOCOL_SOURCE_PATHS),
-        "execution_authority_valid": False,
-        "execution_authority_published": False,
-        "execution_authority_present": False,
+        "execution_authority_valid": authority_context is not None,
+        "execution_authority_published": bool(
+            authority_context is not None and authority_context["published"]
+        ),
+        "execution_authority_present": before["execution_authority"],
         "output_parent_present": False,
         "attempt_owner_present": False,
         "progress_present": False,
@@ -7246,7 +7316,7 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "implementation_check_valid": True,
         "runner_plan_valid": True,
         "output_parent_present": False,
-        "execution_authority_present": False,
+        "execution_authority_present": before["execution_authority"],
         "diagnostic_execution_authorized": False,
         "next_gate": contract.EXECUTION_AUTHORITY_GATE_ID,
         "protocol_merge_commit": contract.PROTOCOL_MERGE_COMMIT,
@@ -7254,6 +7324,10 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
         ),
         "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+        "initial_implementation_publication_commit": (
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        ),
+        "implementation_freeze_commit": implementation_freeze_commit,
     }
 
 

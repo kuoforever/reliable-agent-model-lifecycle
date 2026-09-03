@@ -109,6 +109,9 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
             ),
             "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+            "initial_implementation_publication_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
             "freeze_commit": self.implementation_commit,
             "source_bindings": bindings,
             "protocol_merge_commit_is_ancestor_of_implementation_base": True,
@@ -116,9 +119,12 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             "implementation_base_unique_parent_is_zero_bandwidth_maintenance_commit": (
                 True
             ),
-            "implementation_base_is_unique_parent_of_freeze_commit": True,
+            "implementation_base_is_unique_parent_of_initial_publication_commit": True,
+            "initial_implementation_publication_is_unique_parent_of_freeze_commit": True,
             "three_sources_share_first_parent_introduction_commit": True,
-            "exact_reviewed_slice_delta": True,
+            "initial_exact_reviewed_slice_delta": True,
+            "final_exact_reviewed_slice_delta": True,
+            "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
         }
 
     def _append(
@@ -317,11 +323,13 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             "checkout",
             "-B",
             "master",
-            contract.IMPLEMENTATION_BASE_COMMIT,
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
         )
-        implementation_base_commit = self._git_at(repository, "rev-parse", "HEAD")
+        implementation_base_commit = contract.IMPLEMENTATION_BASE_COMMIT
+        initial_implementation_commit = self._git_at(repository, "rev-parse", "HEAD")
         self.assertEqual(
-            implementation_base_commit, contract.IMPLEMENTATION_BASE_COMMIT
+            initial_implementation_commit,
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
         )
         self.assertEqual(
             self._git_at(
@@ -344,6 +352,27 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 implementation_base_commit,
             ).split(),
             [implementation_base_commit, zero_bandwidth_maintenance_commit],
+        )
+        self.assertEqual(
+            self._git_at(
+                repository,
+                "rev-list",
+                "--parents",
+                "-n",
+                "1",
+                initial_implementation_commit,
+            ).split(),
+            [initial_implementation_commit, implementation_base_commit],
+        )
+        self.assertEqual(
+            set(
+                runner._git_name_only_paths_at(
+                    repository,
+                    implementation_base_commit,
+                    initial_implementation_commit,
+                )
+            ),
+            set(runner.IMPLEMENTATION_SLICE_PATHS),
         )
         intermediate_commit: str | None = None
         if insert_implementation_intermediate:
@@ -376,7 +405,7 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
         expected_implementation_parent = (
             intermediate_commit
             if intermediate_commit is not None
-            else implementation_base_commit
+            else initial_implementation_commit
         )
         self.assertEqual(
             self._git_at(
@@ -397,6 +426,13 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             ),
             set(runner.IMPLEMENTATION_SLICE_PATHS),
         )
+        compatibility_delta = set(
+            runner._git_name_only_paths_at(
+                repository, initial_implementation_commit, implementation_commit
+            )
+        )
+        self.assertTrue(compatibility_delta)
+        self.assertTrue(compatibility_delta.issubset(runner.IMPLEMENTATION_SLICE_PATHS))
 
         source_bindings: dict[str, dict[str, Any]] = {}
         for name, relative in sorted(contract.IMPLEMENTATION_SOURCE_PATHS.items()):
@@ -411,6 +447,9 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             "protocol_merge_commit": protocol_commit,
             "zero_bandwidth_maintenance_commit": zero_bandwidth_maintenance_commit,
             "implementation_base_commit": implementation_base_commit,
+            "initial_implementation_publication_commit": (
+                initial_implementation_commit
+            ),
             "freeze_commit": implementation_commit,
             "source_bindings": source_bindings,
             "protocol_merge_commit_is_ancestor_of_implementation_base": True,
@@ -418,9 +457,12 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             "implementation_base_unique_parent_is_zero_bandwidth_maintenance_commit": (
                 True
             ),
-            "implementation_base_is_unique_parent_of_freeze_commit": True,
+            "implementation_base_is_unique_parent_of_initial_publication_commit": True,
+            "initial_implementation_publication_is_unique_parent_of_freeze_commit": True,
             "three_sources_share_first_parent_introduction_commit": True,
-            "exact_reviewed_slice_delta": True,
+            "initial_exact_reviewed_slice_delta": True,
+            "final_exact_reviewed_slice_delta": True,
+            "compatibility_delta_is_nonempty_reviewed_slice_subset": True,
         }
         dependency_receipts: dict[str, dict[str, Any]] = {}
         for name, relative in sorted(
@@ -438,10 +480,22 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             critical_execution_dependency_receipts=dependency_receipts,
         )
         authority_payload = contract.artifact_json_bytes(authority)
+        for relative in sorted(contract.EXECUTION_AUTHORITY_SLICE_PATHS):
+            if relative == contract.EXECUTION_AUTHORITY_PATH:
+                continue
+            destination = repository / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            payload = destination.read_bytes() if destination.exists() else b""
+            authority_marker = (
+                b"\n# authority-v2-real-fs-fixture\n"
+                if destination.suffix == ".py"
+                else b"\nauthority-v2-real-fs-fixture\n"
+            )
+            destination.write_bytes(payload + authority_marker)
         authority_path = repository / contract.EXECUTION_AUTHORITY_PATH
         authority_path.parent.mkdir(parents=True, exist_ok=True)
         authority_path.write_bytes(authority_payload)
-        self._git_at(repository, "add", contract.EXECUTION_AUTHORITY_PATH)
+        self._git_at(repository, "add", "--all")
         self._git_at(repository, "commit", "-m", "publish test-only authority")
         authority_commit = self._git_at(repository, "rev-parse", "HEAD")
         self.assertEqual(
@@ -454,6 +508,14 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 authority_commit,
             ).split(),
             [authority_commit, implementation_commit],
+        )
+        self.assertEqual(
+            set(
+                runner._git_name_only_paths_at(
+                    repository, implementation_commit, authority_commit
+                )
+            ),
+            set(contract.EXECUTION_AUTHORITY_SLICE_PATHS),
         )
         self._git_at(
             repository,
@@ -502,6 +564,7 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             protocol_merge_commit=protocol_commit,
             zero_bandwidth_maintenance_commit=zero_bandwidth_maintenance_commit,
             implementation_base_commit=implementation_base_commit,
+            initial_implementation_publication_commit=(initial_implementation_commit),
             implementation_freeze_commit=implementation_commit,
             authority_freeze_commit=authority_commit,
             authority_payload=authority_payload,
@@ -514,7 +577,7 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             expected_environment_payload=contract.artifact_json_bytes(self.environment),
             tracked_sources=tracked_sources,
             implementation_slice_paths=runner.IMPLEMENTATION_SLICE_PATHS,
-            authority_introduction_paths=(contract.EXECUTION_AUTHORITY_PATH,),
+            authority_introduction_paths=contract.EXECUTION_AUTHORITY_SLICE_PATHS,
         )
         self.assertEqual(
             self._git_at(
@@ -537,6 +600,10 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
         self.assertEqual(
             contract.IMPLEMENTATION_BASE_COMMIT,
             "8c679eba08a979fb60bfd87fbe8c73c8725d89c0",
+        )
+        self.assertEqual(
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+            "e185c76e0d0ace44a13e10f06d8644939e1981b8",
         )
         self.assertEqual(len(self.preregistration_payload), 62_653)
         self.assertEqual(
@@ -577,8 +644,24 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             base_binding["zero_bandwidth_maintenance_unique_parent"],
             contract.PROTOCOL_MERGE_COMMIT,
         )
+        self.assertEqual(
+            base_binding["initial_implementation_publication_commit"],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
         self.assertTrue(
-            base_binding["implementation_freeze_must_have_base_as_unique_parent"]
+            base_binding["initial_implementation_publication_has_base_as_unique_parent"]
+        )
+        self.assertTrue(
+            base_binding[
+                "implementation_freeze_has_initial_publication_as_unique_parent"
+            ]
+        )
+        self.assertTrue(
+            base_binding["initial_exact_reviewed_slice_delta_starts_at_base"]
+        )
+        self.assertTrue(base_binding["final_exact_reviewed_slice_delta_starts_at_base"])
+        self.assertTrue(
+            base_binding["compatibility_delta_is_nonempty_reviewed_slice_subset"]
         )
         self.assertFalse(
             value["publication_contract"][
@@ -633,8 +716,24 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             authority_payload["implementation_base_commit"],
             contract.IMPLEMENTATION_BASE_COMMIT,
         )
+        self.assertEqual(
+            authority_payload["initial_implementation_publication_commit"],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
         changed_authority = copy.deepcopy(authority_payload)
         changed_authority["implementation_base_commit"] = "d" * 40
+        with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
+            contract.build_attempt_owner(
+                implementation_freeze_commit=self.implementation_commit,
+                preregistration_payload=self.preregistration_payload,
+                authority_freeze_commit=self.authority_commit,
+                execution_authority_payload=contract.artifact_json_bytes(
+                    changed_authority
+                ),
+                attempt_id="b" * 64,
+            )
+        changed_authority = copy.deepcopy(authority_payload)
+        changed_authority["initial_implementation_publication_commit"] = "d" * 40
         with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
             contract.build_attempt_owner(
                 implementation_freeze_commit=self.implementation_commit,
@@ -751,6 +850,10 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             self.owner["implementation_base_commit"],
             contract.IMPLEMENTATION_BASE_COMMIT,
         )
+        self.assertEqual(
+            self.owner["initial_implementation_publication_commit"],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
         self.assertEqual(self.owner["attempt_id"], "b" * 64)
         self.assertEqual(
             self.owner["execution_authority"]["freeze_commit"],
@@ -772,6 +875,14 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             )
         changed = copy.deepcopy(self.owner)
         changed["implementation_base_commit"] = "d" * 40
+        with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
+            contract.validate_attempt_owner(
+                changed,
+                implementation_freeze_commit=self.implementation_commit,
+                preregistration_payload=self.preregistration_payload,
+            )
+        changed = copy.deepcopy(self.owner)
+        changed["initial_implementation_publication_commit"] = "d" * 40
         with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
             contract.validate_attempt_owner(
                 changed,
@@ -828,6 +939,10 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             events[0]["zero_bandwidth_maintenance_commit"],
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
         )
+        self.assertEqual(
+            events[0]["initial_implementation_publication_commit"],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
         self.assertEqual(events[0]["sequence"], 0)
         self.assertIsNone(events[0]["previous_event_sha256"])
         self.assertEqual(
@@ -873,6 +988,16 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
             )
         value = json.loads(journal)
         value["sequence"] = True
+        tampered = contract.artifact_json_bytes(value)
+        with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
+            contract.validate_progress_journal(
+                tampered,
+                implementation_freeze_commit=self.implementation_commit,
+                preregistration_payload=self.preregistration_payload,
+                attempt_owner_payload=self.owner_payload,
+            )
+        value = json.loads(journal)
+        value["initial_implementation_publication_commit"] = "d" * 40
         tampered = contract.artifact_json_bytes(value)
         with self.assertRaises(contract.MM005GenerationFailureDiagnosticResultError):
             contract.validate_progress_journal(
@@ -959,6 +1084,16 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
         self.assertEqual(
             result["protocol_lineage"]["zero_bandwidth_maintenance_commit"],
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        self.assertEqual(
+            result["protocol_lineage"]["initial_implementation_publication_commit"],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
+        )
+        self.assertEqual(
+            result["implementation_lineage"][
+                "initial_implementation_publication_commit"
+            ],
+            contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT,
         )
         self.assertEqual(len(result["record_results"]), 7)
         encoded = contract.artifact_json_bytes(result).decode()
@@ -1388,8 +1523,12 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                     context.zero_bandwidth_maintenance_commit,
                 ),
                 (
-                    context.implementation_freeze_commit,
+                    context.initial_implementation_publication_commit,
                     context.implementation_base_commit,
+                ),
+                (
+                    context.implementation_freeze_commit,
+                    context.initial_implementation_publication_commit,
                 ),
                 (
                     context.authority_freeze_commit,
@@ -1403,10 +1542,31 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                     runner._git_name_only_paths_at(
                         repository,
                         context.implementation_base_commit,
+                        context.initial_implementation_publication_commit,
+                    )
+                ),
+                set(runner.IMPLEMENTATION_SLICE_PATHS),
+            )
+            self.assertEqual(
+                set(
+                    runner._git_name_only_paths_at(
+                        repository,
+                        context.implementation_base_commit,
                         context.implementation_freeze_commit,
                     )
                 ),
                 set(runner.IMPLEMENTATION_SLICE_PATHS),
+            )
+            compatibility_delta = set(
+                runner._git_name_only_paths_at(
+                    repository,
+                    context.initial_implementation_publication_commit,
+                    context.implementation_freeze_commit,
+                )
+            )
+            self.assertTrue(compatibility_delta)
+            self.assertTrue(
+                compatibility_delta.issubset(runner.IMPLEMENTATION_SLICE_PATHS)
             )
             self.assertNotEqual(
                 set(
@@ -1628,6 +1788,9 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
             ),
             "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+            "initial_implementation_publication_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
             "implementation_freeze_commit": self.implementation_commit,
             "implementation_context": self._implementation_context(),
             "protocol_context": {
@@ -1706,6 +1869,9 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
             ),
             "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+            "initial_implementation_publication_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
             "implementation_freeze_commit": self.implementation_commit,
             "implementation_context": self._implementation_context(),
             "protocol_context": {
@@ -1816,6 +1982,9 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
                 contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
             ),
             "implementation_base_commit": contract.IMPLEMENTATION_BASE_COMMIT,
+            "initial_implementation_publication_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
             "implementation_freeze_commit": self.implementation_commit,
             "implementation_context": implementation_context,
             "protocol_context": protocol_context,
@@ -1875,7 +2044,12 @@ class MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests(unittest.Test
 
     def test_execute_is_denied_before_topology_git_claim_or_model_body(self) -> None:
         before = runner._output_topology()
-        with self.assertRaises(runner.MM005DiagnosticExecutionAuthorityRequired):
+        with (
+            mock.patch.object(
+                runner, "_optional_execution_authority_context", return_value=None
+            ),
+            self.assertRaises(runner.MM005DiagnosticExecutionAuthorityRequired),
+        ):
             runner.run(mode="execute")
         self.assertEqual(runner._output_topology(), before)
         with self.assertRaises(RuntimeError):

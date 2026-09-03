@@ -133,9 +133,13 @@ merge M1 `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54` has the protocol merge as
 its unique direct parent. The later non-lifecycle exact-head checkout merge M2
 `8c679eba08a979fb60bfd87fbe8c73c8725d89c0` is the literal implementation
 base and has M1 as its unique direct parent. The implementation freeze must
-have M2 as its unique direct parent, and the exact reviewed 11-path delta is
-measured from M2 to the implementation freeze, not from the protocol merge or
-M1.
+preserve two publication stages: initial implementation I1
+`e185c76e0d0ace44a13e10f06d8644939e1981b8` has M2 as its unique direct
+parent, and the compatibility-corrected final implementation I2 has I1 as its
+unique direct parent. Both reviewed M2-to-I1 and M2-to-I2 deltas are exactly
+the same 11 paths, while I1-to-I2 is non-empty and confined to that set. The
+three implementation sources are first introduced at I1 and their final bytes
+are bound to I2.
 
 The core revalidates Git, tracked source bytes, first-parent lineage, hidden
 index flags, and unclaimed topology before creating anything. It guards
@@ -147,10 +151,10 @@ after claimed-state revalidation does it call the injectable
 `first_heavy_dependency_boundary`.
 
 The mandatory regression uses a real temporary Git clone and filesystem. It
-constructs test `master` explicitly from literal M2, verifies that M1 is the
-unique parent of M2 and the protocol merge is the unique parent of M1 and
-remains the immutable receipt/ancestor, then creates a synthetic test-only
-implementation and authority lineage. It begins with safe `work` and no
+constructs test `master` explicitly from literal I1, verifies the unique chain
+from the protocol merge through M1, M2, and I1, then creates a synthetic
+test-only I2 and exact-10-path authority lineage. It verifies both M2
+implementation deltas and the non-empty I1-to-I2 subset. It begins with safe `work` and no
 parent, and mocks none of `os.mkdir`, `DirectoryTreeGuard`, lifecycle, claim,
 or filesystem I/O. The sole executed injection is a controlled exception at
 the first-heavy boundary after real owner and genesis publication. The
@@ -160,7 +164,7 @@ prove the registered Python socket APIs, model-load-capable production
 boundary, and CUDA workload remain uncalled, and no formal invocation budget
 is consumed. The claim does not extend to unregistered native or subprocess
 networking. An empty intermediate commit
-between M2 and the implementation freeze is rejected before output-parent
+between I1 and the final implementation freeze is rejected before output-parent
 mutation.
 
 Phase-negative coverage preserves evidence rather than erasing it: pre-create
@@ -172,9 +176,11 @@ reconciliation and cannot re-enter the heavy boundary.
 
 ## Locked next action and stop conditions
 
-The sole active gate is now the separate
+The sole active gate is now the compatibility correction of the separate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2`.
-After its clean merge, checks, review, conflict, strict-up-to-date state,
+I1 remains its immutable initial publication receipt; I2 becomes its final
+compatibility freeze without creating authority. After I2's clean merge,
+checks, review, conflict, strict-up-to-date state,
 branch cleanup, and post-merge observation are clear, the only successor is
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`.
 Authority and exact-once execution remain later independent gates.

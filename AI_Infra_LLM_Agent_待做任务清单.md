@@ -1292,11 +1292,17 @@ PR #83 又将 non-lifecycle exact-head checkout prerequisite 发布为 commit
 `5aff00034969e48d93b43ed478faa847306fb48b`，其 unique parent 为 PR #82 merge。它让 automatic jobs checkout
 exact pull-request head 而非 synthetic merge ref，未推进 lifecycle state。
 
-implementation-v2 现为唯一 active formal lifecycle gate，位于 `C:\Users\Alienware\raml-v2i`、branch
-`feat/mm005-generation-failure-diagnostic-implementation-v2`，并以 PR #83 exact-head merge M2 为 base。它在既定
+PR #84 已将 implementation-v2 初始发布 I1 合并为
+`e185c76e0d0ace44a13e10f06d8644939e1981b8`（tree `6074af877331ed7e2dc66d5b986d37be55a83588`），
+其 unique parent 为 M2。stage-compatibility review 随后证明需在同一 11-path ceiling 内发布 final freeze I2，
+因此 implementation-v2 仍为唯一 active formal lifecycle gate，位于
+`C:\Users\Alienware\raml-diagnostic-v1`、branch
+`fix/mm005-diagnostic-v2-authority-stage-compatibility`。它在既定
 11 路径内绑定 literal `IMPLEMENTATION_BASE_COMMIT=8c679eb...2d89c0`，继续把 `eb2aea3...eb3fc9` 作为
-protocol receipt/ancestor，并要求 exact unique-parent chain `P -> M1 -> M2 -> implementation`，证明
-M2→implementation 仍为 `PROJECT_STATUS.md` 登记的 exact 11 路径；仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
+protocol receipt/ancestor，绑定 literal `INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT=e185c76...981b8`，并要求
+exact unique-parent chain `P -> M1 -> M2 -> I1 -> I2`；M2→I1 与 M2→I2 均须为 `PROJECT_STATUS.md`
+登记的 exact 11 路径，I1→I2 必须非空且不越界，三个 implementation sources 首次引入在 I1、最终 bytes
+绑定 I2。仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
 不得 mock parent helper 或 `DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy
 boundary 受控失败，并用 fail-on-call spies 明确证明已登记的 Python socket APIs、具备 model-load 能力的
 production boundary 与 CUDA workload 均未进入。不得提前
@@ -1335,11 +1341,11 @@ APIs、具备 model-load 能力的 production boundary 与 CUDA workload 均未�
 lifecycle 后可只留 lifecycle，owner staging durable reserved 并永久 fail closed；pre-owner 不合成 terminal/
 scope/outcome，claimed topology 只可 reconcile、不得重入 heavy。
 
-本 gate exact 11-path、不得修改或调用 v1，不新增 authority/output，不执行 diagnostic。clean merge 后唯一
+本 gate 仍是相同 exact 11-path、不得修改或调用 v1，不新增 authority/output，不执行 diagnostic。I2 clean merge 后唯一
 successor 是 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`；
 exact-once execution-v2 仍继续独立，绝不称 v1 retry。任何 receipt/scientific/identity drift、planned output
-已存在、literal M2 base 或 `P -> M1 -> M2 -> implementation` 任一 direct-parent 漂移、
-M2→implementation 11-path 超限或
+已存在、literal M2 base、literal I1 receipt 或 `P -> M1 -> M2 -> I1 -> I2` 任一 direct-parent 漂移、
+任一 M2→implementation exact-11 delta 漂移、I1→I2 为空或超出 11-path ceiling，或
 checks/review/conflict/strict-up-to-date 未清楚都必须停止。
 
 ## TOOL-001：工具 Schema 与任务定义
