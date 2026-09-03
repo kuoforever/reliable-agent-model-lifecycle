@@ -1,4 +1,4 @@
-# Repository CI/LFS zero-bandwidth maintenance v2
+# Repository CI transport prerequisites: zero-bandwidth v2 and exact-head v1
 
 ## Objective
 
@@ -12,6 +12,14 @@ drifts.
 This is a bounded CI maintenance detour. It changes no model, Adapter, tensor,
 dataset, Runtime contract, diagnostic identity, output, lease, authority,
 invocation budget, or result claim. It does not run a diagnostic.
+
+PR #82 published that zero-bandwidth prerequisite as exact merge commit
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. The subsequent
+`repository-ci-exact-head-checkout-v1` correction is a second, independent
+non-lifecycle transport prerequisite. It prevents strict feature-lineage gates
+from evaluating GitHub's synthetic pull-request merge commit as though it were
+the submitted feature `HEAD`. Neither prerequisite consumes or advances the
+formal diagnostic lifecycle.
 
 ## Immutable hydrated anchor
 
@@ -34,10 +42,12 @@ boundary, manual trigger, and diagnostic-v2 focused-test topology. The existing
 ## Automatic required gates
 
 The three required `python-matrix (3.11/3.12/3.13)` jobs continue to use a
-full-history pointer-only checkout with LFS smudge disabled. Each runs the
-existing exact pointer/attribute inventory, tracked-Python compilation, and
-107 standard-library core tests. Each then runs the diagnostic-v2 focused
-gate:
+full-history pointer-only checkout with LFS smudge disabled. The checkout now
+selects the exact GitHub-provided event head and does not persist credentials.
+Each job then verifies that `git rev-parse HEAD` exactly equals that same
+event-provided SHA before running the existing exact pointer/attribute
+inventory, tracked-Python compilation, and 107 standard-library core tests.
+Each finally runs the diagnostic-v2 focused gate:
 
 - with all four implementation-v2 files absent, exactly the 18 anchor protocol
   tests run;
@@ -76,6 +86,37 @@ SHA-256 content addressing plus protected no-drift allows the intended payload
 identity to be inherited from the successful anchor. It does not prove that
 GitHub can serve those objects now, that billing permits a current download, or
 that a complete current-HEAD offline gate ran remotely.
+
+## Exact event-head checkout prerequisite
+
+On a `pull_request` event, the default `actions/checkout` ref is GitHub's
+synthetic `refs/pull/<number>/merge` commit. That commit is useful for testing a
+prospective merge, but it is not the submitted branch head. A strict lineage
+contract that requires the implementation commit's unique first parent or an
+exact base-to-feature path set can therefore fail against the synthetic commit
+even when the submitted branch itself is valid.
+
+Both automatic jobs now use this exact checkout and verification source:
+
+```text
+${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+```
+
+For pull requests, it resolves to `github.event.pull_request.head.sha`; for
+pushes, it resolves to `github.sha`. The same value is passed as checkout
+`ref`, exported as `EXPECTED_HEAD_SHA`, and supplied to the validator's
+`exact-checkout` mode. That mode requires a lowercase 40-hex SHA and fails
+closed if the value is missing, malformed, or differs from
+`git rev-parse HEAD`. Both checkouts also retain `fetch-depth: 0`, `lfs: false`,
+and `GIT_LFS_SKIP_SMUDGE=1`, and now set `persist-credentials: false`.
+`pull_request_target` is not used, and synthetic merge refs are not accepted as
+the pull-request execution identity.
+
+The canonical trust contract records the exact expression, environment name,
+verification command, two automatic job IDs, disabled credential persistence,
+and base commit `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. This freezes transport
+identity without changing the immutable hydrated anchor or claiming that the
+prospective merge commit itself was tested.
 
 ## Explicit manual hydration
 
@@ -118,18 +159,27 @@ observation; it must not silently weaken this gate.
 
 The implementation-v2 product slice is paused, not abandoned. Its safe local
 resume point is `C:\Users\Alienware\raml-v2i`, branch
-`feat/mm005-generation-failure-diagnostic-implementation-v2`, based on
-`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`, with exactly 11 intended paths.
-This maintenance is only a repository-CI transport prerequisite. Its `gate_id`
+`feat/mm005-generation-failure-diagnostic-implementation-v2`, at safe local
+checkpoint `684c7e13226eb6b67f5b23845c937e0a709113f7` whose unique parent is
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`, with exactly 11 intended paths.
+Protocol commit `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9` remains the receipt and
+ancestor.
+PR #82 closed the zero-bandwidth prerequisite at
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`. The exact-head correction is the
+current second repository-CI transport prerequisite and is limited to the
+automatic workflow, canonical trust config and validator/test, this document,
+and the four canonical tracker/index surfaces: nine paths total. Its `gate_id`
 does not consume, replace, or advance the protocol's formal lifecycle
 `next_gate`; implementation-v2 remains that next gate throughout the detour.
-After this maintenance is independently validated, published, and observed on
-merge HEAD, implementation-v2 must be rebased onto that clean master and add a
-literal `IMPLEMENTATION_BASE_COMMIT` binding to the maintenance merge commit
-within its already registered 11-path slice. The protocol commit remains the
-receipt and ancestor; the maintenance merge must be the implementation's unique
-first parent, and the base-to-implementation delta must remain exactly those 11
-paths before publication.
+
+After the exact-head correction is independently validated, published, and
+observed on its merge `HEAD`, implementation-v2 must be rebased onto that clean
+master and change its literal `IMPLEMENTATION_BASE_COMMIT` from the earlier
+planned maintenance base to the exact-head correction's merge SHA. The
+protocol commit `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9` remains the receipt
+and ancestor; the exact-head merge must be the implementation's unique first
+parent, and the base-to-implementation delta must remain exactly the registered
+11 paths before publication.
 
 Execution-authority-v2 and exact-once execution-v2 remain later, separate
 gates. Neither this maintenance nor implementation-v2 may publish authority,

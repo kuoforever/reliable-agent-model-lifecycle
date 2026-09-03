@@ -95,12 +95,30 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
         self.assertEqual(anchor["tree"], ci.TRUST_ANCHOR_TREE)
         self.assertEqual(anchor["workflow_run_id"], 33_501_136_645)
         self.assertEqual(anchor["hydrated_job_id"], 99_834_499_141)
+        exact = self.trust["exact_head_checkout"]
+        self.assertEqual(exact["base_commit"], ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT)
+        self.assertEqual(exact["gate_id"], ci.EXACT_HEAD_CHECKOUT_GATE_ID)
+        self.assertEqual(
+            exact["github_sha_expression"], ci.EXACT_HEAD_GITHUB_SHA_EXPRESSION
+        )
+        self.assertEqual(exact["job_ids"], list(ci.EXACT_HEAD_JOB_IDS))
+        self.assertFalse(exact["persist_credentials"])
+        self.assertFalse(exact["pull_request_target_allowed"])
+        self.assertFalse(exact["synthetic_merge_ref_allowed"])
 
     def test_trust_anchor_contract_drift_and_duplicate_key_fail_closed(self) -> None:
         changed = copy.deepcopy(self.trust)
         changed["automatic_gate"]["remote_availability_verified"] = True
         with self.assertRaises(ci.RepositoryCIValidationError) as caught:
             ci.load_trust_anchor(ci.canonical_json_bytes(changed))
+        self.assertEqual(caught.exception.code, "TRUST_ANCHOR_CONTRACT_MISMATCH")
+
+        changed_checkout = copy.deepcopy(self.trust)
+        changed_checkout["exact_head_checkout"]["github_sha_expression"] = (
+            "${{ github.sha }}"
+        )
+        with self.assertRaises(ci.RepositoryCIValidationError) as caught:
+            ci.load_trust_anchor(ci.canonical_json_bytes(changed_checkout))
         self.assertEqual(caught.exception.code, "TRUST_ANCHOR_CONTRACT_MISMATCH")
 
         with self.assertRaises(ci.RepositoryCIValidationError) as caught:
@@ -110,6 +128,12 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
     def test_head_blobs_and_gitattributes_match_the_frozen_inventory(self) -> None:
         head = ci.validate_git_metadata(self.inventory)
         self.assertRegex(head, r"^[0-9a-f]{40}$")
+        self.assertEqual(
+            ci.validate_exact_checkout(
+                head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+            ),
+            head,
+        )
         for item in self.inventory["lfs_objects"]:
             pointer = ci.lfs_pointer_bytes(item)
             self.assertEqual(len(pointer), 133)
@@ -368,7 +392,94 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
                 self.assertEqual(child.returncode, 0, child.stderr)
             self.assertEqual(os.environ["PYTHONPATH"], inherited)
 
-    def test_pointer_main_revalidates_after_core_suite(self) -> None:
+    def test_exact_checkout_and_pointer_main_fail_closed(self) -> None:
+        expected_head = "a" * 40
+        with (
+            mock.patch.object(ci, "load_trust_anchor", return_value=self.trust),
+            mock.patch.object(
+                ci, "validate_exact_checkout", return_value=expected_head
+            ) as validate_exact,
+            mock.patch.object(ci, "canonical_json_bytes", return_value=b"{}\n"),
+            mock.patch.object(ci.sys, "stdout", mock.Mock()),
+        ):
+            self.assertEqual(
+                ci.main(
+                    [
+                        "--mode",
+                        "exact-checkout",
+                        "--expected-head",
+                        expected_head,
+                    ]
+                ),
+                0,
+            )
+        validate_exact.assert_called_once_with(
+            expected_head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+        )
+
+        with self.assertRaises(ci.RepositoryCIValidationError) as caught:
+            ci.main(["--mode", "exact-checkout"])
+        self.assertEqual(caught.exception.code, "EXPECTED_HEAD_REQUIRED")
+
+        with self.assertRaises(ci.RepositoryCIValidationError) as caught:
+            ci.main(["--mode", "pointer", "--expected-head", expected_head])
+        self.assertEqual(caught.exception.code, "EXPECTED_HEAD_UNEXPECTED")
+
+        for invalid in ("", "a" * 39, "A" * 40, "g" * 40):
+            with (
+                self.subTest(invalid=invalid),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_exact_checkout(
+                    invalid, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+                )
+            self.assertEqual(caught.exception.code, "EXPECTED_HEAD_INVALID")
+
+        with (
+            mock.patch.object(ci, "_run_git", return_value=b"b" * 40 + b"\n"),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_exact_checkout(
+                expected_head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+            )
+        self.assertEqual(caught.exception.code, "EXACT_CHECKOUT_HEAD_MISMATCH")
+
+        with (
+            mock.patch.object(ci, "_run_git", return_value=b"A" * 40 + b"\n"),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_exact_checkout(
+                expected_head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+            )
+        self.assertEqual(caught.exception.code, "INVALID_HEAD")
+
+        with (
+            mock.patch.object(
+                ci,
+                "_run_git",
+                side_effect=(expected_head.encode("ascii") + b"\n", b"blob\n"),
+            ),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_exact_checkout(
+                expected_head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+            )
+        self.assertEqual(caught.exception.code, "EXACT_CHECKOUT_BASE_NOT_COMMIT")
+
+        with (
+            mock.patch.object(
+                ci,
+                "_run_git",
+                side_effect=(expected_head.encode("ascii") + b"\n", b"commit\n"),
+            ),
+            mock.patch.object(ci, "_git_exit_code", return_value=1),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_exact_checkout(
+                expected_head, base_commit=ci.EXACT_HEAD_CHECKOUT_BASE_COMMIT
+            )
+        self.assertEqual(caught.exception.code, "EXACT_CHECKOUT_BASE_NOT_ANCESTOR")
+
         with (
             mock.patch.object(ci, "load_inventory", return_value=self.inventory),
             mock.patch.object(ci, "validate_git_metadata", return_value="0" * 40),
@@ -472,7 +583,13 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
         self.assertNotIn("timeout-minutes: 30", workflow)
         self.assertEqual(workflow.count("fetch-depth: 0"), 2)
         self.assertEqual(workflow.count("lfs: false"), 2)
+        self.assertEqual(workflow.count("persist-credentials: false"), 2)
         self.assertEqual(workflow.count('GIT_LFS_SKIP_SMUDGE: "1"'), 2)
+        exact_expression = ci.EXACT_HEAD_GITHUB_SHA_EXPRESSION
+        self.assertEqual(workflow.count(f"ref: {exact_expression}"), 2)
+        self.assertEqual(workflow.count(f"EXPECTED_HEAD_SHA: {exact_expression}"), 2)
+        self.assertEqual(workflow.count(ci.EXACT_HEAD_VERIFICATION_COMMAND), 2)
+        self.assertNotIn("pull_request_target", workflow)
         self.assertNotIn("lfs: true", workflow)
         for forbidden in (
             "git lfs pull",
@@ -484,6 +601,23 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
 
         pointer_job, inherited_job = workflow.split(
             "\n  hydrated-lfs-integrity:\n", maxsplit=1
+        )
+        for job in (pointer_job, inherited_job):
+            self.assertEqual(job.count(f"ref: {exact_expression}"), 1)
+            self.assertEqual(job.count(f"EXPECTED_HEAD_SHA: {exact_expression}"), 1)
+            self.assertEqual(job.count("persist-credentials: false"), 1)
+            self.assertEqual(job.count(ci.EXACT_HEAD_VERIFICATION_COMMAND), 1)
+        self.assertLess(
+            pointer_job.index(ci.EXACT_HEAD_VERIFICATION_COMMAND),
+            pointer_job.index(
+                "python -I scripts/validate_repository_ci.py --mode pointer"
+            ),
+        )
+        self.assertLess(
+            inherited_job.index(ci.EXACT_HEAD_VERIFICATION_COMMAND),
+            inherited_job.index(
+                "python -I scripts/validate_repository_ci.py --mode trusted-anchor"
+            ),
         )
         self.assertIn(
             "python -I scripts/validate_repository_ci.py --mode pointer",

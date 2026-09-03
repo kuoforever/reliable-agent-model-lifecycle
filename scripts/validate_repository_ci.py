@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 import py_compile
+import re
 import subprocess
 import sys
 import tempfile
@@ -99,6 +100,19 @@ TRUST_ANCHOR_TREE = "bddfdadcc650b6ac94787ea2bfbb0e2f2f09a77d"
 TRUST_ANCHOR_WORKFLOW_RUN_ID = 33_501_136_645
 TRUST_ANCHOR_HYDRATED_JOB_ID = 99_834_499_141
 MANUAL_LFS_ACKNOWLEDGEMENT = "DOWNLOAD 110524520 LFS BYTES"
+EXACT_HEAD_CHECKOUT_GATE_ID = "repository-ci-exact-head-checkout-v1"
+EXACT_HEAD_CHECKOUT_BASE_COMMIT = "e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54"
+EXACT_HEAD_ENVIRONMENT = "EXPECTED_HEAD_SHA"
+EXACT_HEAD_GITHUB_SHA_EXPRESSION = (
+    "${{ github.event_name == 'pull_request' && "
+    "github.event.pull_request.head.sha || github.sha }}"
+)
+EXACT_HEAD_JOB_IDS = ("python-matrix", HYDRATED_JOB_CONTEXT)
+EXACT_HEAD_SCOPE = "exact_github_event_head_checkout"
+EXACT_HEAD_VERIFICATION_COMMAND = (
+    "python -I scripts/validate_repository_ci.py --mode exact-checkout "
+    '--expected-head "$EXPECTED_HEAD_SHA"'
+)
 PROTECTED_LFS_PATHS = (
     ".gitattributes",
     "configs/repository_ci_lfs_inventory_v1.json",
@@ -199,6 +213,19 @@ def expected_trust_anchor() -> dict[str, Any]:
             "protocol_only_test_count": DIAGNOSTIC_V2_PROTOCOL_ONLY_TEST_COUNT,
             "protocol_test_module": DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,
             "python_versions": list(POINTER_PYTHON_VERSIONS),
+        },
+        "exact_head_checkout": {
+            "base_commit": EXACT_HEAD_CHECKOUT_BASE_COMMIT,
+            "expected_head_environment": EXACT_HEAD_ENVIRONMENT,
+            "gate_id": EXACT_HEAD_CHECKOUT_GATE_ID,
+            "github_sha_expression": EXACT_HEAD_GITHUB_SHA_EXPRESSION,
+            "job_ids": list(EXACT_HEAD_JOB_IDS),
+            "persist_credentials": False,
+            "pull_request_target_allowed": False,
+            "scope": EXACT_HEAD_SCOPE,
+            "synthetic_merge_ref_allowed": False,
+            "verification_command": EXACT_HEAD_VERIFICATION_COMMAND,
+            "verification_mode": "exact-checkout",
         },
         "forbidden_lfs_config_path": FORBIDDEN_LFS_CONFIG_PATH,
         "gate_id": TRUST_ANCHOR_GATE_ID,
@@ -395,6 +422,24 @@ def _validate_lfs_attributes(relative: str) -> None:
         observed[attribute.decode("ascii")] = value.decode("ascii")
     if observed != {"diff": "lfs", "filter": "lfs", "merge": "lfs", "text": "unset"}:
         _fail("LFS_ATTRIBUTES_MISMATCH", f"$.lfs_objects[{relative!r}]")
+
+
+def validate_exact_checkout(expected_head: str, *, base_commit: str) -> str:
+    if re.fullmatch(r"[0-9a-f]{40}", expected_head) is None:
+        _fail("EXPECTED_HEAD_INVALID", "$.exact_head_checkout.expected_head")
+    if re.fullmatch(r"[0-9a-f]{40}", base_commit) is None:
+        _fail("EXACT_CHECKOUT_BASE_INVALID", "$.exact_head_checkout.base_commit")
+    actual_head = _run_git("rev-parse", "HEAD").decode("ascii").strip()
+    if re.fullmatch(r"[0-9a-f]{40}", actual_head) is None:
+        _fail("INVALID_HEAD", "$.git.head")
+    if actual_head != expected_head:
+        _fail("EXACT_CHECKOUT_HEAD_MISMATCH", "$.exact_head_checkout.expected_head")
+    base_type = _run_git("cat-file", "-t", base_commit).decode("ascii").strip()
+    if base_type != "commit":
+        _fail("EXACT_CHECKOUT_BASE_NOT_COMMIT", "$.exact_head_checkout.base_commit")
+    if _git_exit_code("merge-base", "--is-ancestor", base_commit, actual_head):
+        _fail("EXACT_CHECKOUT_BASE_NOT_ANCESTOR", "$.exact_head_checkout.base_commit")
+    return actual_head
 
 
 def validate_git_metadata(inventory: dict[str, Any]) -> str:
@@ -683,6 +728,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--mode",
         choices=(
+            "exact-checkout",
             "pointer",
             "pointer-metadata",
             "trusted-anchor",
@@ -691,10 +737,32 @@ def main(argv: list[str] | None = None) -> int:
         ),
         default="pointer",
     )
+    parser.add_argument("--expected-head")
     arguments = parser.parse_args(argv)
 
     os.environ["PYTHONDONTWRITEBYTECODE"] = "1"
     sys.dont_write_bytecode = True
+    if arguments.mode == "exact-checkout":
+        if arguments.expected_head is None:
+            _fail("EXPECTED_HEAD_REQUIRED", "$.exact_head_checkout.expected_head")
+        contract = load_trust_anchor(TRUST_ANCHOR_PATH.read_bytes())
+        policy = contract["exact_head_checkout"]
+        head = validate_exact_checkout(
+            arguments.expected_head, base_commit=policy["base_commit"]
+        )
+        summary = {
+            "base_commit": policy["base_commit"],
+            "expected_head": arguments.expected_head,
+            "gate_id": policy["gate_id"],
+            "git_head": head,
+            "persist_credentials": policy["persist_credentials"],
+            "scope": policy["scope"],
+            "valid": True,
+        }
+        sys.stdout.buffer.write(canonical_json_bytes(summary))
+        return 0
+    if arguments.expected_head is not None:
+        _fail("EXPECTED_HEAD_UNEXPECTED", "$.exact_head_checkout.expected_head")
     version = (sys.version_info.major, sys.version_info.minor)
     if version not in SUPPORTED_PYTHON_MINORS:
         _fail("UNSUPPORTED_PYTHON", "$.python")

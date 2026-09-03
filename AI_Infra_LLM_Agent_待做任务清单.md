@@ -1282,18 +1282,20 @@ exclusive `os.mkdir` 单一 parent，再重验 authority/lineage/remaining topol
 `ROOT -> work/evaluation-runs`，之后才 lifecycle 与 atomic owner/genesis。parent create 不是 claim/telemetry。
 
 implementation-v2 已在 `C:\Users\Alienware\raml-v2i`、branch
-`feat/mm005-generation-failure-diagnostic-implementation-v2`、base `eb2aea3...eb3fc9` 准备为 exact 11-path
-本地 slice，但因本月 Git LFS bandwidth 已耗尽而暂停。安全恢复时必须先 rebase 到 maintenance merge 后 clean
-master，在既定 11 路径内新增 literal `IMPLEMENTATION_BASE_COMMIT=<maintenance merge SHA>`，继续把
-`eb2aea3...eb3fc9` 作为 protocol receipt/ancestor，要求 maintenance merge 是 unique first parent，并证明
-base→implementation 仍为 `PROJECT_STATUS.md` 登记的 exact 11 路径；仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
+`feat/mm005-generation-failure-diagnostic-implementation-v2`、safe checkpoint
+`684c7e13226eb6b67f5b23845c937e0a709113f7`（unique parent `e5e618b...2df0f54`）准备为 exact 11-path
+本地 slice；`eb2aea3...eb3fc9` 仍是 protocol receipt/ancestor。在 repository-CI transport prerequisites
+完成前继续暂停。安全恢复时必须先 rebase 到最新
+prerequisite merge 后 clean master，在既定 11 路径内新增 literal
+`IMPLEMENTATION_BASE_COMMIT=<exact-head prerequisite merge SHA>`，继续把 `eb2aea3...eb3fc9` 作为 protocol
+receipt/ancestor，要求该 prerequisite merge 是 unique first parent，并证明 base→implementation 仍为
+`PROJECT_STATUS.md` 登记的 exact 11 路径；仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
 不得 mock parent helper 或 `DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy
 boundary 受控失败并证明 model import/load、CUDA、network 未进入。不得提前发布 authority 或运行 diagnostic。
 
-当前唯一 active work item 改为 independent exact 10-path
-`repository-ci-lfs-zero-bandwidth-v2` repository-CI transport prerequisite。其 config `gate_id` 不是 formal
-lifecycle gate；此 detour 不消费、不替换、不推进 protocol `next_gate`，implementation-v2 始终是 next formal
-lifecycle gate。它必须：
+PR #82 已将 independent exact 10-path `repository-ci-lfs-zero-bandwidth-v2` 发布为 verified signed squash
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`；其 exact merge-HEAD run `33707078027` 四项 required jobs
+全绿且 automatic LFS payload bytes read=0。它继续：
 
 - 以 `eb2aea3...eb3fc9` / tree `bddfdadc...9a77d` / run `33501136645` / hydrated job
   `99834499141` 为不可变 payload-integrity anchor；
@@ -1311,11 +1313,30 @@ lifecycle gate。它必须：
 - 保持本 detour 10-path ceiling，不改 frozen inventory、LFS pointers、model/data/Adapter/Runtime/output/result，
   不运行 formal diagnostic。
 
-maintenance clean merge 且 exact merge-HEAD required checks 观察清楚后，implementation-v2 仍是唯一 next
-formal lifecycle gate，并须满足上述 literal maintenance-base、first-parent、protocol-ancestor 与 exact
+当前唯一 active work item 改为 e5 后续的 second independent exact 9-path
+`repository-ci-exact-head-checkout-v1` non-lifecycle transport correction。GitHub PR 默认 synthetic merge ref
+可能令 strict feature-lineage gate 把 merge commit 错当 submitted feature HEAD 而误失败；本 correction 必须：
+
+- automatic `offline-baseline` 的 `python-matrix` 与 `hydrated-lfs-integrity` 两个 checkout 都设置
+  `ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}`，并保留
+  `fetch-depth: 0`、`lfs: false`、`GIT_LFS_SKIP_SMUDGE=1`；
+- 两个 checkout 都设置 `persist-credentials: false`，禁止 `pull_request_target` 与 synthetic merge-ref identity；
+- 两个 job 都把同一 event SHA 作为 `EXPECTED_HEAD_SHA` 传给 validator 新 `exact-checkout` mode；
+  `--expected-head` 必须 required、仅接受 lowercase exact 40-hex，并要求 `git rev-parse HEAD` byte-for-byte
+  相等；missing、malformed、mismatch 全部 fail closed；
+- canonical trust contract 固定 base `e5e618b...f0f54`、expression、environment、job IDs、command、scope 与
+  credential/merge-ref policy；20 个 repository-CI tests 与 workflow 断言冻结相同策略；
+- exact ceiling 仅九路径：automatic workflow、trust config、validator、`test_validate_repository_ci`、
+  zero-bandwidth contract、`PROJECT_STATUS.md`、root `README.md`、`docs/README.md` 与本清单；不改 manual
+  workflow、frozen LFS inventory/pointers 或任何 diagnostic/lifecycle path。
+
+本 correction config `gate_id` 仍不是 formal lifecycle gate；implementation-v2 始终是唯一 next formal
+lifecycle gate。三版 Python 必须各通过 exact 20 repository-CI tests 与 18 protocol-focused tests，并通过
+Ruff、strict Mypy、diff-check。clean merge 且 exact merge-HEAD checks 观察清楚后，implementation-v2 才可
+rebase，并须把 literal base 改成 **本 correction 的 merge SHA**，同时保留 protocol ancestor 与 exact
 11-path 约束；authority-v2 与 exact-once execution-v2 继续独立，绝不称 v1 retry。任何 anchor receipt、
-scientific/identity/protected LFS drift、planned output 已存在、scope 超限或 checks/review/conflict/
-strict-up-to-date 未清楚都必须停止。
+scientific/identity/protected LFS drift、planned output 已存在、scope 超限、automatic checkout policy 缺失，
+或 checks/review/conflict/strict-up-to-date 未清楚都必须停止。
 
 ## TOOL-001：工具 Schema 与任务定义
 
