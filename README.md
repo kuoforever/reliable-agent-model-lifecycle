@@ -1321,7 +1321,9 @@ is the immutable payload-integrity anchor for the bounded
 Its 62,653-byte canonical preregistration has SHA-256
 `0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`
 and freezes a new experiment, run, output root, fixed artifact names, and lease
-without adding a runner, result, authority, or runtime output.
+without adding a runner, result, authority, or runtime output. The exact merge
+is verified signed squash commit
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`.
 
 The scientific contract remains exactly seven records, 17 environment fields,
 nine substages, 126 durable checkpoints, 133 success frames, four failure
@@ -1329,50 +1331,62 @@ scopes, four outcomes, seed 55006, and unchanged resource caps. V1 invocation
 budget remains spent while its attempt remains unconsumed; v1 retry, terminal
 synthesis, zero-owner scope, and recovery v3 remain forbidden.
 
-Plan/check/freeze do not create `work` or `work/evaluation-runs`. A future
-execution-v2 may create only the missing parent with exclusive `os.mkdir`
-after separate authority and clean-lineage gates, then must re-guard before
-lifecycle and atomic owner/genesis. Implementation-v2 must first prove that
-path in a real temporary filesystem and fail controllably at the first heavy
-boundary without model/CUDA entry. Protocol, implementation, authority, and
-exact-once execution remain separate; this is not a v1 retry.
+The sole active gate is the separate
+[generation-failure diagnostic implementation v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2.md).
+Plan/check remain read-only. The implementation freezes published authority
+and clean-lineage checks before any mutation, a real guard of `ROOT -> work`,
+one exclusive single-component `os.mkdir`, post-create authority/source/
+topology and identity revalidation, the created-parent guard, lifecycle, and
+atomic owner/genesis before the first heavy boundary. No public test-authority
+bypass exists.
 
-The monthly Git LFS bandwidth balance is unavailable, so implementation-v2 is
-paused at the exact local 11-path resume point in
-`C:\Users\Alienware\raml-v2i`. PR #82 has now published the independent
-zero-bandwidth CI transport prerequisite as verified signed squash commit
-`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`; its exact merge-HEAD run
-`33707078027` passed all four required jobs while reading zero LFS payload
-bytes. The legacy `hydrated-lfs-integrity` context now performs only pointer
-metadata, immutable anchor ancestry, and protected-path no-drift checks and
-explicitly leaves current hydration, payload rehash, complete current-HEAD
-integrity, and remote availability false. The three Python jobs retain the 18
-anchor protocol tests before implementation-v2, then the implementation's
-exact 19 protocol plus 43 result tests (62 total) after its exact four-file
-topology is complete; a partial topology fails closed.
+Its mandatory real temporary Git/filesystem regression mocks no parent,
+guard, lease, claim, or I/O primitive. Only the first-heavy boundary is
+injected to fail after owner/genesis; it produces an authenticated
+`pre_record_lifecycle` failure, with fail-on-call spies proving the registered
+Python socket APIs, model-load-capable production boundary, and CUDA workload
+remain uncalled, and consumes no formal invocation
+budget. This gate adds no authority or runtime output and invokes no
+diagnostic. Protocol, implementation, authority, and exact-once execution
+remain separate; this is not a v1 retry.
 
-The sole active work item is the second independent non-lifecycle transport
-prerequisite, `repository-ci-exact-head-checkout-v1`, based on exact PR #82
-merge commit `e5e618b...f0f54`. Both automatic jobs select
-`${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}`
-as the checkout `ref`, pass that same value to a strict lowercase 40-hex
-`exact-checkout` validator, and fail unless it equals `git rev-parse HEAD`.
-They retain full history, pointer-only checkout, and skipped LFS smudge while
-disabling credential persistence. This prevents strict feature-lineage gates
-from treating GitHub's synthetic pull-request merge ref as the submitted
-feature head; it does not use `pull_request_target`, test the prospective merge
-commit, or advance any lifecycle state.
+The monthly Git LFS bandwidth balance remains unavailable. PR #82 published
+the independent zero-bandwidth CI transport prerequisite as verified signed
+squash commit `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54`, tree
+`94ee644ebb4c358f0f71c702a88ce0ab6f9050cd`; its exact merge HEAD passed all
+four required checks. The maintenance consumed, replaced, and advanced no
+formal lifecycle gate; PR #83 below is its exact-head successor and the
+implementation's literal base.
+Automatic CI retains the legacy required
+`hydrated-lfs-integrity` context name but performs only pointer metadata,
+immutable anchor ancestry, and protected-path no-drift checks, reading zero LFS
+payload bytes and explicitly leaving current hydration, payload rehash,
+complete current-HEAD integrity, and remote availability false. The three
+Python jobs additionally run the 18 anchor protocol tests before
+implementation-v2, then the implementation's exact 19 protocol plus 43 result
+tests (62 total) after its exact four-file topology is complete; a partial
+topology fails closed.
+
+PR #83 published the second independent non-lifecycle exact-head checkout
+prerequisite as commit `8c679eba08a979fb60bfd87fbe8c73c8725d89c0`, tree
+`5aff00034969e48d93b43ed478faa847306fb48b`, with PR #82 merge
+`e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54` as its unique parent. Both
+automatic jobs select the pull-request head SHA rather than GitHub's synthetic
+merge ref, require exact equality with `git rev-parse HEAD`, retain full
+history and pointer-only checkout with skipped LFS smudge, and disable
+credential persistence. This transport correction advanced no lifecycle gate.
 
 Full hydration remains available only through a separate
 `workflow_dispatch` job and distinct `manual-hydrated-lfs-integrity` context,
 after the exact `DOWNLOAD 110524520 LFS BYTES` acknowledgement. It must not be
 dispatched without available bandwidth. Neither transport prerequisite adds
-authority or executes a diagnostic. After the exact-head correction is cleanly
-published and observed on its merge HEAD, implementation-v2 must rebase onto
-that newest merge, bind the exact-head correction's merge SHA as its literal
-`IMPLEMENTATION_BASE_COMMIT`, retain `eb2aea3...eb3fc9` as the protocol receipt
-and ancestor, and prove that the base-to-implementation delta is still the
-registered exact 11 paths. It remains the sole next formal lifecycle gate.
+authority or executes a diagnostic. Implementation-v2 now binds literal
+`IMPLEMENTATION_BASE_COMMIT=8c679eba08a979fb60bfd87fbe8c73c8725d89c0`,
+retains `eb2aea3...eb3fc9` as the protocol receipt and ancestor, requires the
+exact chain `eb2aea3 -> e5e618b -> 8c679eb -> implementation`, and proves that
+the M2-to-implementation delta remains the registered exact 11 paths. It is
+the sole active formal lifecycle gate; authority-v2 and exact-once execution
+v2 remain separate later gates.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

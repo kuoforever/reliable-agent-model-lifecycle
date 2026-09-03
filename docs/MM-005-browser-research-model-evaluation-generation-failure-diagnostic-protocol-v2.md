@@ -2,9 +2,9 @@
 
 ## Status and authority boundary
 
-This protocol-only gate is the sole active objective after repository CI/LFS
-maintenance v1 closed. Its canonical preregistration is 62,653 bytes with
-SHA-256
+This protocol-only gate was published through PR #81 as verified signed squash
+commit `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`. Its canonical
+preregistration is 62,653 bytes with SHA-256
 `0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`.
 
 The gate freezes a new identity and a future output-parent preparation
@@ -111,21 +111,75 @@ existing safe `work` directory and missing `evaluation-runs`. It may not mock
 the output-parent helper or `DirectoryTreeGuard`. It must exercise the future
 `execute` path through exclusive parent creation, parent guard, lifecycle,
 owner, and genesis, then raise a controlled exception at the first heavy
-boundary while proving model import/load, CUDA, and network were never entered.
+boundary while proving the registered Python socket APIs, model-load-capable
+production boundary, and CUDA workload remain uncalled.
 This regression is model-free, does not establish authority, and does not
 consume the formal invocation budget; after owner/genesis its controlled
 failure uses the existing `pre_record_lifecycle` scope.
 
+## Implementation-v2 realization
+
+The separate implementation-v2 slice now freezes that exact ordered core.
+Its public `--execute` path can construct the closed internal context only from
+a separately published, canonical authority at clean aligned exact `master`.
+There is no CLI flag, environment variable, or public API that grants test
+authority. Plan and check remain byte- and topology-read-only when the output
+parent is missing.
+
+The PR #81 protocol merge
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9` remains the immutable protocol
+receipt and ancestor. The non-lifecycle, zero-LFS-bandwidth CI maintenance
+merge M1 `e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54` has the protocol merge as
+its unique direct parent. The later non-lifecycle exact-head checkout merge M2
+`8c679eba08a979fb60bfd87fbe8c73c8725d89c0` is the literal implementation
+base and has M1 as its unique direct parent. The implementation freeze must
+have M2 as its unique direct parent, and the exact reviewed 11-path delta is
+measured from M2 to the implementation freeze, not from the protocol merge or
+M1.
+
+The core revalidates Git, tracked source bytes, first-parent lineage, hidden
+index flags, and unclaimed topology before creating anything. It guards
+`ROOT -> work`, calls exactly one one-argument `os.mkdir` for
+`work/evaluation-runs`, repeats authority/source/topology and root/work/parent
+identity checks, constructs and verifies the real parent guard, enters the
+lifecycle lease, and atomically renames owner plus genesis into place. Only
+after claimed-state revalidation does it call the injectable
+`first_heavy_dependency_boundary`.
+
+The mandatory regression uses a real temporary Git clone and filesystem. It
+constructs test `master` explicitly from literal M2, verifies that M1 is the
+unique parent of M2 and the protocol merge is the unique parent of M1 and
+remains the immutable receipt/ancestor, then creates a synthetic test-only
+implementation and authority lineage. It begins with safe `work` and no
+parent, and mocks none of `os.mkdir`, `DirectoryTreeGuard`, lifecycle, claim,
+or filesystem I/O. The sole executed injection is a controlled exception at
+the first-heavy boundary after real owner and genesis publication. The
+resulting authenticated failure is `pre_record_lifecycle`; the
+model/PIL/torch/CUDA/network module set does not change, fail-on-call spies
+prove the registered Python socket APIs, model-load-capable production
+boundary, and CUDA workload remain uncalled, and no formal invocation budget
+is consumed. The claim does not extend to unregistered native or subprocess
+networking. An empty intermediate commit
+between M2 and the implementation freeze is rejected before output-parent
+mutation.
+
+Phase-negative coverage preserves evidence rather than erasing it: pre-create
+failure makes no parent or lease; post-create failure may leave only the new
+parent; lifecycle-stage failure may leave lifecycle-only; and owner staging
+remains reserved, durable, and non-retryable. No pre-owner phase can publish a
+terminal, failure scope, or outcome. A claimed topology routes only to
+reconciliation and cannot re-enter the heavy boundary.
+
 ## Locked next action and stop conditions
 
-After this exact protocol merges cleanly and its checks, review, conflict,
-strict-up-to-date state, branch cleanup, and post-merge observation are clear,
-the only successor is
+The sole active gate is now the separate
 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2`.
-Implementation must freeze separately; authority and exact-once execution
-remain later independent gates.
+After its clean merge, checks, review, conflict, strict-up-to-date state,
+branch cleanup, and post-merge observation are clear, the only successor is
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`.
+Authority and exact-once execution remain later independent gates.
 
 Stop if any immutable receipt, scientific subtree, identity, derived path,
-parent contract, or 11-path protocol slice drifts; if planned output or
-lifecycle roots exist; if a v1 path/command/identity is reused; or if any step
-would execute a diagnostic or add runner/result/authority/output state.
+parent contract, or exact 11-path implementation slice drifts; if planned
+output or lifecycle roots exist; if a v1 path/command/identity is reused; or
+if any step would execute a diagnostic or add authority/output state.

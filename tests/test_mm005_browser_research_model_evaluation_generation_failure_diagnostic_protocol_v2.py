@@ -796,6 +796,121 @@ class MM005GenerationFailureDiagnosticProtocolV2Tests(unittest.TestCase):
                 bool(forbidden_imports & imports) or bool(forbidden_call_names & calls)
             )
 
+    def test_separate_implementation_v2_freezes_parent_order_without_authority(
+        self,
+    ) -> None:
+        from fullcycle_bridge import (  # noqa: PLC0415
+            mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2 as result_contract,
+        )
+        from scripts import (  # noqa: PLC0415
+            run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
+        )
+
+        before = runner._output_topology()
+        implementation = result_contract.result_contract()
+        base = implementation["implementation_base_binding"]
+        authority = implementation["execution_authority_contract"]
+        parent = implementation["output_parent_preparation_contract"]
+        publication = implementation["publication_contract"]
+        regression = implementation["implementation_regression_contract"]
+        self.assertEqual(
+            result_contract.PROTOCOL_MERGE_COMMIT,
+            "eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9",
+        )
+        self.assertEqual(
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+            "e5e618b491a3dc38dbed9cdcd4c6c384f2df0f54",
+        )
+        self.assertEqual(
+            result_contract.IMPLEMENTATION_BASE_COMMIT,
+            "8c679eba08a979fb60bfd87fbe8c73c8725d89c0",
+        )
+        self.assertEqual(implementation["gate_id"], contract.IMPLEMENTATION_GATE_ID)
+        self.assertEqual(implementation["next_gate_id"], contract.AUTHORITY_GATE_ID)
+        self.assertEqual(base["commit"], result_contract.IMPLEMENTATION_BASE_COMMIT)
+        self.assertEqual(
+            base["unique_parent"],
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        self.assertEqual(
+            base["zero_bandwidth_maintenance_commit"],
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        self.assertEqual(
+            base["zero_bandwidth_maintenance_unique_parent"],
+            result_contract.PROTOCOL_MERGE_COMMIT,
+        )
+        self.assertTrue(base["protocol_merge_commit_remains_receipt_and_ancestor"])
+        self.assertTrue(base["implementation_freeze_must_have_base_as_unique_parent"])
+        self.assertTrue(authority["exact_implementation_base_commit_required"])
+        self.assertTrue(
+            authority["authority_introduction_has_implementation_as_unique_parent"]
+        )
+        self.assertTrue(
+            publication[
+                "protocol_merge_maintenance_and_implementation_base_recorded_in_owner_and_terminal"
+            ]
+        )
+        self.assertEqual(len(runner.IMPLEMENTATION_SLICE_PATHS), 11)
+        self.assertEqual(parent["work_root"], contract.WORK_ROOT_PATH)
+        self.assertEqual(parent["output_parent"], contract.OUTPUT_PARENT_PATH)
+        self.assertEqual(parent["exclusive_single_component_primitive"], "os.mkdir")
+        self.assertTrue(
+            parent[
+                "authority_lineage_sources_and_remaining_topology_revalidated_after_create"
+            ]
+        )
+        self.assertTrue(parent["atomic_owner_and_genesis_before_first_heavy_boundary"])
+        self.assertEqual(
+            regression["only_executed_injected_boundary"],
+            "first_heavy_dependency_boundary",
+        )
+        self.assertEqual(
+            regression["fail_on_call_spies_required"],
+            ["socket", "network", "model_load", "cuda_workload"],
+        )
+        self.assertFalse(regression["formal_invocation_budget_consumed"])
+        plan = runner.run(mode="plan")
+        check = runner.run(mode="check")
+        checkout_commit = runner._git_text("rev-parse", "HEAD")
+        runner._require_unique_parent(
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+            result_contract.PROTOCOL_MERGE_COMMIT,
+        )
+        runner._require_unique_parent(
+            result_contract.IMPLEMENTATION_BASE_COMMIT,
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        self.assertEqual(
+            set(
+                runner._git_name_only_paths(
+                    result_contract.IMPLEMENTATION_BASE_COMMIT,
+                    checkout_commit,
+                )
+            ),
+            set(runner.IMPLEMENTATION_SLICE_PATHS),
+        )
+        self.assertTrue(plan["runner_plan_valid"])
+        self.assertTrue(check["implementation_check_valid"])
+        self.assertEqual(
+            plan["zero_bandwidth_maintenance_commit"],
+            result_contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT,
+        )
+        self.assertEqual(
+            plan["implementation_base_commit"],
+            result_contract.IMPLEMENTATION_BASE_COMMIT,
+        )
+        self.assertEqual(
+            check["protocol_merge_commit"], result_contract.PROTOCOL_MERGE_COMMIT
+        )
+        self.assertEqual(
+            check["implementation_base_commit"],
+            result_contract.IMPLEMENTATION_BASE_COMMIT,
+        )
+        self.assertFalse(plan["execution_authority_present"])
+        self.assertFalse(check["execution_path_invoked_by_gate"])
+        self.assertEqual(runner._output_topology(), before)
+
     def test_strict_json_and_final_protocol_tamper_fail_closed(self) -> None:
         with self.assertRaises(
             contract.MM005GenerationFailureDiagnosticProtocolV2Error
