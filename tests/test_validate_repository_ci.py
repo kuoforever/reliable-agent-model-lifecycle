@@ -15,12 +15,17 @@ from scripts import validate_repository_ci as ci
 
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW_PATH = ROOT / ".github" / "workflows" / "offline-baseline.yml"
+MANUAL_WORKFLOW_PATH = (
+    ROOT / ".github" / "workflows" / "manual-hydrated-lfs-integrity.yml"
+)
 
 
 class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
     def setUp(self) -> None:
         self.payload = ci.INVENTORY_PATH.read_bytes()
         self.inventory = ci.load_inventory(self.payload)
+        self.trust_payload = ci.TRUST_ANCHOR_PATH.read_bytes()
+        self.trust = ci.load_trust_anchor(self.trust_payload)
 
     def test_inventory_is_canonical_and_exact(self) -> None:
         self.assertEqual(ci.canonical_json_bytes(self.inventory), self.payload)
@@ -75,6 +80,33 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
             ci.load_inventory(b'{"schema_version":1,"schema_version":1}\n')
         self.assertEqual(caught.exception.code, "INVENTORY_DUPLICATE_KEY")
 
+    def test_trust_anchor_contract_is_canonical_exact_and_truthful(self) -> None:
+        self.assertEqual(ci.canonical_json_bytes(self.trust), self.trust_payload)
+        self.assertEqual(self.trust, ci.expected_trust_anchor())
+        automatic = self.trust["automatic_gate"]
+        self.assertTrue(automatic["content_identity_inherited"])
+        self.assertFalse(automatic["current_hydration_verified"])
+        self.assertFalse(automatic["current_payload_integrity_verified"])
+        self.assertFalse(automatic["full_integrity_verified"])
+        self.assertFalse(automatic["remote_availability_verified"])
+        self.assertEqual(automatic["lfs_payload_bytes_read"], 0)
+        anchor = self.trust["trust_anchor"]
+        self.assertEqual(anchor["commit"], ci.TRUST_ANCHOR_COMMIT)
+        self.assertEqual(anchor["tree"], ci.TRUST_ANCHOR_TREE)
+        self.assertEqual(anchor["workflow_run_id"], 33_501_136_645)
+        self.assertEqual(anchor["hydrated_job_id"], 99_834_499_141)
+
+    def test_trust_anchor_contract_drift_and_duplicate_key_fail_closed(self) -> None:
+        changed = copy.deepcopy(self.trust)
+        changed["automatic_gate"]["remote_availability_verified"] = True
+        with self.assertRaises(ci.RepositoryCIValidationError) as caught:
+            ci.load_trust_anchor(ci.canonical_json_bytes(changed))
+        self.assertEqual(caught.exception.code, "TRUST_ANCHOR_CONTRACT_MISMATCH")
+
+        with self.assertRaises(ci.RepositoryCIValidationError) as caught:
+            ci.load_trust_anchor(b'{"schema_version":1,"schema_version":1}\n')
+        self.assertEqual(caught.exception.code, "DUPLICATE_KEY")
+
     def test_head_blobs_and_gitattributes_match_the_frozen_inventory(self) -> None:
         head = ci.validate_git_metadata(self.inventory)
         self.assertRegex(head, r"^[0-9a-f]{40}$")
@@ -82,6 +114,111 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
             pointer = ci.lfs_pointer_bytes(item)
             self.assertEqual(len(pointer), 133)
             self.assertEqual(ci.git_blob_oid(pointer), item["pointer_git_blob_oid"])
+
+    def test_current_head_inherits_the_exact_hydrated_anchor(self) -> None:
+        head = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        inherited = ci.validate_trust_anchor(self.trust, current_head=head)
+        self.assertEqual(inherited["trust_anchor_commit"], ci.TRUST_ANCHOR_COMMIT)
+        self.assertEqual(inherited["trust_anchor_tree"], ci.TRUST_ANCHOR_TREE)
+        self.assertTrue(inherited["content_identity_inherited"])
+        self.assertTrue(inherited["protected_lfs_paths_unchanged"])
+        self.assertFalse(inherited["current_hydration_verified"])
+        self.assertFalse(inherited["remote_availability_verified"])
+        self.assertEqual(inherited["lfs_payload_bytes_read"], 0)
+
+    def test_lfs_control_path_additions_fail_closed(self) -> None:
+        self.assertEqual(
+            ci.validate_lfs_control_paths((".gitattributes", "README.md")),
+            (".gitattributes",),
+        )
+        for paths, code in (
+            (
+                (".gitattributes", "nested/.gitattributes"),
+                "GITATTRIBUTES_PATH_SET_DRIFT",
+            ),
+            ((".gitattributes", ".lfsconfig"), "LFS_CONFIG_FORBIDDEN"),
+            ((".gitattributes", "nested/.LFSCONFIG"), "LFS_CONFIG_FORBIDDEN"),
+        ):
+            with (
+                self.subTest(paths=paths),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_lfs_control_paths(paths)
+            self.assertEqual(caught.exception.code, code)
+
+    def test_anchor_ancestry_tree_and_protected_drift_fail_closed(self) -> None:
+        def anchor_git(*arguments: str, input_payload: bytes | None = None) -> bytes:
+            del input_payload
+            if arguments[:2] == ("cat-file", "-t"):
+                return b"commit\n"
+            if arguments[:2] == ("rev-parse", f"{ci.TRUST_ANCHOR_COMMIT}^{{tree}}"):
+                return (ci.TRUST_ANCHOR_TREE + "\n").encode("ascii")
+            self.fail(f"unexpected git call: {arguments}")
+
+        tracked = (".gitattributes", "README.md")
+        scenarios = (
+            ("ancestor", (1,), "TRUST_ANCHOR_NOT_ANCESTOR"),
+            ("protected", (0, 1), "PROTECTED_LFS_PATH_DRIFT"),
+        )
+        for name, exit_codes, expected_code in scenarios:
+            with (
+                self.subTest(name=name),
+                mock.patch.object(ci, "_run_git", side_effect=anchor_git),
+                mock.patch.object(ci, "_tracked_paths", return_value=tracked),
+                mock.patch.object(ci, "_git_exit_code", side_effect=exit_codes),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_trust_anchor(self.trust, current_head="f" * 40)
+            self.assertEqual(caught.exception.code, expected_code)
+
+        wrong_tree_git = mock.Mock(side_effect=(b"commit\n", b"0" * 40 + b"\n"))
+        with (
+            mock.patch.object(ci, "_run_git", wrong_tree_git),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_trust_anchor(self.trust, current_head="f" * 40)
+        self.assertEqual(caught.exception.code, "TRUST_ANCHOR_TREE_MISMATCH")
+
+    def test_diagnostic_v2_focused_topology_is_zero_or_complete(self) -> None:
+        state, modules, count = ci.diagnostic_v2_test_plan(("README.md",))
+        self.assertEqual(state, "protocol_only")
+        self.assertEqual(modules, (ci.DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,))
+        self.assertEqual(count, 18)
+
+        complete = tuple(sorted(("README.md", *ci.DIAGNOSTIC_V2_IMPLEMENTATION_PATHS)))
+        state, modules, count = ci.diagnostic_v2_test_plan(complete)
+        self.assertEqual(state, "implementation_complete")
+        self.assertEqual(
+            modules,
+            (
+                ci.DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,
+                ci.DIAGNOSTIC_V2_RESULT_TEST_MODULE,
+            ),
+        )
+        self.assertEqual(
+            self.trust["diagnostic_v2_focused_gate"][
+                "implementation_protocol_test_count"
+            ],
+            19,
+        )
+        self.assertEqual(count, 62)
+
+        for relative in ci.DIAGNOSTIC_V2_IMPLEMENTATION_PATHS:
+            with (
+                self.subTest(relative=relative),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.diagnostic_v2_test_plan((relative,))
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_IMPLEMENTATION_TOPOLOGY_PARTIAL",
+            )
 
     def test_real_git_metadata_rejects_extra_lfs_path_and_head_pointer_drift(
         self,
@@ -299,7 +436,7 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
                 ci._safe_relative_path("link/payload.bin")
             self.assertEqual(caught.exception.code, "REPOSITORY_PATH_ESCAPE")
 
-    def test_workflow_preserves_required_contexts_and_splits_lfs_scope(self) -> None:
+    def test_automatic_workflow_is_zero_bandwidth_and_preserves_contexts(self) -> None:
         workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
         self.assertIn(
             "on:\n  push:\n    branches:\n      - master\n"
@@ -308,6 +445,7 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
         )
         self.assertIn("cancel-in-progress: true", workflow)
         self.assertIn("fail-fast: false", workflow)
+        self.assertNotIn("workflow_dispatch", workflow)
         self.assertEqual(
             re.findall(r'^          - "(3\.[0-9]+)"$', workflow, flags=re.MULTILINE),
             ["3.11", "3.12", "3.13"],
@@ -330,38 +468,64 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
         )
         self.assertIn("name: python-matrix (${{ matrix.python-version }})", workflow)
         self.assertIn("name: hydrated-lfs-integrity", workflow)
-        self.assertEqual(workflow.count("timeout-minutes: 15"), 1)
-        self.assertEqual(workflow.count("timeout-minutes: 30"), 1)
+        self.assertEqual(workflow.count("timeout-minutes: 15"), 2)
+        self.assertNotIn("timeout-minutes: 30", workflow)
         self.assertEqual(workflow.count("fetch-depth: 0"), 2)
         self.assertEqual(workflow.count("lfs: false"), 2)
         self.assertEqual(workflow.count('GIT_LFS_SKIP_SMUDGE: "1"'), 2)
         self.assertNotIn("lfs: true", workflow)
+        for forbidden in (
+            "git lfs pull",
+            "git lfs fsck",
+            "--mode hydrated-lfs",
+            "scripts/validate_offline.py",
+        ):
+            self.assertNotIn(forbidden, workflow)
 
-        pointer_job, hydrated_job = workflow.split(
+        pointer_job, inherited_job = workflow.split(
             "\n  hydrated-lfs-integrity:\n", maxsplit=1
         )
         self.assertIn(
             "python -I scripts/validate_repository_ci.py --mode pointer",
             pointer_job,
         )
-        self.assertNotIn("scripts/validate_offline.py", pointer_job)
-        self.assertNotIn("git lfs pull", pointer_job)
+        self.assertIn(
+            "python -I scripts/validate_repository_ci.py --mode diagnostic-v2-focused",
+            pointer_job,
+        )
+        self.assertIn(
+            "python -I scripts/validate_repository_ci.py --mode trusted-anchor",
+            inherited_job,
+        )
+
+    def test_manual_workflow_is_explicit_exact_and_context_separate(self) -> None:
+        workflow = MANUAL_WORKFLOW_PATH.read_text(encoding="utf-8")
+        self.assertIn("on:\n  workflow_dispatch:\n", workflow)
+        self.assertNotRegex(workflow, r"(?m)^  (push|pull_request):")
+        self.assertIn("name: manual-hydrated-lfs-integrity", workflow)
+        self.assertNotIn("\n    name: hydrated-lfs-integrity\n", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+        self.assertNotRegex(workflow, r"(?m)^\s*if:\s*")
+        self.assertGreaterEqual(workflow.count(ci.MANUAL_LFS_ACKNOWLEDGEMENT), 2)
+        self.assertEqual(workflow.count('GIT_LFS_SKIP_SMUDGE: "1"'), 1)
+        checkout_step, hydration_step = workflow.split(
+            "      - name: Hydrate and fsck the exact LFS inventory\n", maxsplit=1
+        )
+        self.assertIn('GIT_LFS_SKIP_SMUDGE: "1"', checkout_step)
+        self.assertNotIn("GIT_LFS_SKIP_SMUDGE", hydration_step)
+
         include = ",".join(self.inventory["hydrated_gate"]["lfs_include_paths"])
+        pull = f"git lfs pull origin --include=\"{include}\" --exclude=''"
+        fsck = "git lfs fsck --objects --pointers HEAD"
         pointer_preflight = (
             "python -I scripts/validate_repository_ci.py --mode pointer-metadata"
         )
-        self.assertEqual(
-            self.inventory["hydrated_gate"]["pointer_preflight_mode"],
-            "pointer-metadata",
-        )
-        self.assertIn(pointer_preflight, hydrated_job)
-        pull = f"git lfs pull origin --include=\"{include}\" --exclude=''"
-        fsck = "git lfs fsck --objects --pointers HEAD"
         hydrated_validation = (
             "python -I scripts/validate_repository_ci.py --mode hydrated-lfs"
         )
         complete_validation = "python -I scripts/validate_offline.py"
         for step in (
+            "Require exact LFS bandwidth acknowledgement",
             "Checkout pointer-only repository",
             "Set up Python 3.11",
             pointer_preflight,
@@ -370,10 +534,11 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
             hydrated_validation,
             complete_validation,
         ):
-            self.assertIn(step, hydrated_job)
+            self.assertIn(step, workflow)
         positions = [
-            hydrated_job.index(step)
+            workflow.index(step)
             for step in (
+                "Require exact LFS bandwidth acknowledgement",
                 "Checkout pointer-only repository",
                 "Set up Python 3.11",
                 pointer_preflight,
@@ -384,19 +549,24 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
             )
         ]
         self.assertEqual(positions, sorted(positions))
-        self.assertEqual(workflow.count("python -I scripts/validate_offline.py"), 1)
+        self.assertEqual(workflow.count(pull), 1)
+        self.assertEqual(workflow.count(fsck), 1)
+        self.assertEqual(workflow.count(hydrated_validation), 1)
+        self.assertEqual(workflow.count(complete_validation), 1)
 
     def test_workflow_actions_are_immutable_node24_sha_pins(self) -> None:
         workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
+        manual = MANUAL_WORKFLOW_PATH.read_text(encoding="utf-8")
+        combined = workflow + manual
         checkout = "actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803"
         setup = "actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1"
-        self.assertEqual(workflow.count(checkout), 2)
-        self.assertEqual(workflow.count(setup), 2)
-        uses = re.findall(r"uses: ([^\s#]+)", workflow)
-        self.assertEqual(len(uses), 4)
+        self.assertEqual(combined.count(checkout), 3)
+        self.assertEqual(combined.count(setup), 3)
+        uses = re.findall(r"uses: ([^\s#]+)", combined)
+        self.assertEqual(len(uses), 6)
         self.assertTrue(all(re.search(r"@[0-9a-f]{40}$", item) for item in uses))
-        self.assertNotIn("actions/checkout@v4", workflow)
-        self.assertNotIn("actions/setup-python@v5", workflow)
+        self.assertNotIn("actions/checkout@v4", combined)
+        self.assertNotIn("actions/setup-python@v5", combined)
 
 
 if __name__ == "__main__":

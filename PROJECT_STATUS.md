@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-09-01.
+> Updated: 2026-09-03.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -879,9 +879,14 @@ strict, no bypass, and exactly the three Python matrix contexts plus
 `hydrated-lfs-integrity` required. The maintenance changed no model, data,
 Adapter, Runtime, diagnostic output, or result claim and invoked no diagnostic.
 
-The sole active objective is now
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`.
-This exact 11-path, protocol-only slice freezes a new additive identity:
+PR #81 published
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`
+as verified signed squash commit
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`, tree
+`bddfdadcc650b6ac94787ea2bfbb0e2f2f09a77d`. Its exact merge HEAD passed all
+four required jobs in workflow run `33501136645`; hydrated job `99834499141`
+completed successfully. This exact 11-path, protocol-only slice freezes a new
+additive identity:
 
 ```text
 experiment = mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2
@@ -915,19 +920,72 @@ unclaimed topology plus ancestry, guard `ROOT -> work/evaluation-runs`, enter
 lifecycle, atomically publish owner+genesis, and only then cross the first
 heavy-dependency boundary. Parent creation is not a claim or telemetry.
 
-The future implementation-v2 regression is mandatory: real temporary
-filesystem, safe existing `work`, missing `evaluation-runs`, no mocked parent
-helper or `DirectoryTreeGuard`, execute through lifecycle+owner+genesis, then a
-controlled first-heavy-boundary failure proving model import/load, CUDA, and
-network were never entered. This protocol does not add implementation,
-authority, runner, result, or output and does not execute a diagnostic.
+A bounded implementation-v2 slice is prepared locally but is now explicitly
+paused because the repository owner's monthly Git LFS bandwidth is exhausted.
+Its safe resume point is
+`C:\Users\Alienware\raml-v2i`, branch
+`feat/mm005-generation-failure-diagnostic-implementation-v2`, based on exact
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`. The intended ceiling remains
+exactly these 11 paths:
 
-Stop if an immutable receipt or scientific subtree drifts, any v1 identity,
-path, command, or output is reused, planned v2 output/lifecycle exists, the
-11-path ceiling is exceeded, or checks/review/conflict/strict-up-to-date state
-is unresolved. After a clean protocol merge and post-merge observation, the
-only successor is implementation-v2; authority-v2 and exact-once execution-v2
-remain separate later gates.
+1. `AI_Infra_LLM_Agent_待做任务清单.md`
+2. `PROJECT_STATUS.md`
+3. `README.md`
+4. `docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2.md`
+5. `docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2.md`
+6. `docs/README.md`
+7. `scripts/run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2.py`
+8. `scripts/validate_offline.py`
+9. `src/fullcycle_bridge/mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2.py`
+10. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2.py`
+11. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2.py`
+
+That paused slice must resume by rebasing onto clean master only after the
+current maintenance is published and its merge-HEAD checks are observed. It
+must add a literal `IMPLEMENTATION_BASE_COMMIT` binding to that maintenance
+merge within the same registered 11 paths, retain `eb2aea3...eb3fc9` as the
+protocol receipt and ancestor, require the maintenance merge as its unique
+first parent, and prove an exact 11-path base-to-implementation delta. Its
+mandatory regression remains a real temporary filesystem with safe existing
+`work`, missing `evaluation-runs`, no mocked parent helper or
+`DirectoryTreeGuard`, lifecycle plus atomic owner/genesis, and a controlled
+first-heavy-boundary failure proving model import/load, CUDA, and network were
+not entered. It has no authority and must not execute the formal diagnostic.
+
+The sole active work item is now the independent 10-path
+`repository-ci-lfs-zero-bandwidth-v2` repository-CI transport prerequisite.
+Its config `gate_id` is not a formal lifecycle gate: this detour does not
+consume, replace, or advance the protocol's `next_gate`, which remains
+implementation-v2. It binds successful
+hydrated anchor commit `eb2aea3...eb3fc9`, tree `bddfdadc...9a77d`, workflow run
+`33501136645`, and hydrated job `99834499141`. Automatic CI retains the legacy
+required context name `hydrated-lfs-integrity`, but that context now performs
+only full-history anchor ancestry, protected LFS path/control-plane no-drift,
+and exact pointer metadata checks. It reads zero LFS payload bytes and must
+report `current_hydration_verified=false`,
+`current_payload_integrity_verified=false`,
+`remote_availability_verified=false`, and `full_integrity_verified=false`.
+
+The three Python matrix jobs keep their frozen 107 core tests and add the
+diagnostic-v2 focused gate: exact 18 anchor protocol tests while all four
+implementation files are absent, then the implementation's exact 19 protocol
+plus 43 result tests (62 total) when all four are present, and fail-closed
+rejection for any partial topology. A separate
+`manual-hydrated-lfs-integrity` workflow has only an explicit
+`workflow_dispatch` trigger and requires the exact
+`DOWNLOAD 110524520 LFS BYTES` acknowledgement before its bounded pull, fsck,
+payload hashing, and complete offline gate. It must not be dispatched while
+bandwidth remains unavailable.
+
+Stop if the anchor evidence is not independently verified, any protected
+pointer, inventory, attribute controller, or endpoint configuration drifts,
+an LFS payload command appears in automatic CI, the maintenance exceeds its
+10-path ceiling, implementation-v2 is resumed early, or
+checks/review/conflict/strict-up-to-date state is unresolved. After a clean
+maintenance merge and post-merge observation, implementation-v2 remains the
+sole next formal lifecycle gate, subject to its literal maintenance-base,
+first-parent, protocol-ancestor, and exact 11-path bindings; authority-v2 and
+exact-once execution-v2 remain separate later gates.
 
 ## Preserved historical validation and deferred gates
 
@@ -1956,7 +2014,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance closed through PR #80 and `266e9b695af0f93ae4c82e36ac484cb2d3d3a521`; `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2` is the sole active protocol-only gate, authorizes no diagnostic execution, and leaves implementation-v2 as the exact next gate only after this protocol merges |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; implementation-v2 is paused at its exact 11-path local resume point while `repository-ci-lfs-zero-bandwidth-v2` is the sole active 10-path maintenance gate |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

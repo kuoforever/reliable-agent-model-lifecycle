@@ -1311,8 +1311,13 @@ requires exactly the three pointer/stdlib matrix contexts plus
 no diagnostic and changed no model, data, Adapter, Runtime, output, or result
 claim.
 
-The sole active gate is the protocol-only
-[generation-failure diagnostic protocol v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2.md).
+PR #81 published the protocol-only
+[generation-failure diagnostic protocol v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2.md)
+as verified signed squash commit
+`eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`. Its exact merge HEAD passed all
+four required jobs in workflow run `33501136645`; hydrated job `99834499141`
+is the immutable payload-integrity anchor for the bounded
+[zero-bandwidth CI maintenance v2](docs/repository-ci-lfs-zero-bandwidth-v2.md).
 Its 62,653-byte canonical preregistration has SHA-256
 `0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`
 and freezes a new experiment, run, output root, fixed artifact names, and lease
@@ -1331,6 +1336,31 @@ lifecycle and atomic owner/genesis. Implementation-v2 must first prove that
 path in a real temporary filesystem and fail controllably at the first heavy
 boundary without model/CUDA entry. Protocol, implementation, authority, and
 exact-once execution remain separate; this is not a v1 retry.
+
+The monthly Git LFS bandwidth balance is now unavailable, so implementation-v2
+is paused at the exact local 11-path resume point in
+`C:\Users\Alienware\raml-v2i`. The sole active work item is the independent
+zero-bandwidth CI transport prerequisite; it does not consume, replace, or
+advance the formal lifecycle `next_gate`, which remains implementation-v2.
+Automatic CI retains the legacy required
+`hydrated-lfs-integrity` context name but performs only pointer metadata,
+immutable anchor ancestry, and protected-path no-drift checks, reading zero LFS
+payload bytes and explicitly leaving current hydration, payload rehash,
+complete current-HEAD integrity, and remote availability false. The three
+Python jobs additionally run the 18 anchor protocol tests before
+implementation-v2, then the implementation's exact 19 protocol plus 43 result
+tests (62 total) after its exact four-file topology is complete; a partial
+topology fails closed.
+
+Full hydration remains available only through a separate
+`workflow_dispatch` job and distinct `manual-hydrated-lfs-integrity` context,
+after the exact `DOWNLOAD 110524520 LFS BYTES` acknowledgement. It must not be
+dispatched without available bandwidth. This maintenance adds no authority and
+executes no diagnostic. After it is cleanly published and observed on merge
+HEAD, implementation-v2 must rebase onto that merge, bind the merge SHA as its
+literal `IMPLEMENTATION_BASE_COMMIT`, retain `eb2aea3...eb3fc9` as the protocol
+receipt and ancestor, and prove that the base-to-implementation delta is still
+the registered exact 11 paths. It remains the sole next formal lifecycle gate.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay
