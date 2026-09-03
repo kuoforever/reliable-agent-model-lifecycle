@@ -704,6 +704,9 @@ def main() -> int:
     mm005_browser_research_generation_failure_diagnostic_implementation_v2 = (
         _validate_mm005_browser_research_generation_failure_diagnostic_implementation_v2()
     )
+    mm005_browser_research_generation_failure_diagnostic_authority_v2 = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2()
+    )
     tests_run = _run_tests()
 
     result = {
@@ -1998,6 +2001,51 @@ def main() -> int:
         ),
         "mm005_browser_research_generation_failure_diagnostic_implementation_v2_next_gate": (
             mm005_browser_research_generation_failure_diagnostic_implementation_v2[
+                "next_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_valid": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "authority_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_tracked_at_head": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "authority_tracked_at_head"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_environment_fields": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "environment_fields"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_critical_receipts": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "critical_receipts"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_implementation_receipts": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "implementation_receipts"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_execution_authorized": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "diagnostic_execution_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_formal_execution_eligible": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "formal_execution_eligible"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_attempt_consumed": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "diagnostic_attempt_consumed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
                 "next_gate"
             ]
         ),
@@ -7328,6 +7376,244 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
         ),
         "implementation_freeze_commit": implementation_freeze_commit,
+    }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic as scientific_protocol,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2 as contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v2 as authority_builder,
+    )
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
+    )
+
+    before = runner._output_topology()
+    runner._validate_output_topology(before)
+    if (
+        before.get("execution_authority") is not True
+        or before.get("output_parent") is not False
+        or any(before.get(name) is not False for name in runner.RUNTIME_OUTPUT_KEYS)
+    ):
+        raise GateError("MM-005 diagnostic authority v2 topology mismatch")
+
+    authority_path = ROOT / contract.EXECUTION_AUTHORITY_PATH
+    authority_payload = _read_regular_file_once(
+        authority_path, "MM-005 diagnostic execution authority v2"
+    )
+    authority = authority_builder.build_authority()
+    inputs = authority_builder.authority_inputs()
+    if (
+        contract.artifact_json_bytes(authority) != authority_payload
+        or contract.parse_strict_json_bytes(
+            authority_payload, location="$.execution_authority"
+        )
+        != authority
+    ):
+        raise GateError("MM-005 diagnostic authority v2 is not canonical and exact")
+
+    preflight = authority.get("resource_preflight")
+    budgets = authority.get("budgets")
+    authority_contract = authority.get("authority_contract")
+    claims = authority.get("claims")
+    critical_receipts = authority.get("critical_execution_dependency_receipts")
+    implementation_receipts = inputs.get("implementation_source_receipts")
+    stage = inputs.get("stage")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            preflight,
+            budgets,
+            authority_contract,
+            claims,
+            critical_receipts,
+            implementation_receipts,
+            stage,
+        )
+    ):
+        raise GateError("MM-005 diagnostic authority v2 sections are invalid")
+    assert isinstance(preflight, dict)
+    assert isinstance(budgets, dict)
+    assert isinstance(authority_contract, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(critical_receipts, dict)
+    assert isinstance(implementation_receipts, dict)
+    assert isinstance(stage, dict)
+
+    expected_environment = preflight.get("expected_environment")
+    expected_resource_caps = {
+        "elapsed_seconds": 1800.0,
+        "peak_gpu_allocated_bytes": 16_500_000_000,
+        "peak_gpu_reserved_bytes": 16_500_000_000,
+    }
+    if (
+        authority.get(
+            "mm005_browser_research_generation_failure_diagnostic_execution_authority_version"
+        )
+        != 2
+        or authority.get("gate_id") != contract.EXECUTION_AUTHORITY_GATE_ID
+        or authority.get("next_gate") != contract.EXECUTION_GATE_ID
+        or authority.get("protocol_merge_commit") != contract.PROTOCOL_MERGE_COMMIT
+        or authority.get("zero_bandwidth_maintenance_commit")
+        != contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
+        or authority.get("implementation_base_commit")
+        != contract.IMPLEMENTATION_BASE_COMMIT
+        or authority.get("initial_implementation_publication_commit")
+        != contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        or authority.get("implementation_freeze_commit")
+        != authority_builder.IMPLEMENTATION_FREEZE_COMMIT
+        or authority_builder.IMPLEMENTATION_FREEZE_COMMIT
+        != "ac052a3781246deb7365914dacfa271d37cfef59"
+        or expected_environment != authority_builder.EXPECTED_ENVIRONMENT
+        or not isinstance(expected_environment, dict)
+        or set(expected_environment)
+        != set(scientific_protocol.OBSERVED_ENVIRONMENT_FIELDS)
+        or "bitsandbytes" in expected_environment
+        or preflight.get("resource_caps") != expected_resource_caps
+        or preflight.get(
+            "exact_environment_match_required_before_model_load_or_cuda_workload"
+        )
+        is not True
+        or preflight.get(
+            "read_only_cuda_capability_observation_allowed_for_exact_match"
+        )
+        is not True
+        or preflight.get("missing_or_unverifiable_resource_blocks_execution")
+        is not True
+        or budgets
+        != {"formal_invocations": 1, "retries": 0, "per_record_attempts": 1}
+        or authority_contract.get("diagnostic_execution_authorized") is not True
+        or authority_contract.get("v1_or_v2_retry_authorized") is not False
+        or authority_contract.get("recovery_v3_authorized") is not False
+        or authority_contract.get("live_browser_or_network_authorized") is not False
+        or authority_contract.get("training_authorized") is not False
+        or authority_contract.get("runtime_integration_changed") is not False
+        or authority_contract.get("runtime_policy_or_approval_bypass") is not False
+        or authority_contract.get("current_head_equals_authority_introduction_commit")
+        is not True
+        or authority_contract.get(
+            "assume_unchanged_or_skip_worktree_index_flags_forbidden"
+        )
+        is not True
+        or authority_contract.get("git_fsmonitor_disabled") is not True
+        or authority_contract.get("reserved_sibling_staging_blocks_execution")
+        is not True
+        or claims
+        != {
+            "authority_frozen": True,
+            "diagnostic_attempt_consumed": False,
+            "diagnostic_executed": False,
+            "model_evaluated": False,
+            "runtime_eligible": False,
+        }
+    ):
+        raise GateError("MM-005 diagnostic authority v2 boundary mismatch")
+
+    if (
+        set(critical_receipts)
+        != set(contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS)
+        or len(critical_receipts) != 4
+        or critical_receipts
+        != inputs.get("critical_execution_dependency_receipts")
+        or set(implementation_receipts) != set(contract.IMPLEMENTATION_SOURCE_PATHS)
+        or len(implementation_receipts) != 3
+        or "implementation_source_receipts" in authority
+    ):
+        raise GateError("MM-005 diagnostic authority v2 source receipt mismatch")
+    for name, relative in sorted(
+        contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS.items()
+    ):
+        receipt = critical_receipts.get(name)
+        payload = _read_regular_file_once(
+            ROOT / relative, f"MM-005 diagnostic authority dependency {name}"
+        )
+        if receipt != {
+            "path": relative,
+            "bytes": len(payload),
+            "sha256": contract.sha256_bytes(payload),
+        }:
+            raise GateError("MM-005 diagnostic authority v2 dependency drift")
+    for name, relative in sorted(contract.IMPLEMENTATION_SOURCE_PATHS.items()):
+        receipt = implementation_receipts.get(name)
+        payload = _read_regular_file_once(
+            ROOT / relative, f"MM-005 diagnostic authority implementation {name}"
+        )
+        if receipt != {
+            "path": relative,
+            "bytes": len(payload),
+            "sha256": contract.sha256_bytes(payload),
+            "first_parent_introduction_commit": (
+                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+            ),
+            "freeze_commit": authority_builder.IMPLEMENTATION_FREEZE_COMMIT,
+        }:
+            raise GateError("MM-005 diagnostic authority v2 implementation drift")
+
+    authority_context = runner._optional_execution_authority_context()
+    if authority_context is None:
+        raise GateError("MM-005 diagnostic authority v2 context is missing")
+    tracked_at_head = stage.get("tracked_at_head") is True
+    if (
+        authority_context.get("authority_payload") != authority_payload
+        or authority_context.get("implementation_freeze_commit")
+        != authority_builder.IMPLEMENTATION_FREEZE_COMMIT
+        or authority_context.get("published") is not tracked_at_head
+        or (
+            tracked_at_head
+            and stage.get("freeze_commit") != runner._git_text("rev-parse", "HEAD")
+        )
+        or (not tracked_at_head and stage.get("freeze_commit") is not None)
+    ):
+        raise GateError("MM-005 diagnostic authority v2 stage context mismatch")
+
+    plan = runner.run(mode="plan")
+    check = runner.run(mode="check")
+    if (
+        plan.get("runner_plan_valid") is not True
+        or check.get("implementation_check_valid") is not True
+        or plan.get("execution_authority_valid") is not True
+        or check.get("execution_authority_valid") is not True
+        or plan.get("execution_authority_published") is not tracked_at_head
+        or check.get("execution_authority_published") is not tracked_at_head
+        or plan.get("execution_path_invoked_by_gate") is not False
+        or check.get("execution_path_invoked_by_gate") is not False
+        or plan.get("diagnostic_attempt_consumed") is not False
+        or check.get("diagnostic_attempt_consumed") is not False
+        or plan.get("diagnostic_executed") is not False
+        or check.get("diagnostic_executed") is not False
+        or plan.get("formal_execution_eligible") is not False
+        or check.get("formal_execution_eligible") is not False
+    ):
+        raise GateError("MM-005 diagnostic authority v2 read-only boundary mismatch")
+
+    after = runner._output_topology()
+    runner._validate_output_topology(after)
+    if (
+        after != before
+        or _read_regular_file_once(
+            authority_path, "MM-005 diagnostic execution authority v2"
+        )
+        != authority_payload
+    ):
+        raise GateError("MM-005 diagnostic authority v2 validation changed state")
+    return {
+        "authority_valid": True,
+        "authority_tracked_at_head": tracked_at_head,
+        "environment_fields": len(expected_environment),
+        "critical_receipts": len(critical_receipts),
+        "implementation_receipts": len(implementation_receipts),
+        "diagnostic_execution_authorized": True,
+        "formal_execution_eligible": False,
+        "diagnostic_attempt_consumed": False,
+        "diagnostic_executed": False,
+        "next_gate": contract.EXECUTION_GATE_ID,
     }
 
 

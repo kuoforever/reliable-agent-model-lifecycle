@@ -1294,19 +1294,13 @@ exact pull-request head 而非 synthetic merge ref，未推进 lifecycle state�
 
 PR #84 已将 implementation-v2 初始发布 I1 合并为
 `e185c76e0d0ace44a13e10f06d8644939e1981b8`（tree `6074af877331ed7e2dc66d5b986d37be55a83588`），
-其 unique parent 为 M2。stage-compatibility review 随后证明需在同一 11-path ceiling 内发布 final freeze I2，
-因此 implementation-v2 仍为唯一 active formal lifecycle gate，位于
-`C:\Users\Alienware\raml-diagnostic-v1`、branch
-`fix/mm005-diagnostic-v2-authority-stage-compatibility`。它在既定
-11 路径内绑定 literal `IMPLEMENTATION_BASE_COMMIT=8c679eb...2d89c0`，继续把 `eb2aea3...eb3fc9` 作为
-protocol receipt/ancestor，绑定 literal `INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT=e185c76...981b8`，并要求
-exact unique-parent chain `P -> M1 -> M2 -> I1 -> I2`；M2→I1 与 M2→I2 均须为 `PROJECT_STATUS.md`
-登记的 exact 11 路径，I1→I2 必须非空且不越界，三个 implementation sources 首次引入在 I1、最终 bytes
-绑定 I2。仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
-不得 mock parent helper 或 `DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy
-boundary 受控失败，并用 fail-on-call spies 明确证明已登记的 Python socket APIs、具备 model-load 能力的
-production boundary 与 CUDA workload 均未进入。不得提前
-发布 authority 或运行 diagnostic。
+其 unique parent 为 M2。PR #85 随后把同一 11-path ceiling 内的 final stage-compatible I2 发布为
+`ac052a3781246deb7365914dacfa271d37cfef59`（tree
+`dfbf2d1b5913a60153dcc7a3c2675182dd52d63a`），unique parent 为 I1。冻结链因此是 exact
+`P -> M1 -> M2 -> I1 -> I2`；M2→I1 与 M2→I2 均为 `PROJECT_STATUS.md` 登记的 exact 11 路径，
+I1→I2 非空且不越界，三个 implementation sources 首次引入在 I1、最终 bytes 绑定 I2。I2 本身没有
+authority，未运行 formal diagnostic，也未创建 output 或消费 attempt；其唯一 successor 是独立的
+execution-authority-v2 gate。
 
 已完成的 independent exact 10-path `repository-ci-lfs-zero-bandwidth-v2` transport prerequisite：
 
@@ -1327,12 +1321,33 @@ production boundary 与 CUDA workload 均未进入。不得提前
   不运行 formal diagnostic。
 
 当前唯一 active gate 是
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2`。它只冻结 additive
-v2 result/owner/progress/failure/authority schema 与 runner，不发布 authority。public `--execute` 只有在独立
-published authority、clean aligned exact master 后才能构造 typed closed context；不存在 CLI/env/test bypass。
-ordered core 在 mutation 前重验 Git/source/topology，真实 guard `ROOT -> work`，只调用一次单参数
-`os.mkdir(work/evaluation-runs)`，随后再次重验 authority/HEAD/lineage/source/remaining topology 与
-root/work/parent identity，真实 guard parent，之后才 lifecycle、atomic owner+genesis 与 first-heavy boundary。
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`，位于
+`C:\Users\Alienware\raml-diagnostic-v1`、branch
+`feat/mm005-diagnostic-v2-execution-authority`。其 canonical 2,944-byte authority artifact 的 SHA-256 为
+`b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0`，闭合 JSON 绑定 I2、四个 critical
+dependency receipts、冻结的 expected exact-17 Windows/CUDA 环境、1,800 秒与 16,500,000,000-byte
+allocated/reserved caps，以及 formal=1、retry=0、per-record=1 budgets；builder 与 unified validator 另行
+核验三个 I2 implementation-source receipts 及其首次引入 I1，不把它们加入 authority JSON。
+
+untracked draft 只允许 HEAD 恰为 I2；tracked authority 必须首次引入于当前 HEAD，当前 HEAD unique parent
+为 I2，且 I2→authority delta 恰为登记的 exact 10 paths。default builder 只在已存在且安全的 `configs`
+parent 下以 `xb` exclusive-create authority artifact，`--check` 对 bytes/topology 只读；所有本地 Git read
+关闭 hooks、fsmonitor、commit graph 与 LFS filters，拒绝 hidden index flags/replace state，并大小写无关清除
+ambient `GIT_*`。本 gate 只绑定 expected environment，不观察当前 GPU/环境，不调用 torch/model/CUDA；
+builder 与 automatic CI 读取 0 LFS payload bytes，本地 full offline gate 只重哈希已水合的本地 payload，
+不产生任何 LFS network transfer/download。
+
+authority contract 层 `diagnostic_execution_authorized=true`，但 clean merge 与正式调用前实时只读资源
+preflight 尚未完成，因此 `formal_execution_eligible=false`；attempt/executed/model-evaluated/runtime-eligible
+均为 false。`work/evaluation-runs` parent 与 output/lifecycle/owner/progress/result/failure/reserved staging 继续
+全部缺失，不运行 diagnostic。
+
+最终 draft-stage 验证在 CPython 3.11.15、3.12.12、3.13.7 上分别通过 combined focused 72/72（既有
+protocol-v2 19 + result-v2 43 + 新 authority-v2 10）；CPython 3.11.15 unified full gate 通过
+1,131 tests、5 个既有 Windows privilege skips、79 audited source files，`valid=true`。Ruff 0.15.22、
+新 builder strict Mypy 2.3.0、unified validator scoped Mypy、三版 `py_compile`、builder `--check`、runner
+`--plan`/`--check`、canonical bytes/hash、exact-ten diff、non-LFS attributes 与 `git diff --check` 均通过；
+未调用 formal execute、model、torch、CUDA workload、network transfer 或 LFS download。
 
 mandatory regression 使用真实 temp Git clone 与 FS：safe `work` 已存在、parent 缺失，不 mock
 `os.mkdir`、`DirectoryTreeGuard`、lease、claim 或 I/O；唯一注入点是 owner/genesis 后的 first-heavy boundary。
@@ -1341,11 +1356,11 @@ APIs、具备 model-load 能力的 production boundary 与 CUDA workload 均未�
 lifecycle 后可只留 lifecycle，owner staging durable reserved 并永久 fail closed；pre-owner 不合成 terminal/
 scope/outcome，claimed topology 只可 reconcile、不得重入 heavy。
 
-本 gate 仍是相同 exact 11-path、不得修改或调用 v1，不新增 authority/output，不执行 diagnostic。I2 clean merge 后唯一
-successor 是 `MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`；
-exact-once execution-v2 仍继续独立，绝不称 v1 retry。任何 receipt/scientific/identity drift、planned output
-已存在、literal M2 base、literal I1 receipt 或 `P -> M1 -> M2 -> I1 -> I2` 任一 direct-parent 漂移、
-任一 M2→implementation exact-11 delta 漂移、I1→I2 为空或超出 11-path ceiling，或
+本 gate 是 exact 10-path authority-only slice，不得修改或调用 v1，不新增 runtime output，不执行 diagnostic。
+authority clean merge 后唯一 successor 是独立的 exact-once execution-v2，绝不称 v1 retry；它必须重新观察
+exact-17 当前环境并做只读 CUDA/resource preflight 后才可判断 formal eligibility。任何 authority/source/
+receipt/scientific/identity drift、planned runtime path 已存在、`P -> M1 -> M2 -> I1 -> I2 -> A` 任一
+direct-parent 漂移、I2→A exact-10 delta 漂移、authority first-introduction 或 canonical bytes 漂移，或
 checks/review/conflict/strict-up-to-date 未清楚都必须停止。
 
 ## TOOL-001：工具 Schema 与任务定义
