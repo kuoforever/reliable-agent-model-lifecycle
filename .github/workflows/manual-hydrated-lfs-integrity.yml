@@ -1,0 +1,60 @@
+name: manual hydrated LFS integrity
+
+on:
+  workflow_dispatch:
+    inputs:
+      acknowledgement:
+        description: Type exactly DOWNLOAD 110524520 LFS BYTES
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  manual-hydrated-lfs-integrity:
+    name: manual-hydrated-lfs-integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Require exact LFS bandwidth acknowledgement
+        shell: bash
+        env:
+          ACKNOWLEDGEMENT: ${{ inputs.acknowledgement }}
+        run: |
+          if [[ "${ACKNOWLEDGEMENT}" != "DOWNLOAD 110524520 LFS BYTES" ]]; then
+            echo "Exact 110524520-byte LFS acknowledgement is required." >&2
+            exit 1
+          fi
+      - name: Checkout pointer-only repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        env:
+          GIT_LFS_SKIP_SMUDGE: "1"
+        with:
+          fetch-depth: 0
+          lfs: false
+      - name: Set up Python 3.11
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+          cache: ""
+      - name: Prove checkout is pointer-only before hydration
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_repository_ci.py --mode pointer-metadata
+      - name: Hydrate and fsck the exact LFS inventory
+        run: |
+          git lfs pull origin --include="baseline/adapters/fc-mvp-001-lora-sft-v1/adapter_model.safetensors,baseline/adapters/fc-mvp-001-lora-sft-v2/adapter_model.safetensors,baseline/adapters/mm003-qwen2.5-vl-3b-qlora-sft-v2/adapter_model.safetensors,baseline/fc-mvp-001-fp32-attached-merge-numerics-v1-tensors.bin" --exclude=''
+          git lfs fsck --objects --pointers HEAD
+      - name: Validate hydrated LFS payload receipts
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_repository_ci.py --mode hydrated-lfs
+      - name: Run complete offline integrity gate
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -I scripts/validate_offline.py

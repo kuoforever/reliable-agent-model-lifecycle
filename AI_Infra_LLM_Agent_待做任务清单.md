@@ -1258,8 +1258,11 @@ zero bypass、exact 三个 `python-matrix (3.11/3.12/3.13)` 加 `hydrated-lfs-in
 contexts；双端 branch 与临时 worktree cleanup 完成。`repository-ci-lfs-maintenance-v1` 因而正式关闭，且
 全程未调用 diagnostic、未改 model/data/Adapter/Runtime/consumed output/result claim。
 
-当前唯一 active gate 是 protocol-only
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2`。其 62,653-byte
+PR #81 已将 protocol-only
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-protocol-v2` 发布为 verified signed
+squash commit `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`，tree
+`bddfdadcc650b6ac94787ea2bfbb0e2f2f09a77d`；exact merge HEAD 的四个 required jobs 在 run
+`33501136645` 全绿，其中 hydrated job `99834499141` 成功。其 62,653-byte
 canonical preregistration SHA-256 为
 `0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52`，冻结全新：
 
@@ -1278,11 +1281,40 @@ published authority、clean aligned HEAD、exact lineage、unclaimed topology �
 exclusive `os.mkdir` 单一 parent，再重验 authority/lineage/remaining topology/ancestry、guard
 `ROOT -> work/evaluation-runs`，之后才 lifecycle 与 atomic owner/genesis。parent create 不是 claim/telemetry。
 
-下一 implementation-v2 必须用真实 temp FS（safe `work` 已存在、parent 缺失），不得 mock parent helper 或
-`DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy boundary 受控失败并证明
-model import/load、CUDA、network 未进入。当前 slice 不新增 runner/result/authority/output，不执行 diagnostic。
-clean merge 后唯一 successor 是 implementation-v2；authority-v2 与 exact-once execution-v2 继续独立，绝不称
-v1 retry。任何 receipt/scientific/identity drift、planned output 已存在、11-path 超限或 checks/review/conflict/
+implementation-v2 已在 `C:\Users\Alienware\raml-v2i`、branch
+`feat/mm005-generation-failure-diagnostic-implementation-v2`、base `eb2aea3...eb3fc9` 准备为 exact 11-path
+本地 slice，但因本月 Git LFS bandwidth 已耗尽而暂停。安全恢复时必须先 rebase 到 maintenance merge 后 clean
+master，在既定 11 路径内新增 literal `IMPLEMENTATION_BASE_COMMIT=<maintenance merge SHA>`，继续把
+`eb2aea3...eb3fc9` 作为 protocol receipt/ancestor，要求 maintenance merge 是 unique first parent，并证明
+base→implementation 仍为 `PROJECT_STATUS.md` 登记的 exact 11 路径；仍须用真实 temp FS（safe `work` 已存在、parent 缺失），
+不得 mock parent helper 或 `DirectoryTreeGuard`，必须走 execute 至 lifecycle+owner+genesis，再在 first heavy
+boundary 受控失败并证明 model import/load、CUDA、network 未进入。不得提前发布 authority 或运行 diagnostic。
+
+当前唯一 active work item 改为 independent exact 10-path
+`repository-ci-lfs-zero-bandwidth-v2` repository-CI transport prerequisite。其 config `gate_id` 不是 formal
+lifecycle gate；此 detour 不消费、不替换、不推进 protocol `next_gate`，implementation-v2 始终是 next formal
+lifecycle gate。它必须：
+
+- 以 `eb2aea3...eb3fc9` / tree `bddfdadc...9a77d` / run `33501136645` / hydrated job
+  `99834499141` 为不可变 payload-integrity anchor；
+- 保留 ruleset required context 名 `hydrated-lfs-integrity` 仅作兼容；automatic push/PR 中只允许
+  pointer metadata、anchor ancestry、`.gitattributes`/frozen inventory/4 pointer path no-drift，禁止 tracked
+  `.lfsconfig` 与新增 attribute-control path；
+- automatic workflow 中不得出现 LFS pull/fsck、hydrated validator 或完整 `validate_offline.py`；summary 必须
+  明示 current hydration/payload rehash/remote availability/full integrity 全为 false，LFS payload bytes read=0；
+- 3 个 Python matrix job 保留 107 core tests，并在 implementation 4 文件全缺失时跑 exact 18 anchor
+  protocol tests、全存在时跑 implementation exact 19 protocol + 43 result tests（62 total）；1-3 文件
+  partial topology 必须 fail closed；
+- 将 full 110,524,520-byte hydration 隔离到第二个仅 `workflow_dispatch` 的
+  `manual-hydrated-lfs-integrity` context，且只有 exact `DOWNLOAD 110524520 LFS BYTES` acknowledgement 后才可
+  pull/fsck/hash/运行 full gate；bandwidth 不可用时不得 dispatch；
+- 保持本 detour 10-path ceiling，不改 frozen inventory、LFS pointers、model/data/Adapter/Runtime/output/result，
+  不运行 formal diagnostic。
+
+maintenance clean merge 且 exact merge-HEAD required checks 观察清楚后，implementation-v2 仍是唯一 next
+formal lifecycle gate，并须满足上述 literal maintenance-base、first-parent、protocol-ancestor 与 exact
+11-path 约束；authority-v2 与 exact-once execution-v2 继续独立，绝不称 v1 retry。任何 anchor receipt、
+scientific/identity/protected LFS drift、planned output 已存在、scope 超限或 checks/review/conflict/
 strict-up-to-date 未清楚都必须停止。
 
 ## TOOL-001：工具 Schema 与任务定义

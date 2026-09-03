@@ -19,7 +19,9 @@ from typing import Any, NoReturn
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 INVENTORY_PATH = ROOT / "configs" / "repository_ci_lfs_inventory_v1.json"
+TRUST_ANCHOR_PATH = ROOT / "configs" / "repository_ci_lfs_trust_anchor_v1.json"
 GATE_ID = "repository-ci-lfs-maintenance-v1"
+TRUST_ANCHOR_GATE_ID = "repository-ci-lfs-zero-bandwidth-v2"
 SUPPORTED_PYTHON_MINORS = {(3, 11), (3, 12), (3, 13)}
 POINTER_SCOPE = "pointer_and_stdlib_only"
 POINTER_METADATA_SCOPE = "pointer_metadata_only"
@@ -92,6 +94,42 @@ EXPECTED_LFS_OBJECTS = (
     },
 )
 TOTAL_LFS_PAYLOAD_BYTES = 110_524_520
+TRUST_ANCHOR_COMMIT = "eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9"
+TRUST_ANCHOR_TREE = "bddfdadcc650b6ac94787ea2bfbb0e2f2f09a77d"
+TRUST_ANCHOR_WORKFLOW_RUN_ID = 33_501_136_645
+TRUST_ANCHOR_HYDRATED_JOB_ID = 99_834_499_141
+MANUAL_LFS_ACKNOWLEDGEMENT = "DOWNLOAD 110524520 LFS BYTES"
+PROTECTED_LFS_PATHS = (
+    ".gitattributes",
+    "configs/repository_ci_lfs_inventory_v1.json",
+    "baseline/adapters/fc-mvp-001-lora-sft-v1/adapter_model.safetensors",
+    "baseline/adapters/fc-mvp-001-lora-sft-v2/adapter_model.safetensors",
+    "baseline/adapters/mm003-qwen2.5-vl-3b-qlora-sft-v2/adapter_model.safetensors",
+    "baseline/fc-mvp-001-fp32-attached-merge-numerics-v1-tensors.bin",
+)
+EXPECTED_ATTRIBUTE_CONTROL_PATHS = (".gitattributes",)
+FORBIDDEN_LFS_CONFIG_PATH = ".lfsconfig"
+DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE = (
+    "tests.test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_protocol_v2"
+)
+DIAGNOSTIC_V2_RESULT_TEST_MODULE = (
+    "tests.test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_v2"
+)
+DIAGNOSTIC_V2_IMPLEMENTATION_PATHS = (
+    "docs/MM-005-browser-research-model-evaluation-generation-failure-"
+    "diagnostic-implementation-v2.md",
+    "scripts/run_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_v2.py",
+    "src/fullcycle_bridge/mm005_browser_research_model_evaluation_generation_"
+    "failure_diagnostic_result_v2.py",
+    "tests/test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_v2.py",
+)
+DIAGNOSTIC_V2_PROTOCOL_ONLY_TEST_COUNT = 18
+DIAGNOSTIC_V2_IMPLEMENTATION_PROTOCOL_TEST_COUNT = 19
+DIAGNOSTIC_V2_IMPLEMENTATION_TEST_COUNT = 62
 
 
 class RepositoryCIValidationError(RuntimeError):
@@ -136,6 +174,74 @@ def expected_inventory() -> dict[str, Any]:
     }
 
 
+def expected_trust_anchor() -> dict[str, Any]:
+    return {
+        "automatic_gate": {
+            "content_identity_inherited": True,
+            "current_hydration_verified": False,
+            "current_payload_integrity_verified": False,
+            "full_integrity_verified": False,
+            "job_context": HYDRATED_JOB_CONTEXT,
+            "lfs_payload_bytes_read": 0,
+            "remote_availability_verified": False,
+            "scope": "immutable_hydrated_anchor_and_pointer_no_drift",
+        },
+        "diagnostic_v2_focused_gate": {
+            "implementation_complete_paths": list(DIAGNOSTIC_V2_IMPLEMENTATION_PATHS),
+            "implementation_protocol_test_count": (
+                DIAGNOSTIC_V2_IMPLEMENTATION_PROTOCOL_TEST_COUNT
+            ),
+            "implementation_test_count": DIAGNOSTIC_V2_IMPLEMENTATION_TEST_COUNT,
+            "modules_when_implemented": [
+                DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,
+                DIAGNOSTIC_V2_RESULT_TEST_MODULE,
+            ],
+            "protocol_only_test_count": DIAGNOSTIC_V2_PROTOCOL_ONLY_TEST_COUNT,
+            "protocol_test_module": DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,
+            "python_versions": list(POINTER_PYTHON_VERSIONS),
+        },
+        "forbidden_lfs_config_path": FORBIDDEN_LFS_CONFIG_PATH,
+        "gate_id": TRUST_ANCHOR_GATE_ID,
+        "manual_gate": {
+            "acknowledgement": MANUAL_LFS_ACKNOWLEDGEMENT,
+            "job_context": "manual-hydrated-lfs-integrity",
+            "lfs_payload_bytes": TOTAL_LFS_PAYLOAD_BYTES,
+            "trigger": "workflow_dispatch",
+        },
+        "protected_attribute_control_paths": list(EXPECTED_ATTRIBUTE_CONTROL_PATHS),
+        "protected_lfs_paths": list(PROTECTED_LFS_PATHS),
+        "schema_version": 1,
+        "trust_anchor": {
+            "commit": TRUST_ANCHOR_COMMIT,
+            "conclusion": "success",
+            "hydrated_job_context": HYDRATED_JOB_CONTEXT,
+            "hydrated_job_id": TRUST_ANCHOR_HYDRATED_JOB_ID,
+            "tree": TRUST_ANCHOR_TREE,
+            "workflow_run_id": TRUST_ANCHOR_WORKFLOW_RUN_ID,
+        },
+    }
+
+
+def _load_canonical_object(payload: bytes, *, location: str) -> dict[str, Any]:
+    def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                _fail("DUPLICATE_KEY", f"{location}.{key}")
+            result[key] = value
+        return result
+
+    try:
+        value = json.loads(payload.decode("utf-8"), object_pairs_hook=unique_object)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RepositoryCIValidationError("INVALID_JSON", location) from exc
+    if type(value) is not dict:
+        _fail("NOT_OBJECT", location)
+    if canonical_json_bytes(value) != payload:
+        _fail("NOT_CANONICAL", location)
+    return value
+
+
 def load_inventory(payload: bytes) -> dict[str, Any]:
     def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}
@@ -155,6 +261,13 @@ def load_inventory(payload: bytes) -> dict[str, Any]:
         _fail("INVENTORY_NOT_CANONICAL", "$")
     if value != expected_inventory():
         _fail("INVENTORY_MISMATCH", "$")
+    return value
+
+
+def load_trust_anchor(payload: bytes) -> dict[str, Any]:
+    value = _load_canonical_object(payload, location="$.trust_anchor_contract")
+    if value != expected_trust_anchor():
+        _fail("TRUST_ANCHOR_CONTRACT_MISMATCH", "$.trust_anchor_contract")
     return value
 
 
@@ -324,6 +437,88 @@ def validate_git_metadata(inventory: dict[str, Any]) -> str:
     return head
 
 
+def _git_exit_code(*args: str) -> int:
+    completed = subprocess.run(
+        ["git", *args],
+        cwd=ROOT,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode not in {0, 1}:
+        command = " ".join(args[:3])
+        _fail("GIT_COMMAND_FAILED", f"$.git[{command!r}]")
+    return completed.returncode
+
+
+def _attribute_control_paths(tracked_paths: tuple[str, ...]) -> tuple[str, ...]:
+    controls = tuple(
+        path
+        for path in tracked_paths
+        if PurePosixPath(path).name.casefold() == ".gitattributes"
+    )
+    if controls != EXPECTED_ATTRIBUTE_CONTROL_PATHS:
+        _fail("GITATTRIBUTES_PATH_SET_DRIFT", "$.protected_attribute_control_paths")
+    return controls
+
+
+def validate_lfs_control_paths(tracked_paths: tuple[str, ...]) -> tuple[str, ...]:
+    attribute_controls = _attribute_control_paths(tracked_paths)
+    if any(
+        PurePosixPath(path).name.casefold() == FORBIDDEN_LFS_CONFIG_PATH
+        for path in tracked_paths
+    ):
+        _fail("LFS_CONFIG_FORBIDDEN", "$.forbidden_lfs_config_path")
+    return attribute_controls
+
+
+def validate_trust_anchor(
+    contract: dict[str, Any], *, current_head: str
+) -> dict[str, Any]:
+    anchor = contract["trust_anchor"]
+    anchor_commit = anchor["commit"]
+    anchor_type = _run_git("cat-file", "-t", anchor_commit).decode("ascii").strip()
+    if anchor_type != "commit":
+        _fail("TRUST_ANCHOR_NOT_COMMIT", "$.trust_anchor.commit")
+    anchor_tree = (
+        _run_git("rev-parse", f"{anchor_commit}^{{tree}}").decode("ascii").strip()
+    )
+    if anchor_tree != anchor["tree"]:
+        _fail("TRUST_ANCHOR_TREE_MISMATCH", "$.trust_anchor.tree")
+    if _git_exit_code("merge-base", "--is-ancestor", anchor_commit, current_head):
+        _fail("TRUST_ANCHOR_NOT_ANCESTOR", "$.trust_anchor.commit")
+
+    tracked_paths = _tracked_paths()
+    attribute_controls = validate_lfs_control_paths(tracked_paths)
+    if _git_exit_code(
+        "diff",
+        "--quiet",
+        "--no-ext-diff",
+        "--no-renames",
+        anchor_commit,
+        current_head,
+        "--",
+        *contract["protected_lfs_paths"],
+        FORBIDDEN_LFS_CONFIG_PATH,
+    ):
+        _fail("PROTECTED_LFS_PATH_DRIFT", "$.protected_lfs_paths")
+
+    return {
+        "attribute_control_paths": list(attribute_controls),
+        "content_identity_inherited": True,
+        "current_hydration_verified": False,
+        "current_payload_integrity_verified": False,
+        "full_integrity_verified": False,
+        "lfs_payload_bytes_read": 0,
+        "protected_lfs_paths_unchanged": True,
+        "remote_availability_verified": False,
+        "trust_anchor_commit": anchor_commit,
+        "trust_anchor_hydrated_job_id": anchor["hydrated_job_id"],
+        "trust_anchor_tree": anchor_tree,
+        "trust_anchor_workflow_run_id": anchor["workflow_run_id"],
+    }
+
+
 def validate_pointer_worktree(inventory: dict[str, Any]) -> int:
     pointer_bytes_read = 0
     for item in inventory["lfs_objects"]:
@@ -425,6 +620,60 @@ def run_core_tests() -> tuple[int, int]:
     return result.testsRun, len(result.skipped)
 
 
+def diagnostic_v2_test_plan(
+    tracked_paths: tuple[str, ...],
+) -> tuple[str, tuple[str, ...], int]:
+    tracked_path_set = set(tracked_paths)
+    implementation_paths = set(DIAGNOSTIC_V2_IMPLEMENTATION_PATHS)
+    present_paths = implementation_paths & tracked_path_set
+    if not present_paths:
+        state = "protocol_only"
+        modules: tuple[str, ...] = (DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,)
+        expected_count = DIAGNOSTIC_V2_PROTOCOL_ONLY_TEST_COUNT
+    elif present_paths == implementation_paths:
+        state = "implementation_complete"
+        modules = (
+            DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE,
+            DIAGNOSTIC_V2_RESULT_TEST_MODULE,
+        )
+        expected_count = DIAGNOSTIC_V2_IMPLEMENTATION_TEST_COUNT
+    else:
+        _fail("DIAGNOSTIC_V2_IMPLEMENTATION_TOPOLOGY_PARTIAL", "$.diagnostic_v2")
+    return state, modules, expected_count
+
+
+def run_diagnostic_v2_focused_tests() -> tuple[str, int, int]:
+    state, modules, expected_count = diagnostic_v2_test_plan(_tracked_paths())
+    if state == "implementation_complete":
+        for relative in DIAGNOSTIC_V2_IMPLEMENTATION_PATHS:
+            path = _safe_relative_path(relative)
+            if not path.is_file() or path.is_symlink():
+                _fail(
+                    "DIAGNOSTIC_V2_IMPLEMENTATION_PATH_UNSAFE",
+                    f"$.path[{relative!r}]",
+                )
+
+    sys.path.insert(0, str(SRC))
+    sys.path.insert(0, str(ROOT))
+    if state == "implementation_complete":
+        protocol_count = unittest.defaultTestLoader.loadTestsFromName(
+            DIAGNOSTIC_V2_PROTOCOL_TEST_MODULE
+        ).countTestCases()
+        if protocol_count != DIAGNOSTIC_V2_IMPLEMENTATION_PROTOCOL_TEST_COUNT:
+            _fail(
+                "DIAGNOSTIC_V2_PROTOCOL_TEST_COUNT_MISMATCH",
+                "$.diagnostic_v2.protocol_test_count",
+            )
+    suite = unittest.defaultTestLoader.loadTestsFromNames(modules)
+    if suite.countTestCases() != expected_count:
+        _fail("DIAGNOSTIC_V2_TEST_COUNT_MISMATCH", "$.diagnostic_v2.test_count")
+    with _core_test_subprocess_environment():
+        result = unittest.TextTestRunner(stream=sys.stderr, verbosity=1).run(suite)
+    if not result.wasSuccessful() or result.testsRun != expected_count:
+        _fail("DIAGNOSTIC_V2_TESTS_FAILED", "$.diagnostic_v2.test_modules")
+    return state, result.testsRun, len(result.skipped)
+
+
 def _fail(code: str, location: str) -> NoReturn:
     raise RepositoryCIValidationError(code, location)
 
@@ -433,7 +682,13 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--mode",
-        choices=("pointer", "pointer-metadata", "hydrated-lfs"),
+        choices=(
+            "pointer",
+            "pointer-metadata",
+            "trusted-anchor",
+            "diagnostic-v2-focused",
+            "hydrated-lfs",
+        ),
         default="pointer",
     )
     arguments = parser.parse_args(argv)
@@ -475,6 +730,46 @@ def main(argv: list[str] | None = None) -> int:
                     "stdlib_core_tests_skipped": tests_skipped,
                 }
             )
+    elif arguments.mode == "trusted-anchor":
+        contract = load_trust_anchor(TRUST_ANCHOR_PATH.read_bytes())
+        pointer_bytes_read = validate_pointer_worktree(inventory)
+        inherited = validate_trust_anchor(contract, current_head=head)
+        pointer_bytes_after = validate_pointer_worktree(inventory)
+        if pointer_bytes_after != pointer_bytes_read:
+            _fail("POINTER_BYTE_COUNT_DRIFT", "$.automatic_gate")
+        summary = {
+            **inherited,
+            "gate_id": TRUST_ANCHOR_GATE_ID,
+            "git_head": head,
+            "lfs_object_count": len(inventory["lfs_objects"]),
+            "lfs_payloads_read": 0,
+            "pointer_bytes_read": pointer_bytes_read,
+            "python": sys.version.split()[0],
+            "scope": contract["automatic_gate"]["scope"],
+            "valid": True,
+        }
+    elif arguments.mode == "diagnostic-v2-focused":
+        load_trust_anchor(TRUST_ANCHOR_PATH.read_bytes())
+        pointer_bytes_read = validate_pointer_worktree(inventory)
+        state, tests_run, tests_skipped = run_diagnostic_v2_focused_tests()
+        pointer_bytes_after = validate_pointer_worktree(inventory)
+        if pointer_bytes_after != pointer_bytes_read:
+            _fail("POINTER_BYTE_COUNT_DRIFT", "$.diagnostic_v2_focused_gate")
+        summary = {
+            "diagnostic_v2_state": state,
+            "focused_tests_run": tests_run,
+            "focused_tests_skipped": tests_skipped,
+            "full_integrity_verified": False,
+            "gate_id": TRUST_ANCHOR_GATE_ID,
+            "git_head": head,
+            "lfs_object_count": len(inventory["lfs_objects"]),
+            "lfs_payload_bytes_read": 0,
+            "lfs_payloads_read": 0,
+            "pointer_bytes_read": pointer_bytes_read,
+            "python": sys.version.split()[0],
+            "scope": "diagnostic_v2_focused_pointer_only",
+            "valid": True,
+        }
     else:
         payloads_read, payload_bytes_read = validate_hydrated_worktree(inventory)
         summary = {
