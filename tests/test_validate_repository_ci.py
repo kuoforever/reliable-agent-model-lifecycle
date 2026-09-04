@@ -20,6 +20,10 @@ MANUAL_WORKFLOW_PATH = (
 )
 
 
+def _nul_paths(paths: tuple[str, ...]) -> bytes:
+    return b"".join(path.encode("utf-8") + b"\0" for path in paths)
+
+
 class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
     def setUp(self) -> None:
         self.payload = ci.INVENTORY_PATH.read_bytes()
@@ -182,7 +186,7 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
             if arguments[:2] == ("cat-file", "-t"):
                 return b"commit\n"
             if arguments[:2] == ("rev-parse", f"{ci.TRUST_ANCHOR_COMMIT}^{{tree}}"):
-                return (ci.TRUST_ANCHOR_TREE + "\n").encode("ascii")
+                return (str(ci.TRUST_ANCHOR_TREE) + "\n").encode("ascii")
             self.fail(f"unexpected git call: {arguments}")
 
         tracked = (".gitattributes", "README.md")
@@ -233,6 +237,22 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
         )
         self.assertEqual(count, 62)
 
+        state, modules, count = ci.diagnostic_v2_result_review_test_plan(("README.md",))
+        self.assertEqual(state, "absent")
+        self.assertEqual(modules, ())
+        self.assertEqual(count, 0)
+
+        review_complete = tuple(
+            sorted(("README.md", *ci.DIAGNOSTIC_V2_RESULT_REVIEW_PATHS))
+        )
+        state, modules, count = ci.diagnostic_v2_result_review_test_plan(
+            review_complete
+        )
+        self.assertEqual(state, "complete")
+        self.assertEqual(modules, (ci.DIAGNOSTIC_V2_RESULT_REVIEW_TEST_MODULE,))
+        self.assertEqual(count, ci.DIAGNOSTIC_V2_RESULT_REVIEW_TEST_COUNT)
+        self.assertEqual(count, 16)
+
         for relative in ci.DIAGNOSTIC_V2_IMPLEMENTATION_PATHS:
             with (
                 self.subTest(relative=relative),
@@ -243,6 +263,479 @@ class RepositoryCILFSMaintenanceV1Tests(unittest.TestCase):
                 caught.exception.code,
                 "DIAGNOSTIC_V2_IMPLEMENTATION_TOPOLOGY_PARTIAL",
             )
+
+        for relative in ci.DIAGNOSTIC_V2_RESULT_REVIEW_PATHS:
+            with (
+                self.subTest(result_review_relative=relative),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.diagnostic_v2_result_review_test_plan((relative,))
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_TOPOLOGY_PARTIAL",
+            )
+
+    def test_result_review_publication_precommit_slice_is_exact(self) -> None:
+        tracked = ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        with mock.patch.object(
+            ci, "_run_git", return_value=_nul_paths(tracked)
+        ) as run_git:
+            summary = ci.validate_diagnostic_v2_result_review_publication(
+                tracked,
+                current_head=ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+            )
+        run_git.assert_called_once_with(
+            "diff",
+            "--name-only",
+            "-z",
+            "--no-renames",
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+            "--",
+        )
+        self.assertEqual(summary["result_review_publication_state"], "precommit")
+        self.assertIsNone(summary["result_review_introduction_commit"])
+        self.assertIsNone(summary["result_review_introduction_parent"])
+        self.assertFalse(summary["result_review_introduction_authenticated"])
+        self.assertEqual(summary["result_review_publication_path_count"], 12)
+        self.assertEqual(summary["result_review_historical_raw_runtime_path_count"], 0)
+        self.assertEqual(summary["result_review_tracked_raw_runtime_path_count"], 0)
+
+    def test_result_review_committed_introduction_survives_later_descendants(
+        self,
+    ) -> None:
+        tracked = ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        introduction = "b" * 40
+        descendant = "c" * 40
+        introduction_wire = (
+            introduction.encode("ascii")
+            + b"\0"
+            + str(ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT).encode("ascii")
+            + b"\0"
+        )
+
+        def committed_git(*arguments: str, input_payload: bytes | None = None) -> bytes:
+            del input_payload
+            if arguments[:3] == ("log", "-m", "--pretty=format:"):
+                self.assertIn(
+                    f"{ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT}..{descendant}",
+                    arguments,
+                )
+                return _nul_paths(tracked)
+            if arguments[:2] == ("log", "--reverse"):
+                self.assertIn(
+                    f"{ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT}..{descendant}",
+                    arguments,
+                )
+                return introduction_wire
+            if arguments[:2] == ("diff-tree", "--no-commit-id"):
+                self.assertEqual(arguments[-1], introduction)
+                self.assertNotIn(descendant, arguments)
+                return _nul_paths(tracked)
+            self.fail(f"unexpected git call: {arguments}")
+
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0) as exit_code,
+            mock.patch.object(ci, "_run_git", side_effect=committed_git),
+        ):
+            summary = ci.validate_diagnostic_v2_result_review_publication(
+                tracked, current_head=descendant
+            )
+        exit_code.assert_called_once_with(
+            "merge-base",
+            "--is-ancestor",
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+            descendant,
+        )
+        self.assertEqual(summary["result_review_publication_state"], "committed")
+        self.assertEqual(summary["result_review_introduction_commit"], introduction)
+        self.assertEqual(
+            summary["result_review_introduction_parent"],
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+        )
+        self.assertTrue(summary["result_review_introduction_authenticated"])
+        self.assertEqual(summary["result_review_publication_path_count"], 12)
+
+    def test_result_review_head_must_descend_from_authority(self) -> None:
+        for name, current_head in (
+            ("pre-authority", "a" * 40),
+            ("unrelated", "d" * 40),
+        ):
+            with (
+                self.subTest(name=name),
+                mock.patch.object(ci, "_git_exit_code", return_value=1) as exit_code,
+                mock.patch.object(ci, "_run_git") as run_git,
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_diagnostic_v2_result_review_publication(
+                    ("README.md",), current_head=current_head
+                )
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_NOT_ANCESTOR",
+            )
+            exit_code.assert_called_once_with(
+                "merge-base",
+                "--is-ancestor",
+                ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+                current_head,
+            )
+            run_git.assert_not_called()
+
+    def test_result_review_descendant_cannot_downgrade_to_absent(self) -> None:
+        introduction = "b" * 40
+        introduction_wire = (
+            introduction.encode("ascii")
+            + b"\0"
+            + ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT.encode("ascii")
+            + b"\0"
+        )
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(
+                ci,
+                "_run_git",
+                side_effect=(
+                    _nul_paths(ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS),
+                    introduction_wire,
+                    _nul_paths(ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS),
+                ),
+            ),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                ("README.md",), current_head="c" * 40
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_TOPOLOGY_REMOVED",
+        )
+
+    def test_result_review_absence_before_introduction_remains_valid(self) -> None:
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(ci, "_run_git", return_value=b"") as run_git,
+        ):
+            summary = ci.validate_diagnostic_v2_result_review_publication(
+                ("README.md",), current_head="c" * 40
+            )
+        self.assertEqual(run_git.call_count, 2)
+        self.assertEqual(summary["result_review_publication_state"], "absent")
+        self.assertEqual(summary["result_review_publication_path_count"], 0)
+        self.assertFalse(summary["result_review_introduction_authenticated"])
+
+    def test_result_review_publication_extra_or_missing_path_fails_closed(
+        self,
+    ) -> None:
+        tracked = ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        variants = {
+            "extra": tuple(sorted((*tracked, "unexpected-publication-path.txt"))),
+            "missing": tracked[:-1],
+        }
+        for name, paths in variants.items():
+            with (
+                self.subTest(name=name),
+                mock.patch.object(ci, "_run_git", return_value=_nul_paths(paths)),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_diagnostic_v2_result_review_publication(
+                    tracked,
+                    current_head=ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+                )
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS_MISMATCH",
+            )
+
+    def test_result_review_introduction_wrong_parent_fails_closed(self) -> None:
+        tracked = ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        introduction_wire = b"b" * 40 + b"\0" + b"a" * 40 + b"\0"
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(ci, "_run_git", return_value=introduction_wire),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                tracked, current_head="c" * 40
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_PARENT_MISMATCH",
+        )
+
+    def test_result_review_tracked_raw_runtime_receipt_fails_closed(self) -> None:
+        raw_receipts = (
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES[0]
+            + "/diagnostic-failure.json",
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES[1] + "/lease",
+        )
+        for raw_receipt in raw_receipts:
+            tracked = tuple(
+                sorted((*ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS, raw_receipt))
+            )
+            with (
+                self.subTest(raw_receipt=raw_receipt),
+                mock.patch.object(ci, "_run_git") as run_git,
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_diagnostic_v2_result_review_publication(
+                    tracked,
+                    current_head=ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+                )
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PATH_TRACKED",
+            )
+            run_git.assert_not_called()
+
+        historical_receipt = (
+            ci.DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES[0]
+            + "/attempt-owner.json"
+        )
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(
+                ci,
+                "_run_git",
+                return_value=_nul_paths((historical_receipt,)),
+            ),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS,
+                current_head="c" * 40,
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PATH_IN_HISTORY",
+        )
+
+    def test_result_review_history_includes_merge_only_add_then_delete(self) -> None:
+        def git(repository: Path, *arguments: str) -> bytes:
+            completed = subprocess.run(
+                [
+                    "git",
+                    "-c",
+                    "user.name=Repository CI Test",
+                    "-c",
+                    "user.email=repository-ci@example.invalid",
+                    "-c",
+                    "commit.gpgsign=false",
+                    *arguments,
+                ],
+                cwd=repository,
+                check=False,
+                capture_output=True,
+            )
+            self.assertEqual(completed.returncode, 0, completed.stderr.decode())
+            return completed.stdout
+
+        def write(repository: Path, relative: str, payload: bytes) -> None:
+            path = repository.joinpath(*relative.split("/"))
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(payload)
+
+        def commit_all(repository: Path, message: str) -> str:
+            git(repository, "add", "--all")
+            git(repository, "commit", "--no-verify", "-m", message)
+            return git(repository, "rev-parse", "HEAD").decode("ascii").strip()
+
+        with tempfile.TemporaryDirectory() as temporary:
+            repository = Path(temporary) / "repository"
+            repository.mkdir()
+            git(repository, "init", "--initial-branch=master")
+
+            write(repository, "authority.txt", b"authority\n")
+            authority = commit_all(repository, "authority")
+
+            for relative in ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS:
+                write(repository, relative, (relative + "\n").encode("utf-8"))
+            commit_all(repository, "exact result review publication")
+
+            git(repository, "checkout", "-b", "merge-add-side")
+            write(repository, "merge-add-side.txt", b"side\n")
+            commit_all(repository, "prepare merge add side")
+            git(repository, "checkout", "master")
+            write(repository, "merge-add-main.txt", b"main\n")
+            commit_all(repository, "prepare merge add main")
+            git(repository, "merge", "--no-ff", "--no-commit", "merge-add-side")
+
+            raw_receipt = (
+                ci.DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES[0]
+                + "/attempt-owner.json"
+            )
+            write(repository, raw_receipt, b'{"unsafe":"tracked"}\n')
+            commit_all(repository, "merge with raw receipt resolution")
+
+            git(repository, "checkout", "-b", "merge-delete-side")
+            write(repository, "merge-delete-side.txt", b"side\n")
+            commit_all(repository, "prepare merge delete side")
+            git(repository, "checkout", "master")
+            write(repository, "merge-delete-main.txt", b"main\n")
+            commit_all(repository, "prepare merge delete main")
+            git(
+                repository,
+                "merge",
+                "--no-ff",
+                "--no-commit",
+                "merge-delete-side",
+            )
+            git(repository, "rm", "--", raw_receipt)
+            current_head = commit_all(repository, "merge deleting raw receipt")
+
+            history_range = f"{authority}..{current_head}"
+            default_history = ci._parse_git_history_path_wire(
+                git(
+                    repository,
+                    "log",
+                    "--pretty=format:",
+                    "--name-only",
+                    "-z",
+                    "--no-renames",
+                    history_range,
+                )
+            )
+            merge_history = ci._parse_git_history_path_wire(
+                git(
+                    repository,
+                    "log",
+                    "-m",
+                    "--pretty=format:",
+                    "--name-only",
+                    "-z",
+                    "--no-renames",
+                    history_range,
+                )
+            )
+            self.assertNotIn(raw_receipt, default_history)
+            self.assertIn(raw_receipt, merge_history)
+
+            with (
+                mock.patch.object(ci, "ROOT", repository),
+                mock.patch.object(
+                    ci, "DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT", authority
+                ),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                tracked = ci._tracked_paths()
+                self.assertNotIn(raw_receipt, tracked)
+                ci.validate_diagnostic_v2_result_review_publication(
+                    tracked, current_head=current_head
+                )
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PATH_IN_HISTORY",
+            )
+
+    def test_result_review_malformed_and_duplicate_git_wire_fails_closed(
+        self,
+    ) -> None:
+        tracked = ci.DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        duplicate_paths = tuple(sorted((*tracked, tracked[-1])))
+        malformed_path_wires = (
+            _nul_paths(tracked)[:-1],
+            _nul_paths(duplicate_paths),
+            b"\xff\0",
+        )
+        for raw in malformed_path_wires:
+            with (
+                self.subTest(raw=raw),
+                mock.patch.object(ci, "_run_git", return_value=raw),
+                self.assertRaises(ci.RepositoryCIValidationError) as caught,
+            ):
+                ci.validate_diagnostic_v2_result_review_publication(
+                    tracked,
+                    current_head=ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT,
+                )
+            self.assertEqual(
+                caught.exception.code,
+                "DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATH_WIRE_INVALID",
+            )
+
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(ci, "_run_git", return_value=b"unterminated"),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                tracked, current_head="c" * 40
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_HISTORY_PATH_WIRE_INVALID",
+        )
+
+        introduction = b"b" * 40
+        parent = ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT.encode("ascii")
+        duplicate_introduction_wire = (introduction + b"\0" + parent + b"\0") * 2
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(ci, "_run_git", return_value=duplicate_introduction_wire),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                tracked, current_head="c" * 40
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_NOT_UNIQUE",
+        )
+
+        multiple_parent_wire = introduction + b"\0" + parent + b" " + b"a" * 40 + b"\0"
+        with (
+            mock.patch.object(ci, "_git_exit_code", return_value=0),
+            mock.patch.object(ci, "_run_git", return_value=multiple_parent_wire),
+            self.assertRaises(ci.RepositoryCIValidationError) as caught,
+        ):
+            ci.validate_diagnostic_v2_result_review_publication(
+                tracked, current_head="c" * 40
+            )
+        self.assertEqual(
+            caught.exception.code,
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_PARENT_COUNT_INVALID",
+        )
+
+    def test_diagnostic_focused_summary_exposes_publication_authentication(
+        self,
+    ) -> None:
+        head = ci.DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT
+        publication = {
+            "result_review_authority_commit": head,
+            "result_review_expected_publication_path_count": 12,
+            "result_review_historical_raw_runtime_path_count": 0,
+            "result_review_introduction_authenticated": False,
+            "result_review_introduction_commit": None,
+            "result_review_introduction_parent": None,
+            "result_review_publication_path_count": 12,
+            "result_review_publication_state": "precommit",
+            "result_review_tracked_raw_runtime_path_count": 0,
+        }
+        canonical = mock.Mock(return_value=b"{}\n")
+        with (
+            mock.patch.object(ci, "load_inventory", return_value=self.inventory),
+            mock.patch.object(ci, "validate_git_metadata", return_value=head),
+            mock.patch.object(ci, "load_trust_anchor", return_value=self.trust),
+            mock.patch.object(ci, "validate_pointer_worktree", side_effect=(532, 532)),
+            mock.patch.object(
+                ci,
+                "run_diagnostic_v2_focused_tests",
+                return_value=(
+                    "implementation_complete",
+                    62,
+                    0,
+                    "complete",
+                    13,
+                    0,
+                    publication,
+                ),
+            ) as run_focused,
+            mock.patch.object(ci, "canonical_json_bytes", canonical),
+            mock.patch.object(ci.sys, "stdout", mock.Mock()),
+        ):
+            self.assertEqual(ci.main(["--mode", "diagnostic-v2-focused"]), 0)
+        run_focused.assert_called_once_with(current_head=head)
+        summary = canonical.call_args.args[0]
+        for key, value in publication.items():
+            self.assertEqual(summary[key], value)
 
     def test_real_git_metadata_rejects_extra_lfs_path_and_head_pointer_drift(
         self,

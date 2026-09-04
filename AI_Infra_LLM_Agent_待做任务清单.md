@@ -1320,48 +1320,53 @@ execution-authority-v2 gate。
 - 保持本 detour 10-path ceiling，不改 frozen inventory、LFS pointers、model/data/Adapter/Runtime/output/result，
   不运行 formal diagnostic。
 
-当前唯一 active gate 是
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`，位于
-`C:\Users\Alienware\raml-diagnostic-v1`、branch
-`feat/mm005-diagnostic-v2-execution-authority`。其 canonical 2,944-byte authority artifact 的 SHA-256 为
+PR #86 已将
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`
+发布为 verified signed squash commit `6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`，unique parent 为 I2。
+其 canonical 2,944-byte authority artifact 的 SHA-256 为
 `b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0`，闭合 JSON 绑定 I2、四个 critical
 dependency receipts、冻结的 expected exact-17 Windows/CUDA 环境、1,800 秒与 16,500,000,000-byte
-allocated/reserved caps，以及 formal=1、retry=0、per-record=1 budgets；builder 与 unified validator 另行
-核验三个 I2 implementation-source receipts 及其首次引入 I1，不把它们加入 authority JSON。
+allocated/reserved caps，以及 formal=1、retry=0、per-record=1 budgets；三个 I2 implementation source
+receipts 由 builder/unified validator 独立核验。PR 与 exact merge HEAD 四个 required jobs 全绿，且每个
+job 均报告 `lfs_payload_bytes_read=0`。
 
-untracked draft 只允许 HEAD 恰为 I2；tracked authority 必须首次引入于当前 HEAD，当前 HEAD unique parent
-为 I2，且 I2→authority delta 恰为登记的 exact 10 paths。default builder 只在已存在且安全的 `configs`
-parent 下以 `xb` exclusive-create authority artifact，`--check` 对 bytes/topology 只读；所有本地 Git read
-关闭 hooks、fsmonitor、commit graph 与 LFS filters，拒绝 hidden index flags/replace state，并大小写无关清除
-ambient `GIT_*`。本 gate 只绑定 expected environment，不观察当前 GPU/环境，不调用 torch/model/CUDA；
-builder 与 automatic CI 读取 0 LFS payload bytes，本地 full offline gate 只重哈希已水合的本地 payload，
-不产生任何 LFS network transfer/download。
+clean aligned authority HEAD、exact-17 environment 与只读 GPU/resource preflight 通过后，唯一 formal
+invocation 已消耗。它在 owner/genesis 持久化后、任何 diagnostic record/model evaluation 前生成
+authenticated `pre_record_lifecycle` terminal：owner 4,550 bytes / SHA-256
+`9be5d3b8d7041897c0f37fc8ed91145f5bb5d005644049e0c885dc05d747d9d9`；progress 4,173 bytes / SHA-256
+`779edbd9c1275343859d0f349ad66cb356e7fb87dfd63fb9d919a7977ebda2ba`；failure 8,975 bytes / SHA-256
+`4caaf601124cee082bb5bfbe61d73493e820ec4c84e70a3e1be2811e47fa3d54`。journal 仅含
+`attempt_claimed -> failure_terminal_ready`，classification=`diagnostic_inconclusive`、exception type=
+`RuntimeError`，无 active/completed record、environment 或 resource measurement；`diagnostic_executed=false`、
+`model_evaluated=false`、`formal_measurement_complete=false`、`runtime_root_cause_established=false`。
 
-authority contract 层 `diagnostic_execution_authorized=true`，但 clean merge 与正式调用前实时只读资源
-preflight 尚未完成，因此 `formal_execution_eligible=false`；attempt/executed/model-evaluated/runtime-eligible
-均为 false。`work/evaluation-runs` parent 与 output/lifecycle/owner/progress/result/failure/reserved staging 继续
-全部缺失，不运行 diagnostic。
+controller stderr 指向 isolated-Python execution-mode precondition，但其 message/traceback 未写入 authenticated
+artifact；因此它只作为非认证操作观察保留，不升级为 root cause、remediation 或 recovery 结论。formal
+budget 已为 0，同一命令永久不得重试，也不得改松 isolation contract 来掩盖失败。
 
-最终 draft-stage 验证在 CPython 3.11.15、3.12.12、3.13.7 上分别通过 combined focused 72/72（既有
-protocol-v2 19 + result-v2 43 + 新 authority-v2 10）；CPython 3.11.15 unified full gate 通过
-1,131 tests、5 个既有 Windows privilege skips、79 audited source files，`valid=true`。Ruff 0.15.22、
-新 builder strict Mypy 2.3.0、unified validator scoped Mypy、三版 `py_compile`、builder `--check`、runner
-`--plan`/`--check`、canonical bytes/hash、exact-ten diff、non-LFS attributes 与 `git diff --check` 均通过；
-未调用 formal execute、model、torch、CUDA workload、network transfer 或 LFS download。
+当前唯一 active gate 是 model-free
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-result-review-v2`。它采用 exact 12-path
+slice，只把上述 owner/progress/failure 与 authority-bound lifecycle lease 四件 ignored runtime artifacts 的
+path/bytes/SHA-256 与安全 terminal 事实冻结到 tracked
+canonical review；不复制 absolute path、attempt ID、environment value、exception message、traceback、model
+output 或 secret；新增的两个路径仅扩展既有 pointer-only CI validator 及其测试，让三版 Python automatic
+jobs 在 clean clone 中运行 review suite。它不修改/删除/reconcile ignored runtime tree，不调用 `--execute`、model、torch、CUDA、network、
+browser、training 或 Runtime。review gate 完成后本 diagnostic-v2 chain 停止：不授权 v2 retry、automatic
+recovery、recovery v3、新 diagnostic identity 或 Runtime change；后续 roadmap 必须单独明确选定 scope。
 
-mandatory regression 使用真实 temp Git clone 与 FS：safe `work` 已存在、parent 缺失，不 mock
-`os.mkdir`、`DirectoryTreeGuard`、lease、claim 或 I/O；唯一注入点是 owner/genesis 后的 first-heavy boundary。
-受控异常生成 authenticated `pre_record_lifecycle` failure；fail-on-call spies 明确证明已登记的 Python socket
-APIs、具备 model-load 能力的 production boundary 与 CUDA workload 均未进入，且不消耗 formal invocation budget。negative tests 保留 phase-exact evidence：post-create 可只留 parent，
-lifecycle 后可只留 lifecycle，owner staging durable reserved 并永久 fail closed；pre-owner 不合成 terminal/
-scope/outcome，claimed topology 只可 reconcile、不得重入 heavy。
+本月 Git LFS bandwidth 已耗尽；该 result-review baseline 不受 LFS 管理，builder/check、automatic CI 与发布
+均必须保持 LFS payload 读取/上传为 0，manual hydrated-LFS workflow 继续禁止 dispatch。
 
-本 gate 是 exact 10-path authority-only slice，不得修改或调用 v1，不新增 runtime output，不执行 diagnostic。
-authority clean merge 后唯一 successor 是独立的 exact-once execution-v2，绝不称 v1 retry；它必须重新观察
-exact-17 当前环境并做只读 CUDA/resource preflight 后才可判断 formal eligibility。任何 authority/source/
-receipt/scientific/identity drift、planned runtime path 已存在、`P -> M1 -> M2 -> I1 -> I2 -> A` 任一
-direct-parent 漂移、I2→A exact-10 delta 漂移、authority first-introduction 或 canonical bytes 漂移，或
-checks/review/conflict/strict-up-to-date 未清楚都必须停止。
+result-review focused 16/16 通过；本机 CPython 3.12.12 unified offline gate 为 1,158 tests、34 skips、
+80 audited source files、`valid=true`。34 skips 精确拆分为 5 个既有 Windows privilege skips 与 29 个在
+authenticated spent terminal 后不得重新 materialize authority/result 的 pre-execution tests；测试 marker
+全部恢复，suite 后再次认证 owner/progress/failure/lease 四份 ignored receipts 未变。三版 automatic
+pointer-only jobs 均保留 implementation 62 tests，并新增 review 16 tests。
+
+clean clone 的 effective lifecycle state 必须由 authenticated tracked review 投影为 consumed / execution
+denied / next gate null，raw-runtime 是否可本地复验只作独立状态且两次 snapshot 必须一致。CI 认证 review
+首次引入是 authority 的 exact 12-path single-parent child，禁止删除 review 降级，并扫描其后每个 commit
+触及的路径（包括 merge-parent diffs）；raw output 或 `.lifecycle` receipt 即使随后删除也会 fail closed。
 
 ## TOOL-001：工具 Schema 与任务定义
 
