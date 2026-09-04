@@ -1334,8 +1334,10 @@ synthesis, zero-owner scope, and recovery v3 remain forbidden.
 PR #84 published initial implementation I1 as
 `e185c76e0d0ace44a13e10f06d8644939e1981b8`; PR #85 published the final
 stage-compatible I2 as `ac052a3781246deb7365914dacfa271d37cfef59`, with I1 as
-its unique parent. The sole active gate is now the separate
-[generation-failure diagnostic execution authority v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2.md).
+its unique parent. PR #86 then published the separate
+[generation-failure diagnostic execution authority v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2.md)
+as verified signed squash commit
+`6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`, whose unique parent is I2.
 Its canonical 2,944-byte artifact has SHA-256
 `b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0`
 and binds I2, four critical dependency receipts, the frozen expected 17-field
@@ -1362,13 +1364,39 @@ unified validation, and documentation; it creates no runtime output and invokes
 no diagnostic. Protocol, implementation, authority, and exact-once execution
 remain separate; this is not a v1 retry.
 
-The final draft-stage combined focused suite passes 72/72 tests on each of
-CPython 3.11.15, 3.12.12, and 3.13.7: the established 19 protocol-v2 and 43
-result-v2 tests plus 10 authority-v2 tests. The CPython 3.11.15 unified offline
-gate passes 1,131 tests with five expected Windows privilege skips, audits 79
-source files, and reports `valid=true`. Ruff, scoped Mypy, three-version
-`py_compile`, builder check, runner plan/check, exact diff, canonical artifact,
-and non-LFS checks also pass without formal execution or network transfer.
+The authority's sole formal invocation has now been consumed. It durably
+published owner/genesis and then an authenticated `pre_record_lifecycle`
+failure before any diagnostic record or model evaluation. The terminal is
+`diagnostic_inconclusive`, with `diagnostic_executed=false`,
+`model_evaluated=false`, `formal_measurement_complete=false`, no environment
+or resource measurement, and no authenticated root cause. The controller saw
+an isolated-Python execution-mode precondition error, but its message and
+traceback were not persisted by the terminal; that controller-only observation
+is not promoted to authenticated evidence or remediation.
+
+The model-free
+[diagnostic result review v2](docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-result-review-v2.md)
+binds the preserved ignored owner (4,550 bytes), progress journal (4,173
+bytes), and failure receipt (8,975 bytes) without copying their contents,
+absolute paths, attempt identifier, environment values, exception message, or
+traceback into the tracked artifact. The formal budget is exhausted, retry is
+forbidden, and the review closes this diagnostic chain without authorizing
+automatic recovery, recovery v3, a new diagnostic identity, Runtime changes,
+or model/CUDA execution. A later roadmap item requires a separate explicit
+scope decision.
+
+Its focused suite passes 16/16 tests. The complete local CPython 3.12.12
+offline gate passes 1,158 tests with 34 skips and 80 audited source files:
+five pre-existing Windows privilege skips plus 29 exact pre-execution tests
+that are inapplicable after the authenticated attempt is spent. The gate
+restores its temporary test markers and reauthenticates all four ignored
+receipts after the suite. Each automatic pointer-only Python job retains the
+62 implementation tests and adds these 16 review tests. Clean clones derive
+the effective consumed/no-retry/no-successor state from the tracked review,
+while reporting raw-runtime revalidation separately. CI authenticates the
+review's exact twelve-path, authority-child introduction and scans all later
+commit paths, including every merge-parent diff, so neither deleting the review
+nor adding and later deleting a raw receipt can downgrade or evade the gate.
 
 The monthly Git LFS bandwidth balance remains unavailable. PR #82 published
 the independent zero-bandwidth CI transport prerequisite as verified signed
@@ -1411,16 +1439,13 @@ and M2-to-I2 deltas are the registered exact 11 paths, while I1-to-I2 is a
 non-empty subset of that ceiling. The three implementation sources were first
 introduced at I1 and their final bytes bind I2.
 
-The authority-v2 candidate must uniquely follow I2 with the registered exact
-ten-path delta, and its config must have one first-parent introduction at that
-commit. It binds only the frozen expected environment; current machine/GPU
-matching is deliberately not observed until the post-merge execution
-preflight. The authority contract authorizes the later gate while
-`formal_execution_eligible=false`, attempt/execution/model/runtime claims stay
-false, and all output-parent/lifecycle/reserved state stays absent. After clean
-merge, exact-head checks, branch cleanup, and master alignment, the sole next
-gate is the one-shot diagnostic execution v2. The manual hydrated-LFS workflow
-must remain undispatched while monthly bandwidth is unavailable.
+Authority v2 remains fixed at `6bfaf262...eb1a`; its formal invocation budget
+is now zero and the preserved ignored runtime tree must not be deleted,
+rewritten, reconciled through a second execution call, or added to Git. The
+tracked result review is an exact twelve-path, zero-LFS-payload closeout; its
+two CI paths add the review suite to all three pointer-only Python jobs. The
+manual hydrated-LFS workflow must remain undispatched while monthly bandwidth
+is unavailable.
 
 The portable-package qualification remains frozen and deferred, not passed.
 Its exact resume action is still the independent native Windows target replay

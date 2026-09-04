@@ -948,22 +948,29 @@ Both M2 implementation deltas are the registered exact 11 paths, I1-to-I2 is a
 non-empty subset of them, and the three implementation sources retain I1 as
 their sole first-parent introduction while their final bytes bind I2.
 
-The sole active gate is now
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2`
-in `C:\Users\Alienware\raml-diagnostic-v1`, branch
-`feat/mm005-diagnostic-v2-execution-authority`. Its ceiling is exactly these
-ten paths:
+PR #86 published the authority as verified signed squash commit
+`6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`, with I2 as its unique parent.
+Its pull-request and exact-merge-head workflows passed all four required jobs,
+each reporting zero LFS payload bytes read. The sole formal invocation has
+since been consumed and produced an authenticated `pre_record_lifecycle`
+failure after owner/genesis but before any diagnostic record or model
+evaluation. The exact active gate is now
+`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-result-review-v2`
+on branch `feat/mm005-diagnostic-v2-result-review`. Its ceiling is exactly these
+twelve paths:
 
 1. `AI_Infra_LLM_Agent_待做任务清单.md`
 2. `PROJECT_STATUS.md`
 3. `README.md`
-4. `configs/mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v2.json`
-5. `docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-execution-authority-v2.md`
-6. `docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-implementation-v2.md`
-7. `docs/README.md`
-8. `scripts/prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v2.py`
-9. `scripts/validate_offline.py`
-10. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v2.py`
+4. `baseline/mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2-result-review.json`
+5. `docs/MM-005-browser-research-model-evaluation-generation-failure-diagnostic-result-review-v2.md`
+6. `docs/README.md`
+7. `scripts/prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_review_v2.py`
+8. `scripts/validate_offline.py`
+9. `src/fullcycle_bridge/mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_review_v2.py`
+10. `tests/test_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_review_v2.py`
+11. `scripts/validate_repository_ci.py`
+12. `tests/test_validate_repository_ci.py`
 
 PR #82 closed the independent 10-path
 `repository-ci-lfs-zero-bandwidth-v2` prerequisite as verified signed squash
@@ -1024,46 +1031,55 @@ result, authority, or invocation state and ran no diagnostic. Its exact-head
 and zero-bandwidth controls are now immutable prerequisites, not lifecycle
 authority.
 
-The authority candidate is a canonical 2,944-byte artifact with SHA-256
+The published authority remains exactly 2,944 bytes with SHA-256
 `b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0`.
-It exact-binds P, M1, M2, I1, I2, four critical dependency byte receipts, the
-frozen expected 17-field Windows/CUDA environment, resource caps of 1,800
-seconds and 16,500,000,000 allocated/reserved GPU bytes, one formal
-invocation, zero retry, and one attempt per record. The builder and unified
-validator separately bind three implementation-source receipts to I2 and
-their first-parent introduction to I1; the closed authority JSON intentionally
-does not add that separate receipt set.
+Its single formal invocation is now spent. The preserved ignored runtime tree
+contains exactly owner 4,550 bytes (`9be5d3b...7d9d9`), progress 4,173 bytes
+(`779edbd9...a2ba`), and failure 8,975 bytes (`4caaf601...3d54`), plus the
+authority-bound lifecycle lease. Runner `--check` validates this topology as a
+complete authenticated failure with no reconciliation required; `--execute`
+must never be called again.
 
-Before the authority path is tracked, builder HEAD must equal I2 exactly. Once
-tracked, the authority path must be introduced once at current HEAD, that
-commit must have I2 as its unique parent, the I2 delta must equal the exact ten
-paths, and worktree authority bytes must equal the HEAD blob. Default build
-uses only exclusive `xb` creation below the existing safe `configs` parent;
-`--check` is byte- and topology-read-only. Git reads reject hidden index and
-replace/graft state, remove ambient `GIT_*` variables case-insensitively, and
-disable hooks, fsmonitor, commit graph, and LFS filters.
+The journal contains only `attempt_claimed` and `failure_terminal_ready`.
+The terminal selects `diagnostic_inconclusive`, records safe exception type
+`RuntimeError`, and retains empty completed/active records plus null observed
+environment/resources. Its claims explicitly keep diagnostic execution, model
+evaluation, formal measurement, failed-runtime-substage isolation, root cause,
+remediation, recovery, quality, safety, serving, promotion, and Runtime
+eligibility false. A controller-only isolation-mode precondition observation
+was not persisted and cannot upgrade any authenticated claim.
 
-The authority contract grants the later execution gate, but this freeze does
-not perform the current-machine environment/GPU observation and keeps
-`formal_execution_eligible=false`, `diagnostic_attempt_consumed=false`,
-`diagnostic_executed=false`, `model_evaluated=false`, and
-`runtime_eligible=false`. `work/evaluation-runs`, the new output root,
-lifecycle, owner, progress, success, failure, and reserved sibling staging all
-remain absent. No LFS network transfer, download, fetch, pull, fsck, or new
-hydration occurs while the monthly LFS bandwidth is exhausted. The builder and
-automatic CI read zero LFS payload bytes; the local full offline gate only
-rehashes already hydrated local payload bytes and performs no network transfer.
+The result-review builder validates the live ignored bytes, lifecycle lease,
+authority introduction, frozen lineage, and terminal recomputation before
+exclusive creation of the tracked 7,562-byte safe review (SHA-256
+`0bca6fb5c57b96ea7e602b3f7d22cb3e51ee872028d661fbb836ea506b401203`). Its `--check` mode
+repeats those checks without writing. Clean-clone validation instead checks the
+closed review schema, fixed receipts, authority blob/introduction, claims, and
+exact slice without requiring ignored runtime artifacts; an all-present local
+runtime topology is revalidated, while any partial topology fails closed.
 
-Final draft-stage validation passes the combined focused suite on CPython
-3.11.15, 3.12.12, and 3.13.7 at 72/72 tests per interpreter: the established
-19 protocol-v2 plus 43 result-v2 tests and the new 10 authority-v2 tests. The
-full unified offline gate passes on CPython 3.11.15 with 1,131 tests, five
-expected Windows privilege skips, 79 audited source files, and `valid=true`.
-Ruff 0.15.22, strict Mypy 2.3.0 on the new builder, scoped Mypy on the unified
-validator, three-version `py_compile`, builder `--check`, runner `--plan` and
-`--check`, canonical artifact bytes/hash, exact-ten diff, non-LFS attributes,
-and `git diff --check` also pass. No formal execute, model, torch, CUDA workload,
-network transfer, or LFS download was invoked.
+The focused result-review suite passes 16/16. The complete local CPython
+3.12.12 offline gate passes 1,158 tests with 34 skips and 80 audited source
+files. The skip total is exactly five pre-existing Windows privilege cases
+plus 29 pre-execution protocol/authority/result cases that cannot legally
+materialize fresh state after this authenticated attempt was consumed. Marker
+state is restored, and the gate reauthenticates the unchanged owner, progress,
+failure, and lease receipts after all tests. Each automatic pointer-only Python
+job retains the 62 implementation tests and adds these 16 review tests. The
+portable state projection derives effective consumption, execution denial, and
+the null next gate from the authenticated tracked review even when ignored raw
+artifacts are absent; the local raw-revalidation bit is separate and must agree
+across validation snapshots. Local review inputs are revalidated after the final
+persisted-review readback before return to detect same-topology receipt drift.
+CI also binds the review introduction as
+the authority commit's exact twelve-path child, forbids deletion-based
+downgrade, and scans every later commit path, including merge-parent diffs, for
+raw output/lifecycle receipts that may have been added and subsequently deleted.
+
+No LFS network transfer, download, fetch, pull, fsck, upload, or new hydration
+is permitted while the monthly LFS bandwidth is exhausted. The result review
+is not LFS-managed and records `git_lfs_payload_bytes_required=0`; automatic
+CI remains pointer-only and the manual hydrated workflow remains undispatched.
 
 The implementation now realizes that order in an additive typed core. Public
 execution constructs its closed context only from the published-authority
@@ -1085,17 +1101,16 @@ retryable. All pre-owner boundaries remain outside terminal/scope/outcome
 grammar, while a claimed topology can only reconcile and never re-enter heavy
 work.
 
-Stop if an immutable receipt or scientific subtree drifts, any v1 identity,
-path, command, or output is reused, planned v2 output/lifecycle already exists,
-the `P -> M1 -> M2 -> I1 -> I2 -> A` direct-parent chain differs, either
-implementation delta or the exact-ten authority delta drifts, authority bytes
-are not first-introduced once at A, a current GPU/environment claim would be
-made without the later read-only preflight, any LFS network transfer/download
-or new hydration would be triggered, or checks/review/conflict/strict-up-to-date
-state is unresolved.
-After clean authority merge, branch cleanup, exact master alignment, and a
-fresh read-only preflight, exact-once execution-v2 is the sole successor; do
-not insert an authority-following commit before that invocation.
+Stop if an immutable receipt, terminal byte, authority/scientific subtree, or
+the `P -> M1 -> M2 -> I1 -> I2 -> A` direct-parent chain drifts; if any v1/v2
+command is retried; if ignored runtime evidence would be deleted, rewritten,
+reconciled by execution, or tracked; if controller-only text would be promoted
+to root cause; if an LFS network transfer/new hydration would be triggered; or
+if checks, review, conflict, or strict-up-to-date state is unresolved. After a
+clean result-review merge and branch cleanup, this diagnostic-v2 chain has no
+automatic successor. The exact next objective is a separate roadmap scope
+selection; no new diagnostic, recovery, Runtime, or model gate is authorized
+by this review.
 
 ## Preserved historical validation and deferred gates
 
@@ -2124,7 +2139,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published the diagnostic protocol, implementation, and authority; the sole v1 invocation failed before claim on the missing output-parent guard and PR #79 published its no-retry/no-synthesis closeout; repository CI/LFS maintenance v1 closed through PR #80; protocol-v2 published through PR #81 as `eb2aea3ca1eb5d82e823f7fc7a6aac7b5beb3fc9`; PR #82/#83 published the zero-bandwidth and exact-head prerequisites; PR #84 published initial implementation I1 as `e185c76e0d0ace44a13e10f06d8644939e1981b8`; PR #85 published final stage-compatible I2 as `ac052a3781246deb7365914dacfa271d37cfef59`; the exact-ten-path authority-v2 freeze is the sole active gate, consumes no attempt, and leaves one-shot execution-v2 as its exact post-merge successor |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published diagnostic protocol/implementation/authority v1 and PR #79 closed its spent pre-claim invocation; CI/LFS maintenance and exact-head transport closed through PR #80/#82/#83; protocol-v2 and implementation I1/I2 published through PR #81/#84/#85; PR #86 published authority v2 as `6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`; its sole invocation is consumed with an authenticated two-event `pre_record_lifecycle` / `diagnostic_inconclusive` terminal before diagnostic/model execution; the exact-twelve-path safe result review is the sole active gate and authorizes no retry, recovery, new diagnostic identity, or Runtime change |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the

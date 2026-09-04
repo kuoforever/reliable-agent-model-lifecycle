@@ -144,6 +144,49 @@ DIAGNOSTIC_V2_IMPLEMENTATION_PATHS = (
 DIAGNOSTIC_V2_PROTOCOL_ONLY_TEST_COUNT = 18
 DIAGNOSTIC_V2_IMPLEMENTATION_PROTOCOL_TEST_COUNT = 19
 DIAGNOSTIC_V2_IMPLEMENTATION_TEST_COUNT = 62
+DIAGNOSTIC_V2_RESULT_REVIEW_TEST_MODULE = (
+    "tests.test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_review_v2"
+)
+DIAGNOSTIC_V2_RESULT_REVIEW_PATHS = (
+    "baseline/mm005-browser-research-model-eval-v2-generation-failure-"
+    "diagnostic-v2-result-review.json",
+    "scripts/prepare_mm005_browser_research_model_evaluation_generation_"
+    "failure_diagnostic_result_review_v2.py",
+    "src/fullcycle_bridge/mm005_browser_research_model_evaluation_generation_"
+    "failure_diagnostic_result_review_v2.py",
+    "tests/test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_review_v2.py",
+)
+DIAGNOSTIC_V2_RESULT_REVIEW_TEST_COUNT = 16
+DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT = (
+    "6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a"
+)
+DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS = (
+    "AI_Infra_LLM_Agent_\u5f85\u505a\u4efb\u52a1\u6e05\u5355.md",
+    "PROJECT_STATUS.md",
+    "README.md",
+    "baseline/mm005-browser-research-model-eval-v2-generation-failure-"
+    "diagnostic-v2-result-review.json",
+    "docs/MM-005-browser-research-model-evaluation-generation-failure-"
+    "diagnostic-result-review-v2.md",
+    "docs/README.md",
+    "scripts/prepare_mm005_browser_research_model_evaluation_generation_"
+    "failure_diagnostic_result_review_v2.py",
+    "scripts/validate_offline.py",
+    "scripts/validate_repository_ci.py",
+    "src/fullcycle_bridge/mm005_browser_research_model_evaluation_generation_"
+    "failure_diagnostic_result_review_v2.py",
+    "tests/test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_review_v2.py",
+    "tests/test_validate_repository_ci.py",
+)
+DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES = (
+    "work/evaluation-runs/mm005-browser-research-model-eval-v2-generation-"
+    "failure-diagnostic-v2",
+    "work/evaluation-runs/mm005-browser-research-model-eval-v2-generation-"
+    "failure-diagnostic-v2.lifecycle",
+)
 
 
 class RepositoryCIValidationError(RuntimeError):
@@ -358,6 +401,63 @@ def _git_object_id(relative: str) -> str:
     ):
         _fail("INVALID_GIT_OBJECT_ID", f"$.git[{relative!r}]")
     return "sha1:" + value
+
+
+def _parse_sorted_git_path_wire(
+    raw: bytes, *, code: str, location: str
+) -> tuple[str, ...]:
+    fields = raw.split(b"\0")
+    if fields[-1] != b"" or any(not field for field in fields[:-1]):
+        _fail(code, location)
+    try:
+        paths = tuple(field.decode("utf-8") for field in fields[:-1])
+    except UnicodeDecodeError as exc:
+        raise RepositoryCIValidationError(code, location) from exc
+    if tuple(sorted(paths)) != paths or len(set(paths)) != len(paths):
+        _fail(code, location)
+    for path in paths:
+        logical = PurePosixPath(path)
+        if (
+            "\\" in path
+            or ":" in path
+            or logical.is_absolute()
+            or not logical.parts
+            or any(part in {"", ".", ".."} for part in logical.parts)
+            or logical.as_posix() != path
+        ):
+            _fail(code, location)
+    return paths
+
+
+def _parse_git_history_path_wire(raw: bytes) -> tuple[str, ...]:
+    fields = raw.split(b"\0")
+    if fields[-1] != b"":
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_HISTORY_PATH_WIRE_INVALID",
+            "$.diagnostic_v2_result_review.publication.history_paths",
+        )
+    try:
+        paths = tuple(field.decode("utf-8") for field in fields[:-1] if field)
+    except UnicodeDecodeError as exc:
+        raise RepositoryCIValidationError(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_HISTORY_PATH_WIRE_INVALID",
+            "$.diagnostic_v2_result_review.publication.history_paths",
+        ) from exc
+    for path in paths:
+        logical = PurePosixPath(path)
+        if (
+            "\\" in path
+            or ":" in path
+            or logical.is_absolute()
+            or not logical.parts
+            or any(part in {"", ".", ".."} for part in logical.parts)
+            or logical.as_posix() != path
+        ):
+            _fail(
+                "DIAGNOSTIC_V2_RESULT_REVIEW_HISTORY_PATH_WIRE_INVALID",
+                "$.diagnostic_v2_result_review.publication.history_paths",
+            )
+    return paths
 
 
 def _tracked_paths() -> tuple[str, ...]:
@@ -687,8 +787,221 @@ def diagnostic_v2_test_plan(
     return state, modules, expected_count
 
 
-def run_diagnostic_v2_focused_tests() -> tuple[str, int, int]:
-    state, modules, expected_count = diagnostic_v2_test_plan(_tracked_paths())
+def diagnostic_v2_result_review_test_plan(
+    tracked_paths: tuple[str, ...],
+) -> tuple[str, tuple[str, ...], int]:
+    tracked_path_set = set(tracked_paths)
+    review_paths = set(DIAGNOSTIC_V2_RESULT_REVIEW_PATHS)
+    present_paths = review_paths & tracked_path_set
+    if not present_paths:
+        return "absent", (), 0
+    if present_paths != review_paths:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_TOPOLOGY_PARTIAL",
+            "$.diagnostic_v2_result_review",
+        )
+    return (
+        "complete",
+        (DIAGNOSTIC_V2_RESULT_REVIEW_TEST_MODULE,),
+        DIAGNOSTIC_V2_RESULT_REVIEW_TEST_COUNT,
+    )
+
+
+def _parse_result_review_introduction_wire(raw: bytes) -> tuple[str, str]:
+    if raw == b"":
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_NOT_FOUND",
+            "$.diagnostic_v2_result_review.publication.introduction",
+        )
+    fields = raw.split(b"\0")
+    if fields[-1] != b"" or any(not field for field in fields[:-1]):
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_WIRE_INVALID",
+            "$.diagnostic_v2_result_review.publication.introduction",
+        )
+    if len(fields) != 3:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_NOT_UNIQUE",
+            "$.diagnostic_v2_result_review.publication.introduction",
+        )
+    try:
+        introduction = fields[0].decode("ascii")
+        parent_wire = fields[1].decode("ascii")
+    except UnicodeDecodeError as exc:
+        raise RepositoryCIValidationError(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_WIRE_INVALID",
+            "$.diagnostic_v2_result_review.publication.introduction",
+        ) from exc
+    if re.fullmatch(r"[0-9a-f]{40}", introduction) is None:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_WIRE_INVALID",
+            "$.diagnostic_v2_result_review.publication.introduction",
+        )
+    parents = parent_wire.split(" ")
+    if len(parents) != 1 or re.fullmatch(r"[0-9a-f]{40}", parents[0]) is None:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_PARENT_COUNT_INVALID",
+            "$.diagnostic_v2_result_review.publication.introduction_parent",
+        )
+    return introduction, parents[0]
+
+
+def _tracked_result_review_raw_runtime_paths(
+    tracked_paths: tuple[str, ...],
+) -> tuple[str, ...]:
+    prefixes = tuple(
+        prefix.casefold() for prefix in DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PREFIXES
+    )
+    return tuple(
+        path
+        for path in tracked_paths
+        if any(
+            path.replace("\\", "/").casefold() == prefix
+            or path.replace("\\", "/").casefold().startswith(prefix + "/")
+            for prefix in prefixes
+        )
+    )
+
+
+def validate_diagnostic_v2_result_review_publication(
+    tracked_paths: tuple[str, ...], *, current_head: str
+) -> dict[str, Any]:
+    tracked_raw_runtime_paths = _tracked_result_review_raw_runtime_paths(tracked_paths)
+    if tracked_raw_runtime_paths:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PATH_TRACKED",
+            "$.diagnostic_v2_result_review.publication.tracked_raw_runtime_paths",
+        )
+
+    review_state, _, _ = diagnostic_v2_result_review_test_plan(tracked_paths)
+    summary: dict[str, Any] = {
+        "result_review_authority_commit": (
+            DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT
+        ),
+        "result_review_expected_publication_path_count": len(
+            DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS
+        ),
+        "result_review_historical_raw_runtime_path_count": 0,
+        "result_review_introduction_authenticated": False,
+        "result_review_introduction_commit": None,
+        "result_review_introduction_parent": None,
+        "result_review_publication_path_count": 0,
+        "result_review_publication_state": "absent",
+        "result_review_tracked_raw_runtime_path_count": 0,
+    }
+    if re.fullmatch(r"[0-9a-f]{40}", current_head) is None:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_HEAD_INVALID",
+            "$.diagnostic_v2_result_review.publication.current_head",
+        )
+
+    authority = DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_COMMIT
+    if _git_exit_code("merge-base", "--is-ancestor", authority, current_head):
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_AUTHORITY_NOT_ANCESTOR",
+            "$.diagnostic_v2_result_review.publication.current_head",
+        )
+    if current_head == authority:
+        if review_state == "absent":
+            return summary
+        introduction = None
+        introduction_parent = None
+        publication_state = "precommit"
+        raw_paths = _run_git(
+            "diff",
+            "--name-only",
+            "-z",
+            "--no-renames",
+            authority,
+            "--",
+        )
+    else:
+        history_paths = _parse_git_history_path_wire(
+            _run_git(
+                "log",
+                "-m",
+                "--pretty=format:",
+                "--name-only",
+                "-z",
+                "--no-renames",
+                f"{authority}..{current_head}",
+            )
+        )
+        if _tracked_result_review_raw_runtime_paths(history_paths):
+            _fail(
+                "DIAGNOSTIC_V2_RESULT_REVIEW_RAW_RUNTIME_PATH_IN_HISTORY",
+                "$.diagnostic_v2_result_review.publication.history_paths",
+            )
+        introduction_wire = _run_git(
+            "log",
+            "--reverse",
+            "-z",
+            "--format=%H%x00%P",
+            "--diff-filter=A",
+            "--no-renames",
+            f"{authority}..{current_head}",
+            "--",
+            DIAGNOSTIC_V2_RESULT_REVIEW_PATHS[0],
+        )
+        if introduction_wire == b"" and review_state == "absent":
+            return summary
+        introduction, introduction_parent = _parse_result_review_introduction_wire(
+            introduction_wire
+        )
+        if introduction_parent != authority:
+            _fail(
+                "DIAGNOSTIC_V2_RESULT_REVIEW_INTRODUCTION_PARENT_MISMATCH",
+                "$.diagnostic_v2_result_review.publication.introduction_parent",
+            )
+        publication_state = "committed"
+        raw_paths = _run_git(
+            "diff-tree",
+            "--no-commit-id",
+            "--name-only",
+            "-r",
+            "-z",
+            "--no-renames",
+            introduction,
+        )
+
+    publication_paths = _parse_sorted_git_path_wire(
+        raw_paths,
+        code="DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATH_WIRE_INVALID",
+        location="$.diagnostic_v2_result_review.publication.paths",
+    )
+    if publication_paths != DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS:
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_PUBLICATION_PATHS_MISMATCH",
+            "$.diagnostic_v2_result_review.publication.paths",
+        )
+    if review_state == "absent":
+        _fail(
+            "DIAGNOSTIC_V2_RESULT_REVIEW_TOPOLOGY_REMOVED",
+            "$.diagnostic_v2_result_review.publication.paths",
+        )
+    summary.update(
+        {
+            "result_review_introduction_authenticated": introduction is not None,
+            "result_review_introduction_commit": introduction,
+            "result_review_introduction_parent": introduction_parent,
+            "result_review_publication_path_count": len(publication_paths),
+            "result_review_publication_state": publication_state,
+        }
+    )
+    return summary
+
+
+def run_diagnostic_v2_focused_tests(
+    *, current_head: str
+) -> tuple[str, int, int, str, int, int, dict[str, Any]]:
+    tracked_paths = _tracked_paths()
+    state, modules, expected_count = diagnostic_v2_test_plan(tracked_paths)
+    review_state, review_modules, review_expected_count = (
+        diagnostic_v2_result_review_test_plan(tracked_paths)
+    )
+    review_publication = validate_diagnostic_v2_result_review_publication(
+        tracked_paths, current_head=current_head
+    )
     if state == "implementation_complete":
         for relative in DIAGNOSTIC_V2_IMPLEMENTATION_PATHS:
             path = _safe_relative_path(relative)
@@ -716,7 +1029,47 @@ def run_diagnostic_v2_focused_tests() -> tuple[str, int, int]:
         result = unittest.TextTestRunner(stream=sys.stderr, verbosity=1).run(suite)
     if not result.wasSuccessful() or result.testsRun != expected_count:
         _fail("DIAGNOSTIC_V2_TESTS_FAILED", "$.diagnostic_v2.test_modules")
-    return state, result.testsRun, len(result.skipped)
+
+    if review_state == "complete":
+        for relative in DIAGNOSTIC_V2_RESULT_REVIEW_PATHS:
+            path = _safe_relative_path(relative)
+            if not path.is_file() or path.is_symlink():
+                _fail(
+                    "DIAGNOSTIC_V2_RESULT_REVIEW_PATH_UNSAFE",
+                    f"$.path[{relative!r}]",
+                )
+        review_suite = unittest.defaultTestLoader.loadTestsFromNames(review_modules)
+        if review_suite.countTestCases() != review_expected_count:
+            _fail(
+                "DIAGNOSTIC_V2_RESULT_REVIEW_TEST_COUNT_MISMATCH",
+                "$.diagnostic_v2_result_review.test_count",
+            )
+        with _core_test_subprocess_environment():
+            review_result = unittest.TextTestRunner(stream=sys.stderr, verbosity=1).run(
+                review_suite
+            )
+        if (
+            not review_result.wasSuccessful()
+            or review_result.testsRun != review_expected_count
+        ):
+            _fail(
+                "DIAGNOSTIC_V2_RESULT_REVIEW_TESTS_FAILED",
+                "$.diagnostic_v2_result_review.test_modules",
+            )
+        review_tests_run = review_result.testsRun
+        review_tests_skipped = len(review_result.skipped)
+    else:
+        review_tests_run = 0
+        review_tests_skipped = 0
+    return (
+        state,
+        result.testsRun,
+        len(result.skipped),
+        review_state,
+        review_tests_run,
+        review_tests_skipped,
+        review_publication,
+    )
 
 
 def _fail(code: str, location: str) -> NoReturn:
@@ -819,7 +1172,15 @@ def main(argv: list[str] | None = None) -> int:
     elif arguments.mode == "diagnostic-v2-focused":
         load_trust_anchor(TRUST_ANCHOR_PATH.read_bytes())
         pointer_bytes_read = validate_pointer_worktree(inventory)
-        state, tests_run, tests_skipped = run_diagnostic_v2_focused_tests()
+        (
+            state,
+            tests_run,
+            tests_skipped,
+            result_review_state,
+            result_review_tests_run,
+            result_review_tests_skipped,
+            result_review_publication,
+        ) = run_diagnostic_v2_focused_tests(current_head=head)
         pointer_bytes_after = validate_pointer_worktree(inventory)
         if pointer_bytes_after != pointer_bytes_read:
             _fail("POINTER_BYTE_COUNT_DRIFT", "$.diagnostic_v2_focused_gate")
@@ -827,6 +1188,10 @@ def main(argv: list[str] | None = None) -> int:
             "diagnostic_v2_state": state,
             "focused_tests_run": tests_run,
             "focused_tests_skipped": tests_skipped,
+            "result_review_state": result_review_state,
+            "result_review_tests_run": result_review_tests_run,
+            "result_review_tests_skipped": result_review_tests_skipped,
+            **result_review_publication,
             "full_integrity_verified": False,
             "gate_id": TRUST_ANCHOR_GATE_ID,
             "git_head": head,

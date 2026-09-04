@@ -12,6 +12,7 @@ import subprocess
 import sys
 import tomllib
 import unittest
+from collections.abc import Mapping
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -306,6 +307,20 @@ MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_PATH = (
 MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_BYTES = 62_653
 MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_SHA256 = (
     "sha256:0d00d89235bae8d0a2271934aaf18008d7c31c3f9a9f3c83a9afdd5d1a474a52"
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_PATH = (
+    ROOT
+    / "baseline"
+    / (
+        "mm005-browser-research-model-eval-v2-generation-failure-diagnostic-v2-"
+        "result-review.json"
+    )
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_BYTES = (
+    7_562
+)
+MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_SHA256 = (
+    "sha256:0bca6fb5c57b96ea7e602b3f7d22cb3e51ee872028d661fbb836ea506b401203"
 )
 BASELINE_PATH = ROOT / "baseline" / "fc-mvp-000.json"
 TOOL_ROUTER_BASELINE_PATH = ROOT / "baseline" / "fc-mvp-001-schema-eval.json"
@@ -707,7 +722,41 @@ def main() -> int:
     mm005_browser_research_generation_failure_diagnostic_authority_v2 = (
         _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2()
     )
-    tests_run = _run_tests()
+    mm005_browser_research_generation_failure_diagnostic_result_review_v2 = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_result_review_v2()
+    )
+    mm005_browser_research_generation_failure_diagnostic_authority_v2 = (
+        _close_mm005_diagnostic_v2_authority_state_from_result_review(
+            mm005_browser_research_generation_failure_diagnostic_authority_v2,
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2,
+        )
+    )
+    (
+        tests_run,
+        tests_skipped,
+        spent_terminal_tests_skipped,
+        historical_authority_tests_skipped,
+    ) = _run_tests(
+        authenticated_spent_diagnostic_terminal=(
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "raw_runtime_artifacts_revalidated"
+            ]
+        ),
+        historical_execution_authority=(
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "head_is_authority_introduction_commit"
+            ]
+            is not True
+        ),
+    )
+    post_test_result_review = (
+        _validate_mm005_browser_research_generation_failure_diagnostic_result_review_v2()
+    )
+    if (
+        post_test_result_review
+        != mm005_browser_research_generation_failure_diagnostic_result_review_v2
+    ):
+        raise GateError("MM-005 diagnostic-v2 result review changed during tests")
 
     result = {
         "valid": True,
@@ -719,6 +768,13 @@ def main() -> int:
         "artifact_hashes_verified": len(baseline["artifacts"]),
         "source_files_audited": audited_files,
         "tests_run": tests_run,
+        "tests_skipped": tests_skipped,
+        "pre_execution_tests_skipped_for_authenticated_spent_terminal": (
+            spent_terminal_tests_skipped
+        ),
+        "authority_stage_tests_skipped_for_historical_head": (
+            historical_authority_tests_skipped
+        ),
         "manifest_digest": bridge_summary.manifest_digest,
         "dataset_records": record_count,
         "lane_b_contract_review_complete": lane_b_contract["contract_review_complete"],
@@ -2014,6 +2070,11 @@ def main() -> int:
                 "authority_tracked_at_head"
             ]
         ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_head_is_introduction_commit": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "head_is_authority_introduction_commit"
+            ]
+        ),
         "mm005_browser_research_generation_failure_diagnostic_authority_v2_environment_fields": (
             mm005_browser_research_generation_failure_diagnostic_authority_v2[
                 "environment_fields"
@@ -2039,6 +2100,21 @@ def main() -> int:
                 "formal_execution_eligible"
             ]
         ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_published_grant": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "published_authority_initially_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_raw_runtime_terminal_revalidated": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "raw_runtime_terminal_revalidated"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_authority_v2_effective_state_source": (
+            mm005_browser_research_generation_failure_diagnostic_authority_v2[
+                "effective_state_source"
+            ]
+        ),
         "mm005_browser_research_generation_failure_diagnostic_authority_v2_attempt_consumed": (
             mm005_browser_research_generation_failure_diagnostic_authority_v2[
                 "diagnostic_attempt_consumed"
@@ -2047,6 +2123,46 @@ def main() -> int:
         "mm005_browser_research_generation_failure_diagnostic_authority_v2_next_gate": (
             mm005_browser_research_generation_failure_diagnostic_authority_v2[
                 "next_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_valid": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "result_review_valid"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_raw_runtime_revalidated": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "raw_runtime_artifacts_revalidated"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_attempt_consumed": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "diagnostic_attempt_consumed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_diagnostic_executed": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "diagnostic_executed"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_root_cause_established": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "root_cause_established"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_retry_authorized": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "retry_authorized"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_next_gate": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "next_gate"
+            ]
+        ),
+        "mm005_browser_research_generation_failure_diagnostic_result_review_v2_lfs_payload_bytes_required": (
+            mm005_browser_research_generation_failure_diagnostic_result_review_v2[
+                "git_lfs_payload_bytes_required"
             ]
         ),
         "tool_router_seed_records": router_summary["seed_records"],
@@ -6735,6 +6851,9 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
     from scripts import (
         prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2 as builder,
     )
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
+    )
 
     payload = _read_regular_file_once(
         MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_PROTOCOL_V2_PATH,
@@ -6753,7 +6872,16 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
     )
     if contract.artifact_json_bytes(value) != payload:
         raise GateError("MM-005 diagnostic protocol v2 is not canonical")
-    checked = contract.validate_preregistration(value, **builder.protocol_inputs())
+    topology = runner._output_topology()
+    runner._validate_output_topology(topology)
+    runtime_mode = _mm005_diagnostic_v2_runtime_mode(topology)
+    if runtime_mode == "absent":
+        checked = contract.validate_preregistration(value, **builder.protocol_inputs())
+    else:
+        published = runner._published_protocol_context(allow_runtime_state=True)
+        if published.get("preregistration_payload") != payload:
+            raise GateError("MM-005 diagnostic protocol v2 runtime binding mismatch")
+        checked = value
 
     outputs = checked.get("outputs")
     lineage = checked.get("source_lineage")
@@ -6955,6 +7083,39 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_protocol_v2()
     }
 
 
+def _mm005_diagnostic_v2_runtime_mode(topology: Mapping[str, bool]) -> str:
+    """Classify only the clean-clone or exact authenticated-failure topology."""
+
+    absent_names = (
+        "output_parent",
+        "output_root",
+        "attempt_owner",
+        "progress",
+        "success_result",
+        "failure",
+        "lifecycle_lease_root",
+        "lifecycle_lease",
+        "reserved_sibling_staging",
+    )
+    if all(topology.get(name) is False for name in absent_names):
+        return "absent"
+    required = (
+        "output_parent",
+        "output_root",
+        "attempt_owner",
+        "progress",
+        "failure",
+        "lifecycle_lease_root",
+        "lifecycle_lease",
+    )
+    forbidden = ("success_result", "reserved_sibling_staging")
+    if all(topology.get(name) is True for name in required) and all(
+        topology.get(name) is False for name in forbidden
+    ):
+        return "failure_terminal"
+    raise GateError("MM-005 diagnostic v2 partial runtime topology")
+
+
 def _validate_mm005_browser_research_generation_failure_diagnostic_implementation_v2() -> (
     dict[str, Any]
 ):
@@ -6970,20 +7131,8 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
 
     before = runner._output_topology()
     runner._validate_output_topology(before)
-    if before.get("output_parent") is not False or any(
-        before.get(name) is not False
-        for name in (
-            "output_root",
-            "attempt_owner",
-            "progress",
-            "success_result",
-            "failure",
-            "lifecycle_lease_root",
-            "lifecycle_lease",
-            "reserved_sibling_staging",
-        )
-    ):
-        raise GateError("MM-005 diagnostic implementation v2 topology mismatch")
+    runtime_mode = _mm005_diagnostic_v2_runtime_mode(before)
+    runtime_terminal_present = runtime_mode == "failure_terminal"
 
     implementation = contract.result_contract()
     base_binding = implementation.get("implementation_base_binding")
@@ -7157,7 +7306,9 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         raise GateError("MM-005 diagnostic implementation v2 boundary mismatch")
 
     authority_context = (
-        runner._optional_execution_authority_context()
+        runner._optional_execution_authority_context(
+            allow_runtime_state=runtime_terminal_present
+        )
         if before["execution_authority"]
         else None
     )
@@ -7313,13 +7464,14 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "real_filesystem_regression_required": True,
         "formal_execution_eligible": False,
         "diagnostic_execution_authorized": False,
-        "diagnostic_attempt_consumed": False,
+        "diagnostic_attempt_consumed": runtime_terminal_present,
         "diagnostic_executed": False,
-        "selected_outcome": None,
+        "selected_outcome": (
+            "diagnostic_inconclusive" if runtime_terminal_present else None
+        ),
         "model_processor_pil_torch_cuda_browser_network_authorized": False,
         "recovery_v3_authorized": False,
         "runtime_eligible": False,
-        "runner_check_valid": False,
         "execution_path_invoked_by_gate": False,
         "protocol_context_valid": True,
         "protocol_source_files": len(protocol.PROTOCOL_SOURCE_PATHS),
@@ -7328,15 +7480,15 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
             authority_context is not None and authority_context["published"]
         ),
         "execution_authority_present": before["execution_authority"],
-        "output_parent_present": False,
-        "attempt_owner_present": False,
-        "progress_present": False,
+        "output_parent_present": runtime_terminal_present,
+        "attempt_owner_present": runtime_terminal_present,
+        "progress_present": runtime_terminal_present,
         "success_result_present": False,
-        "failure_present": False,
-        "output_root_present": False,
-        "lifecycle_lease_present": False,
+        "failure_present": runtime_terminal_present,
+        "output_root_present": runtime_terminal_present,
+        "lifecycle_lease_present": runtime_terminal_present,
         "reserved_sibling_staging_present": False,
-        "result_valid": False,
+        "result_valid": runtime_terminal_present,
         "terminal_reconciliation_required": False,
         "contract_gate_id": contract.GATE_ID,
     }
@@ -7350,6 +7502,8 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         or check.get("plan_only") is not False
         or check.get("implementation_check_valid") is not True
         or check.get("runner_plan_valid") is not False
+        or plan.get("runner_check_valid") is not False
+        or check.get("runner_check_valid") is not runtime_terminal_present
         or plan.get("implementation_source_receipts")
         != check.get("implementation_source_receipts")
     ):
@@ -7363,10 +7517,14 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_implementatio
         "implementation_contract_valid": True,
         "implementation_check_valid": True,
         "runner_plan_valid": True,
-        "output_parent_present": False,
+        "output_parent_present": runtime_terminal_present,
         "execution_authority_present": before["execution_authority"],
         "diagnostic_execution_authorized": False,
-        "next_gate": contract.EXECUTION_AUTHORITY_GATE_ID,
+        "next_gate": (
+            contract.RESULT_REVIEW_GATE_ID
+            if runtime_terminal_present
+            else contract.EXECUTION_AUTHORITY_GATE_ID
+        ),
         "protocol_merge_commit": contract.PROTOCOL_MERGE_COMMIT,
         "zero_bandwidth_maintenance_commit": (
             contract.ZERO_BANDWIDTH_MAINTENANCE_COMMIT
@@ -7389,43 +7547,28 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
         mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2 as contract,
     )
     from scripts import (
-        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_execution_authority_v2 as authority_builder,
-    )
-    from scripts import (
         run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
     )
 
     before = runner._output_topology()
     runner._validate_output_topology(before)
-    if (
-        before.get("execution_authority") is not True
-        or before.get("output_parent") is not False
-        or any(before.get(name) is not False for name in runner.RUNTIME_OUTPUT_KEYS)
-    ):
+    runtime_mode = _mm005_diagnostic_v2_runtime_mode(before)
+    runtime_terminal_present = runtime_mode == "failure_terminal"
+    if before.get("execution_authority") is not True:
         raise GateError("MM-005 diagnostic authority v2 topology mismatch")
 
     authority_path = ROOT / contract.EXECUTION_AUTHORITY_PATH
     authority_payload = _read_regular_file_once(
         authority_path, "MM-005 diagnostic execution authority v2"
     )
-    authority = authority_builder.build_authority()
-    inputs = authority_builder.authority_inputs()
-    if (
-        contract.artifact_json_bytes(authority) != authority_payload
-        or contract.parse_strict_json_bytes(
-            authority_payload, location="$.execution_authority"
-        )
-        != authority
-    ):
-        raise GateError("MM-005 diagnostic authority v2 is not canonical and exact")
-
+    authority = contract.parse_strict_json_bytes(
+        authority_payload, location="$.execution_authority"
+    )
     preflight = authority.get("resource_preflight")
     budgets = authority.get("budgets")
     authority_contract = authority.get("authority_contract")
     claims = authority.get("claims")
     critical_receipts = authority.get("critical_execution_dependency_receipts")
-    implementation_receipts = inputs.get("implementation_source_receipts")
-    stage = inputs.get("stage")
     if not all(
         isinstance(section, dict)
         for section in (
@@ -7434,8 +7577,6 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
             authority_contract,
             claims,
             critical_receipts,
-            implementation_receipts,
-            stage,
         )
     ):
         raise GateError("MM-005 diagnostic authority v2 sections are invalid")
@@ -7444,8 +7585,13 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
     assert isinstance(authority_contract, dict)
     assert isinstance(claims, dict)
     assert isinstance(critical_receipts, dict)
-    assert isinstance(implementation_receipts, dict)
-    assert isinstance(stage, dict)
+    expected_authority = contract.build_execution_authority_contract(
+        implementation_freeze_commit=str(authority["implementation_freeze_commit"]),
+        expected_environment=preflight["expected_environment"],
+        critical_execution_dependency_receipts=critical_receipts,
+    )
+    if contract.artifact_json_bytes(expected_authority) != authority_payload:
+        raise GateError("MM-005 diagnostic authority v2 is not canonical and exact")
 
     expected_environment = preflight.get("expected_environment")
     expected_resource_caps = {
@@ -7454,7 +7600,10 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
         "peak_gpu_reserved_bytes": 16_500_000_000,
     }
     if (
-        authority.get(
+        len(authority_payload) != 2_944
+        or contract.sha256_bytes(authority_payload)
+        != "sha256:b638a7a73b401d6d968f9edc1b351e13394602b7d68dae7789f4485d996f39f0"
+        or authority.get(
             "mm005_browser_research_generation_failure_diagnostic_execution_authority_version"
         )
         != 2
@@ -7468,10 +7617,7 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
         or authority.get("initial_implementation_publication_commit")
         != contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
         or authority.get("implementation_freeze_commit")
-        != authority_builder.IMPLEMENTATION_FREEZE_COMMIT
-        or authority_builder.IMPLEMENTATION_FREEZE_COMMIT
         != "ac052a3781246deb7365914dacfa271d37cfef59"
-        or expected_environment != authority_builder.EXPECTED_ENVIRONMENT
         or not isinstance(expected_environment, dict)
         or set(expected_environment)
         != set(scientific_protocol.OBSERVED_ENVIRONMENT_FIELDS)
@@ -7516,17 +7662,34 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
     ):
         raise GateError("MM-005 diagnostic authority v2 boundary mismatch")
 
+    try:
+        implementation_context = runner._implementation_source_context(
+            "ac052a3781246deb7365914dacfa271d37cfef59"
+        )
+    except RuntimeError as exc:
+        raise GateError(
+            "MM-005 diagnostic authority v2 implementation context mismatch"
+        ) from exc
+    implementation_receipts = implementation_context.get("source_bindings")
     if (
-        set(critical_receipts)
+        implementation_context.get("initial_implementation_publication_commit")
+        != contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
+        or implementation_context.get("freeze_commit")
+        != "ac052a3781246deb7365914dacfa271d37cfef59"
+        or implementation_context.get(
+            "three_sources_share_first_parent_introduction_commit"
+        )
+        is not True
+        or set(critical_receipts)
         != set(contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS)
         or len(critical_receipts) != 4
-        or critical_receipts
-        != inputs.get("critical_execution_dependency_receipts")
+        or not isinstance(implementation_receipts, dict)
         or set(implementation_receipts) != set(contract.IMPLEMENTATION_SOURCE_PATHS)
         or len(implementation_receipts) != 3
         or "implementation_source_receipts" in authority
     ):
         raise GateError("MM-005 diagnostic authority v2 source receipt mismatch")
+    assert isinstance(implementation_receipts, dict)
     for name, relative in sorted(
         contract.CRITICAL_EXECUTION_DEPENDENCY_SOURCE_PATHS.items()
     ):
@@ -7549,29 +7712,54 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
             "path": relative,
             "bytes": len(payload),
             "sha256": contract.sha256_bytes(payload),
-            "first_parent_introduction_commit": (
-                contract.INITIAL_IMPLEMENTATION_PUBLICATION_COMMIT
-            ),
-            "freeze_commit": authority_builder.IMPLEMENTATION_FREEZE_COMMIT,
+            "tracked_bytes_equal_implementation_freeze_commit_blob": True,
         }:
             raise GateError("MM-005 diagnostic authority v2 implementation drift")
 
-    authority_context = runner._optional_execution_authority_context()
+    authority_introduction_commit = "6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a"
+    authority_parent_commit = "ac052a3781246deb7365914dacfa271d37cfef59"
+    authority_context = runner._optional_execution_authority_context(
+        allow_runtime_state=runtime_terminal_present
+    )
     if authority_context is None:
         raise GateError("MM-005 diagnostic authority v2 context is missing")
-    tracked_at_head = stage.get("tracked_at_head") is True
+    try:
+        runner._require_unique_parent(
+            authority_introduction_commit, authority_parent_commit
+        )
+        runner._require_commit_ancestor(authority_introduction_commit)
+        authority_delta = set(
+            runner._git_name_only_paths(
+                authority_parent_commit, authority_introduction_commit
+            )
+        )
+        authority_blob = runner._git_blob_bytes(
+            authority_introduction_commit, contract.EXECUTION_AUTHORITY_PATH
+        )
+        introductions = runner._git_process(
+            "log",
+            "--first-parent",
+            "--diff-filter=A",
+            "--format=%H",
+            "--",
+            contract.EXECUTION_AUTHORITY_PATH,
+        )
+        introduction_values = introductions.stdout.decode("ascii").splitlines()
+    except (RuntimeError, UnicodeDecodeError) as exc:
+        raise GateError("MM-005 diagnostic authority v2 lineage mismatch") from exc
     if (
         authority_context.get("authority_payload") != authority_payload
         or authority_context.get("implementation_freeze_commit")
-        != authority_builder.IMPLEMENTATION_FREEZE_COMMIT
-        or authority_context.get("published") is not tracked_at_head
-        or (
-            tracked_at_head
-            and stage.get("freeze_commit") != runner._git_text("rev-parse", "HEAD")
-        )
-        or (not tracked_at_head and stage.get("freeze_commit") is not None)
+        != authority_parent_commit
+        or authority_context.get("authority_freeze_commit")
+        != authority_introduction_commit
+        or authority_context.get("published") is not True
+        or authority_delta != set(contract.EXECUTION_AUTHORITY_SLICE_PATHS)
+        or authority_blob != authority_payload
+        or introductions.returncode != 0
+        or introduction_values != [authority_introduction_commit]
     ):
-        raise GateError("MM-005 diagnostic authority v2 stage context mismatch")
+        raise GateError("MM-005 diagnostic authority v2 historical context mismatch")
 
     plan = runner.run(mode="plan")
     check = runner.run(mode="check")
@@ -7580,16 +7768,22 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
         or check.get("implementation_check_valid") is not True
         or plan.get("execution_authority_valid") is not True
         or check.get("execution_authority_valid") is not True
-        or plan.get("execution_authority_published") is not tracked_at_head
-        or check.get("execution_authority_published") is not tracked_at_head
+        or plan.get("execution_authority_published") is not True
+        or check.get("execution_authority_published") is not True
         or plan.get("execution_path_invoked_by_gate") is not False
         or check.get("execution_path_invoked_by_gate") is not False
-        or plan.get("diagnostic_attempt_consumed") is not False
-        or check.get("diagnostic_attempt_consumed") is not False
+        or plan.get("diagnostic_attempt_consumed") is not runtime_terminal_present
+        or check.get("diagnostic_attempt_consumed") is not runtime_terminal_present
         or plan.get("diagnostic_executed") is not False
         or check.get("diagnostic_executed") is not False
         or plan.get("formal_execution_eligible") is not False
         or check.get("formal_execution_eligible") is not False
+        or plan.get("result_valid") is not runtime_terminal_present
+        or check.get("result_valid") is not runtime_terminal_present
+        or plan.get("selected_outcome")
+        != ("diagnostic_inconclusive" if runtime_terminal_present else None)
+        or check.get("selected_outcome")
+        != ("diagnostic_inconclusive" if runtime_terminal_present else None)
     ):
         raise GateError("MM-005 diagnostic authority v2 read-only boundary mismatch")
 
@@ -7605,16 +7799,267 @@ def _validate_mm005_browser_research_generation_failure_diagnostic_authority_v2(
         raise GateError("MM-005 diagnostic authority v2 validation changed state")
     return {
         "authority_valid": True,
-        "authority_tracked_at_head": tracked_at_head,
+        "authority_tracked_at_head": True,
+        "head_is_authority_introduction_commit": (
+            runner._git_text("rev-parse", "HEAD") == authority_introduction_commit
+        ),
         "environment_fields": len(expected_environment),
         "critical_receipts": len(critical_receipts),
         "implementation_receipts": len(implementation_receipts),
         "diagnostic_execution_authorized": True,
         "formal_execution_eligible": False,
-        "diagnostic_attempt_consumed": False,
+        "diagnostic_attempt_consumed": runtime_terminal_present,
         "diagnostic_executed": False,
-        "next_gate": contract.EXECUTION_GATE_ID,
+        "next_gate": (
+            contract.RESULT_REVIEW_GATE_ID
+            if runtime_terminal_present
+            else contract.EXECUTION_GATE_ID
+        ),
     }
+
+
+def _validate_mm005_browser_research_generation_failure_diagnostic_result_review_v2() -> (
+    dict[str, Any]
+):
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_protocol_v2 as protocol,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_review_v2 as contract,
+    )
+    from fullcycle_bridge import (
+        mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_v2 as result_contract,
+    )
+    from scripts import (
+        prepare_mm005_browser_research_model_evaluation_generation_failure_diagnostic_result_review_v2 as builder,
+    )
+    from scripts import (
+        run_mm005_browser_research_model_evaluation_generation_failure_diagnostic_v2 as runner,
+    )
+
+    authority_payload = _read_regular_file_once(
+        ROOT / result_contract.EXECUTION_AUTHORITY_PATH,
+        "MM-005 diagnostic-v2 result-review authority",
+    )
+    review_payload = _read_regular_file_once(
+        MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_PATH,
+        "MM-005 diagnostic-v2 result review",
+    )
+    if (
+        len(review_payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_BYTES
+        or contract.sha256_bytes(review_payload)
+        != MM005_BROWSER_RESEARCH_GENERATION_FAILURE_DIAGNOSTIC_RESULT_REVIEW_V2_SHA256
+    ):
+        raise GateError("MM-005 diagnostic-v2 result-review receipt mismatch")
+    try:
+        review = contract.parse_and_validate_result_review(
+            review_payload, authority_payload=authority_payload
+        )
+    except contract.MM005GenerationFailureDiagnosticResultReviewError as exc:
+        raise GateError(
+            f"MM-005 diagnostic-v2 result-review validation failed: {exc.code}"
+        ) from exc
+
+    topology_before = runner._output_topology()
+    runner._validate_output_topology(topology_before)
+    runtime_mode = _mm005_diagnostic_v2_runtime_mode(topology_before)
+    raw_runtime_artifacts_revalidated = runtime_mode == "failure_terminal"
+    if raw_runtime_artifacts_revalidated:
+        rebuilt, runtime_summary = builder.validate_local_runtime_and_build_review()
+        if (
+            contract.artifact_json_bytes(rebuilt) != review_payload
+            or runtime_summary
+            != {
+                "valid": True,
+                "event_count": 2,
+                "failure_scope": "pre_record_lifecycle",
+                "selected_outcome": "diagnostic_inconclusive",
+                "diagnostic_attempt_consumed": True,
+                "diagnostic_executed": False,
+                "model_evaluated": False,
+                "formal_measurement_complete": False,
+                "root_cause_established": False,
+                "retry_authorized": False,
+            }
+        ):
+            raise GateError("MM-005 diagnostic-v2 local terminal review mismatch")
+    elif contract.artifact_json_bytes(
+        contract.build_result_review(authority_payload=authority_payload)
+    ) != review_payload:
+        raise GateError("MM-005 diagnostic-v2 portable review mismatch")
+
+    lineage = review.get("lineage")
+    artifacts = review.get("authenticated_artifacts")
+    terminal = review.get("authenticated_terminal")
+    invocation = review.get("invocation")
+    policy = review.get("evidence_policy")
+    decision = review.get("decision")
+    claims = review.get("claims")
+    action = review.get("locked_next_action")
+    publication = review.get("publication")
+    if not all(
+        isinstance(section, dict)
+        for section in (
+            lineage,
+            artifacts,
+            terminal,
+            invocation,
+            policy,
+            decision,
+            claims,
+            action,
+            publication,
+        )
+    ):
+        raise GateError("MM-005 diagnostic-v2 result-review sections invalid")
+    assert isinstance(artifacts, dict)
+    assert isinstance(terminal, dict)
+    assert isinstance(invocation, dict)
+    assert isinstance(policy, dict)
+    assert isinstance(decision, dict)
+    assert isinstance(claims, dict)
+    assert isinstance(action, dict)
+    assert isinstance(publication, dict)
+
+    expected_receipts = {
+        "attempt_owner": (
+            protocol.ATTEMPT_OWNER_PATH,
+            contract.ATTEMPT_OWNER_BYTES,
+            contract.ATTEMPT_OWNER_SHA256,
+        ),
+        "progress": (
+            protocol.PROGRESS_PATH,
+            contract.PROGRESS_BYTES,
+            contract.PROGRESS_SHA256,
+        ),
+        "failure": (
+            protocol.FAILURE_PATH,
+            contract.FAILURE_BYTES,
+            contract.FAILURE_SHA256,
+        ),
+        "lifecycle_lease": (
+            protocol.LIFECYCLE_LEASE_PATH,
+            contract.LIFECYCLE_LEASE_BYTES,
+            contract.LIFECYCLE_LEASE_SHA256,
+        ),
+    }
+    for name, (path, size, digest) in expected_receipts.items():
+        receipt = artifacts.get(name)
+        if not isinstance(receipt, dict) or (
+            receipt.get("path"), receipt.get("bytes"), receipt.get("sha256")
+        ) != (path, size, digest):
+            raise GateError("MM-005 diagnostic-v2 result-review artifact mismatch")
+
+    unsafe_fragments = (
+        b"isolated Python args",
+        b"dont_write_bytecode",
+        b"pycache_prefix",
+        b"C:\\\\Users",
+        b"C:/Users",
+        b"Traceback",
+    )
+    if (
+        review.get("gate_id") != contract.GATE_ID
+        or review.get("failed_gate_id") != result_contract.EXECUTION_GATE_ID
+        or review.get("classification") != contract.CLASSIFICATION
+        or terminal.get("event_names")
+        != ["attempt_claimed", "failure_terminal_ready"]
+        or terminal.get("failure_scope") != "pre_record_lifecycle"
+        or terminal.get("exception_type") != "RuntimeError"
+        or terminal.get("selected_outcome") != "diagnostic_inconclusive"
+        or terminal.get("observed_environment") is not None
+        or terminal.get("resources") is not None
+        or invocation.get("formal_invocation_budget_remaining") != 0
+        or invocation.get("diagnostic_attempt_consumed") is not True
+        or invocation.get("retry_authorized") is not False
+        or policy.get("controller_observation_used_for_root_cause") is not False
+        or policy.get("controller_observation_content_copied") is not False
+        or decision.get("result_review_gate_passed") is not True
+        or decision.get("diagnostic_formal_gate_passed") is not False
+        or claims.get("diagnostic_attempt_consumed") is not True
+        or claims.get("diagnostic_executed") is not False
+        or claims.get("model_evaluated") is not False
+        or claims.get("formal_measurement_complete") is not False
+        or claims.get("runtime_root_cause_established") is not False
+        or claims.get("runtime_eligible") is not False
+        or action.get("next_gate_id") is not None
+        or action.get("diagnostic_v2_chain_closed") is not True
+        or action.get("v2_retry_authorized") is not False
+        or action.get("automatic_recovery_authorized") is not False
+        or action.get("recovery_v3_authorized") is not False
+        or publication.get("slice_paths") != sorted(contract.REVIEW_SLICE_PATHS)
+        or publication.get("slice_path_count") != 12
+        or publication.get("git_lfs_payload_bytes_required") != 0
+        or any(fragment in review_payload for fragment in unsafe_fragments)
+    ):
+        raise GateError("MM-005 diagnostic-v2 result-review boundary mismatch")
+
+    topology_after = runner._output_topology()
+    runner._validate_output_topology(topology_after)
+    if topology_after != topology_before:
+        raise GateError("MM-005 diagnostic-v2 result-review validation wrote state")
+    return {
+        "result_review_valid": True,
+        "raw_runtime_artifacts_revalidated": raw_runtime_artifacts_revalidated,
+        "diagnostic_attempt_consumed": True,
+        "diagnostic_executed": False,
+        "model_evaluated": False,
+        "formal_measurement_complete": False,
+        "root_cause_established": False,
+        "retry_authorized": False,
+        "next_gate": None,
+        "git_lfs_payload_bytes_required": 0,
+    }
+
+
+def _close_mm005_diagnostic_v2_authority_state_from_result_review(
+    authority: Mapping[str, Any], review: Mapping[str, Any]
+) -> dict[str, Any]:
+    """Project the authenticated spent review onto the effective authority state."""
+
+    raw_runtime_terminal_revalidated = authority.get("diagnostic_attempt_consumed")
+    review_runtime_revalidated = review.get("raw_runtime_artifacts_revalidated")
+    expected_pre_close_next_gate = (
+        "MM-005-browser-research-model-evaluation-generation-failure-"
+        "diagnostic-result-review-v2"
+        if raw_runtime_terminal_revalidated is True
+        else "MM-005-browser-research-model-evaluation-generation-failure-"
+        "diagnostic-execution-v2"
+    )
+    if (
+        authority.get("authority_valid") is not True
+        or authority.get("authority_tracked_at_head") is not True
+        or type(authority.get("head_is_authority_introduction_commit")) is not bool
+        or authority.get("diagnostic_execution_authorized") is not True
+        or authority.get("formal_execution_eligible") is not False
+        or type(raw_runtime_terminal_revalidated) is not bool
+        or authority.get("diagnostic_executed") is not False
+        or type(review_runtime_revalidated) is not bool
+        or review_runtime_revalidated is not raw_runtime_terminal_revalidated
+        or authority.get("next_gate") != expected_pre_close_next_gate
+        or review.get("result_review_valid") is not True
+        or review.get("diagnostic_attempt_consumed") is not True
+        or review.get("diagnostic_executed") is not False
+        or review.get("retry_authorized") is not False
+        or review.get("next_gate") is not None
+    ):
+        raise GateError("MM-005 diagnostic-v2 effective authority state mismatch")
+
+    closed = dict(authority)
+    closed.update(
+        {
+            "published_authority_initially_authorized": True,
+            "raw_runtime_terminal_revalidated": raw_runtime_terminal_revalidated,
+            "effective_state_source": "authenticated_tracked_result_review",
+            "diagnostic_execution_authorized": False,
+            "formal_execution_eligible": False,
+            "diagnostic_attempt_consumed": True,
+            "diagnostic_executed": False,
+            "next_gate": None,
+        }
+    )
+    return closed
 
 
 def _mm005_generation_failure_diagnostic_runtime_presence(
@@ -11669,12 +12114,285 @@ def _fp32_cuda_inventory(value: object, *, expected_elements: int) -> bool:
     )
 
 
-def _run_tests() -> int:
+_MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_CLASS = (
+    "test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_protocol_v2",
+    "MM005GenerationFailureDiagnosticProtocolV2Tests",
+)
+_MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_METHODS = frozenset(
+    {
+        "test_canonical_rebuild_validation_and_builder_check_pass",
+        "test_every_derived_artifact_and_parent_path_must_match_exactly",
+        "test_exact_eleven_path_protocol_slice_and_sources_are_model_free",
+        "test_final_snapshot_rejects_source_drift",
+        "test_fixed_artifact_names_and_lease_location_are_closed",
+        "test_future_implementation_regression_is_mandatory_and_model_free",
+        "test_lineage_payload_or_receipt_drift_fails_closed",
+        "test_lineage_receipts_and_first_parent_chain_are_exact",
+        "test_new_identity_is_casefold_and_ancestor_unique_from_predecessors",
+        "test_output_parent_contract_is_closed_and_strictly_ordered",
+        "test_plan_check_and_freeze_do_not_create_missing_parent",
+        "test_planned_runtime_collision_fails_before_build",
+        "test_predecessor_runtime_is_ignored_and_strictly_read_only",
+        "test_protocol_freeze_has_no_execution_retry_or_terminal_synthesis",
+        "test_scientific_or_closeout_semantic_drift_is_rejected",
+        "test_separate_implementation_v2_freezes_parent_order_without_authority",
+        "test_specified_identities_commits_and_digests_are_literal_anchors",
+        "test_strict_json_and_final_protocol_tamper_fail_closed",
+        "test_v1_scientific_subtrees_are_semantically_immutable",
+    }
+)
+_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_CLASS = (
+    "test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_execution_authority_v2",
+    "MM005GenerationFailureDiagnosticExecutionAuthorityV2Tests",
+)
+_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS = frozenset(
+    {
+        "test_authority_binds_i2_exact_environment_caps_and_budgets",
+        "test_authority_slice_and_two_stage_lineage_are_exact",
+        "test_builder_check_and_runner_plan_check_are_read_only",
+        "test_builder_reproduces_closed_canonical_authority",
+        "test_default_builder_is_exclusive_and_never_creates_parents",
+        "test_four_critical_dependency_receipts_bind_i2_blobs",
+        "test_runtime_output_lease_and_reserved_state_are_absent",
+        "test_three_implementation_source_receipts_bind_i2_and_i1_introduction",
+    }
+)
+_MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_CLASS = (
+    "test_mm005_browser_research_model_evaluation_generation_failure_"
+    "diagnostic_result_v2",
+    "MM005BrowserResearchGenerationFailureDiagnosticResultV2Tests",
+)
+_MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_METHODS = frozenset(
+    {
+        "test_authority_present_plan_and_check_never_enter_execute_path",
+        "test_protocol_merge_config_sources_and_three_file_closure",
+    }
+)
+_MM005_DIAGNOSTIC_V2_SPENT_TERMINAL_SKIP_REASON = (
+    "historical pre-execution diagnostic-v2 fixture is inapplicable after the "
+    "exact authenticated spent terminal"
+)
+_MM005_DIAGNOSTIC_V2_HISTORICAL_AUTHORITY_SKIP_REASON = (
+    "authority-construction fixture requires the exact authority introduction "
+    "HEAD; the published historical authority is validated separately"
+)
+
+
+def _iter_test_cases(suite: unittest.TestSuite) -> list[unittest.TestCase]:
+    cases: list[unittest.TestCase] = []
+    for item in suite:
+        if isinstance(item, unittest.TestSuite):
+            cases.extend(_iter_test_cases(item))
+        elif isinstance(item, unittest.TestCase):
+            cases.append(item)
+        else:
+            raise GateError("unexpected object in unit test suite")
+    return cases
+
+
+def _set_unittest_skip_marker(
+    target: type[unittest.TestCase] | object,
+    *,
+    reason: str,
+    marker_state: list[tuple[object, str, bool, object]],
+) -> None:
+    for name, value in (
+        ("__unittest_skip__", True),
+        (
+            "__unittest_skip_why__",
+            reason,
+        ),
+    ):
+        namespace = vars(target)
+        marker_state.append((target, name, name in namespace, namespace.get(name)))
+        setattr(target, name, value)
+
+
+def _restore_unittest_skip_markers(
+    marker_state: list[tuple[object, str, bool, object]],
+) -> None:
+    for target, name, existed, value in reversed(marker_state):
+        if existed:
+            setattr(target, name, value)
+        else:
+            delattr(target, name)
+
+
+def _prepare_mm005_diagnostic_v2_test_skips(
+    suite: unittest.TestSuite,
+    *,
+    authenticated_spent_diagnostic_terminal: bool,
+    historical_execution_authority: bool,
+) -> tuple[list[tuple[object, str, bool, object]], int, int]:
+    if (
+        type(authenticated_spent_diagnostic_terminal) is not bool
+        or type(historical_execution_authority) is not bool
+    ):
+        raise GateError("diagnostic-v2 test compatibility state is invalid")
+    if not authenticated_spent_diagnostic_terminal and not historical_execution_authority:
+        return [], 0, 0
+
+    cases = _iter_test_cases(suite)
+    classes: dict[tuple[str, str], type[unittest.TestCase]] = {}
+    methods: dict[tuple[str, str], set[str]] = {}
+    case_counts: dict[tuple[tuple[str, str], str], int] = {}
+    for case in cases:
+        class_key = (case.__class__.__module__, case.__class__.__name__)
+        method_name = case.id().rsplit(".", 1)[-1]
+        classes[class_key] = case.__class__
+        methods.setdefault(class_key, set()).add(method_name)
+        case_key = (class_key, method_name)
+        case_counts[case_key] = case_counts.get(case_key, 0) + 1
+
+    targets: list[tuple[object, str]] = []
+    spent_terminal_skips = 0
+    historical_authority_skips = 0
+    if authenticated_spent_diagnostic_terminal:
+        protocol_methods = methods.get(
+            _MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_CLASS
+        )
+        protocol_class = classes.get(
+            _MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_CLASS
+        )
+        if (
+            protocol_class is None
+            or protocol_methods
+            != set(_MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_METHODS)
+            or any(
+                case_counts.get(
+                    (_MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_CLASS, name)
+                )
+                != 1
+                for name in _MM005_DIAGNOSTIC_V2_PROTOCOL_PRE_EXECUTION_METHODS
+            )
+        ):
+            raise GateError("diagnostic-v2 pre-execution protocol test set drifted")
+        targets.append(
+            (protocol_class, _MM005_DIAGNOSTIC_V2_SPENT_TERMINAL_SKIP_REASON)
+        )
+        spent_terminal_skips += len(protocol_methods)
+
+    if authenticated_spent_diagnostic_terminal or historical_execution_authority:
+        authority_class = classes.get(_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_CLASS)
+        authority_methods = methods.get(_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_CLASS)
+        if (
+            authority_class is None
+            or authority_methods is None
+            or not _MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS.issubset(
+                authority_methods
+            )
+            or any(
+                case_counts.get((_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_CLASS, name))
+                != 1
+                for name in _MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS
+            )
+        ):
+            raise GateError("diagnostic-v2 authority-stage test set drifted")
+        authority_reason = (
+            _MM005_DIAGNOSTIC_V2_SPENT_TERMINAL_SKIP_REASON
+            if authenticated_spent_diagnostic_terminal
+            else _MM005_DIAGNOSTIC_V2_HISTORICAL_AUTHORITY_SKIP_REASON
+        )
+        for method_name in sorted(_MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS):
+            targets.append((getattr(authority_class, method_name), authority_reason))
+        if authenticated_spent_diagnostic_terminal:
+            spent_terminal_skips += len(
+                _MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS
+            )
+        else:
+            historical_authority_skips += len(
+                _MM005_DIAGNOSTIC_V2_AUTHORITY_STAGE_METHODS
+            )
+
+    if authenticated_spent_diagnostic_terminal:
+        result_class = classes.get(_MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_CLASS)
+        result_methods = methods.get(_MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_CLASS)
+        if (
+            result_class is None
+            or result_methods is None
+            or not _MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_METHODS.issubset(
+                result_methods
+            )
+            or any(
+                case_counts.get(
+                    (_MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_CLASS, name)
+                )
+                != 1
+                for name in _MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_METHODS
+            )
+        ):
+            raise GateError("diagnostic-v2 result pre-execution test set drifted")
+        for method_name in sorted(
+            _MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_METHODS
+        ):
+            targets.append(
+                (
+                    getattr(result_class, method_name),
+                    _MM005_DIAGNOSTIC_V2_SPENT_TERMINAL_SKIP_REASON,
+                )
+            )
+        spent_terminal_skips += len(
+            _MM005_DIAGNOSTIC_V2_RESULT_PRE_EXECUTION_METHODS
+        )
+
+    marker_state: list[tuple[object, str, bool, object]] = []
+    try:
+        for target, reason in targets:
+            _set_unittest_skip_marker(
+                target, reason=reason, marker_state=marker_state
+            )
+    except BaseException:
+        _restore_unittest_skip_markers(marker_state)
+        raise
+    return marker_state, spent_terminal_skips, historical_authority_skips
+
+
+def _run_tests(
+    *,
+    authenticated_spent_diagnostic_terminal: bool = False,
+    historical_execution_authority: bool = False,
+) -> tuple[int, int, int, int]:
     suite = unittest.defaultTestLoader.discover(str(TESTS))
-    result = unittest.TextTestRunner(verbosity=2).run(suite)
+    (
+        marker_state,
+        expected_spent_terminal_skips,
+        expected_historical_authority_skips,
+    ) = _prepare_mm005_diagnostic_v2_test_skips(
+        suite,
+        authenticated_spent_diagnostic_terminal=(
+            authenticated_spent_diagnostic_terminal
+        ),
+        historical_execution_authority=historical_execution_authority,
+    )
+
+    try:
+        result = unittest.TextTestRunner(verbosity=2).run(suite)
+    finally:
+        _restore_unittest_skip_markers(marker_state)
     if not result.wasSuccessful():
         raise GateError("unit test suite failed")
-    return result.testsRun
+    skipped = list(getattr(result, "skipped", []))
+    spent_terminal_skips = sum(
+        reason == _MM005_DIAGNOSTIC_V2_SPENT_TERMINAL_SKIP_REASON
+        for _, reason in skipped
+    )
+    historical_authority_skips = sum(
+        reason == _MM005_DIAGNOSTIC_V2_HISTORICAL_AUTHORITY_SKIP_REASON
+        for _, reason in skipped
+    )
+    if (
+        spent_terminal_skips != expected_spent_terminal_skips
+        or historical_authority_skips != expected_historical_authority_skips
+    ):
+        raise GateError("diagnostic-v2 pre-execution skip accounting differs")
+    return (
+        result.testsRun,
+        len(skipped),
+        spent_terminal_skips,
+        historical_authority_skips,
+    )
 
 
 def _load_json(path: Path) -> dict[str, Any]:
