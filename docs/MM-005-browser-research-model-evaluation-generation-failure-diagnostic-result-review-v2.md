@@ -97,3 +97,15 @@ next gate); raw-runtime revalidation availability is reported separately and
 cannot resurrect the historical one-shot authority. Local raw authentication
 uses a second complete capture before returning, so equal topology alone cannot
 hide changed receipt bytes.
+
+## Publication
+
+PR #87 published the exact twelve-path review as verified signed squash commit
+`5044f5e87df7781c87f41ec7aaf682426f4f39a2`, tree
+`1fe59da764b82903ffb1fd2ab78169e3c1489b5b`, with authority commit
+`6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a` as its unique parent. Pull-request
+run `33837326248` and exact merge-HEAD run `33837463183` each passed all four
+automatic jobs, with exact HEAD validation and zero LFS payload bytes read. The
+feature branch was deleted locally and remotely. This diagnostic-v2 chain is
+closed with no automatic successor; an owner must explicitly select one
+separate existing roadmap scope before any later gate is authorized.
