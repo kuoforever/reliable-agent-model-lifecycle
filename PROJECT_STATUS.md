@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-09-03.
+> Updated: 2026-09-04.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -950,14 +950,15 @@ their sole first-parent introduction while their final bytes bind I2.
 
 PR #86 published the authority as verified signed squash commit
 `6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`, with I2 as its unique parent.
-Its pull-request and exact-merge-head workflows passed all four required jobs,
-each reporting zero LFS payload bytes read. The sole formal invocation has
-since been consumed and produced an authenticated `pre_record_lifecycle`
-failure after owner/genesis but before any diagnostic record or model
-evaluation. The exact active gate is now
-`MM-005-browser-research-model-evaluation-generation-failure-diagnostic-result-review-v2`
-on branch `feat/mm005-diagnostic-v2-result-review`. Its ceiling is exactly these
-twelve paths:
+Its sole formal invocation was consumed and produced an authenticated
+`pre_record_lifecycle` failure after owner/genesis but before any diagnostic
+record or model evaluation. PR #87 then published the authenticated model-free
+result review as verified signed squash commit
+`5044f5e87df7781c87f41ec7aaf682426f4f39a2`, tree
+`1fe59da764b82903ffb1fd2ab78169e3c1489b5b`, with the authority as its unique
+parent. Pull-request run `33837326248` and exact merge-HEAD run `33837463183`
+each passed all four required jobs, and every job reported zero LFS payload
+bytes read. The completed result-review ceiling was exactly these twelve paths:
 
 1. `AI_Infra_LLM_Agent_待做任务清单.md`
 2. `PROJECT_STATUS.md`
@@ -1106,11 +1107,11 @@ the `P -> M1 -> M2 -> I1 -> I2 -> A` direct-parent chain drifts; if any v1/v2
 command is retried; if ignored runtime evidence would be deleted, rewritten,
 reconciled by execution, or tracked; if controller-only text would be promoted
 to root cause; if an LFS network transfer/new hydration would be triggered; or
-if checks, review, conflict, or strict-up-to-date state is unresolved. After a
-clean result-review merge and branch cleanup, this diagnostic-v2 chain has no
-automatic successor. The exact next objective is a separate roadmap scope
-selection; no new diagnostic, recovery, Runtime, or model gate is authorized
-by this review.
+if checks, review, conflict, or strict-up-to-date state is unresolved. PR #87's
+clean result-review merge and local/remote branch cleanup are complete, and this
+diagnostic-v2 chain has no automatic successor. The exact next objective is an
+explicit owner selection of one separate existing roadmap scope; until that
+selection, no new diagnostic, recovery, Runtime, or model gate is authorized.
 
 ## Preserved historical validation and deferred gates
 
@@ -2139,7 +2140,7 @@ audits, and two exact dataset records with zero runtime dependencies. Ruff
 | `FC-BRIDGE-004` | Complete locally | Runtime freeze pin, contract compatibility, and cross-repository handoff |
 | `FC-MVP-000` | Complete | Runtime consumer baseline, locked environment, local/remote Python matrix |
 | `FC-MVP-001` | In progress | Text Tool Router closed loop; portable-package qualification frozen and deferred pending an independent target |
-| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published diagnostic protocol/implementation/authority v1 and PR #79 closed its spent pre-claim invocation; CI/LFS maintenance and exact-head transport closed through PR #80/#82/#83; protocol-v2 and implementation I1/I2 published through PR #81/#84/#85; PR #86 published authority v2 as `6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`; its sole invocation is consumed with an authenticated two-event `pre_record_lifecycle` / `diagnostic_inconclusive` terminal before diagnostic/model execution; the exact-twelve-path safe result review is the sole active gate and authorizes no retry, recovery, new diagnostic identity, or Runtime change |
+| `FC-MVP-002` | In progress | Multimodal lifecycle; Document/Chart/PDF closed through PR #59; Browser Research generation/result and Adapter/Verifier published through PR #66/#67/#68; model-evaluation v1 protocol published through PR #69 and its consumed owner-only attempt classified through PR #70; recovery-v2 published through PR #71; its exact-once v2 attempt consumed with an authenticated 4-start/3-completion `RuntimeError` terminal and exact classification published through PR #72; generation-failure protocol/implementation/static result published through PR #73/#74/#75; PR #76/#77/#78 published diagnostic protocol/implementation/authority v1 and PR #79 closed its spent pre-claim invocation; CI/LFS maintenance and exact-head transport closed through PR #80/#82/#83; protocol-v2 and implementation I1/I2 published through PR #81/#84/#85; PR #86 published authority v2 as `6bfaf262eb2dd7cce6ffee928622a8785fa6eb1a`; its sole invocation was consumed with an authenticated two-event `pre_record_lifecycle` / `diagnostic_inconclusive` terminal before diagnostic/model execution; PR #87 published the exact-twelve-path safe result review as `5044f5e87df7781c87f41ec7aaf682426f4f39a2` and closed the diagnostic-v2 chain with no retry, recovery, new diagnostic identity, Runtime change, or automatic successor authorized |
 
 Detailed technical tasks remain in
 `AI_Infra_LLM_Agent_待做任务清单.md`. This file owns only sequencing and the
