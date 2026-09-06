@@ -1,0 +1,5944 @@
+{
+  "id": "FC-MVP-002-gui-owl-lora-pilot-v1",
+  "model_id": "mPLUG/GUI-Owl-1.5-4B-Instruct",
+  "revision": "3f061c2c562cc860c42bf32542a70e07a7ff4840",
+  "rubric": {
+    "fresh_exact_min": 20,
+    "fresh_gain_min": 8,
+    "limits": "Same synthetic rule families across splits; not OOD or live reliability.",
+    "visual_exact_min": 8
+  },
+  "selection": "Fixed final step only; validation loss diagnostic; test never selects checkpoint.",
+  "splits": {
+    "test": [
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 892,
+          "request_id": "task-b9c28fcc6508"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-b9c28fcc6508",
+        "request": {
+          "current_epoch": 892,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_665370",
+                "role": "edit"
+              },
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 7507 content",
+                "ref": "ref_665369",
+                "role": "edit"
+              }
+            ],
+            "epoch": 892,
+            "foreground_scope": "752224",
+            "scope": "752224",
+            "text": "Public briefing 1138.",
+            "text_verified": true
+          },
+          "request_id": "task-b9c28fcc6508",
+          "runtime_generation": 10,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 7507 content"
+          },
+          "target_scope": "752224",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 165,
+          "request_id": "task-1906b6368958"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-1906b6368958",
+        "request": {
+          "current_epoch": 165,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3914 content",
+                "ref": "ref_126245",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_126246",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3914 content",
+                "ref": "ref_126247",
+                "role": "edit"
+              }
+            ],
+            "epoch": 165,
+            "foreground_scope": "125770",
+            "scope": "125770",
+            "text": "Public briefing 5594.",
+            "text_verified": true
+          },
+          "request_id": "task-1906b6368958",
+          "runtime_generation": 83,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3914 content"
+          },
+          "target_scope": "125770",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 399,
+          "request_id": "task-831591ef13cb"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-831591ef13cb",
+        "request": {
+          "current_epoch": 399,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_609760",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 8688 content",
+                "ref": "ref_609759",
+                "role": "edit"
+              }
+            ],
+            "epoch": 399,
+            "foreground_scope": "744100",
+            "scope": "744099",
+            "text": "Public briefing 7848.",
+            "text_verified": true
+          },
+          "request_id": "task-831591ef13cb",
+          "runtime_generation": 55,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "744099",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 105,
+          "request_id": "task-ef8a2658e66d"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-ef8a2658e66d",
+        "request": {
+          "current_epoch": 105,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_173644",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4492 content",
+                "ref": "ref_173643",
+                "role": "edit"
+              }
+            ],
+            "epoch": 104,
+            "foreground_scope": "159946",
+            "scope": "159946",
+            "text": "Public briefing 5570.",
+            "text_verified": true
+          },
+          "request_id": "task-ef8a2658e66d",
+          "runtime_generation": 88,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4492 content"
+          },
+          "target_scope": "159946",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 473,
+          "request_id": "task-5443baf34fd9"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-5443baf34fd9",
+        "request": {
+          "current_epoch": 473,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_648523",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 8681 content",
+                "ref": "ref_648522",
+                "role": "edit"
+              }
+            ],
+            "epoch": 473,
+            "foreground_scope": "363727",
+            "scope": "363727",
+            "text": "Public briefing 5543.",
+            "text_verified": true
+          },
+          "request_id": "task-5443baf34fd9",
+          "runtime_generation": 96,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 8681 content",
+            "text": "The public report lists 53 completed tasks."
+          },
+          "target_scope": "363727",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 499,
+          "request_id": "task-3900bf89a8c7"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-3900bf89a8c7",
+        "request": {
+          "current_epoch": 499,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 6669 content",
+                "ref": "ref_21203",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_21204",
+                "role": "edit"
+              }
+            ],
+            "epoch": 499,
+            "foreground_scope": "917254",
+            "scope": "917254",
+            "text": "Public briefing 4891.",
+            "text_verified": true
+          },
+          "request_id": "task-3900bf89a8c7",
+          "runtime_generation": 23,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 6669 content",
+            "text": "The public report lists 70 completed tasks."
+          },
+          "target_scope": "917254",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 581,
+          "request_id": "task-13f91f26f062"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-13f91f26f062",
+        "request": {
+          "current_epoch": 581,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3993 content",
+                "ref": "ref_417333",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_417334",
+                "role": "edit"
+              }
+            ],
+            "epoch": 581,
+            "foreground_scope": "430836",
+            "scope": "430835",
+            "text": "Public briefing 8847.",
+            "text_verified": true
+          },
+          "request_id": "task-13f91f26f062",
+          "runtime_generation": 30,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 3993 content",
+            "text": "The public report lists 84 completed tasks."
+          },
+          "target_scope": "430835",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 658,
+          "request_id": "task-7d2b441773ab"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-7d2b441773ab",
+        "request": {
+          "current_epoch": 658,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5108 content",
+                "ref": "ref_220841",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_220842",
+                "role": "edit"
+              }
+            ],
+            "epoch": 658,
+            "foreground_scope": "721682",
+            "scope": "721682",
+            "text": "Public briefing 2014.",
+            "text_verified": true
+          },
+          "request_id": "task-7d2b441773ab",
+          "runtime_generation": 68,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "721682",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 238,
+          "ref": "ref_772852",
+          "request_id": "task-1dccb72cd340"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-1dccb72cd340",
+        "request": {
+          "current_epoch": 238,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5491 content",
+                "ref": "ref_772852",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_772853",
+                "role": "edit"
+              }
+            ],
+            "epoch": 238,
+            "foreground_scope": "806674",
+            "scope": "806674",
+            "text": "Public briefing 3021.",
+            "text_verified": true
+          },
+          "request_id": "task-1dccb72cd340",
+          "runtime_generation": 94,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5491 content"
+          },
+          "target_scope": "806674",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 140,
+          "ref": "ref_111561",
+          "request_id": "task-1ae7a4b498ce"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-1ae7a4b498ce",
+        "request": {
+          "current_epoch": 140,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3599 content",
+                "ref": "ref_111561",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_111562",
+                "role": "edit"
+              }
+            ],
+            "epoch": 140,
+            "foreground_scope": "66505",
+            "scope": "66505",
+            "text": "Public briefing 1943.",
+            "text_verified": true
+          },
+          "request_id": "task-1ae7a4b498ce",
+          "runtime_generation": 37,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 3599 content",
+            "text": "The public report lists 38 completed tasks."
+          },
+          "target_scope": "66505",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 610,
+          "request_id": "task-29606321ead8"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-29606321ead8",
+        "request": {
+          "current_epoch": 610,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_720539",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3724 content",
+                "ref": "ref_720538",
+                "role": "edit"
+              }
+            ],
+            "epoch": 609,
+            "foreground_scope": "488564",
+            "scope": "488564",
+            "text": "Public briefing 781.",
+            "text_verified": true
+          },
+          "request_id": "task-29606321ead8",
+          "runtime_generation": 45,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3724 content"
+          },
+          "target_scope": "488564",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 359,
+          "request_id": "task-7e113615503a"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-7e113615503a",
+        "request": {
+          "current_epoch": 359,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6859 content",
+                "ref": "ref_402226",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_402227",
+                "role": "edit"
+              }
+            ],
+            "epoch": 359,
+            "foreground_scope": "329598",
+            "scope": "329597",
+            "text": "Public briefing 2829.",
+            "text_verified": true
+          },
+          "request_id": "task-7e113615503a",
+          "runtime_generation": 28,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 6859 content",
+            "text": "The public report lists 80 completed tasks."
+          },
+          "target_scope": "329597",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 413,
+          "request_id": "task-d42882ab1ecc"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-d42882ab1ecc",
+        "request": {
+          "current_epoch": 413,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_118154",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4366 content",
+                "ref": "ref_118153",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4366 content",
+                "ref": "ref_118155",
+                "role": "edit"
+              }
+            ],
+            "epoch": 413,
+            "foreground_scope": "233695",
+            "scope": "233695",
+            "text": "Public briefing 4779.",
+            "text_verified": true
+          },
+          "request_id": "task-d42882ab1ecc",
+          "runtime_generation": 10,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4366 content"
+          },
+          "target_scope": "233695",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 677,
+          "request_id": "task-e459a7601b45"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-e459a7601b45",
+        "request": {
+          "current_epoch": 677,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_845391",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1327 content",
+                "ref": "ref_845390",
+                "role": "edit"
+              }
+            ],
+            "epoch": 677,
+            "foreground_scope": "987329",
+            "scope": "987329",
+            "text": "Public briefing 2288.",
+            "text_verified": false
+          },
+          "request_id": "task-e459a7601b45",
+          "runtime_generation": 3,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "987329",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 256,
+          "ref": "ref_95898",
+          "request_id": "task-99b0561baf82"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-99b0561baf82",
+        "request": {
+          "current_epoch": 256,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3655 content",
+                "ref": "ref_95898",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_95899",
+                "role": "edit"
+              }
+            ],
+            "epoch": 256,
+            "foreground_scope": "922939",
+            "scope": "922939",
+            "text": "Public briefing 3499.",
+            "text_verified": true
+          },
+          "request_id": "task-99b0561baf82",
+          "runtime_generation": 26,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3655 content"
+          },
+          "target_scope": "922939",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 440,
+          "request_id": "task-b579ce1d0dc8"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-b579ce1d0dc8",
+        "request": {
+          "current_epoch": 440,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_748423",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9730 content",
+                "ref": "ref_748422",
+                "role": "edit"
+              }
+            ],
+            "epoch": 440,
+            "foreground_scope": "772340",
+            "scope": "772340",
+            "text": "Public briefing 5967.",
+            "text_verified": true
+          },
+          "request_id": "task-b579ce1d0dc8",
+          "runtime_generation": 25,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "772340",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 608,
+          "ref": "ref_735915",
+          "request_id": "task-5cf6f8594e10"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-5cf6f8594e10",
+        "request": {
+          "current_epoch": 608,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3946 content",
+                "ref": "ref_735915",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_735916",
+                "role": "edit"
+              }
+            ],
+            "epoch": 608,
+            "foreground_scope": "614259",
+            "scope": "614259",
+            "text": "Public briefing 876.",
+            "text_verified": true
+          },
+          "request_id": "task-5cf6f8594e10",
+          "runtime_generation": 79,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3946 content"
+          },
+          "target_scope": "614259",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 736,
+          "request_id": "task-dd55d6bbce67"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-dd55d6bbce67",
+        "request": {
+          "current_epoch": 736,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_166286",
+                "role": "edit"
+              },
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 9083 content",
+                "ref": "ref_166285",
+                "role": "edit"
+              }
+            ],
+            "epoch": 736,
+            "foreground_scope": "950973",
+            "scope": "950973",
+            "text": "Public briefing 5779.",
+            "text_verified": true
+          },
+          "request_id": "task-dd55d6bbce67",
+          "runtime_generation": 71,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9083 content"
+          },
+          "target_scope": "950973",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 710,
+          "request_id": "task-29212babbbd9"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-29212babbbd9",
+        "request": {
+          "current_epoch": 710,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_590085",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6312 content",
+                "ref": "ref_590084",
+                "role": "edit"
+              }
+            ],
+            "epoch": 710,
+            "foreground_scope": "678675",
+            "scope": "678675",
+            "text": "Public briefing 6142.",
+            "text_verified": true
+          },
+          "request_id": "task-29212babbbd9",
+          "runtime_generation": 19,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "678675",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 493,
+          "request_id": "task-364c8b2682f9"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-364c8b2682f9",
+        "request": {
+          "current_epoch": 493,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_366843",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9488 content",
+                "ref": "ref_366842",
+                "role": "edit"
+              }
+            ],
+            "epoch": 493,
+            "foreground_scope": "846434",
+            "scope": "846434",
+            "text": "Public briefing 1873.",
+            "text_verified": true
+          },
+          "request_id": "task-364c8b2682f9",
+          "runtime_generation": 35,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "846434",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 868,
+          "request_id": "task-ba742f3799a2"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-ba742f3799a2",
+        "request": {
+          "current_epoch": 868,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_37582",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2373 content",
+                "ref": "ref_37581",
+                "role": "edit"
+              }
+            ],
+            "epoch": 868,
+            "foreground_scope": "62504",
+            "scope": "62504",
+            "text": "Public briefing 1794.",
+            "text_verified": false
+          },
+          "request_id": "task-ba742f3799a2",
+          "runtime_generation": 61,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "62504",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 402,
+          "ref": "ref_287679",
+          "request_id": "task-5248425512b5"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-5248425512b5",
+        "request": {
+          "current_epoch": 402,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_287680",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4485 content",
+                "ref": "ref_287679",
+                "role": "edit"
+              }
+            ],
+            "epoch": 402,
+            "foreground_scope": "828535",
+            "scope": "828535",
+            "text": "Public briefing 2887.",
+            "text_verified": true
+          },
+          "request_id": "task-5248425512b5",
+          "runtime_generation": 91,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 4485 content",
+            "text": "The public report lists 22 completed tasks."
+          },
+          "target_scope": "828535",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 310,
+          "ref": "ref_563292",
+          "request_id": "task-086bd04b73c2"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-086bd04b73c2",
+        "request": {
+          "current_epoch": 310,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7987 content",
+                "ref": "ref_563292",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_563293",
+                "role": "edit"
+              }
+            ],
+            "epoch": 310,
+            "foreground_scope": "64333",
+            "scope": "64333",
+            "text": "Public briefing 7443.",
+            "text_verified": true
+          },
+          "request_id": "task-086bd04b73c2",
+          "runtime_generation": 85,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 7987 content"
+          },
+          "target_scope": "64333",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 898,
+          "request_id": "task-563bb2b65772"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-563bb2b65772",
+        "request": {
+          "current_epoch": 898,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_255957",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 8878 content",
+                "ref": "ref_255956",
+                "role": "edit"
+              }
+            ],
+            "epoch": 898,
+            "foreground_scope": "188442",
+            "scope": "188441",
+            "text": "Public briefing 2835.",
+            "text_verified": true
+          },
+          "request_id": "task-563bb2b65772",
+          "runtime_generation": 44,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "188441",
+          "version": 1
+        }
+      }
+    ],
+    "train": [
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 478,
+          "request_id": "task-e64fcbe6be61"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-e64fcbe6be61",
+        "request": {
+          "current_epoch": 478,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5276 content",
+                "ref": "ref_237254",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5276 content",
+                "ref": "ref_237252",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_237253",
+                "role": "edit"
+              }
+            ],
+            "epoch": 478,
+            "foreground_scope": "484871",
+            "scope": "484871",
+            "text": "Public briefing 2307.",
+            "text_verified": true
+          },
+          "request_id": "task-e64fcbe6be61",
+          "runtime_generation": 52,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5276 content"
+          },
+          "target_scope": "484871",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 687,
+          "request_id": "task-0237c40ba924"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-0237c40ba924",
+        "request": {
+          "current_epoch": 687,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5035 content",
+                "ref": "ref_320693",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5035 content",
+                "ref": "ref_320695",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_320694",
+                "role": "edit"
+              }
+            ],
+            "epoch": 687,
+            "foreground_scope": "114698",
+            "scope": "114698",
+            "text": "Public briefing 7912.",
+            "text_verified": true
+          },
+          "request_id": "task-0237c40ba924",
+          "runtime_generation": 93,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5035 content"
+          },
+          "target_scope": "114698",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 124,
+          "request_id": "task-c3ba9d0f6923"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-c3ba9d0f6923",
+        "request": {
+          "current_epoch": 124,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9309 content",
+                "ref": "ref_176207",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_176206",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9309 content",
+                "ref": "ref_176205",
+                "role": "edit"
+              }
+            ],
+            "epoch": 124,
+            "foreground_scope": "708417",
+            "scope": "708417",
+            "text": "Public briefing 8392.",
+            "text_verified": true
+          },
+          "request_id": "task-c3ba9d0f6923",
+          "runtime_generation": 71,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9309 content"
+          },
+          "target_scope": "708417",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 588,
+          "ref": "ref_838798",
+          "request_id": "task-9f6b48335303"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-9f6b48335303",
+        "request": {
+          "current_epoch": 588,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5377 content",
+                "ref": "ref_838798",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_838799",
+                "role": "edit"
+              }
+            ],
+            "epoch": 588,
+            "foreground_scope": "483546",
+            "scope": "483546",
+            "text": "Public briefing 4200.",
+            "text_verified": true
+          },
+          "request_id": "task-9f6b48335303",
+          "runtime_generation": 90,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5377 content"
+          },
+          "target_scope": "483546",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 584,
+          "ref": "ref_602015",
+          "request_id": "task-634fbc474c38"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-634fbc474c38",
+        "request": {
+          "current_epoch": 584,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4217 content",
+                "ref": "ref_602015",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_602016",
+                "role": "edit"
+              }
+            ],
+            "epoch": 584,
+            "foreground_scope": "510616",
+            "scope": "510616",
+            "text": "Public briefing 460.",
+            "text_verified": true
+          },
+          "request_id": "task-634fbc474c38",
+          "runtime_generation": 98,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 4217 content",
+            "text": "The public report lists 72 completed tasks."
+          },
+          "target_scope": "510616",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 119,
+          "ref": "ref_328119",
+          "request_id": "task-fc599bd5c735"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-fc599bd5c735",
+        "request": {
+          "current_epoch": 119,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_328120",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6419 content",
+                "ref": "ref_328119",
+                "role": "edit"
+              }
+            ],
+            "epoch": 119,
+            "foreground_scope": "706671",
+            "scope": "706671",
+            "text": "Public briefing 5448.",
+            "text_verified": true
+          },
+          "request_id": "task-fc599bd5c735",
+          "runtime_generation": 46,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 6419 content"
+          },
+          "target_scope": "706671",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 769,
+          "ref": "ref_803415",
+          "request_id": "task-f22713e5dc53"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-f22713e5dc53",
+        "request": {
+          "current_epoch": 769,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_803416",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3717 content",
+                "ref": "ref_803415",
+                "role": "edit"
+              }
+            ],
+            "epoch": 769,
+            "foreground_scope": "158921",
+            "scope": "158921",
+            "text": "Public briefing 260.",
+            "text_verified": true
+          },
+          "request_id": "task-f22713e5dc53",
+          "runtime_generation": 44,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3717 content"
+          },
+          "target_scope": "158921",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 827,
+          "request_id": "task-ef5215469b2c"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-ef5215469b2c",
+        "request": {
+          "current_epoch": 827,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 1871 content",
+                "ref": "ref_685784",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_685785",
+                "role": "edit"
+              }
+            ],
+            "epoch": 827,
+            "foreground_scope": "127024",
+            "scope": "127024",
+            "text": "Public briefing 7318.",
+            "text_verified": true
+          },
+          "request_id": "task-ef5215469b2c",
+          "runtime_generation": 62,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 1871 content"
+          },
+          "target_scope": "127024",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 335,
+          "request_id": "task-42016b574b36"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-42016b574b36",
+        "request": {
+          "current_epoch": 335,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_722298",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 2682 content",
+                "ref": "ref_722297",
+                "role": "edit"
+              }
+            ],
+            "epoch": 335,
+            "foreground_scope": "344737",
+            "scope": "344737",
+            "text": "Public briefing 8032.",
+            "text_verified": true
+          },
+          "request_id": "task-42016b574b36",
+          "runtime_generation": 2,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 2682 content",
+            "text": "The public report lists 30 completed tasks."
+          },
+          "target_scope": "344737",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 140,
+          "request_id": "task-e90894379f1c"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-e90894379f1c",
+        "request": {
+          "current_epoch": 140,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_59733",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3866 content",
+                "ref": "ref_59732",
+                "role": "edit"
+              }
+            ],
+            "epoch": 140,
+            "foreground_scope": "522315",
+            "scope": "522314",
+            "text": "Public briefing 5264.",
+            "text_verified": true
+          },
+          "request_id": "task-e90894379f1c",
+          "runtime_generation": 92,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "522314",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 323,
+          "ref": "ref_132577",
+          "request_id": "task-87048870c7e0"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-87048870c7e0",
+        "request": {
+          "current_epoch": 323,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_132578",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9066 content",
+                "ref": "ref_132577",
+                "role": "edit"
+              }
+            ],
+            "epoch": 323,
+            "foreground_scope": "496826",
+            "scope": "496826",
+            "text": "Public briefing 1064.",
+            "text_verified": true
+          },
+          "request_id": "task-87048870c7e0",
+          "runtime_generation": 71,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 9066 content",
+            "text": "The public report lists 55 completed tasks."
+          },
+          "target_scope": "496826",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 582,
+          "request_id": "task-50d1f7b27da7"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-50d1f7b27da7",
+        "request": {
+          "current_epoch": 582,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_769371",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4814 content",
+                "ref": "ref_769370",
+                "role": "edit"
+              }
+            ],
+            "epoch": 582,
+            "foreground_scope": "172936",
+            "scope": "172936",
+            "text": "Public briefing 5168.",
+            "text_verified": true
+          },
+          "request_id": "task-50d1f7b27da7",
+          "runtime_generation": 15,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "172936",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 430,
+          "request_id": "task-b629d817f879"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-b629d817f879",
+        "request": {
+          "current_epoch": 430,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5568 content",
+                "ref": "ref_506485",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_506486",
+                "role": "edit"
+              }
+            ],
+            "epoch": 430,
+            "foreground_scope": "872918",
+            "scope": "872918",
+            "text": "Public briefing 1166.",
+            "text_verified": true
+          },
+          "request_id": "task-b629d817f879",
+          "runtime_generation": 2,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "872918",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 779,
+          "request_id": "task-7a68d2ed3e25"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-7a68d2ed3e25",
+        "request": {
+          "current_epoch": 779,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2388 content",
+                "ref": "ref_594259",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_594260",
+                "role": "edit"
+              }
+            ],
+            "epoch": 779,
+            "foreground_scope": "905075",
+            "scope": "905075",
+            "text": "Public briefing 494.",
+            "text_verified": true
+          },
+          "request_id": "task-7a68d2ed3e25",
+          "runtime_generation": 12,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "905075",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 230,
+          "request_id": "task-5b440eeca2ed"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-5b440eeca2ed",
+        "request": {
+          "current_epoch": 230,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4009 content",
+                "ref": "ref_635744",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_635745",
+                "role": "edit"
+              }
+            ],
+            "epoch": 230,
+            "foreground_scope": "38130",
+            "scope": "38130",
+            "text": "Public briefing 2788.",
+            "text_verified": true
+          },
+          "request_id": "task-5b440eeca2ed",
+          "runtime_generation": 15,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "38130",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 350,
+          "request_id": "task-925906110191"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-925906110191",
+        "request": {
+          "current_epoch": 350,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9694 content",
+                "ref": "ref_573609",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_573610",
+                "role": "edit"
+              }
+            ],
+            "epoch": 350,
+            "foreground_scope": "114019",
+            "scope": "114018",
+            "text": "Public briefing 2553.",
+            "text_verified": true
+          },
+          "request_id": "task-925906110191",
+          "runtime_generation": 75,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "114018",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 761,
+          "request_id": "task-cb160b28f4ff"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-cb160b28f4ff",
+        "request": {
+          "current_epoch": 761,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 4470 content",
+                "ref": "ref_2502",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_2503",
+                "role": "edit"
+              }
+            ],
+            "epoch": 761,
+            "foreground_scope": "187508",
+            "scope": "187508",
+            "text": "Public briefing 8257.",
+            "text_verified": true
+          },
+          "request_id": "task-cb160b28f4ff",
+          "runtime_generation": 47,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4470 content"
+          },
+          "target_scope": "187508",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 276,
+          "request_id": "task-b8eac7d159eb"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-b8eac7d159eb",
+        "request": {
+          "current_epoch": 276,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9527 content",
+                "ref": "ref_355836",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_355837",
+                "role": "edit"
+              }
+            ],
+            "epoch": 275,
+            "foreground_scope": "655908",
+            "scope": "655908",
+            "text": "Public briefing 3975.",
+            "text_verified": true
+          },
+          "request_id": "task-b8eac7d159eb",
+          "runtime_generation": 11,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9527 content"
+          },
+          "target_scope": "655908",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 622,
+          "request_id": "task-873acabcbef6"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-873acabcbef6",
+        "request": {
+          "current_epoch": 622,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7042 content",
+                "ref": "ref_588665",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_588666",
+                "role": "edit"
+              }
+            ],
+            "epoch": 622,
+            "foreground_scope": "900314",
+            "scope": "900314",
+            "text": "Public briefing 4883.",
+            "text_verified": true
+          },
+          "request_id": "task-873acabcbef6",
+          "runtime_generation": 41,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "900314",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 814,
+          "request_id": "task-02c4cee930bb"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-02c4cee930bb",
+        "request": {
+          "current_epoch": 814,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_855798",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2482 content",
+                "ref": "ref_855797",
+                "role": "edit"
+              }
+            ],
+            "epoch": 814,
+            "foreground_scope": "757442",
+            "scope": "757442",
+            "text": "Public briefing 3275.",
+            "text_verified": false
+          },
+          "request_id": "task-02c4cee930bb",
+          "runtime_generation": 40,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "757442",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 736,
+          "request_id": "task-4659bc8d0a58"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-4659bc8d0a58",
+        "request": {
+          "current_epoch": 736,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1208 content",
+                "ref": "ref_721066",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_721067",
+                "role": "edit"
+              }
+            ],
+            "epoch": 736,
+            "foreground_scope": "479757",
+            "scope": "479757",
+            "text": "Public briefing 6315.",
+            "text_verified": true
+          },
+          "request_id": "task-4659bc8d0a58",
+          "runtime_generation": 14,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "479757",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 407,
+          "request_id": "task-43d9deff0df4"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-43d9deff0df4",
+        "request": {
+          "current_epoch": 407,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 8348 content",
+                "ref": "ref_146716",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_146717",
+                "role": "edit"
+              }
+            ],
+            "epoch": 407,
+            "foreground_scope": "599949",
+            "scope": "599948",
+            "text": "Public briefing 7366.",
+            "text_verified": true
+          },
+          "request_id": "task-43d9deff0df4",
+          "runtime_generation": 54,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "599948",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 767,
+          "request_id": "task-c543794b8bf1"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-c543794b8bf1",
+        "request": {
+          "current_epoch": 767,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_490728",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3037 content",
+                "ref": "ref_490727",
+                "role": "edit"
+              }
+            ],
+            "epoch": 766,
+            "foreground_scope": "218276",
+            "scope": "218276",
+            "text": "Public briefing 2373.",
+            "text_verified": true
+          },
+          "request_id": "task-c543794b8bf1",
+          "runtime_generation": 37,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3037 content"
+          },
+          "target_scope": "218276",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 744,
+          "request_id": "task-dfc1c49e3283"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-dfc1c49e3283",
+        "request": {
+          "current_epoch": 744,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1525 content",
+                "ref": "ref_624638",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_624639",
+                "role": "edit"
+              }
+            ],
+            "epoch": 744,
+            "foreground_scope": "197266",
+            "scope": "197266",
+            "text": "Public briefing 4899.",
+            "text_verified": true
+          },
+          "request_id": "task-dfc1c49e3283",
+          "runtime_generation": 33,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "197266",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 897,
+          "request_id": "task-4c0d70200879"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-4c0d70200879",
+        "request": {
+          "current_epoch": 897,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_429887",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7541 content",
+                "ref": "ref_429886",
+                "role": "edit"
+              }
+            ],
+            "epoch": 897,
+            "foreground_scope": "372554",
+            "scope": "372554",
+            "text": "Public briefing 4747.",
+            "text_verified": true
+          },
+          "request_id": "task-4c0d70200879",
+          "runtime_generation": 21,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "372554",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 633,
+          "request_id": "task-c347954bd4a8"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-c347954bd4a8",
+        "request": {
+          "current_epoch": 633,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_618191",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 5465 content",
+                "ref": "ref_618190",
+                "role": "edit"
+              }
+            ],
+            "epoch": 633,
+            "foreground_scope": "526411",
+            "scope": "526411",
+            "text": "Public briefing 517.",
+            "text_verified": true
+          },
+          "request_id": "task-c347954bd4a8",
+          "runtime_generation": 56,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 5465 content",
+            "text": "The public report lists 19 completed tasks."
+          },
+          "target_scope": "526411",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 481,
+          "request_id": "task-87adeb19429c"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-87adeb19429c",
+        "request": {
+          "current_epoch": 481,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_493693",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3278 content",
+                "ref": "ref_493692",
+                "role": "edit"
+              }
+            ],
+            "epoch": 481,
+            "foreground_scope": "266164",
+            "scope": "266164",
+            "text": "Public briefing 5251.",
+            "text_verified": true
+          },
+          "request_id": "task-87adeb19429c",
+          "runtime_generation": 25,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "266164",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 333,
+          "request_id": "task-8dd50c87d13c"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-8dd50c87d13c",
+        "request": {
+          "current_epoch": 333,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 3345 content",
+                "ref": "ref_460959",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_460960",
+                "role": "edit"
+              }
+            ],
+            "epoch": 333,
+            "foreground_scope": "734600",
+            "scope": "734600",
+            "text": "Public briefing 8702.",
+            "text_verified": true
+          },
+          "request_id": "task-8dd50c87d13c",
+          "runtime_generation": 69,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 3345 content",
+            "text": "The public report lists 59 completed tasks."
+          },
+          "target_scope": "734600",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 132,
+          "request_id": "task-8af3bc2234cf"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-8af3bc2234cf",
+        "request": {
+          "current_epoch": 132,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4558 content",
+                "ref": "ref_656491",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_656492",
+                "role": "edit"
+              }
+            ],
+            "epoch": 132,
+            "foreground_scope": "301365",
+            "scope": "301364",
+            "text": "Public briefing 402.",
+            "text_verified": true
+          },
+          "request_id": "task-8af3bc2234cf",
+          "runtime_generation": 98,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "301364",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 391,
+          "ref": "ref_511007",
+          "request_id": "task-842e2e8340c1"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-842e2e8340c1",
+        "request": {
+          "current_epoch": 391,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9114 content",
+                "ref": "ref_511007",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_511008",
+                "role": "edit"
+              }
+            ],
+            "epoch": 391,
+            "foreground_scope": "50041",
+            "scope": "50041",
+            "text": "Public briefing 4895.",
+            "text_verified": true
+          },
+          "request_id": "task-842e2e8340c1",
+          "runtime_generation": 77,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 9114 content",
+            "text": "The public report lists 47 completed tasks."
+          },
+          "target_scope": "50041",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 609,
+          "request_id": "task-5054305bdcc0"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-5054305bdcc0",
+        "request": {
+          "current_epoch": 609,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_879143",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4581 content",
+                "ref": "ref_879142",
+                "role": "edit"
+              }
+            ],
+            "epoch": 608,
+            "foreground_scope": "901423",
+            "scope": "901423",
+            "text": "Public briefing 4793.",
+            "text_verified": true
+          },
+          "request_id": "task-5054305bdcc0",
+          "runtime_generation": 18,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4581 content"
+          },
+          "target_scope": "901423",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 557,
+          "request_id": "task-40b7ef5b7fae"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-40b7ef5b7fae",
+        "request": {
+          "current_epoch": 557,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3131 content",
+                "ref": "ref_72450",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_72451",
+                "role": "edit"
+              }
+            ],
+            "epoch": 557,
+            "foreground_scope": "815900",
+            "scope": "815899",
+            "text": "Public briefing 8312.",
+            "text_verified": true
+          },
+          "request_id": "task-40b7ef5b7fae",
+          "runtime_generation": 72,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "815899",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 449,
+          "ref": "ref_262714",
+          "request_id": "task-5475fd3b504e"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-5475fd3b504e",
+        "request": {
+          "current_epoch": 449,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_262715",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5419 content",
+                "ref": "ref_262714",
+                "role": "edit"
+              }
+            ],
+            "epoch": 449,
+            "foreground_scope": "712222",
+            "scope": "712222",
+            "text": "Public briefing 5830.",
+            "text_verified": true
+          },
+          "request_id": "task-5475fd3b504e",
+          "runtime_generation": 38,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5419 content"
+          },
+          "target_scope": "712222",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 214,
+          "request_id": "task-954ee0ee702e"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-954ee0ee702e",
+        "request": {
+          "current_epoch": 214,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6396 content",
+                "ref": "ref_831255",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_831256",
+                "role": "edit"
+              }
+            ],
+            "epoch": 213,
+            "foreground_scope": "899519",
+            "scope": "899519",
+            "text": "Public briefing 105.",
+            "text_verified": true
+          },
+          "request_id": "task-954ee0ee702e",
+          "runtime_generation": 12,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 6396 content"
+          },
+          "target_scope": "899519",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 871,
+          "ref": "ref_655443",
+          "request_id": "task-adff2d5e49ab"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-adff2d5e49ab",
+        "request": {
+          "current_epoch": 871,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_655444",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1053 content",
+                "ref": "ref_655443",
+                "role": "edit"
+              }
+            ],
+            "epoch": 871,
+            "foreground_scope": "461623",
+            "scope": "461623",
+            "text": "Public briefing 9037.",
+            "text_verified": true
+          },
+          "request_id": "task-adff2d5e49ab",
+          "runtime_generation": 34,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 1053 content"
+          },
+          "target_scope": "461623",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 597,
+          "ref": "ref_398477",
+          "request_id": "task-ed09d4f03f66"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-ed09d4f03f66",
+        "request": {
+          "current_epoch": 597,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9253 content",
+                "ref": "ref_398477",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_398478",
+                "role": "edit"
+              }
+            ],
+            "epoch": 597,
+            "foreground_scope": "109493",
+            "scope": "109493",
+            "text": "Public briefing 1913.",
+            "text_verified": true
+          },
+          "request_id": "task-ed09d4f03f66",
+          "runtime_generation": 43,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9253 content"
+          },
+          "target_scope": "109493",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 175,
+          "request_id": "task-322995e9322e"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-322995e9322e",
+        "request": {
+          "current_epoch": 175,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6978 content",
+                "ref": "ref_678050",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_678051",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6978 content",
+                "ref": "ref_678052",
+                "role": "edit"
+              }
+            ],
+            "epoch": 175,
+            "foreground_scope": "394665",
+            "scope": "394665",
+            "text": "Public briefing 3461.",
+            "text_verified": true
+          },
+          "request_id": "task-322995e9322e",
+          "runtime_generation": 79,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 6978 content"
+          },
+          "target_scope": "394665",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 172,
+          "request_id": "task-596010db93cd"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-596010db93cd",
+        "request": {
+          "current_epoch": 172,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2724 content",
+                "ref": "ref_786507",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2724 content",
+                "ref": "ref_786509",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_786508",
+                "role": "edit"
+              }
+            ],
+            "epoch": 172,
+            "foreground_scope": "289228",
+            "scope": "289228",
+            "text": "Public briefing 3865.",
+            "text_verified": true
+          },
+          "request_id": "task-596010db93cd",
+          "runtime_generation": 91,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 2724 content"
+          },
+          "target_scope": "289228",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 548,
+          "request_id": "task-a1fb2650efd5"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-a1fb2650efd5",
+        "request": {
+          "current_epoch": 548,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1939 content",
+                "ref": "ref_554564",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_554565",
+                "role": "edit"
+              }
+            ],
+            "epoch": 548,
+            "foreground_scope": "417727",
+            "scope": "417727",
+            "text": "Public briefing 1771.",
+            "text_verified": false
+          },
+          "request_id": "task-a1fb2650efd5",
+          "runtime_generation": 76,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "417727",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 41,
+          "ref": "ref_865894",
+          "request_id": "task-a5bf8c2b8ef5"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-a5bf8c2b8ef5",
+        "request": {
+          "current_epoch": 41,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7255 content",
+                "ref": "ref_865894",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_865895",
+                "role": "edit"
+              }
+            ],
+            "epoch": 41,
+            "foreground_scope": "357888",
+            "scope": "357888",
+            "text": "Public briefing 8464.",
+            "text_verified": true
+          },
+          "request_id": "task-a5bf8c2b8ef5",
+          "runtime_generation": 95,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 7255 content"
+          },
+          "target_scope": "357888",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 135,
+          "request_id": "task-495dddb74ed2"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-495dddb74ed2",
+        "request": {
+          "current_epoch": 135,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_550211",
+                "role": "edit"
+              },
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 1409 content",
+                "ref": "ref_550210",
+                "role": "edit"
+              }
+            ],
+            "epoch": 135,
+            "foreground_scope": "448484",
+            "scope": "448484",
+            "text": "Public briefing 2189.",
+            "text_verified": true
+          },
+          "request_id": "task-495dddb74ed2",
+          "runtime_generation": 30,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 1409 content"
+          },
+          "target_scope": "448484",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 29,
+          "request_id": "task-b51e8246abca"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-b51e8246abca",
+        "request": {
+          "current_epoch": 29,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_133617",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2318 content",
+                "ref": "ref_133616",
+                "role": "edit"
+              }
+            ],
+            "epoch": 29,
+            "foreground_scope": "672557",
+            "scope": "672557",
+            "text": "Public briefing 7766.",
+            "text_verified": false
+          },
+          "request_id": "task-b51e8246abca",
+          "runtime_generation": 46,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "672557",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 847,
+          "request_id": "task-9d34e0420d53"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-9d34e0420d53",
+        "request": {
+          "current_epoch": 847,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 1695 content",
+                "ref": "ref_825562",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_825563",
+                "role": "edit"
+              }
+            ],
+            "epoch": 847,
+            "foreground_scope": "312091",
+            "scope": "312091",
+            "text": "Public briefing 7410.",
+            "text_verified": true
+          },
+          "request_id": "task-9d34e0420d53",
+          "runtime_generation": 93,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 1695 content",
+            "text": "The public report lists 46 completed tasks."
+          },
+          "target_scope": "312091",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 887,
+          "request_id": "task-ea13eb2a750e"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-ea13eb2a750e",
+        "request": {
+          "current_epoch": 887,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 5282 content",
+                "ref": "ref_110852",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_110853",
+                "role": "edit"
+              }
+            ],
+            "epoch": 887,
+            "foreground_scope": "723013",
+            "scope": "723013",
+            "text": "Public briefing 6938.",
+            "text_verified": true
+          },
+          "request_id": "task-ea13eb2a750e",
+          "runtime_generation": 75,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5282 content"
+          },
+          "target_scope": "723013",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 244,
+          "request_id": "task-722ea5738e5e"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-722ea5738e5e",
+        "request": {
+          "current_epoch": 244,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 9760 content",
+                "ref": "ref_574690",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_574691",
+                "role": "edit"
+              }
+            ],
+            "epoch": 244,
+            "foreground_scope": "114863",
+            "scope": "114863",
+            "text": "Public briefing 5768.",
+            "text_verified": true
+          },
+          "request_id": "task-722ea5738e5e",
+          "runtime_generation": 83,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9760 content"
+          },
+          "target_scope": "114863",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 202,
+          "ref": "ref_765061",
+          "request_id": "task-70dddb792498"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-70dddb792498",
+        "request": {
+          "current_epoch": 202,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3018 content",
+                "ref": "ref_765061",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_765062",
+                "role": "edit"
+              }
+            ],
+            "epoch": 202,
+            "foreground_scope": "162362",
+            "scope": "162362",
+            "text": "Public briefing 8662.",
+            "text_verified": true
+          },
+          "request_id": "task-70dddb792498",
+          "runtime_generation": 8,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3018 content"
+          },
+          "target_scope": "162362",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 391,
+          "request_id": "task-7fa33d1f4036"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-7fa33d1f4036",
+        "request": {
+          "current_epoch": 391,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7900 content",
+                "ref": "ref_657254",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_657255",
+                "role": "edit"
+              }
+            ],
+            "epoch": 390,
+            "foreground_scope": "43195",
+            "scope": "43195",
+            "text": "Public briefing 5943.",
+            "text_verified": true
+          },
+          "request_id": "task-7fa33d1f4036",
+          "runtime_generation": 3,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 7900 content"
+          },
+          "target_scope": "43195",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 194,
+          "request_id": "task-4a795396f4bc"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-4a795396f4bc",
+        "request": {
+          "current_epoch": 194,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7017 content",
+                "ref": "ref_457978",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_457979",
+                "role": "edit"
+              }
+            ],
+            "epoch": 194,
+            "foreground_scope": "314814",
+            "scope": "314814",
+            "text": "Public briefing 132.",
+            "text_verified": true
+          },
+          "request_id": "task-4a795396f4bc",
+          "runtime_generation": 43,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "314814",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 759,
+          "ref": "ref_30135",
+          "request_id": "task-3aa2f70f2e20"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-3aa2f70f2e20",
+        "request": {
+          "current_epoch": 759,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_30136",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4275 content",
+                "ref": "ref_30135",
+                "role": "edit"
+              }
+            ],
+            "epoch": 759,
+            "foreground_scope": "719946",
+            "scope": "719946",
+            "text": "Public briefing 1698.",
+            "text_verified": true
+          },
+          "request_id": "task-3aa2f70f2e20",
+          "runtime_generation": 73,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4275 content"
+          },
+          "target_scope": "719946",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 252,
+          "request_id": "task-2b09ae4548c6"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-2b09ae4548c6",
+        "request": {
+          "current_epoch": 252,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_324082",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3890 content",
+                "ref": "ref_324081",
+                "role": "edit"
+              }
+            ],
+            "epoch": 251,
+            "foreground_scope": "405158",
+            "scope": "405158",
+            "text": "Public briefing 8078.",
+            "text_verified": true
+          },
+          "request_id": "task-2b09ae4548c6",
+          "runtime_generation": 79,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3890 content"
+          },
+          "target_scope": "405158",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 384,
+          "request_id": "task-c5dc4c82143c"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-c5dc4c82143c",
+        "request": {
+          "current_epoch": 384,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_661711",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5608 content",
+                "ref": "ref_661710",
+                "role": "edit"
+              }
+            ],
+            "epoch": 383,
+            "foreground_scope": "366269",
+            "scope": "366269",
+            "text": "Public briefing 5294.",
+            "text_verified": true
+          },
+          "request_id": "task-c5dc4c82143c",
+          "runtime_generation": 18,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5608 content"
+          },
+          "target_scope": "366269",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 336,
+          "request_id": "task-771231b6ab8f"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-771231b6ab8f",
+        "request": {
+          "current_epoch": 336,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_850523",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2217 content",
+                "ref": "ref_850522",
+                "role": "edit"
+              }
+            ],
+            "epoch": 336,
+            "foreground_scope": "327462",
+            "scope": "327461",
+            "text": "Public briefing 6733.",
+            "text_verified": true
+          },
+          "request_id": "task-771231b6ab8f",
+          "runtime_generation": 85,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 2217 content",
+            "text": "The public report lists 78 completed tasks."
+          },
+          "target_scope": "327461",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 133,
+          "ref": "ref_634198",
+          "request_id": "task-a3ef79ba89b7"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-a3ef79ba89b7",
+        "request": {
+          "current_epoch": 133,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9217 content",
+                "ref": "ref_634198",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_634199",
+                "role": "edit"
+              }
+            ],
+            "epoch": 133,
+            "foreground_scope": "358211",
+            "scope": "358211",
+            "text": "Public briefing 8499.",
+            "text_verified": true
+          },
+          "request_id": "task-a3ef79ba89b7",
+          "runtime_generation": 70,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 9217 content",
+            "text": "The public report lists 85 completed tasks."
+          },
+          "target_scope": "358211",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 39,
+          "request_id": "task-1f3dd0a92570"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-1f3dd0a92570",
+        "request": {
+          "current_epoch": 39,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1172 content",
+                "ref": "ref_881514",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_881515",
+                "role": "edit"
+              }
+            ],
+            "epoch": 39,
+            "foreground_scope": "174912",
+            "scope": "174911",
+            "text": "Public briefing 9495.",
+            "text_verified": true
+          },
+          "request_id": "task-1f3dd0a92570",
+          "runtime_generation": 80,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 1172 content",
+            "text": "The public report lists 44 completed tasks."
+          },
+          "target_scope": "174911",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 674,
+          "request_id": "task-6db329950a6c"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-6db329950a6c",
+        "request": {
+          "current_epoch": 674,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 5831 content",
+                "ref": "ref_317009",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_317010",
+                "role": "edit"
+              }
+            ],
+            "epoch": 674,
+            "foreground_scope": "505715",
+            "scope": "505715",
+            "text": "Public briefing 5616.",
+            "text_verified": true
+          },
+          "request_id": "task-6db329950a6c",
+          "runtime_generation": 18,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 5831 content",
+            "text": "The public report lists 80 completed tasks."
+          },
+          "target_scope": "505715",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 467,
+          "request_id": "task-5fafb2fff4d2"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-5fafb2fff4d2",
+        "request": {
+          "current_epoch": 467,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1909 content",
+                "ref": "ref_220597",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_220598",
+                "role": "edit"
+              }
+            ],
+            "epoch": 467,
+            "foreground_scope": "410232",
+            "scope": "410231",
+            "text": "Public briefing 5087.",
+            "text_verified": true
+          },
+          "request_id": "task-5fafb2fff4d2",
+          "runtime_generation": 8,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "410231",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 13,
+          "request_id": "task-841c72fb5828"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-841c72fb5828",
+        "request": {
+          "current_epoch": 13,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_653975",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9242 content",
+                "ref": "ref_653974",
+                "role": "edit"
+              }
+            ],
+            "epoch": 13,
+            "foreground_scope": "947024",
+            "scope": "947023",
+            "text": "Public briefing 9815.",
+            "text_verified": true
+          },
+          "request_id": "task-841c72fb5828",
+          "runtime_generation": 23,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 9242 content",
+            "text": "The public report lists 81 completed tasks."
+          },
+          "target_scope": "947023",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 762,
+          "request_id": "task-9202f896923e"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-9202f896923e",
+        "request": {
+          "current_epoch": 762,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9930 content",
+                "ref": "ref_767534",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9930 content",
+                "ref": "ref_767536",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_767535",
+                "role": "edit"
+              }
+            ],
+            "epoch": 762,
+            "foreground_scope": "429131",
+            "scope": "429131",
+            "text": "Public briefing 6697.",
+            "text_verified": true
+          },
+          "request_id": "task-9202f896923e",
+          "runtime_generation": 75,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9930 content"
+          },
+          "target_scope": "429131",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 255,
+          "ref": "ref_805929",
+          "request_id": "task-fe7efcfc7401"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-fe7efcfc7401",
+        "request": {
+          "current_epoch": 255,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6664 content",
+                "ref": "ref_805929",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_805930",
+                "role": "edit"
+              }
+            ],
+            "epoch": 255,
+            "foreground_scope": "906078",
+            "scope": "906078",
+            "text": "Public briefing 6671.",
+            "text_verified": true
+          },
+          "request_id": "task-fe7efcfc7401",
+          "runtime_generation": 83,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 6664 content"
+          },
+          "target_scope": "906078",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 33,
+          "request_id": "task-0c02423066f8"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-0c02423066f8",
+        "request": {
+          "current_epoch": 33,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 3626 content",
+                "ref": "ref_179039",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_179040",
+                "role": "edit"
+              }
+            ],
+            "epoch": 33,
+            "foreground_scope": "491282",
+            "scope": "491282",
+            "text": "Public briefing 9673.",
+            "text_verified": true
+          },
+          "request_id": "task-0c02423066f8",
+          "runtime_generation": 62,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 3626 content",
+            "text": "The public report lists 47 completed tasks."
+          },
+          "target_scope": "491282",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 137,
+          "ref": "ref_480069",
+          "request_id": "task-204646f9269d"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-204646f9269d",
+        "request": {
+          "current_epoch": 137,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9635 content",
+                "ref": "ref_480069",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_480070",
+                "role": "edit"
+              }
+            ],
+            "epoch": 137,
+            "foreground_scope": "836461",
+            "scope": "836461",
+            "text": "Public briefing 233.",
+            "text_verified": true
+          },
+          "request_id": "task-204646f9269d",
+          "runtime_generation": 61,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9635 content"
+          },
+          "target_scope": "836461",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 368,
+          "request_id": "task-03285652d93f"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-03285652d93f",
+        "request": {
+          "current_epoch": 368,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7042 content",
+                "ref": "ref_467250",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_467251",
+                "role": "edit"
+              }
+            ],
+            "epoch": 368,
+            "foreground_scope": "146233",
+            "scope": "146232",
+            "text": "Public briefing 2114.",
+            "text_verified": true
+          },
+          "request_id": "task-03285652d93f",
+          "runtime_generation": 62,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 7042 content",
+            "text": "The public report lists 67 completed tasks."
+          },
+          "target_scope": "146232",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 234,
+          "request_id": "task-8662b84778ea"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-8662b84778ea",
+        "request": {
+          "current_epoch": 234,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_700697",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9382 content",
+                "ref": "ref_700696",
+                "role": "edit"
+              }
+            ],
+            "epoch": 233,
+            "foreground_scope": "705548",
+            "scope": "705548",
+            "text": "Public briefing 7947.",
+            "text_verified": true
+          },
+          "request_id": "task-8662b84778ea",
+          "runtime_generation": 56,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9382 content"
+          },
+          "target_scope": "705548",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 52,
+          "request_id": "task-0f7b1ab9de9a"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-0f7b1ab9de9a",
+        "request": {
+          "current_epoch": 52,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_751711",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6237 content",
+                "ref": "ref_751710",
+                "role": "edit"
+              }
+            ],
+            "epoch": 52,
+            "foreground_scope": "542030",
+            "scope": "542030",
+            "text": "Public briefing 3278.",
+            "text_verified": true
+          },
+          "request_id": "task-0f7b1ab9de9a",
+          "runtime_generation": 97,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "542030",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 31,
+          "request_id": "task-ad28d716d0ad"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-ad28d716d0ad",
+        "request": {
+          "current_epoch": 31,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5930 content",
+                "ref": "ref_625035",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_625036",
+                "role": "edit"
+              }
+            ],
+            "epoch": 31,
+            "foreground_scope": "445420",
+            "scope": "445420",
+            "text": "Public briefing 7779.",
+            "text_verified": true
+          },
+          "request_id": "task-ad28d716d0ad",
+          "runtime_generation": 23,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "445420",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 40,
+          "request_id": "task-7f3760a493c3"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-7f3760a493c3",
+        "request": {
+          "current_epoch": 40,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_521504",
+                "role": "edit"
+              },
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 3748 content",
+                "ref": "ref_521503",
+                "role": "edit"
+              }
+            ],
+            "epoch": 40,
+            "foreground_scope": "300435",
+            "scope": "300435",
+            "text": "Public briefing 5429.",
+            "text_verified": true
+          },
+          "request_id": "task-7f3760a493c3",
+          "runtime_generation": 67,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3748 content"
+          },
+          "target_scope": "300435",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 689,
+          "request_id": "task-fc85da22958d"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-fc85da22958d",
+        "request": {
+          "current_epoch": 689,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5394 content",
+                "ref": "ref_136954",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_136955",
+                "role": "edit"
+              }
+            ],
+            "epoch": 689,
+            "foreground_scope": "681862",
+            "scope": "681862",
+            "text": "Public briefing 480.",
+            "text_verified": false
+          },
+          "request_id": "task-fc85da22958d",
+          "runtime_generation": 74,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "681862",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 58,
+          "ref": "ref_598133",
+          "request_id": "task-23453ff04aa0"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-23453ff04aa0",
+        "request": {
+          "current_epoch": 58,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_598134",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2698 content",
+                "ref": "ref_598133",
+                "role": "edit"
+              }
+            ],
+            "epoch": 58,
+            "foreground_scope": "514151",
+            "scope": "514151",
+            "text": "Public briefing 3804.",
+            "text_verified": true
+          },
+          "request_id": "task-23453ff04aa0",
+          "runtime_generation": 43,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 2698 content",
+            "text": "The public report lists 25 completed tasks."
+          },
+          "target_scope": "514151",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 174,
+          "request_id": "task-9e11980be560"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-9e11980be560",
+        "request": {
+          "current_epoch": 174,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_422741",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 3775 content",
+                "ref": "ref_422740",
+                "role": "edit"
+              }
+            ],
+            "epoch": 174,
+            "foreground_scope": "720678",
+            "scope": "720678",
+            "text": "Public briefing 5136.",
+            "text_verified": true
+          },
+          "request_id": "task-9e11980be560",
+          "runtime_generation": 1,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 3775 content",
+            "text": "The public report lists 46 completed tasks."
+          },
+          "target_scope": "720678",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 755,
+          "request_id": "task-236e36cef9fb"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-236e36cef9fb",
+        "request": {
+          "current_epoch": 755,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7548 content",
+                "ref": "ref_174541",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_174542",
+                "role": "edit"
+              }
+            ],
+            "epoch": 755,
+            "foreground_scope": "77237",
+            "scope": "77237",
+            "text": "Public briefing 1642.",
+            "text_verified": false
+          },
+          "request_id": "task-236e36cef9fb",
+          "runtime_generation": 76,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "77237",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 196,
+          "request_id": "task-eb0f7a0f52df"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-eb0f7a0f52df",
+        "request": {
+          "current_epoch": 196,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9933 content",
+                "ref": "ref_670588",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_670589",
+                "role": "edit"
+              }
+            ],
+            "epoch": 196,
+            "foreground_scope": "193260",
+            "scope": "193260",
+            "text": "Public briefing 3598.",
+            "text_verified": false
+          },
+          "request_id": "task-eb0f7a0f52df",
+          "runtime_generation": 71,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "193260",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 505,
+          "request_id": "task-b23a7077e80c"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-b23a7077e80c",
+        "request": {
+          "current_epoch": 505,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2554 content",
+                "ref": "ref_825791",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_825792",
+                "role": "edit"
+              }
+            ],
+            "epoch": 505,
+            "foreground_scope": "745492",
+            "scope": "745492",
+            "text": "Public briefing 1163.",
+            "text_verified": false
+          },
+          "request_id": "task-b23a7077e80c",
+          "runtime_generation": 67,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "745492",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 878,
+          "request_id": "task-103b433b35e7"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-103b433b35e7",
+        "request": {
+          "current_epoch": 878,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_43086",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1003 content",
+                "ref": "ref_43085",
+                "role": "edit"
+              }
+            ],
+            "epoch": 878,
+            "foreground_scope": "169317",
+            "scope": "169316",
+            "text": "Public briefing 7125.",
+            "text_verified": true
+          },
+          "request_id": "task-103b433b35e7",
+          "runtime_generation": 88,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "169316",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 101,
+          "request_id": "task-93e6c09da63a"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-93e6c09da63a",
+        "request": {
+          "current_epoch": 101,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_282673",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2690 content",
+                "ref": "ref_282672",
+                "role": "edit"
+              }
+            ],
+            "epoch": 101,
+            "foreground_scope": "142978",
+            "scope": "142978",
+            "text": "Public briefing 6761.",
+            "text_verified": true
+          },
+          "request_id": "task-93e6c09da63a",
+          "runtime_generation": 91,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "142978",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 691,
+          "request_id": "task-bd83e0c7bcf3"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-bd83e0c7bcf3",
+        "request": {
+          "current_epoch": 691,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_769324",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5183 content",
+                "ref": "ref_769323",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5183 content",
+                "ref": "ref_769325",
+                "role": "edit"
+              }
+            ],
+            "epoch": 691,
+            "foreground_scope": "247229",
+            "scope": "247229",
+            "text": "Public briefing 9893.",
+            "text_verified": true
+          },
+          "request_id": "task-bd83e0c7bcf3",
+          "runtime_generation": 46,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5183 content"
+          },
+          "target_scope": "247229",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 16,
+          "ref": "ref_427668",
+          "request_id": "task-7bd28ad03ba0"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-7bd28ad03ba0",
+        "request": {
+          "current_epoch": 16,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4098 content",
+                "ref": "ref_427668",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_427669",
+                "role": "edit"
+              }
+            ],
+            "epoch": 16,
+            "foreground_scope": "324734",
+            "scope": "324734",
+            "text": "Public briefing 7635.",
+            "text_verified": true
+          },
+          "request_id": "task-7bd28ad03ba0",
+          "runtime_generation": 98,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 4098 content",
+            "text": "The public report lists 26 completed tasks."
+          },
+          "target_scope": "324734",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 723,
+          "ref": "ref_779770",
+          "request_id": "task-aa87a6ae5d1a"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-aa87a6ae5d1a",
+        "request": {
+          "current_epoch": 723,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6885 content",
+                "ref": "ref_779770",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_779771",
+                "role": "edit"
+              }
+            ],
+            "epoch": 723,
+            "foreground_scope": "49129",
+            "scope": "49129",
+            "text": "Public briefing 5517.",
+            "text_verified": true
+          },
+          "request_id": "task-aa87a6ae5d1a",
+          "runtime_generation": 87,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 6885 content"
+          },
+          "target_scope": "49129",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 117,
+          "request_id": "task-af0e062cf95e"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-af0e062cf95e",
+        "request": {
+          "current_epoch": 117,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3462 content",
+                "ref": "ref_715169",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3462 content",
+                "ref": "ref_715167",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_715168",
+                "role": "edit"
+              }
+            ],
+            "epoch": 117,
+            "foreground_scope": "729946",
+            "scope": "729946",
+            "text": "Public briefing 4349.",
+            "text_verified": true
+          },
+          "request_id": "task-af0e062cf95e",
+          "runtime_generation": 79,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3462 content"
+          },
+          "target_scope": "729946",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 250,
+          "request_id": "task-e980dd64cb67"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-e980dd64cb67",
+        "request": {
+          "current_epoch": 250,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_572457",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4074 content",
+                "ref": "ref_572456",
+                "role": "edit"
+              }
+            ],
+            "epoch": 250,
+            "foreground_scope": "763235",
+            "scope": "763235",
+            "text": "Public briefing 3374.",
+            "text_verified": true
+          },
+          "request_id": "task-e980dd64cb67",
+          "runtime_generation": 91,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "763235",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 402,
+          "request_id": "task-074dd58ea59e"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-074dd58ea59e",
+        "request": {
+          "current_epoch": 402,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_545502",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 8646 content",
+                "ref": "ref_545501",
+                "role": "edit"
+              }
+            ],
+            "epoch": 402,
+            "foreground_scope": "650947",
+            "scope": "650947",
+            "text": "Public briefing 9970.",
+            "text_verified": true
+          },
+          "request_id": "task-074dd58ea59e",
+          "runtime_generation": 21,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 8646 content",
+            "text": "The public report lists 51 completed tasks."
+          },
+          "target_scope": "650947",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 362,
+          "ref": "ref_332112",
+          "request_id": "task-55a4478ef44a"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-55a4478ef44a",
+        "request": {
+          "current_epoch": 362,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_332113",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4251 content",
+                "ref": "ref_332112",
+                "role": "edit"
+              }
+            ],
+            "epoch": 362,
+            "foreground_scope": "825203",
+            "scope": "825203",
+            "text": "Public briefing 3635.",
+            "text_verified": true
+          },
+          "request_id": "task-55a4478ef44a",
+          "runtime_generation": 46,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 4251 content"
+          },
+          "target_scope": "825203",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 313,
+          "ref": "ref_718188",
+          "request_id": "task-d1e204209776"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-d1e204209776",
+        "request": {
+          "current_epoch": 313,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_718189",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9312 content",
+                "ref": "ref_718188",
+                "role": "edit"
+              }
+            ],
+            "epoch": 313,
+            "foreground_scope": "734089",
+            "scope": "734089",
+            "text": "Public briefing 324.",
+            "text_verified": true
+          },
+          "request_id": "task-d1e204209776",
+          "runtime_generation": 49,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9312 content"
+          },
+          "target_scope": "734089",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 418,
+          "request_id": "task-75f6ebbf4364"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-75f6ebbf4364",
+        "request": {
+          "current_epoch": 418,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_147821",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9762 content",
+                "ref": "ref_147820",
+                "role": "edit"
+              }
+            ],
+            "epoch": 418,
+            "foreground_scope": "404229",
+            "scope": "404228",
+            "text": "Public briefing 9392.",
+            "text_verified": true
+          },
+          "request_id": "task-75f6ebbf4364",
+          "runtime_generation": 98,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 9762 content",
+            "text": "The public report lists 36 completed tasks."
+          },
+          "target_scope": "404228",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 831,
+          "ref": "ref_225579",
+          "request_id": "task-be933e3fa177"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-be933e3fa177",
+        "request": {
+          "current_epoch": 831,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 8324 content",
+                "ref": "ref_225579",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_225580",
+                "role": "edit"
+              }
+            ],
+            "epoch": 831,
+            "foreground_scope": "384178",
+            "scope": "384178",
+            "text": "Public briefing 9777.",
+            "text_verified": true
+          },
+          "request_id": "task-be933e3fa177",
+          "runtime_generation": 18,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 8324 content",
+            "text": "The public report lists 36 completed tasks."
+          },
+          "target_scope": "384178",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 374,
+          "request_id": "task-a39de581ef01"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-a39de581ef01",
+        "request": {
+          "current_epoch": 374,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1875 content",
+                "ref": "ref_595114",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_595115",
+                "role": "edit"
+              }
+            ],
+            "epoch": 374,
+            "foreground_scope": "497272",
+            "scope": "497272",
+            "text": "Public briefing 5178.",
+            "text_verified": false
+          },
+          "request_id": "task-a39de581ef01",
+          "runtime_generation": 29,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "497272",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 651,
+          "ref": "ref_681227",
+          "request_id": "task-4227546d4f34"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-4227546d4f34",
+        "request": {
+          "current_epoch": 651,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1329 content",
+                "ref": "ref_681227",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_681228",
+                "role": "edit"
+              }
+            ],
+            "epoch": 651,
+            "foreground_scope": "382725",
+            "scope": "382725",
+            "text": "Public briefing 4704.",
+            "text_verified": true
+          },
+          "request_id": "task-4227546d4f34",
+          "runtime_generation": 45,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 1329 content"
+          },
+          "target_scope": "382725",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 729,
+          "request_id": "task-0117fa14534e"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-0117fa14534e",
+        "request": {
+          "current_epoch": 729,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_509338",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5269 content",
+                "ref": "ref_509337",
+                "role": "edit"
+              }
+            ],
+            "epoch": 729,
+            "foreground_scope": "814974",
+            "scope": "814973",
+            "text": "Public briefing 7653.",
+            "text_verified": true
+          },
+          "request_id": "task-0117fa14534e",
+          "runtime_generation": 93,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 5269 content",
+            "text": "The public report lists 77 completed tasks."
+          },
+          "target_scope": "814973",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 373,
+          "request_id": "task-dec4545becf6"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-dec4545becf6",
+        "request": {
+          "current_epoch": 373,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_780254",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2008 content",
+                "ref": "ref_780253",
+                "role": "edit"
+              }
+            ],
+            "epoch": 373,
+            "foreground_scope": "576847",
+            "scope": "576846",
+            "text": "Public briefing 2828.",
+            "text_verified": true
+          },
+          "request_id": "task-dec4545becf6",
+          "runtime_generation": 47,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "576846",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 525,
+          "request_id": "task-f7b34c4535dd"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-f7b34c4535dd",
+        "request": {
+          "current_epoch": 525,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_604529",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2517 content",
+                "ref": "ref_604528",
+                "role": "edit"
+              }
+            ],
+            "epoch": 525,
+            "foreground_scope": "12686",
+            "scope": "12685",
+            "text": "Public briefing 4637.",
+            "text_verified": true
+          },
+          "request_id": "task-f7b34c4535dd",
+          "runtime_generation": 21,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 2517 content",
+            "text": "The public report lists 48 completed tasks."
+          },
+          "target_scope": "12685",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 833,
+          "request_id": "task-03ddcc4a75e9"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-03ddcc4a75e9",
+        "request": {
+          "current_epoch": 833,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5042 content",
+                "ref": "ref_289210",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_289211",
+                "role": "edit"
+              }
+            ],
+            "epoch": 833,
+            "foreground_scope": "432706",
+            "scope": "432706",
+            "text": "Public briefing 2334.",
+            "text_verified": true
+          },
+          "request_id": "task-03ddcc4a75e9",
+          "runtime_generation": 89,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "432706",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 442,
+          "ref": "ref_15595",
+          "request_id": "task-c6789646fdc0"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-c6789646fdc0",
+        "request": {
+          "current_epoch": 442,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9322 content",
+                "ref": "ref_15595",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_15596",
+                "role": "edit"
+              }
+            ],
+            "epoch": 442,
+            "foreground_scope": "790431",
+            "scope": "790431",
+            "text": "Public briefing 6826.",
+            "text_verified": true
+          },
+          "request_id": "task-c6789646fdc0",
+          "runtime_generation": 76,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9322 content"
+          },
+          "target_scope": "790431",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 247,
+          "request_id": "task-69e7603e6064"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-69e7603e6064",
+        "request": {
+          "current_epoch": 247,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 2184 content",
+                "ref": "ref_494927",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_494928",
+                "role": "edit"
+              }
+            ],
+            "epoch": 247,
+            "foreground_scope": "782376",
+            "scope": "782376",
+            "text": "Public briefing 9902.",
+            "text_verified": true
+          },
+          "request_id": "task-69e7603e6064",
+          "runtime_generation": 91,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 2184 content"
+          },
+          "target_scope": "782376",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 246,
+          "request_id": "task-033dd235a5b0"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-033dd235a5b0",
+        "request": {
+          "current_epoch": 246,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_599208",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 4864 content",
+                "ref": "ref_599207",
+                "role": "edit"
+              }
+            ],
+            "epoch": 246,
+            "foreground_scope": "97172",
+            "scope": "97172",
+            "text": "Public briefing 5669.",
+            "text_verified": true
+          },
+          "request_id": "task-033dd235a5b0",
+          "runtime_generation": 79,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "97172",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 279,
+          "request_id": "task-fe6dc7cac26b"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-fe6dc7cac26b",
+        "request": {
+          "current_epoch": 279,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_235683",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5941 content",
+                "ref": "ref_235682",
+                "role": "edit"
+              }
+            ],
+            "epoch": 279,
+            "foreground_scope": "57701",
+            "scope": "57700",
+            "text": "Public briefing 783.",
+            "text_verified": true
+          },
+          "request_id": "task-fe6dc7cac26b",
+          "runtime_generation": 55,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 5941 content",
+            "text": "The public report lists 87 completed tasks."
+          },
+          "target_scope": "57700",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 108,
+          "request_id": "task-cde1eb730278"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-cde1eb730278",
+        "request": {
+          "current_epoch": 108,
+          "observation": {
+            "controls": [
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 1041 content",
+                "ref": "ref_511064",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_511065",
+                "role": "edit"
+              }
+            ],
+            "epoch": 108,
+            "foreground_scope": "805324",
+            "scope": "805324",
+            "text": "Public briefing 6169.",
+            "text_verified": true
+          },
+          "request_id": "task-cde1eb730278",
+          "runtime_generation": 14,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 1041 content"
+          },
+          "target_scope": "805324",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 881,
+          "ref": "ref_127053",
+          "request_id": "task-590f0913ce50"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-590f0913ce50",
+        "request": {
+          "current_epoch": 881,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_127054",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 8715 content",
+                "ref": "ref_127053",
+                "role": "edit"
+              }
+            ],
+            "epoch": 881,
+            "foreground_scope": "407114",
+            "scope": "407114",
+            "text": "Public briefing 9369.",
+            "text_verified": true
+          },
+          "request_id": "task-590f0913ce50",
+          "runtime_generation": 85,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 8715 content",
+            "text": "The public report lists 45 completed tasks."
+          },
+          "target_scope": "407114",
+          "version": 1
+        }
+      }
+    ],
+    "validation": [
+      {
+        "expected": {
+          "action": "read_text",
+          "observation_epoch": 584,
+          "request_id": "task-3ffe41042aac"
+        },
+        "family": "read",
+        "group": "contract",
+        "id": "task-3ffe41042aac",
+        "request": {
+          "current_epoch": 584,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 1419 content",
+                "ref": "ref_388984",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_388985",
+                "role": "edit"
+              }
+            ],
+            "epoch": 584,
+            "foreground_scope": "226488",
+            "scope": "226488",
+            "text": "Public briefing 6619.",
+            "text_verified": true
+          },
+          "request_id": "task-3ffe41042aac",
+          "runtime_generation": 26,
+          "subgoal": {
+            "kind": "read_source"
+          },
+          "target_scope": "226488",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 16,
+          "request_id": "task-53eb17390abc"
+        },
+        "family": "background",
+        "group": "contract",
+        "id": "task-53eb17390abc",
+        "request": {
+          "current_epoch": 16,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_543372",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 6426 content",
+                "ref": "ref_543371",
+                "role": "edit"
+              }
+            ],
+            "epoch": 16,
+            "foreground_scope": "360719",
+            "scope": "360718",
+            "text": "Public briefing 7483.",
+            "text_verified": true
+          },
+          "request_id": "task-53eb17390abc",
+          "runtime_generation": 66,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 6426 content",
+            "text": "The public report lists 80 completed tasks."
+          },
+          "target_scope": "360718",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "type_text",
+          "observation_epoch": 680,
+          "ref": "ref_727937",
+          "request_id": "task-54b9abeda716"
+        },
+        "family": "write",
+        "group": "contract",
+        "id": "task-54b9abeda716",
+        "request": {
+          "current_epoch": 680,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7924 content",
+                "ref": "ref_727937",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_727938",
+                "role": "edit"
+              }
+            ],
+            "epoch": 680,
+            "foreground_scope": "968538",
+            "scope": "968538",
+            "text": "Public briefing 6772.",
+            "text_verified": true
+          },
+          "request_id": "task-54b9abeda716",
+          "runtime_generation": 80,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 7924 content",
+            "text": "The public report lists 79 completed tasks."
+          },
+          "target_scope": "968538",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "activate",
+          "observation_epoch": 754,
+          "request_id": "task-cf01ab2bb3be"
+        },
+        "family": "activate",
+        "group": "contract",
+        "id": "task-cf01ab2bb3be",
+        "request": {
+          "current_epoch": 754,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_749223",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 7973 content",
+                "ref": "ref_749222",
+                "role": "edit"
+              }
+            ],
+            "epoch": 754,
+            "foreground_scope": "10858",
+            "scope": "10857",
+            "text": "Public briefing 7876.",
+            "text_verified": true
+          },
+          "request_id": "task-cf01ab2bb3be",
+          "runtime_generation": 97,
+          "subgoal": {
+            "kind": "activate_target"
+          },
+          "target_scope": "10857",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 537,
+          "request_id": "task-57a09be8bdc3"
+        },
+        "family": "ambiguous",
+        "group": "contract",
+        "id": "task-57a09be8bdc3",
+        "request": {
+          "current_epoch": 537,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_191727",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5063 content",
+                "ref": "ref_191728",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 5063 content",
+                "ref": "ref_191726",
+                "role": "edit"
+              }
+            ],
+            "epoch": 537,
+            "foreground_scope": "733467",
+            "scope": "733467",
+            "text": "Public briefing 2872.",
+            "text_verified": true
+          },
+          "request_id": "task-57a09be8bdc3",
+          "runtime_generation": 44,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5063 content"
+          },
+          "target_scope": "733467",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 834,
+          "ref": "ref_274287",
+          "request_id": "task-ec2a740a29f6"
+        },
+        "family": "reordered",
+        "group": "contract",
+        "id": "task-ec2a740a29f6",
+        "request": {
+          "current_epoch": 834,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2317 content",
+                "ref": "ref_274287",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_274288",
+                "role": "edit"
+              }
+            ],
+            "epoch": 834,
+            "foreground_scope": "153044",
+            "scope": "153044",
+            "text": "Public briefing 5763.",
+            "text_verified": true
+          },
+          "request_id": "task-ec2a740a29f6",
+          "runtime_generation": 10,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 2317 content"
+          },
+          "target_scope": "153044",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "click_ref",
+          "observation_epoch": 124,
+          "ref": "ref_532740",
+          "request_id": "task-f78c46c1cf40"
+        },
+        "family": "focus",
+        "group": "contract",
+        "id": "task-f78c46c1cf40",
+        "request": {
+          "current_epoch": 124,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3991 content",
+                "ref": "ref_532740",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_532741",
+                "role": "edit"
+              }
+            ],
+            "epoch": 124,
+            "foreground_scope": "742384",
+            "scope": "742384",
+            "text": "Public briefing 6992.",
+            "text_verified": true
+          },
+          "request_id": "task-f78c46c1cf40",
+          "runtime_generation": 80,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 3991 content"
+          },
+          "target_scope": "742384",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "save",
+          "observation_epoch": 596,
+          "request_id": "task-7df3232512d7"
+        },
+        "family": "save",
+        "group": "contract",
+        "id": "task-7df3232512d7",
+        "request": {
+          "current_epoch": 596,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 2481 content",
+                "ref": "ref_410886",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_410887",
+                "role": "edit"
+              }
+            ],
+            "epoch": 596,
+            "foreground_scope": "500793",
+            "scope": "500793",
+            "text": "Public briefing 2756.",
+            "text_verified": true
+          },
+          "request_id": "task-7df3232512d7",
+          "runtime_generation": 46,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "500793",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 475,
+          "request_id": "task-e588b5e89eb9"
+        },
+        "family": "unverified",
+        "group": "contract",
+        "id": "task-e588b5e89eb9",
+        "request": {
+          "current_epoch": 475,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_268348",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 3476 content",
+                "ref": "ref_268347",
+                "role": "edit"
+              }
+            ],
+            "epoch": 475,
+            "foreground_scope": "307141",
+            "scope": "307141",
+            "text": "Public briefing 865.",
+            "text_verified": false
+          },
+          "request_id": "task-e588b5e89eb9",
+          "runtime_generation": 93,
+          "subgoal": {
+            "kind": "save_word"
+          },
+          "target_scope": "307141",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "observe",
+          "observation_epoch": 723,
+          "request_id": "task-3c058c6b1e91"
+        },
+        "family": "stale",
+        "group": "contract",
+        "id": "task-3c058c6b1e91",
+        "request": {
+          "current_epoch": 723,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_692960",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": true,
+                "name": "Document 9527 content",
+                "ref": "ref_692959",
+                "role": "edit"
+              }
+            ],
+            "epoch": 722,
+            "foreground_scope": "903336",
+            "scope": "903336",
+            "text": "Public briefing 8282.",
+            "text_verified": true
+          },
+          "request_id": "task-3c058c6b1e91",
+          "runtime_generation": 23,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 9527 content"
+          },
+          "target_scope": "903336",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 660,
+          "request_id": "task-bfefd0ae557d"
+        },
+        "family": "unfocused",
+        "group": "contract",
+        "id": "task-bfefd0ae557d",
+        "request": {
+          "current_epoch": 660,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Document 1629 content",
+                "ref": "ref_280707",
+                "role": "edit"
+              },
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_280708",
+                "role": "edit"
+              }
+            ],
+            "epoch": 660,
+            "foreground_scope": "358619",
+            "scope": "358619",
+            "text": "Public briefing 2239.",
+            "text_verified": true
+          },
+          "request_id": "task-bfefd0ae557d",
+          "runtime_generation": 30,
+          "subgoal": {
+            "kind": "write_brief",
+            "target_label": "Document 1629 content",
+            "text": "The public report lists 36 completed tasks."
+          },
+          "target_scope": "358619",
+          "version": 1
+        }
+      },
+      {
+        "expected": {
+          "action": "stop",
+          "observation_epoch": 479,
+          "request_id": "task-b8f086b1c1e1"
+        },
+        "family": "disabled",
+        "group": "contract",
+        "id": "task-b8f086b1c1e1",
+        "request": {
+          "current_epoch": 479,
+          "observation": {
+            "controls": [
+              {
+                "enabled": true,
+                "focused": false,
+                "name": "Search",
+                "ref": "ref_20023",
+                "role": "edit"
+              },
+              {
+                "enabled": false,
+                "focused": true,
+                "name": "Document 5642 content",
+                "ref": "ref_20022",
+                "role": "edit"
+              }
+            ],
+            "epoch": 479,
+            "foreground_scope": "170922",
+            "scope": "170922",
+            "text": "Public briefing 5205.",
+            "text_verified": true
+          },
+          "request_id": "task-b8f086b1c1e1",
+          "runtime_generation": 8,
+          "subgoal": {
+            "kind": "focus_editor",
+            "target_label": "Document 5642 content"
+          },
+          "target_scope": "170922",
+          "version": 1
+        }
+      }
+    ]
+  },
+  "training": {
+    "accumulation": 4,
+    "alpha": 16,
+    "batch_size": 1,
+    "dropout": 0.0,
+    "dtype": "bfloat16",
+    "gradient_checkpointing": true,
+    "learning_rate": 0.0002,
+    "max_allocated_bytes": 15000000000,
+    "max_seconds": 1800,
+    "max_tokens": 1024,
+    "rank": 8,
+    "seed": 41,
+    "steps": 48,
+    "target_regex": "model\\.language_model\\.layers\\.\\d+\\.self_attn\\.(q_proj|v_proj)",
+    "warmup_steps": 4
+  }
+}

@@ -901,13 +901,25 @@ Both weight sets match the locked Hugging Face SHA-256 values; large payloads
 were obtained through matching publisher ModelScope mirrors after download
 transport failures. The old environment and original probe remain intact.
 
-The single next objective is `FC-MVP-002-native-gui-proposal-adapter-v1`:
+The single active objective is now `FC-MVP-002-gui-owl-lora-pilot-v1`, explicitly
+requested by the owner on 2026-09-06: try a bounded local GUI-Owl 4B LoRA
+adaptation before returning to integration. Freeze the vision/base weights,
+train language attention adapters on 96 synthetic contract examples for 48
+optimizer steps, and compare fresh-load base/Adapter on 24 new same-family
+cases plus the unchanged 16-case regression. Twelve validation examples report
+loss only; the fixed final checkpoint is not selected using test results.
+Training and outputs stay offline with no desktop dispatch or cloud compute.
+This owner-selected pilot supersedes the earlier recommendation to defer
+training, without reopening any historical diagnostic invocation.
+
+The deferred integration resume point is `b5b8108e2e8c2839616b7cedb8671371e31765a5`.
+After this bounded pilot, return to `FC-MVP-002-native-gui-proposal-adapter-v1`:
 reuse the candidates' shared native click/stop envelope, bind each proposal
 to the issued observation/window, and connect it to existing Runtime grounding
 through a narrow model-side adapter. First validate stale, out-of-bounds,
 ambiguous and mismatched targets offline; no model proposal may become an
-approval or dispatch directly. Avoid widening the model search or training
-before this concrete integration gap is resolved. Runtime changes or a live
+approval or dispatch directly. Avoid widening this pilot into model search or
+an open-ended training campaign. Runtime changes or a live
 Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
