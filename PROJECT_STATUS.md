@@ -880,8 +880,8 @@ reproduces exactly. The CI matrix now includes all 21 contract/prior-probe
 tests. See [contract v1](docs/LOCAL_GUI_EXECUTOR_CONTRACT_V1.md).
 
 The single next objective is `FC-MVP-002-local-gui-executor-probe-v2`: first
-check local deployment feasibility for GUI-Owl-1.5-4B-Instruct and its
-Qwen3-VL-4B-Instruct base control after the owner's model-replacement suggestion.
+check local deployment feasibility for GUI-Owl-1.5-4B-Instruct and a
+Qwen3-VL-4B-Instruct general-model control after the owner's model-replacement suggestion.
 The live hardware check confirms an RTX 4090 Laptop with 16,376 MiB VRAM;
 no new weights have been downloaded or evaluated. Preserve the existing
 Qwen2.5-VL/Adapter results as the historical baseline. Freeze the feasible

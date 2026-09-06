@@ -104,7 +104,7 @@ action/ref correctness, abstention, and latency. Project sequencing remains in
 
 Following the owner's replacement suggestion, the first shortlist is
 [GUI-Owl-1.5-4B-Instruct](https://huggingface.co/mPLUG/GUI-Owl-1.5-4B-Instruct)
-and its [Qwen3-VL-4B-Instruct base control](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct).
+and a [Qwen3-VL-4B-Instruct general-model control](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct).
 The former's publisher describes a Qwen3-VL-based model specialized for
 multi-platform GUI tasks. The local hardware query on 2026-09-06 confirms an
 RTX 4090 Laptop GPU with 16,376 MiB VRAM. This establishes a deployment target,
