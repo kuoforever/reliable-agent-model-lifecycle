@@ -879,10 +879,17 @@ core typing and repository lint pass, and the retained conformance report
 reproduces exactly. The CI matrix now includes all 21 contract/prior-probe
 tests. See [contract v1](docs/LOCAL_GUI_EXECUTOR_CONTRACT_V1.md).
 
-The single next objective is `FC-MVP-002-local-gui-executor-probe-v2`: freeze
-a bounded fresh screen of the unchanged local candidates using this contract,
-then retain raw responses and report schema acceptance, exact action/ref,
-abstention and latency separately. Because the planner supplies one subgoal
+The single next objective is `FC-MVP-002-local-gui-executor-probe-v2`: first
+check local deployment feasibility for GUI-Owl-1.5-4B-Instruct and its
+Qwen3-VL-4B-Instruct base control after the owner's model-replacement suggestion.
+The live hardware check confirms an RTX 4090 Laptop with 16,376 MiB VRAM;
+no new weights have been downloaded or evaluated. Preserve the existing
+Qwen2.5-VL/Adapter results as the historical baseline. Freeze the feasible
+candidate lineup, environment and bounded fresh screen before measuring;
+retain raw responses and report schema acceptance, exact action/ref,
+abstention and latency separately. Add a separately specified screenshot
+grounding screen before any GUI-specialist capability claim; v1 contains only
+text controls and must not be its sole selection gate. Because the planner supplies one subgoal
 and the action menu is constrained, do not report this as independent task
 planning or compare it as model-only improvement over probe v1. This is not
 a live desktop run, training, serving platform, cloud call, rich capture or

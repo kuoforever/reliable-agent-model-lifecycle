@@ -97,6 +97,22 @@ belong to subsequent Runtime integration and state verification.
 
 No model was loaded, no desktop action was dispatched, no Runtime source was
 changed, and no training, rich capture, or cloud call occurred. The next bounded
-objective is to screen the unchanged local candidates through this contract,
-retaining raw outputs and separating schema acceptance, action/ref correctness,
-abstention, and latency. Project sequencing remains in `PROJECT_STATUS.md`.
+objective is to check replacement-candidate feasibility, then freeze a bounded
+comparison while retaining raw outputs and separating schema acceptance,
+action/ref correctness, abstention, and latency. Project sequencing remains in
+`PROJECT_STATUS.md`.
+
+Following the owner's replacement suggestion, the first shortlist is
+[GUI-Owl-1.5-4B-Instruct](https://huggingface.co/mPLUG/GUI-Owl-1.5-4B-Instruct)
+and its [Qwen3-VL-4B-Instruct base control](https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct).
+The former's publisher describes a Qwen3-VL-based model specialized for
+multi-platform GUI tasks. The local hardware query on 2026-09-06 confirms an
+RTX 4090 Laptop GPU with 16,376 MiB VRAM. This establishes a deployment target,
+not proven fit, speed or model quality. No replacement weights were downloaded
+or evaluated. Use an isolated environment to preserve the existing probe.
+
+Before selecting a GUI specialist, specify a separate screenshot-grounding
+screen with the appropriate native input/output mapping and shared task-level
+criteria. Text/ref contract compliance alone cannot establish visual GUI
+capability; native coordinate proposals must still pass Runtime grounding
+through a separately reviewed adapter, never bypass the closed v1 compiler.
