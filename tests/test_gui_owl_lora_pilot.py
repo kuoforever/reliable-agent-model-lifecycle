@@ -1,5 +1,6 @@
 """Model-free checks for training isolation and assistant-only supervision."""
 
+import hashlib
 import json
 import re
 import unittest
@@ -7,6 +8,7 @@ import unittest
 from scripts.build_gui_owl_lora_pilot import CONFIG, FAMILIES, build
 from scripts.probe_local_gui_executor_v2 import canonical, messages_for, score
 from scripts.run_gui_owl_lora_pilot import assistant_labels
+from scripts.review_gui_owl_lora_pilot import OUTPUT, review
 
 
 class PilotTests(unittest.TestCase):
@@ -70,6 +72,59 @@ class PilotTests(unittest.TestCase):
                 self.assertEqual(row["expected"]["action"], "stop")
             if row["family"] == "stale":
                 self.assertEqual(row["expected"]["action"], "observe")
+
+    def test_retained_evidence_replays(self):
+        bundle = json.loads(OUTPUT.read_text(encoding="utf-8"))
+        self.assertEqual(review(bundle), bundle["summary"])
+
+    def mutate_event(self, run_name, transform):
+        bundle = json.loads(OUTPUT.read_text(encoding="utf-8"))
+        run = bundle["runs"][run_name]
+        events = [json.loads(line) for line in run["events_text"].splitlines()]
+        transform(events)
+        run["events_text"] = "".join(json.dumps(e) + "\n" for e in events)
+        run["events_sha256"] = hashlib.sha256(run["events_text"].encode()).hexdigest()
+        return bundle
+
+    def test_rejects_score_promotion_even_with_updated_hash(self):
+        def promote(events):
+            row = next(
+                e
+                for e in events
+                if e["event"] == "case_completed" and not e["score"]["task_pass"]
+            )
+            row["score"]["task_pass"] = True
+
+        with self.assertRaisesRegex(ValueError, "score drift"):
+            review(self.mutate_event("after", promote))
+
+    def test_rejects_test_record_in_training(self):
+        def leak(events):
+            events[4]["ids"][0] = build()["splits"]["test"][0]["id"]
+
+        with self.assertRaisesRegex(ValueError, "training split leakage"):
+            review(self.mutate_event("train", leak))
+
+    def test_rejects_sampling(self):
+        def sample(events):
+            events[2]["effective"]["do_sample"] = True
+
+        with self.assertRaisesRegex(ValueError, "greedy config"):
+            review(self.mutate_event("after", sample))
+
+    def test_rejects_changed_prompt(self):
+        def change(events):
+            events[4]["rendered_prompt"] += "Additional instruction."
+
+        with self.assertRaisesRegex(ValueError, "paired prompt mismatch"):
+            review(self.mutate_event("after", change))
+
+    def test_rejects_missing_step(self):
+        def drop(events):
+            del events[4]
+
+        with self.assertRaisesRegex(ValueError, "training grammar"):
+            review(self.mutate_event("train", drop))
 
 
 if __name__ == "__main__":

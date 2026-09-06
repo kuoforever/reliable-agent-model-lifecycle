@@ -901,19 +901,29 @@ Both weight sets match the locked Hugging Face SHA-256 values; large payloads
 were obtained through matching publisher ModelScope mirrors after download
 transport failures. The old environment and original probe remain intact.
 
-The single active objective is now `FC-MVP-002-gui-owl-lora-pilot-v1`, explicitly
-requested by the owner on 2026-09-06: try a bounded local GUI-Owl 4B LoRA
-adaptation before returning to integration. Freeze the vision/base weights,
-train language attention adapters on 96 synthetic contract examples for 48
-optimizer steps, and compare fresh-load base/Adapter on 24 new same-family
-cases plus the unchanged 16-case regression. Twelve validation examples report
-loss only; the fixed final checkpoint is not selected using test results.
-Training and outputs stay offline with no desktop dispatch or cloud compute.
-This owner-selected pilot supersedes the earlier recommendation to defer
-training, without reopening any historical diagnostic invocation.
+`FC-MVP-002-gui-owl-lora-pilot-v1` completed the owner's explicit local
+fine-tuning request on 2026-09-06. BF16 LoRA trains 2,949,120 language attention
+parameters on 96 synthetic examples for 48 fixed steps, with base/vision frozen.
+Fresh-load paired evaluation improves new same-family exact actions from 4/24
+to 17/24 and compiler acceptance from 6/24 to 22/24. Known contract exact
+responses improve 1/8 to 5/8; synthetic visual regression stays 8/8.
+The predeclared 20/24 threshold fails: two unverified saves remain compiler
+rejections, and five extra stops prevent expected progress. This Adapter is an
+experimental candidate, not Runtime-eligible. Training completes in 82.765 s
+including load/hash checks, with 9,893,293,056 peak allocated bytes; the saved
+11,817,664-byte Adapter reloads successfully and stays under ignored local work.
+Twelve validation examples report loss only; no test-selected checkpoint or
+extra training occurs. Four fresh loads and 80 evaluated generations complete,
+with no desktop dispatch or cloud compute. See
+[pilot v1](docs/GUI_OWL_LORA_PILOT_V1.md) and its model-free retained reviewer.
+Local validation passes 44 focused tests (13 new, 31 existing), repository
+Ruff, saved-Adapter file hashes and current/prior evidence replay. CI now
+includes the new model-free tests and evidence checks on Python 3.11-3.13.
+This owner-selected pilot superseded the earlier recommendation to defer
+training without reopening any historical diagnostic invocation.
 
-The deferred integration resume point is `b5b8108e2e8c2839616b7cedb8671371e31765a5`.
-After this bounded pilot, return to `FC-MVP-002-native-gui-proposal-adapter-v1`:
+The integration resume point remains `b5b8108e2e8c2839616b7cedb8671371e31765a5`.
+The single next objective is `FC-MVP-002-native-gui-proposal-adapter-v1`:
 reuse the candidates' shared native click/stop envelope, bind each proposal
 to the issued observation/window, and connect it to existing Runtime grounding
 through a narrow model-side adapter. First validate stale, out-of-bounds,
