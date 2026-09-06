@@ -1,0 +1,193 @@
+{
+  "case_count": 12,
+  "cases": [
+    {
+      "compiled": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_941"
+        },
+        "binding_digest": "0f1f3c1803290230249f35e2eef7984535e194a15d25e6ccf19de93ed8482170",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-focus-new",
+        "tool": "click"
+      },
+      "id": "contract-focus-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_953"
+        },
+        "binding_digest": "ae6fb7401f22ad0470b32137d24f3d30e35c663f822c1aee8c8a54742ddd4fce",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-relocated-new",
+        "tool": "click"
+      },
+      "id": "contract-relocated-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "observe",
+        "arguments": {
+          "scope": "7601"
+        },
+        "binding_digest": "07665cbc14d15acd7935b2ad7b4f17503472cc233784056508f4014cf9eb227b",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-stale-new",
+        "tool": "ui_snapshot"
+      },
+      "id": "contract-stale-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "read_text",
+        "arguments": {
+          "scope": "7601"
+        },
+        "binding_digest": "a6e931e85749fbf4ac99c7e4e06f3c4256e56b7c57a051a68c76dff1c9283422",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-read-source-new",
+        "tool": "document_text"
+      },
+      "id": "contract-read-source-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "read_text",
+        "arguments": {
+          "scope": "7601"
+        },
+        "binding_digest": "58962f0ce3d1d8781866d80aa30589b5acdcf64f2b8d51fea95d138d31b695b8",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-read-word-new",
+        "tool": "document_text"
+      },
+      "id": "contract-read-word-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "save",
+        "arguments": {
+          "combo": "Ctrl+S"
+        },
+        "binding_digest": "82037fe7e20a82dc4048bcfb0717a85821d0f9fd4ff716b06d49bd99fb172551",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-save-new",
+        "tool": "key"
+      },
+      "id": "contract-save-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "id": "contract-unverified-save-new",
+      "rejected": "CONTENT_NOT_VERIFIED"
+    },
+    {
+      "compiled": {
+        "action": "activate",
+        "arguments": {
+          "window_id": "7601"
+        },
+        "binding_digest": "c2cea9d9f628f61c512e9f1ae9f6ae02cd0c1772f0c1b2e16e055f0ab8fb33b6",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-activate-new",
+        "tool": "activate_window"
+      },
+      "id": "contract-activate-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "type_text",
+        "arguments": {
+          "ref": "ref_941",
+          "text": "Contract demo: retain only the reviewed local brief."
+        },
+        "binding_digest": "7ab6a99277726e5987ef92ccba823f8d6f8f02d4b4fa41af3a21a76f91166658",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-write-new",
+        "tool": "type"
+      },
+      "id": "contract-write-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "compiled": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "3297e77e6d77e081246472abd5a6216d3998cc180a96f5df9023518bc9ae0707",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-ambiguous-new",
+        "tool": null
+      },
+      "id": "contract-ambiguous-new",
+      "runtime_argument_schema_checked": false
+    },
+    {
+      "compiled": {
+        "action": "read_text",
+        "arguments": {
+          "scope": "7601"
+        },
+        "binding_digest": "9079b7975bfdc29d4d4a583b5064bdca6b59ab401d8c0a42cf2321922266865b",
+        "execution_authorized": false,
+        "observation_epoch": 43,
+        "request_id": "contract-injection-new",
+        "tool": "document_text"
+      },
+      "id": "contract-injection-new",
+      "runtime_argument_schema_checked": true
+    },
+    {
+      "id": "contract-late-new",
+      "rejected": "CONTEXT_CHANGED"
+    }
+  ],
+  "desktop_executed": false,
+  "expected_rejections": 2,
+  "id": "FC-MVP-002-local-gui-executor-contract-v1",
+  "model_evaluated": false,
+  "model_projection_sha256": "1d6af7e0d0406cf418e4b16ec35bedbace038021b34a2bcabb64d178e72ffcd0",
+  "runtime": {
+    "commit": "0237f3104a1aeb9263627782df4c3fadc7e6ffe0",
+    "tool_registry": {
+      "bytes": 31410,
+      "sha256": "17104b988f29c1871d608de08ed26fa3141bf85307fe4c227bcf223af50e2c6a"
+    }
+  },
+  "runtime_argument_checks": 9,
+  "runtime_authorization_checked": false,
+  "serving_eligible": false,
+  "source_receipts": {
+    "fixtures/local_gui_executor_v1/cases.json": {
+      "bytes": 25870,
+      "sha256": "fe6853caa6f57033c02a9d54c6c6848c70c50abed55e733fe4198ccab44b46ff"
+    },
+    "scripts/validate_local_gui_executor.py": {
+      "bytes": 5023,
+      "sha256": "3e43bb1a7e541417d1c50cc2f4e895584f88ef2a29da3ac56374182eceac92e6"
+    },
+    "src/fullcycle_bridge/local_gui_executor.py": {
+      "bytes": 11780,
+      "sha256": "ad22d126d3ad21ac8f85b5aaf32f2ce38fa91a527aa6f9b0df3c60d79a714d21"
+    }
+  },
+  "stop_proposals": 1,
+  "valid": true
+}
