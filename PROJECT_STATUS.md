@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-09-04.
+> Updated: 2026-09-06.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -850,6 +850,40 @@ SHA-256 `2be8caf8dbc35d2741d81d408f21fea08d7961cc970590a25922bc757485ca93`;
 the default formal runner was not invoked again.
 
 ## Single active objective
+
+As of 2026-09-06, the owner selected one flagship closeout scope: a supervised
+Chrome-to-Word desktop demonstration, with local model decisions and Runtime
+authority. Four depth Labs, broad application coverage, and further Browser
+Research diagnostics are deferred rather than required for this closeout.
+
+`FC-MVP-002-local-desktop-readiness-probe-v1` completed two fresh local BF16
+candidate loads and 24 new synthetic text-only cases. Raw JSON compliance is
+8/12 base versus 12/12 Adapter; exact executor actions are 0/6 versus 1/6.
+Current Runtime schema validity is 2/6 versus 4/6. Both summarize the short
+synthetic facts, but lexical/length checks fail and human review remains
+separate. Enumerated-stage planning is 1/2 versus 0/2. The result is
+`not_ready_for_live_desktop_under_this_interface`, not a general model ranking.
+The retained bundle and model-free reviewer preserve all responses, token IDs,
+prompts, source/environment receipts, and exact group totals. See
+[probe v1](docs/LOCAL_DESKTOP_READINESS_PROBE_V1.md).
+
+The single next objective is `FC-MVP-002-local-gui-executor-contract-v1`:
+define one-subgoal input with explicit numeric window/observation-epoch
+binding, a narrow output with mutually exclusive action arguments, and fresh
+held-out contract cases. Separate the planner port so a later cloud planner
+can replace task planning without acquiring desktop authority. This is the
+next bounded design/contract item; no live action, training, serving platform,
+cloud call, rich capture or historical experiment retry is authorized by the
+probe result. Both candidates used existing local weights read-only.
+
+Preserve the diagnostic-v2 consumed/no-retry/no-successor state below and all
+historical output bytes. The frozen portable-package gate remains deferred at
+`f8dc9a62471759282ad2b41673d95acd43bf240f`. Runtime remains unchanged at its
+own tracker; only its public tool schemas/validator are read for this probe.
+The old diagnostic chain has no successor; the new executor-contract objective
+comes only from the owner's separately selected flagship closeout scope.
+
+## Preserved diagnostic closeout and former active objective
 
 PR #79 published the exact 10-path invocation closeout as verified signed
 squash commit `fd552896df1aea817ba4d2ece3bf43a8f248424f`, with sole parent
