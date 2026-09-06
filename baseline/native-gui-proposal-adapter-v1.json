@@ -1,0 +1,2260 @@
+{
+  "cases": [
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                110,
+                54,
+                940,
+                96
+              ],
+              "enabled": true,
+              "name": "Address bar",
+              "ref": "ref_1",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Address bar",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-address",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_1"
+        },
+        "binding_digest": "6701398f550b881471262477fe4361745364f11d9ca1cae97a818233e4a94fa6",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          523,
+          75
+        ],
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [511, 118]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                24,
+                135,
+                200,
+                182
+              ],
+              "enabled": true,
+              "name": "Search articles",
+              "ref": "ref_2",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Search articles",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-search",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_2"
+        },
+        "binding_digest": "61b72c33e7f12ab2310369a06f50b1be0682d1a375998c81755fdc0415629685",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          111,
+          158
+        ],
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [109, 247]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                280,
+                140,
+                935,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_3",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_3"
+        },
+        "binding_digest": "1b5eb015cedc723653d3d0fee15900f1496888eb540334cd60a491b6e66ea148",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          608,
+          350
+        ],
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [594, 548]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                20,
+                55,
+                115,
+                100
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_4",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_4"
+        },
+        "binding_digest": "055b50492fd85ffcedf854999f8de8fad198c49b0676fa10daaf5d595514dbc2",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          64,
+          77
+        ],
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [63, 121]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                705,
+                445,
+                820,
+                492
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_5",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_5"
+        },
+        "binding_digest": "b3c2a81aa47a437b66be06fc16363c30977b5614e9be35859ee4fec824fde0d6",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": [
+          761,
+          467
+        ],
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [744, 731]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                40,
+                140,
+                640,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_6",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "relocated-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_6"
+        },
+        "binding_digest": "0633e7be85db63f94636f4aa70e09d4cd7edf4e31e2313a1e07a9869071a0471",
+        "execution_authorized": false,
+        "frame_sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+        "observation_epoch": 7,
+        "pixel_point": [
+          340,
+          360
+        ],
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [333, 564]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Delete account",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "a422ccf858013f4f99caab8b6f77c3539ce8997a0efe2e3e94a93d360a0a2cfd",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Print",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "57af3716125c298c729ad820b03e826262ac01592ba7b2219b03b516c87e28eb",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                110,
+                54,
+                940,
+                96
+              ],
+              "enabled": true,
+              "name": "Address bar",
+              "ref": "ref_1",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Address bar",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-address",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_1"
+        },
+        "binding_digest": "6701398f550b881471262477fe4361745364f11d9ca1cae97a818233e4a94fa6",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          520,
+          72
+        ],
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\":[508, 113]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                24,
+                135,
+                200,
+                182
+              ],
+              "enabled": true,
+              "name": "Search articles",
+              "ref": "ref_2",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Search articles",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-search",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_2"
+        },
+        "binding_digest": "61b72c33e7f12ab2310369a06f50b1be0682d1a375998c81755fdc0415629685",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          108,
+          158
+        ],
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\":[106, 247]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                280,
+                140,
+                935,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_3",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_3"
+        },
+        "binding_digest": "1b5eb015cedc723653d3d0fee15900f1496888eb540334cd60a491b6e66ea148",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          607,
+          312
+        ],
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [593, 488]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                20,
+                55,
+                115,
+                100
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_4",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_4"
+        },
+        "binding_digest": "055b50492fd85ffcedf854999f8de8fad198c49b0676fa10daaf5d595514dbc2",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          61,
+          74
+        ],
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\":[60, 117]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                705,
+                445,
+                820,
+                492
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_5",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_5"
+        },
+        "binding_digest": "b3c2a81aa47a437b66be06fc16363c30977b5614e9be35859ee4fec824fde0d6",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": [
+          758,
+          465
+        ],
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\":[741, 727]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                40,
+                140,
+                640,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_6",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "relocated-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_6"
+        },
+        "binding_digest": "0633e7be85db63f94636f4aa70e09d4cd7edf4e31e2313a1e07a9869071a0471",
+        "execution_authorized": false,
+        "frame_sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+        "observation_epoch": 7,
+        "pixel_point": [
+          337,
+          320
+        ],
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [330, 500]}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Delete account",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "a422ccf858013f4f99caab8b6f77c3539ce8997a0efe2e3e94a93d360a0a2cfd",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    },
+    {
+      "candidate": "qwen",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Print",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "57af3716125c298c729ad820b03e826262ac01592ba7b2219b03b516c87e28eb",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                110,
+                54,
+                940,
+                96
+              ],
+              "enabled": true,
+              "name": "Address bar",
+              "ref": "ref_1",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Address bar",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-address",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_1"
+        },
+        "binding_digest": "6701398f550b881471262477fe4361745364f11d9ca1cae97a818233e4a94fa6",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          522,
+          75
+        ],
+        "request_id": "native-browser-address",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [510, 118]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                24,
+                135,
+                200,
+                182
+              ],
+              "enabled": true,
+              "name": "Search articles",
+              "ref": "ref_2",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Search articles",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-search",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_2"
+        },
+        "binding_digest": "61b72c33e7f12ab2310369a06f50b1be0682d1a375998c81755fdc0415629685",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": [
+          111,
+          158
+        ],
+        "request_id": "native-browser-search",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [109, 247]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                280,
+                140,
+                935,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_3",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_3"
+        },
+        "binding_digest": "1b5eb015cedc723653d3d0fee15900f1496888eb540334cd60a491b6e66ea148",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          608,
+          356
+        ],
+        "request_id": "native-word-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [594, 557]}}\n</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                20,
+                55,
+                115,
+                100
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_4",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "word-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_4"
+        },
+        "binding_digest": "055b50492fd85ffcedf854999f8de8fad198c49b0676fa10daaf5d595514dbc2",
+        "execution_authorized": false,
+        "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "observation_epoch": 7,
+        "pixel_point": [
+          64,
+          77
+        ],
+        "request_id": "native-word-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [63, 121]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                705,
+                445,
+                820,
+                492
+              ],
+              "enabled": true,
+              "name": "Save",
+              "ref": "ref_5",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Save",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-save",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_5"
+        },
+        "binding_digest": "b3c2a81aa47a437b66be06fc16363c30977b5614e9be35859ee4fec824fde0d6",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": [
+          761,
+          467
+        ],
+        "request_id": "native-dialog-save",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [744, 731]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            },
+            {
+              "bounds": [
+                40,
+                140,
+                640,
+                580
+              ],
+              "enabled": true,
+              "name": "Document page",
+              "ref": "ref_6",
+              "role": "edit",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Document page",
+          "role": "edit"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "relocated-editor",
+      "proposal": {
+        "action": "click_ref",
+        "arguments": {
+          "ref": "ref_6"
+        },
+        "binding_digest": "0633e7be85db63f94636f4aa70e09d4cd7edf4e31e2313a1e07a9869071a0471",
+        "execution_authorized": false,
+        "frame_sha256": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+        "observation_epoch": 7,
+        "pixel_point": [
+          340,
+          360
+        ],
+        "request_id": "native-relocated-editor",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": "click",
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"left_click\",\"coordinate\": [333, 564]}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Delete account",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "browser-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "a422ccf858013f4f99caab8b6f77c3539ce8997a0efe2e3e94a93d360a0a2cfd",
+        "execution_authorized": false,
+        "frame_sha256": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-browser-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    },
+    {
+      "candidate": "gui-owl-lora",
+      "context": {
+        "current_epoch": 7,
+        "observation": {
+          "controls": [
+            {
+              "bounds": [
+                0,
+                0,
+                16,
+                16
+              ],
+              "enabled": true,
+              "name": "Unrelated toolbar",
+              "ref": "ref_90",
+              "role": "button",
+              "visible": true
+            }
+          ],
+          "epoch": 7,
+          "foreground_scope": "314",
+          "frame": {
+            "coordinate_space": "primary_screen_pixels",
+            "height": 640,
+            "sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+            "width": 1024
+          },
+          "scope": "314",
+          "window_bounds": [
+            0,
+            0,
+            1024,
+            640
+          ]
+        },
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target": {
+          "name": "Print",
+          "role": "button"
+        },
+        "target_scope": "314",
+        "version": 1
+      },
+      "id": "dialog-absent",
+      "proposal": {
+        "action": "stop",
+        "arguments": {},
+        "binding_digest": "57af3716125c298c729ad820b03e826262ac01592ba7b2219b03b516c87e28eb",
+        "execution_authorized": false,
+        "frame_sha256": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+        "observation_epoch": 7,
+        "pixel_point": null,
+        "request_id": "native-dialog-absent",
+        "runtime_generation": 3,
+        "target_scope": "314",
+        "tool": null,
+        "version": 1
+      },
+      "raw_output": "<tool_call>{\"name\":\"computer_use\",\"arguments\":{\"action\":\"terminate\",\"status\":\"failure\"}}</tool_call>"
+    }
+  ],
+  "click_proposals": 18,
+  "desktop_executed": false,
+  "id": "FC-MVP-002-native-gui-proposal-adapter-v1",
+  "limit": "Retained model outputs plus synthetic UIA boxes derived from known visual fixtures; not a live observation or independent target-quality test.",
+  "model_loaded": false,
+  "negative_controls": [
+    {
+      "error": "STALE_OBSERVATION",
+      "id": "stale"
+    },
+    {
+      "error": "CONTEXT_CHANGED",
+      "id": "new_frame"
+    },
+    {
+      "error": "CONTEXT_CHANGED",
+      "id": "new_epoch"
+    },
+    {
+      "error": "CONTEXT_CHANGED",
+      "id": "new_generation"
+    },
+    {
+      "error": "CONTEXT_CHANGED",
+      "id": "new_window"
+    },
+    {
+      "error": "REPLY_BINDING_MISMATCH",
+      "id": "wrong_reply"
+    },
+    {
+      "error": "TARGET_NOT_FOREGROUND",
+      "id": "background"
+    },
+    {
+      "error": "TARGET_NOT_UNIQUE",
+      "id": "overlap"
+    },
+    {
+      "error": "TARGET_MISMATCH",
+      "id": "wrong_target"
+    },
+    {
+      "error": "TARGET_DISABLED",
+      "id": "disabled"
+    },
+    {
+      "error": "TARGET_NOT_UNIQUE",
+      "id": "hidden"
+    },
+    {
+      "error": "NATIVE_POINT_RANGE",
+      "id": "edge"
+    },
+    {
+      "error": "NATIVE_ACTION_FIELDS",
+      "id": "success_claim"
+    }
+  ],
+  "runtime": {
+    "cases": [
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "browser-address",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "browser-search",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "word-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "word-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "dialog-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl",
+        "grounding_valid": true,
+        "id": "relocated-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "browser-address",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "browser-search",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "word-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "word-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "dialog-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "qwen",
+        "grounding_valid": true,
+        "id": "relocated-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "browser-address",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "browser-search",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "word-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "word-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "dialog-save",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      },
+      {
+        "candidate": "gui-owl-lora",
+        "grounding_valid": true,
+        "id": "relocated-editor",
+        "rejected": [
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "invalidated"
+          },
+          {
+            "error": "MCP_GENERATION_CHANGED",
+            "id": "new_generation"
+          },
+          {
+            "error": "GROUNDING_REQUIRED",
+            "id": "unobserved_ref"
+          }
+        ],
+        "schema_valid": true
+      }
+    ],
+    "commit": "0237f3104a1aeb9263627782df4c3fadc7e6ffe0",
+    "dispatch_count": 0,
+    "sources": {
+      "src/computer_use_agent/grounding.py": "92e77266a850a8c502532e0877223df45afee0b655114f126fc3a657f578d3c9",
+      "src/computer_use_agent/tool_registry.py": "17104b988f29c1871d608de08ed26fa3141bf85307fe4c227bcf223af50e2c6a",
+      "src/computer_use_agent/types.py": "124c213b9c7203afacfe00759580452aa99cee98104d33ef139a9d28df05daf4"
+    },
+    "synthetic_observations_only": true
+  },
+  "runtime_authorization_checked": false,
+  "sources": {
+    "baseline/gui-owl-lora-pilot-v1.json": "25c556dd9cf00cbba32ce6b82e6ac3902c5aaead39f39650b18a5f3818b19bf4",
+    "baseline/local-gui-executor-probe-v2.json": "b8d99d696406140ee43579530b35722504cb3baba82d5eb8c0a88aba70ff8bcf",
+    "configs/local_gui_executor_probe_v2.json": "cd7383a15841fda1c35b6a4e86195be07928a061d13ac99e3f246dc6cdfacdd9",
+    "fixtures/local_gui_probe_v2/browser.png": "ac9e9b6dff9228c757a77b34c92795a2a643d57829614c899537fc7c84c86cd4",
+    "fixtures/local_gui_probe_v2/dialog.png": "4d05ef9dc6bfb370a0f0bfb4c40d938147a5c8f3bcc26a11986a420f53db0552",
+    "fixtures/local_gui_probe_v2/relocated.png": "839e99d850d90882e631081a9e5e1470fc04bb3fe4472f7faa8ba87c1dad760d",
+    "fixtures/local_gui_probe_v2/word.png": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+    "scripts/validate_native_gui_proposal.py": "863d8a9f78428973da63916d7333eb437eaf49915c572169e911234b087e58be",
+    "src/fullcycle_bridge/native_gui_proposal.py": "ffac645aaf402d225f44d982fe5bc0b97e65c9dd51bf5ade79a2bd26e15205a0"
+  },
+  "stop_proposals": 6
+}
