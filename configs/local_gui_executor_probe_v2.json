@@ -1,0 +1,485 @@
+{
+  "id": "FC-MVP-002-local-gui-executor-probe-v2",
+  "candidates": {
+    "gui-owl": {
+      "model_id": "mPLUG/GUI-Owl-1.5-4B-Instruct",
+      "revision": "3f061c2c562cc860c42bf32542a70e07a7ff4840"
+    },
+    "qwen": {
+      "model_id": "Qwen/Qwen3-VL-4B-Instruct",
+      "revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17"
+    }
+  },
+  "generation": {
+    "max_new_tokens": 192,
+    "do_sample": false,
+    "seed": 17,
+    "max_input_tokens": 4096,
+    "max_time_seconds": 45
+  },
+  "backend": {
+    "dtype": "bfloat16",
+    "attention": "sdpa",
+    "batch_size": 1,
+    "image_min_pixels": 65536,
+    "image_max_pixels": 655360
+  },
+  "limits": {
+    "candidate_seconds": 900,
+    "peak_allocated_bytes": 15000000000,
+    "case_retries": 0
+  },
+  "rubric": {
+    "visual": "strict single tool_call; normalized click point inside pixel bbox, or exact failure termination for absent targets",
+    "contract": "strict raw JSON and v1 compiler acceptance; exact response scored separately",
+    "latency": "diagnostic only; synchronized generation seconds, no serving SLA",
+    "decision": "screening only; do not declare live readiness from synthetic single-step success"
+  },
+  "cases": [
+    {
+      "id": "browser-address",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/browser.png",
+      "instruction": "Click the browser address bar.",
+      "bbox": [
+        110,
+        54,
+        940,
+        96
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "browser-search",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/browser.png",
+      "instruction": "Click Search articles in the left sidebar.",
+      "bbox": [
+        24,
+        135,
+        200,
+        182
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "word-editor",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/word.png",
+      "instruction": "Click inside the document page containing Briefing summary, away from the search field.",
+      "bbox": [
+        280,
+        140,
+        935,
+        580
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "word-save",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/word.png",
+      "instruction": "Click the Save button in the top toolbar.",
+      "bbox": [
+        20,
+        55,
+        115,
+        100
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "dialog-save",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/dialog.png",
+      "instruction": "Click Save to confirm this Save As dialog.",
+      "bbox": [
+        705,
+        445,
+        820,
+        492
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "relocated-editor",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/relocated.png",
+      "instruction": "Click inside the document page containing Briefing summary, away from the search field.",
+      "bbox": [
+        40,
+        140,
+        640,
+        580
+      ],
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "browser-absent",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/browser.png",
+      "instruction": "Click the Delete account button. If it is absent, terminate with failure.",
+      "bbox": null,
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "dialog-absent",
+      "group": "visual",
+      "image": "fixtures/local_gui_probe_v2/dialog.png",
+      "instruction": "Click the Print button. If it is absent, terminate with failure.",
+      "bbox": null,
+      "width": 1024,
+      "height": 640
+    },
+    {
+      "id": "probe-v2-control-0",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-0",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "focus_editor",
+          "target_label": "Page 2 content"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "click_ref",
+        "observation_epoch": 57,
+        "ref": "ref_1641",
+        "request_id": "probe-v2-control-0"
+      }
+    },
+    {
+      "id": "probe-v2-control-1",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 56,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-1",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "focus_editor",
+          "target_label": "Page 2 content"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "observe",
+        "observation_epoch": 57,
+        "request_id": "probe-v2-control-1"
+      }
+    },
+    {
+      "id": "probe-v2-control-2",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-2",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "read_source"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "read_text",
+        "observation_epoch": 57,
+        "request_id": "probe-v2-control-2"
+      }
+    },
+    {
+      "id": "probe-v2-control-3",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": true
+        },
+        "request_id": "probe-v2-control-3",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "save_word"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "save",
+        "observation_epoch": 57,
+        "request_id": "probe-v2-control-3"
+      }
+    },
+    {
+      "id": "probe-v2-control-4",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-4",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "save_word"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "request_id": "probe-v2-control-4",
+        "observation_epoch": 57,
+        "action": "stop"
+      }
+    },
+    {
+      "id": "probe-v2-control-5",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "19901",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-5",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "activate_target"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "activate",
+        "observation_epoch": 57,
+        "request_id": "probe-v2-control-5"
+      }
+    },
+    {
+      "id": "probe-v2-control-6",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Search",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-6",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "write_brief",
+          "target_label": "Page 2 content",
+          "text": "Contract demo: retain only the reviewed local brief."
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "type_text",
+        "observation_epoch": 57,
+        "ref": "ref_1641",
+        "request_id": "probe-v2-control-6"
+      }
+    },
+    {
+      "id": "probe-v2-control-7",
+      "group": "contract",
+      "request": {
+        "current_epoch": 57,
+        "observation": {
+          "controls": [
+            {
+              "enabled": true,
+              "focused": true,
+              "name": "Page 2 content",
+              "ref": "ref_1641",
+              "role": "edit"
+            },
+            {
+              "enabled": true,
+              "focused": false,
+              "name": "Page 2 content",
+              "ref": "ref_1642",
+              "role": "edit"
+            }
+          ],
+          "epoch": 57,
+          "foreground_scope": "10801",
+          "scope": "10801",
+          "text": "Synthetic document observation only.",
+          "text_verified": false
+        },
+        "request_id": "probe-v2-control-7",
+        "runtime_generation": 14,
+        "subgoal": {
+          "kind": "focus_editor",
+          "target_label": "Page 2 content"
+        },
+        "target_scope": "10801",
+        "version": 1
+      },
+      "expected": {
+        "action": "stop",
+        "observation_epoch": 57,
+        "request_id": "probe-v2-control-7"
+      }
+    }
+  ]
+}

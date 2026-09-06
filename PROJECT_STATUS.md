@@ -879,11 +879,16 @@ core typing and repository lint pass, and the retained conformance report
 reproduces exactly. The CI matrix now includes all 21 contract/prior-probe
 tests. See [contract v1](docs/LOCAL_GUI_EXECUTOR_CONTRACT_V1.md).
 
-The single next objective is `FC-MVP-002-local-gui-executor-probe-v2`: first
+The single active objective is `FC-MVP-002-local-gui-executor-probe-v2`: first
 check local deployment feasibility for GUI-Owl-1.5-4B-Instruct and a
 Qwen3-VL-4B-Instruct general-model control after the owner's model-replacement suggestion.
 The live hardware check confirms an RTX 4090 Laptop with 16,376 MiB VRAM;
-no new weights have been downloaded or evaluated. Preserve the existing
+the owner authorized the candidate comparison on 2026-09-06. A new
+Transformers 4.57.6 environment imports Qwen3-VL on CUDA, four visibly
+synthetic PNGs and 16 cases per candidate are prepared, and the model
+downloads are in progress with locked-revision SHA-256 checks. No replacement
+model has been loaded or evaluated yet. See the preregistered
+[probe v2](docs/LOCAL_GUI_EXECUTOR_PROBE_V2.md). Preserve the existing
 Qwen2.5-VL/Adapter results as the historical baseline. Freeze the feasible
 candidate lineup, environment and bounded fresh screen before measuring;
 retain raw responses and report schema acceptance, exact action/ref,
