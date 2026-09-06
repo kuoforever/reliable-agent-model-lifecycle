@@ -879,42 +879,49 @@ core typing and repository lint pass, and the retained conformance report
 reproduces exactly. The CI matrix now includes all 21 contract/prior-probe
 tests. See [contract v1](docs/LOCAL_GUI_EXECUTOR_CONTRACT_V1.md).
 
-The single active objective is `FC-MVP-002-local-gui-executor-probe-v2`: first
-check local deployment feasibility for GUI-Owl-1.5-4B-Instruct and a
-Qwen3-VL-4B-Instruct general-model control after the owner's model-replacement suggestion.
-The live hardware check confirms an RTX 4090 Laptop with 16,376 MiB VRAM;
-the owner authorized the candidate comparison on 2026-09-06. A new
-Transformers 4.57.6 environment imports Qwen3-VL on CUDA, four visibly
-synthetic PNGs and 16 cases per candidate are prepared, and the model
-downloads use locked-revision SHA-256 checks. GUI-Owl loaded and generated,
-but its initial 16-case attempt is excluded because Transformers default
-inheritance overrode the requested non-sampling mode. Its raw evidence remains
-intact. Corrected attempt revision 2 freezes explicit effective greedy
-configuration for both candidates before a new comparison. See the preregistered
-[probe v2](docs/LOCAL_GUI_EXECUTOR_PROBE_V2.md). Preserve the existing
-Qwen2.5-VL/Adapter results as the historical baseline. Freeze the feasible
-candidate lineup, environment and bounded fresh screen before measuring;
-retain raw responses and report schema acceptance, exact action/ref,
-abstention and latency separately. Add a separately specified screenshot
-grounding screen before any GUI-specialist capability claim; v1 contains only
-text controls and must not be its sole selection gate. Because the planner supplies one subgoal
-and the action menu is constrained, do not report this as independent task
-planning or compare it as model-only improvement over probe v1. This is not
-a live desktop run, training, serving platform, cloud call, rich capture or
-historical experiment retry. A future cloud planner may supply the same
-subgoal port without acquiring Runtime authority.
+`FC-MVP-002-local-gui-executor-probe-v2` completed the owner-approved local
+comparison on 2026-09-06. GUI-Owl-1.5-4B-Instruct and Qwen3-VL-4B-Instruct
+both load on the 16,376 MiB RTX 4090 Laptop, with 9,308,010,496 bytes peak
+Torch allocated memory. In corrected attempt revision 2, both pass 6/6
+visible synthetic target hits and 2/2 absent-target stops. Visual generation
+medians are 1.672 s versus 1.625 s. Text/ref compiler acceptance is 2/8 versus
+3/8; exact responses are 1/8 versus 2/8. Neither is a drop-in replacement,
+and the easy visual set does not establish superiority or live readiness.
+The original 3B/Adapter was not rerun on these images, so no controlled
+model-size improvement is claimed. See [probe v2](docs/LOCAL_GUI_EXECUTOR_PROBE_V2.md).
+
+An initial 16-case GUI-Owl attempt is retained but excluded: Transformers
+4.57.6 inherited model-default sampling despite the requested config value.
+The corrected comparison explicitly disables that inheritance and records
+effective greedy settings. Tasks, prompts and weights remain unchanged.
+There were three fresh loads and 51 generations total: 32 compared cases,
+16 excluded cases and three excluded warmups. The model-free reviewer
+recomputes the 32 formal scores and checks exclusion/configuration integrity.
+Both weight sets match the locked Hugging Face SHA-256 values; large payloads
+were obtained through matching publisher ModelScope mirrors after download
+transport failures. The old environment and original probe remain intact.
+
+The single next objective is `FC-MVP-002-native-gui-proposal-adapter-v1`:
+reuse the candidates' shared native click/stop envelope, bind each proposal
+to the issued observation/window, and connect it to existing Runtime grounding
+through a narrow model-side adapter. First validate stale, out-of-bounds,
+ambiguous and mismatched targets offline; no model proposal may become an
+approval or dispatch directly. Avoid widening the model search or training
+before this concrete integration gap is resolved. Runtime changes or a live
+Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
+A future cloud planner may supply subgoals without acquiring desktop authority.
 
 Runtime sources and historical probe records remain unchanged. The compiler
 checks caller-supplied snapshots, not live state, authenticity, durable
 deduplication or Runtime authorization; Runtime must revalidate at dispatch.
 The unchanged historical model/diagnostic chain was fully validated through
-PR #89; this isolated additive contract does not rerun that chain or its models.
+PR #89; this bounded screen does not rerun that chain or its models.
 
 Preserve the diagnostic-v2 consumed/no-retry/no-successor state below and all
 historical output bytes. The frozen portable-package gate remains deferred at
 `f8dc9a62471759282ad2b41673d95acd43bf240f`. Runtime remains unchanged at its
 own tracker; only its public tool schemas/validator are read for this probe.
-The old diagnostic chain has no successor; the new executor-probe objective
+The old diagnostic chain has no successor; the new native-proposal adapter objective
 comes only from the owner's separately selected flagship closeout scope.
 
 ## Preserved diagnostic closeout and former active objective

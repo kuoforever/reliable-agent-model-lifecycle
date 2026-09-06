@@ -144,6 +144,21 @@ def review(bundle):
             "peak_allocated_bytes": report["peak_allocated_bytes"],
             "load_seconds": report["load_seconds"],
         }
+        from fullcycle_bridge.local_gui_executor import (
+            ExecutorContractError,
+            compile_response,
+        )
+
+        errors = {}
+        for case, row in zip(config["cases"], rows):
+            if case["group"] == "contract":
+                try:
+                    compile_response(
+                        case["request"], case["request"], row["raw_output"]
+                    )
+                except ExecutorContractError as exc:
+                    errors[str(exc)] = errors.get(str(exc), 0) + 1
+        table[name]["contract_rejection_codes"] = errors
     require(environments[0] == environments[1], "paired environment drift")
     require(len(bundle["download_receipts"]) == 4, "download receipt count")
     excluded = bundle["excluded_attempts"]["gui-owl-v1"]
@@ -158,6 +173,28 @@ def review(bundle):
         "excluded events hash",
     )
     require(excluded["included_in_comparison"] is False, "excluded attempt mixing")
+    require(
+        excluded["plan"]["config"]["cases"] == config["cases"],
+        "changed tasks after excluded attempt",
+    )
+    require(
+        excluded["plan"]["messages"]
+        == bundle["candidates"]["gui-owl"]["plan"]["messages"],
+        "changed prompts after excluded attempt",
+    )
+    require(
+        excluded["plan"]["model_files"]
+        == bundle["candidates"]["gui-owl"]["plan"]["model_files"],
+        "changed weights after excluded attempt",
+    )
+    check = bundle["generation_default_check"]
+    require(
+        check["initial_effective_do_sample"] is True
+        and check["corrected_effective_do_sample"] is False
+        and check["model_loaded"] is False
+        and check["transformers"] == environments[0]["transformers"],
+        "configuration check receipt",
+    )
     return {
         "valid": True,
         "case_count": 32,
@@ -211,6 +248,9 @@ def main():
                 ],
             }
         }
+        bundle["generation_default_check"] = json.loads(
+            (args.collect / "generation-default-check.json").read_text()
+        )
         result = review(bundle)
         args.output.write_bytes(canonical(bundle))
     elif args.check:

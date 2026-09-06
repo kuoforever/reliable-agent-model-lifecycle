@@ -96,5 +96,68 @@ Publisher references: [GUI-Owl model card](https://huggingface.co/mPLUG/GUI-Owl-
 
 ## Result
 
-Pending model payload availability and execution. Do not interpret the
-preregistered controls or environment import checks as model results.
+Corrected attempt revision 2 completed on 2026-09-06. The retained
+[evidence bundle](../baseline/local-gui-executor-probe-v2.json) includes both
+pre-load plans, 32 formal responses, effective generation configurations,
+timings, token IDs, model/source receipts, and the separately excluded initial
+GUI-Owl attempt. In total, three fresh loads and 51 generations occurred:
+32 compared cases, 16 excluded cases, and three excluded blank warmups.
+
+| Measurement | GUI-Owl 1.5 4B | Qwen3-VL 4B |
+|---|---:|---:|
+| Visible synthetic target hits | 6/6 | 6/6 |
+| Absent-target correct stops | 2/2 | 2/2 |
+| Visual output-schema acceptance | 8/8 | 8/8 |
+| Text/ref compiler acceptance | 2/8 | 3/8 |
+| Text/ref exact expected response | 1/8 | 2/8 |
+| Visual generation median | 1.672 s | 1.625 s |
+| Text/ref generation median | 1.437 s | 1.578 s |
+| Model load time, excluding file hashing | 4.594 s | 4.125 s |
+| Peak Torch allocated memory | 9,308,010,496 bytes | 9,308,010,496 bytes |
+
+Both corrected attempts pass their resource caps. The latency differences are
+diagnostic single-run observations, not a significant speed ranking. Network
+preparation was not timed as inference; GUI-Owl ran while the remaining Qwen
+payload download was active. Neither model was quantized or newly trained.
+
+GUI-Owl has five `RESPONSE_FIELDS` rejections and one `CONTENT_NOT_VERIFIED`;
+Qwen has four and one, respectively. For example, Qwen emits `click_ref` without
+the required `ref`, while both candidates propose saving the unverified case.
+The compiler rejects these proposals. One accepted but non-exact response from
+each candidate re-observes instead of taking the expected progress action;
+those safe alternatives are not classified as unsafe execution.
+
+**Decision:** both are feasible local visual candidates for this restricted
+screen, and neither is a drop-in executor replacement. The small, easy synthetic
+image set does not separate their visual quality. The original 3B/Adapter was
+not rerun on this image set, so this is not a controlled model-size improvement
+claim. Before more training or a larger candidate search, prioritize a shared
+native-proposal adapter that binds observations and passes Runtime grounding.
+The model's native coordinate envelope must not be silently inserted into the
+old ref-only contract or treated as execution permission. The canonical next
+objective is recorded in `PROJECT_STATUS.md`.
+
+Downloads initially encountered incomplete HTTP responses and stalled Xet
+transfers. The weights were then obtained from the publisher's ModelScope
+repositories (`iic/GUI-Owl-1.5-4B-Instruct` and `Qwen/Qwen3-VL-4B-Instruct`),
+with all four complete weight files matching the SHA-256 and sizes of the
+locked Hugging Face revisions. Small config/tokenizer files remain from the
+locked Hugging Face revisions. The bundle retains the exact transport URLs,
+hashes and sizes; it does not rely on mutable model names for weight identity.
+
+The model-free reviewer reproduces all 32 scores and aggregates, checks the
+effective greedy configuration and excluded-attempt separation, and requires
+the cases, prompts and GUI-Owl weights to match across the configuration fix.
+It checks retained consistency rather than independently attesting execution
+or rehashing current model payloads. Ten scoring/evidence regression tests
+cover wrong locations, absent targets, malformed proposals, changed outputs
+with updated hashes, reintroduced sampling, and excluded-attempt mixing.
+The focused local regression runs 88 tests with two Windows symlink-privilege
+skips. All 81 source import boundaries and repository Ruff checks pass; the
+prior 24-output model screen and v1 Runtime conformance report still reproduce.
+The Python 3.11/3.12/3.13 CI matrix now checks this evidence bundle directly.
+
+```powershell
+python -I -B scripts/review_local_gui_probe_v2.py --unit-tests
+python -I -B scripts/review_local_gui_probe_v2.py --check baseline/local-gui-executor-probe-v2.json
+```

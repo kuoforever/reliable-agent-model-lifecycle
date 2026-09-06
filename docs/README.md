@@ -28,6 +28,7 @@ English companion documents.
 | Runtime bridge consumer | [English version](en/FC-BRIDGE-001.md) | [Chinese source](FC-BRIDGE-001.md) |
 | Local desktop readiness screen | [Probe v1](LOCAL_DESKTOP_READINESS_PROBE_V1.md) | Two cached local candidates, 24 synthetic text cases; executor exact 0/6 vs 1/6, no live desktop readiness |
 | Local GUI executor contract | [Contract v1](LOCAL_GUI_EXECUTOR_CONTRACT_V1.md) | One-subgoal bound proposals; 12 synthetic controls, 9 Runtime argument checks, no model or desktop execution |
+| Local GUI replacement screen | [Probe v2](LOCAL_GUI_EXECUTOR_PROBE_V2.md) | Locked GUI-Owl/Qwen3-VL 4B comparison; synthetic visual grounding and text/ref contract scores remain separate |
 | Runtime freeze pin | [Desktop Runtime integration](en/desktop-runtime-integration.md) | [Canonical record](../baseline/runtime-freeze-v1.json) |
 | Lane A reliability dataset | [English version](en/adr/ADR-0001-lane-a-reliability-dataset-v1.md) | [Chinese source](adr/ADR-0001-lane-a-reliability-dataset-v1.md) |
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete; capture remains unimplemented |

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import copy
 import json
+import hashlib
+from pathlib import Path
 import unittest
 
 from scripts.probe_local_gui_executor_v2 import CONFIG, messages_for, score, summarize
@@ -97,6 +99,54 @@ class LocalGuiProbeV2Tests(unittest.TestCase):
         )
         self.assertEqual(result["median_generation_seconds"], 2)
         self.assertEqual(summarize([]), {})
+
+
+class RetainedGuiProbeV2Tests(unittest.TestCase):
+    def setUp(self):
+        self.bundle = json.loads(
+            (
+                Path(__file__).resolve().parents[1]
+                / "baseline/local-gui-executor-probe-v2.json"
+            ).read_text(encoding="utf-8")
+        )
+
+    def test_retained_comparison_recomputes_without_models(self):
+        from scripts.review_local_gui_probe_v2 import review
+
+        result = review(self.bundle)
+        self.assertEqual(result["case_count"], 32)
+        self.assertFalse(result["model_loaded"])
+
+    def test_rescoring_detects_changed_output_even_with_updated_hash(self):
+        from scripts.review_local_gui_probe_v2 import review
+
+        candidate = self.bundle["candidates"]["qwen"]
+        events = [json.loads(line) for line in candidate["events_text"].splitlines()]
+        events[6]["raw_output"] = "invalid"
+        raw = "".join(json.dumps(e) + "\n" for e in events)
+        candidate["events_text"] = raw
+        candidate["report"]["events_sha256"] = hashlib.sha256(raw.encode()).hexdigest()
+        with self.assertRaisesRegex(ValueError, "score drift"):
+            review(self.bundle)
+
+    def test_sampling_cannot_be_reintroduced_into_comparison(self):
+        from scripts.review_local_gui_probe_v2 import review
+
+        candidate = self.bundle["candidates"]["qwen"]
+        events = [json.loads(line) for line in candidate["events_text"].splitlines()]
+        events[2]["effective"]["do_sample"] = True
+        raw = "".join(json.dumps(e) + "\n" for e in events)
+        candidate["events_text"] = raw
+        candidate["report"]["events_sha256"] = hashlib.sha256(raw.encode()).hexdigest()
+        with self.assertRaisesRegex(ValueError, "effective greedy"):
+            review(self.bundle)
+
+    def test_excluded_attempt_cannot_be_counted_as_formal(self):
+        from scripts.review_local_gui_probe_v2 import review
+
+        self.bundle["excluded_attempts"]["gui-owl-v1"]["included_in_comparison"] = True
+        with self.assertRaisesRegex(ValueError, "excluded attempt mixing"):
+            review(self.bundle)
 
 
 if __name__ == "__main__":
