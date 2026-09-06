@@ -63,6 +63,8 @@ jobs:
         run: python -I -B scripts/review_gui_owl_lora_pilot.py --unit-tests --check
       - name: Validate native GUI binding and retained Runtime conformance
         run: python -I -B scripts/validate_native_gui_proposal.py --unit-tests --check
+      - name: Validate GUI observation projection and completeness boundaries
+        run: python -I -B scripts/validate_gui_observation_projection.py --unit-tests --check
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity

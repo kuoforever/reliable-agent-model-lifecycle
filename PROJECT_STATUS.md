@@ -937,14 +937,30 @@ Previous model and LoRA reports replay unchanged. No model load, Runtime
 mutation, live observation or desktop action occurs. See the owning
 [native adapter contract](docs/NATIVE_GUI_PROPOSAL_ADAPTER_V1.md).
 
-The single next objective is `FC-MVP-002-gui-observation-projection-v1`:
-map existing Runtime observation-result formats into the native adapter's
-input contract, identify missing window/visibility/frame facts explicitly,
-and test this projection offline with positive and incomplete observations.
-Do not fabricate missing facts or infer real UIA completeness from the synthetic
-boxes. The integration started at `b5b8108e2e8c2839616b7cedb8671371e31765a5`;
-the completed model-side adapter is the new safe resume surface. Runtime
-collector/Host/model-client changes require activation in its own tracker.
+`FC-MVP-002-gui-observation-projection-v1` is complete offline. The projector
+converts scoped successful Runtime result records and PNG metadata into the
+native adapter contract only when separately bound Host facts supply window
+bounds, primary-frame origin, coherent/complete projection and verified control
+states. Legacy results alone return an explicit incomplete result with no
+context. Source inspection confirms list_windows omits bounds, UIA boxes use
+x/y/w/h and failed Windows state reads may default enabled/not-offscreen.
+The real Runtime Session formatter and three ToolResult conversions match
+using a synthetic get_tree driver; a synthetic supplemented projection compiles
+to an inert click(ref_1). All 82 focused tests (18 new and 64 prior), twelve
+retained negative controls, strict typing, Ruff and 83 import boundaries pass.
+Previous native-adapter and model/LoRA evidence replays unchanged. No Runtime mutation, model load, real observation
+or desktop action occurs. See
+[projection contract](docs/GUI_OBSERVATION_PROJECTION_V1.md).
+
+The single next objective is `FC-MVP-002-runtime-observation-producer-handoff-v1`:
+activate exactly one bounded offline Runtime Host/collector slice in its own
+canonical tracker to obtain the four missing fact groups and genuine call/state
+stamps, then consume them through this completed projector. Preserve Runtime's
+completed maintenance, paused Provider/Formal Demo, and Full Cycle resume points;
+do not infer authority for live collection or execution from synthetic facts.
+The integration started at `b5b8108e2e8c2839616b7cedb8671371e31765a5`; the
+completed native adapter and projection are the model-side safe resume surface.
+Runtime collector/Host/model-client changes require activation in its own tracker.
 No model proposal may become approval or dispatch directly. Avoid widening
 this into model search or an open-ended training campaign. Runtime changes or a live
 Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
