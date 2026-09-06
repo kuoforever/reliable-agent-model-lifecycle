@@ -61,6 +61,8 @@ jobs:
           python -I -B scripts/review_local_gui_probe_v2.py --check baseline/local-gui-executor-probe-v2.json
       - name: Validate GUI-Owl LoRA split boundaries and retained evidence
         run: python -I -B scripts/review_gui_owl_lora_pilot.py --unit-tests --check
+      - name: Validate native GUI binding and retained Runtime conformance
+        run: python -I -B scripts/validate_native_gui_proposal.py --unit-tests --check
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity

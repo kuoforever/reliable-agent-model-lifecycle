@@ -922,14 +922,31 @@ includes the new model-free tests and evidence checks on Python 3.11-3.13.
 This owner-selected pilot superseded the earlier recommendation to defer
 training without reopening any historical diagnostic invocation.
 
-The integration resume point remains `b5b8108e2e8c2839616b7cedb8671371e31765a5`.
-The single next objective is `FC-MVP-002-native-gui-proposal-adapter-v1`:
-reuse the candidates' shared native click/stop envelope, bind each proposal
-to the issued observation/window, and connect it to existing Runtime grounding
-through a narrow model-side adapter. First validate stale, out-of-bounds,
-ambiguous and mismatched targets offline; no model proposal may become an
-approval or dispatch directly. Avoid widening this pilot into model search or
-an open-ended training campaign. Runtime changes or a live
+`FC-MVP-002-native-gui-proposal-adapter-v1` is complete offline: the closed
+native click/failure-stop envelope binds caller-correlated replies to the full
+issued/current context, including screenshot hash, window, epoch, generation
+and observed controls. Exact pixel mapping must resolve one visible, enabled
+target ref with the requested name/role; no coordinate fallback or dispatch
+exists. Replaying 24 retained visual outputs yields 18 ref-click proposals and
+six stops against explicitly synthetic UIA projections; 13 adapter negative
+controls reject. The real Runtime schema/grounding classes at
+`0237f3104a1aeb9263627782df4c3fadc7e6ffe0` accept all 18 clicks and reject all
+54 invalidated/generation/unobserved-ref checks. All 64 focused tests (20 new
+and 44 prior), strict module typing, Ruff and 82 import boundaries pass.
+Previous model and LoRA reports replay unchanged. No model load, Runtime
+mutation, live observation or desktop action occurs. See the owning
+[native adapter contract](docs/NATIVE_GUI_PROPOSAL_ADAPTER_V1.md).
+
+The single next objective is `FC-MVP-002-gui-observation-projection-v1`:
+map existing Runtime observation-result formats into the native adapter's
+input contract, identify missing window/visibility/frame facts explicitly,
+and test this projection offline with positive and incomplete observations.
+Do not fabricate missing facts or infer real UIA completeness from the synthetic
+boxes. The integration started at `b5b8108e2e8c2839616b7cedb8671371e31765a5`;
+the completed model-side adapter is the new safe resume surface. Runtime
+collector/Host/model-client changes require activation in its own tracker.
+No model proposal may become approval or dispatch directly. Avoid widening
+this into model search or an open-ended training campaign. Runtime changes or a live
 Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
