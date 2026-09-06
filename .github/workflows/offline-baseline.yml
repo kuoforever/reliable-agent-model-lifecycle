@@ -53,6 +53,8 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: python -I scripts/validate_repository_ci.py --mode diagnostic-v2-focused
+      - name: Validate local GUI executor contract and prior probe boundaries
+        run: python -I -B scripts/validate_local_gui_executor.py --unit-tests
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity

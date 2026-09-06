@@ -867,20 +867,39 @@ The retained bundle and model-free reviewer preserve all responses, token IDs,
 prompts, source/environment receipts, and exact group totals. See
 [probe v1](docs/LOCAL_DESKTOP_READINESS_PROBE_V1.md).
 
-The single next objective is `FC-MVP-002-local-gui-executor-contract-v1`:
-define one-subgoal input with explicit numeric window/observation-epoch
-binding, a narrow output with mutually exclusive action arguments, and fresh
-held-out contract cases. Separate the planner port so a later cloud planner
-can replace task planning without acquiring desktop authority. This is the
-next bounded design/contract item; no live action, training, serving platform,
-cloud call, rich capture or historical experiment retry is authorized by the
-probe result. Both candidates used existing local weights read-only.
+`FC-MVP-002-local-gui-executor-contract-v1` is implemented and locally
+validated: one-subgoal input binds the numeric window, observation epoch,
+Runtime generation and write payload; a closed model response compiles to at
+most one inert proposal. Twelve manually authored synthetic controls produce
+nine Runtime-schema-valid proposals, one stop, and two expected rejections.
+These are contract controls, not model outputs or a statistical held-out set.
+Local regression ran 99 tests with two environment skips; the original 24
+model outputs rescore unchanged, all 81 source import boundaries pass, strict
+core typing and repository lint pass, and the retained conformance report
+reproduces exactly. The CI matrix now includes all 21 contract/prior-probe
+tests. See [contract v1](docs/LOCAL_GUI_EXECUTOR_CONTRACT_V1.md).
+
+The single next objective is `FC-MVP-002-local-gui-executor-probe-v2`: freeze
+a bounded fresh screen of the unchanged local candidates using this contract,
+then retain raw responses and report schema acceptance, exact action/ref,
+abstention and latency separately. Because the planner supplies one subgoal
+and the action menu is constrained, do not report this as independent task
+planning or compare it as model-only improvement over probe v1. This is not
+a live desktop run, training, serving platform, cloud call, rich capture or
+historical experiment retry. A future cloud planner may supply the same
+subgoal port without acquiring Runtime authority.
+
+Runtime sources and historical probe records remain unchanged. The compiler
+checks caller-supplied snapshots, not live state, authenticity, durable
+deduplication or Runtime authorization; Runtime must revalidate at dispatch.
+The unchanged historical model/diagnostic chain was fully validated through
+PR #89; this isolated additive contract does not rerun that chain or its models.
 
 Preserve the diagnostic-v2 consumed/no-retry/no-successor state below and all
 historical output bytes. The frozen portable-package gate remains deferred at
 `f8dc9a62471759282ad2b41673d95acd43bf240f`. Runtime remains unchanged at its
 own tracker; only its public tool schemas/validator are read for this probe.
-The old diagnostic chain has no successor; the new executor-contract objective
+The old diagnostic chain has no successor; the new executor-probe objective
 comes only from the owner's separately selected flagship closeout scope.
 
 ## Preserved diagnostic closeout and former active objective
