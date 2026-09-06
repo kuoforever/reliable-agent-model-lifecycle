@@ -1,0 +1,269 @@
+{
+  "desktop_executed": false,
+  "id": "FC-MVP-002-gui-observation-projection-v1",
+  "incomplete": {
+    "context": null,
+    "execution_authorized": false,
+    "missing": [
+      "window_bounds",
+      "primary_frame_origin",
+      "coherent_complete_projection",
+      "verified_control_states"
+    ],
+    "reported": {
+      "binding_digest": "4e33fb2951406567461694c25ef4032b60fc27b1c042069889e9226eb9bca37d",
+      "controls": [
+        {
+          "bounds": [
+            100,
+            100,
+            300,
+            250
+          ],
+          "name": "Document page",
+          "ref": "ref_1",
+          "reported_enabled": true,
+          "reported_offscreen": false,
+          "role": "edit"
+        }
+      ],
+      "foreground_scope": "314",
+      "frame": {
+        "height": 640,
+        "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "width": 1024
+      }
+    },
+    "status": "incomplete"
+  },
+  "limitation": "Legacy results alone remain incomplete. Supplementary Host facts are synthetic controls; no live fact producer or provenance attestation exists in this slice.",
+  "model_loaded": false,
+  "negatives": [
+    {
+      "error": "OBSERVATION_CALL_MISMATCH",
+      "id": "wrong_scope"
+    },
+    {
+      "error": "MIXED_GENERATION",
+      "id": "mixed_generation"
+    },
+    {
+      "error": "OBSERVATION_NOT_SUCCESSFUL",
+      "id": "failed_result"
+    },
+    {
+      "error": "OBSERVATION_SEQUENCE",
+      "id": "sequence"
+    },
+    {
+      "error": "SNAPSHOT_INCOMPLETE",
+      "id": "truncated"
+    },
+    {
+      "error": "SNAPSHOT_INCOMPLETE",
+      "id": "incomplete_footer"
+    },
+    {
+      "error": "UNSUPPORTED_CONTROL_ROLE",
+      "id": "unknown_role"
+    },
+    {
+      "error": "HOST_FACT_BINDING_MISMATCH",
+      "id": "wrong_binding"
+    },
+    {
+      "error": "UNSUPPORTED_FRAME_ORIGIN",
+      "id": "wrong_origin"
+    },
+    {
+      "error": "OBSERVATIONS_NOT_COHERENT",
+      "id": "not_coherent"
+    },
+    {
+      "error": "CONTROL_FACT_SET",
+      "id": "missing_state"
+    },
+    {
+      "error": "CONTROL_OUTSIDE_WINDOW",
+      "id": "wrong_rectangle"
+    }
+  ],
+  "projected": {
+    "context": {
+      "current_epoch": 3,
+      "observation": {
+        "controls": [
+          {
+            "bounds": [
+              100,
+              100,
+              300,
+              250
+            ],
+            "enabled": true,
+            "name": "Document page",
+            "ref": "ref_1",
+            "role": "edit",
+            "visible": true
+          }
+        ],
+        "epoch": 3,
+        "foreground_scope": "314",
+        "frame": {
+          "coordinate_space": "primary_screen_pixels",
+          "height": 640,
+          "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+          "width": 1024
+        },
+        "scope": "314",
+        "window_bounds": [
+          0,
+          0,
+          1024,
+          640
+        ]
+      },
+      "request_id": "projection-control",
+      "runtime_generation": 7,
+      "target": {
+        "name": "Document page",
+        "role": "edit"
+      },
+      "target_scope": "314",
+      "version": 1
+    },
+    "execution_authorized": false,
+    "missing": [],
+    "reported": {
+      "binding_digest": "4e33fb2951406567461694c25ef4032b60fc27b1c042069889e9226eb9bca37d",
+      "controls": [
+        {
+          "bounds": [
+            100,
+            100,
+            300,
+            250
+          ],
+          "name": "Document page",
+          "ref": "ref_1",
+          "reported_enabled": true,
+          "reported_offscreen": false,
+          "role": "edit"
+        }
+      ],
+      "foreground_scope": "314",
+      "frame": {
+        "height": 640,
+        "sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+        "width": 1024
+      }
+    },
+    "status": "projected"
+  },
+  "proposal": {
+    "action": "click_ref",
+    "arguments": {
+      "ref": "ref_1"
+    },
+    "binding_digest": "817a89f731743c701baf2f93b4bd820b38a6001bcbcddde0b60d2fde516b9096",
+    "execution_authorized": false,
+    "frame_sha256": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+    "observation_epoch": 3,
+    "pixel_point": [
+      199,
+      174
+    ],
+    "request_id": "projection-control",
+    "runtime_generation": 7,
+    "target_scope": "314",
+    "tool": "click",
+    "version": 1
+  },
+  "runtime": {
+    "commit": "0237f3104a1aeb9263627782df4c3fadc7e6ffe0",
+    "desktop_calls": 0,
+    "driver": "synthetic get_tree only",
+    "projection_matched": true,
+    "session_snapshot_matched": true,
+    "sources": {
+      "src/computer_use_agent/types.py": "124c213b9c7203afacfe00759580452aa99cee98104d33ef139a9d28df05daf4",
+      "src/computer_use_mcp/contract.py": "58b40181fd2385c28ca480f3720fefacaa2b203a397261ff32464f79c868995a",
+      "src/computer_use_mcp/core.py": "b91825c96ade43816f2b00d6525a990a10653fb2ce34cf3d3daa4496045dced1",
+      "src/computer_use_mcp/drivers/windows.py": "024b5bb0f9f24c5a2e7e56be844e6d61e1f07032e6d0044a54cab078fdb599f0",
+      "src/computer_use_mcp/server.py": "c2d10eced07b2cbd0c8a92ef7837aa76c8c33611a67a043d30cfe33c1fed2f66"
+    },
+    "tool_results_checked": 3
+  },
+  "runtime_modified": false,
+  "sources": {
+    "fixtures/local_gui_probe_v2/word.png": "e3c0e942895b3708462ad69444e0d1a968ba3d1371d8ecc5d99a05feda006393",
+    "scripts/validate_gui_observation_projection.py": "4c21169e1fa062ec165b0b4ee44a0bc6a5eb335b164f4253b29acb2584709578",
+    "src/fullcycle_bridge/gui_observation_projection.py": "395d1694d1e5fc285e4e304068045a4c6966709ce8698c757e909f941f77c038",
+    "src/fullcycle_bridge/native_gui_proposal.py": "ffac645aaf402d225f44d982fe5bc0b97e65c9dd51bf5ade79a2bd26e15205a0"
+  },
+  "synthetic_host_facts": {
+    "binding_digest": "4e33fb2951406567461694c25ef4032b60fc27b1c042069889e9226eb9bca37d",
+    "coherent_complete_projection": true,
+    "control_states": {
+      "ref_1": {
+        "enabled": true,
+        "visible": true
+      }
+    },
+    "frame_origin": [
+      0,
+      0
+    ],
+    "window_bounds": [
+      0,
+      0,
+      1024,
+      640
+    ]
+  },
+  "synthetic_results": {
+    "screenshot": {
+      "arguments": {},
+      "call_id": "call-screenshot",
+      "dispatch": "dispatched",
+      "epoch": 3,
+      "generation": 7,
+      "status": "success",
+      "text": "",
+      "tool": "screenshot"
+    },
+    "snapshot": {
+      "arguments": {
+        "scope": "314"
+      },
+      "call_id": "call-snapshot",
+      "dispatch": "dispatched",
+      "epoch": 2,
+      "generation": 7,
+      "status": "success",
+      "text": "ref_1 | edit \"Document page\" | (100,100,200,150) | enabled,focused",
+      "tool": "ui_snapshot"
+    },
+    "windows": {
+      "arguments": {},
+      "call_id": "call-windows",
+      "dispatch": "dispatched",
+      "epoch": 1,
+      "generation": 7,
+      "status": "success",
+      "text": "* 314 | word.exe | \"Synthetic document\"",
+      "tool": "list_windows"
+    }
+  },
+  "task": {
+    "current_epoch": 3,
+    "request_id": "projection-control",
+    "runtime_generation": 7,
+    "target": {
+      "name": "Document page",
+      "role": "edit"
+    },
+    "target_scope": "314",
+    "version": 1
+  }
+}
