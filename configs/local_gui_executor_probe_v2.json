@@ -15,7 +15,8 @@
     "do_sample": false,
     "seed": 17,
     "max_input_tokens": 4096,
-    "max_time_seconds": 45
+    "max_time_seconds": 45,
+    "use_model_defaults": false
   },
   "backend": {
     "dtype": "bfloat16",
@@ -481,5 +482,13 @@
         "request_id": "probe-v2-control-7"
       }
     }
-  ]
+  ],
+  "attempt_revision": 2,
+  "excluded_prior_attempt": {
+    "id": "gui-owl-v1",
+    "reason": "Transformers 4.57.6 filled do_sample=False with model default True; invalid for preregistered greedy comparison",
+    "frozen_commit": "4a3c758",
+    "retain_raw": true,
+    "qwen_v1_executed": false
+  }
 }

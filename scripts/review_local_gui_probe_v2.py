@@ -54,7 +54,13 @@ def review(bundle):
         events = [json.loads(line) for line in raw_events.splitlines()]
         require(
             [r["event"] for r in events]
-            == ["load_started", "loaded", "smoke_started", "smoke_completed"]
+            == [
+                "load_started",
+                "loaded",
+                "generation_configured",
+                "smoke_started",
+                "smoke_completed",
+            ]
             + [
                 kind
                 for _ in config["cases"]
@@ -63,8 +69,16 @@ def review(bundle):
             "event grammar",
         )
         rows = []
+        effective = events[2]
+        require(
+            effective["effective"]["do_sample"] is False
+            and effective["effective"]["num_beams"] == 1
+            and effective["use_model_defaults"] is False
+            and effective["do_sample_kwarg"] is False,
+            "effective greedy configuration",
+        )
         for index, case in enumerate(config["cases"]):
-            start, row = events[4 + 2 * index : 6 + 2 * index]
+            start, row = events[5 + 2 * index : 7 + 2 * index]
             require(start["id"] == row["id"] == case["id"], "case identity")
             require(row["group"] == case["group"], "case group")
             require(row["score"] == score(case, row["raw_output"]), "score drift")
@@ -132,6 +146,18 @@ def review(bundle):
         }
     require(environments[0] == environments[1], "paired environment drift")
     require(len(bundle["download_receipts"]) == 4, "download receipt count")
+    excluded = bundle["excluded_attempts"]["gui-owl-v1"]
+    require(
+        hashlib.sha256(canonical(excluded["plan"])).hexdigest()
+        == excluded["report"]["plan_sha256"],
+        "excluded plan hash",
+    )
+    require(
+        hashlib.sha256(excluded["events_text"].encode()).hexdigest()
+        == excluded["report"]["events_sha256"],
+        "excluded events hash",
+    )
+    require(excluded["included_in_comparison"] is False, "excluded attempt mixing")
     return {
         "valid": True,
         "case_count": 32,
@@ -165,12 +191,26 @@ def main():
             ),
         }
         for name in ["gui-owl", "qwen"]:
-            root = args.collect / "runs" / (name + "-v1")
+            root = args.collect / "runs" / (name + "-v2")
             bundle["candidates"][name] = {
                 "plan": json.loads((root / "plan.json").read_text(encoding="utf-8")),
                 "report": json.loads((root / "report.json").read_text()),
                 "events_text": (root / "events.jsonl").read_bytes().decode(),
             }
+        excluded = args.collect / "runs/gui-owl-v1"
+        bundle["excluded_attempts"] = {
+            "gui-owl-v1": {
+                "plan": json.loads(
+                    (excluded / "plan.json").read_text(encoding="utf-8")
+                ),
+                "report": json.loads((excluded / "report.json").read_text()),
+                "events_text": (excluded / "events.jsonl").read_bytes().decode(),
+                "included_in_comparison": False,
+                "reason": json.loads(CONFIG.read_text())["excluded_prior_attempt"][
+                    "reason"
+                ],
+            }
+        }
         result = review(bundle)
         args.output.write_bytes(canonical(bundle))
     elif args.check:

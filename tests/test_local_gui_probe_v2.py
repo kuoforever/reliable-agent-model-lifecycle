@@ -31,13 +31,13 @@ class LocalGuiProbeV2Tests(unittest.TestCase):
                 elif case["bbox"] is None:
                     raw = self.call({"action": "terminate", "status": "failure"})
                 else:
-                    l, t, r, b = case["bbox"]
+                    left, top, right, bottom = case["bbox"]
                     raw = self.call(
                         {
                             "action": "left_click",
                             "coordinate": [
-                                (l + r) * 500 / case["width"],
-                                (t + b) * 500 / case["height"],
+                                (left + right) * 500 / case["width"],
+                                (top + bottom) * 500 / case["height"],
                             ],
                         }
                     )

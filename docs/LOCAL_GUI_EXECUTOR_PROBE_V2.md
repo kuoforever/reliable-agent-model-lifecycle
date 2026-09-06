@@ -16,7 +16,7 @@ not a retry of any historical experiment.
 - Separate virtual environment with new Transformers/tokenizers/Hub/torchvision
   packages and read-only access to prior Torch/supporting site-packages. The
   old environment is not upgraded. Execute with `-B` to disable bytecode writes.
-- One excluded blank-image compatibility generation, followed by 16 fixed
+- Corrected attempt revision 2: one excluded blank-image compatibility generation, followed by 16 fixed
   cases per candidate: 8 screenshot-grounding tasks over 4 synthetic PNGs,
   and 8 text/ref contract tasks. Each candidate gets one fresh model load and
   no case retry. Run GUI-Owl first, then Qwen; order is not counterbalanced.
@@ -67,9 +67,21 @@ and actual desktop validation under the Runtime tracker.
 
 ## Reproduction
 
+The initial `gui-owl-v1` attempt completed 16 cases but is **excluded from the
+paired comparison**: Transformers 4.57.6 filled the global-default
+`GenerationConfig(do_sample=False)` with the model's `do_sample=True` default.
+The warning and a model-free call to the installed library's actual
+`GenerationMixin._prepare_generation_config` reproduced this override.
+Revision 2 explicitly passes `use_model_defaults=False` and `do_sample=False`
+to `generate`, checks the effective configuration, and records it before the
+warmup. Tasks, expected answers, weights, dtype, prompt, and scorer remain
+unchanged. Both candidates receive new `*-v2` identities; no `qwen-v1` run
+occurred. The excluded raw attempt is retained separately, not silently
+overwritten, relabeled as greedy, or included in aggregate results.
+
 ```powershell
-work/gui-probe-v2-env/Scripts/python.exe -B scripts/probe_local_gui_executor_v2.py --candidate gui-owl --model-root work/gui-probe-v2/models/gui-owl --metadata work/gui-probe-v2/hub-metadata.json --output work/gui-probe-v2/runs/gui-owl-v1
-work/gui-probe-v2-env/Scripts/python.exe -B scripts/probe_local_gui_executor_v2.py --candidate qwen --model-root work/gui-probe-v2/models/qwen --metadata work/gui-probe-v2/hub-metadata.json --output work/gui-probe-v2/runs/qwen-v1
+work/gui-probe-v2-env/Scripts/python.exe -B scripts/probe_local_gui_executor_v2.py --candidate gui-owl --model-root work/gui-probe-v2/models/gui-owl --metadata work/gui-probe-v2/hub-metadata.json --output work/gui-probe-v2/runs/gui-owl-v2
+work/gui-probe-v2-env/Scripts/python.exe -B scripts/probe_local_gui_executor_v2.py --candidate qwen --model-root work/gui-probe-v2/models/qwen --metadata work/gui-probe-v2/hub-metadata.json --output work/gui-probe-v2/runs/qwen-v2
 ```
 
 These are registered output identities, not instructions to rerun an already

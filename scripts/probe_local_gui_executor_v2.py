@@ -289,6 +289,20 @@ def run(args):
         use_cache=True,
     )
 
+    effective, _ = model._prepare_generation_config(
+        generation, use_model_defaults=False, do_sample=False
+    )
+    if effective.do_sample is not False or effective.num_beams != 1:
+        raise ValueError("GREEDY_CONFIGURATION_NOT_EFFECTIVE")
+    record(
+        {
+            "event": "generation_configured",
+            "effective": effective.to_dict(),
+            "use_model_defaults": False,
+            "do_sample_kwarg": False,
+        }
+    )
+
     def generate(messages, image):
         prompt = processor.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
@@ -304,7 +318,12 @@ def run(args):
         torch.cuda.synchronize()
         began = time.monotonic()
         with torch.inference_mode():
-            output = model.generate(**inputs, generation_config=generation)
+            output = model.generate(
+                **inputs,
+                generation_config=generation,
+                use_model_defaults=False,
+                do_sample=False,
+            )
         torch.cuda.synchronize()
         seconds = time.monotonic() - began
         tokens = output[0, count:].tolist()

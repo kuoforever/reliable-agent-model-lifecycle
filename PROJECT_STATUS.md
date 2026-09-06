@@ -886,8 +886,11 @@ The live hardware check confirms an RTX 4090 Laptop with 16,376 MiB VRAM;
 the owner authorized the candidate comparison on 2026-09-06. A new
 Transformers 4.57.6 environment imports Qwen3-VL on CUDA, four visibly
 synthetic PNGs and 16 cases per candidate are prepared, and the model
-downloads are in progress with locked-revision SHA-256 checks. No replacement
-model has been loaded or evaluated yet. See the preregistered
+downloads use locked-revision SHA-256 checks. GUI-Owl loaded and generated,
+but its initial 16-case attempt is excluded because Transformers default
+inheritance overrode the requested non-sampling mode. Its raw evidence remains
+intact. Corrected attempt revision 2 freezes explicit effective greedy
+configuration for both candidates before a new comparison. See the preregistered
 [probe v2](docs/LOCAL_GUI_EXECUTOR_PROBE_V2.md). Preserve the existing
 Qwen2.5-VL/Adapter results as the historical baseline. Freeze the feasible
 candidate lineup, environment and bounded fresh screen before measuring;
