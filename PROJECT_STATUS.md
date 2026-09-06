@@ -952,12 +952,44 @@ Previous native-adapter and model/LoRA evidence replays unchanged. No Runtime mu
 or desktop action occurs. See
 [projection contract](docs/GUI_OBSERVATION_PROJECTION_V1.md).
 
-The single next objective is `FC-MVP-002-runtime-observation-producer-handoff-v1`:
-activate exactly one bounded offline Runtime Host/collector slice in its own
-canonical tracker to obtain the four missing fact groups and genuine call/state
-stamps, then consume them through this completed projector. Preserve Runtime's
-completed maintenance, paused Provider/Formal Demo, and Full Cycle resume points;
-do not infer authority for live collection or execution from synthetic facts.
+`FC-MVP-002-runtime-observation-producer-handoff-v1` is complete at the bounded
+offline implementation level. Runtime `GDA-GUI-001`, implementation
+`f2c023513f395d2811eb2d7f41b2edc0e9b6311b` in
+[Runtime PR #406](https://github.com/kuoforever/guarded-desktop-agent/pull/406),
+adds a strict optional Windows metadata reader and async observation coordinator.
+The coordinator compares metadata endpoints, validates actual Runtime result
+types and supplied Host ledger stamps, matches Session refs to strict native
+control identities, enforces an elapsed-time limit, and derives the four bound
+Host fact groups. It never receives a caller-authored completeness boolean.
+The concrete Host `ObservationSource` adapter remains **unwired**: genuine
+live ledger/Session provenance is not yet demonstrated by these fake-source tests.
+
+The Runtime reproduction script verifies this repository's consumer revision
+`924c07db6c72cbcae4ae941d1191272f0ffc9e14` and both consumer source hashes before
+feeding a synthetic producer bundle into the unchanged projector and native
+compiler. Four missing fact groups become zero; one simulated native click
+becomes an inert `click_ref`; four changed observation/context controls reject.
+Runtime local checks pass: 33 focused tests including async cancellation and six
+Windows-reader fake-OS paths; full suite `2968 passed, 39 skipped`; mypy-178,
+Ruff, docs, dependency and diff checks; crash/replay 33; deterministic eval 13/13
+with zero escapes; built/installed-wheel async producer smoke. This repository's
+51 projection/native/LoRA tests and retained evidence checks also pass unchanged.
+Publication still requires the current PR checks/reviews/conflicts to be clear;
+these numbers describe local validation, not a claim about pending CI.
+
+The single next objective is `FC-MVP-002-runtime-host-source-integration-v1`:
+after clear publication, activate one bounded Runtime row for the concrete
+async Host source and its offline integration tests. `DesktopMCPPort.generation`
+and `AgentRunner` result bookkeeping own generation/epoch; the MCP server's
+Session owns ref/native-ID and strict driver metadata. Define that transport
+seam and consume those actual sources through the sole existing desktop path.
+Do not synthesize the missing provenance with new counters or guessed refs.
+This successor is not live collection, model loading or action execution.
+Preserve Runtime's completed maintenance, paused Provider/Formal Demo, and Full
+Cycle resume points. Endpoint equality is not an atomic OS capture, UIA
+offscreen status is not occlusion proof, and a hash binding is not authentication
+or execution authority. The owning contract and reproduction commands are in
+Runtime `docs/GUI_OBSERVATION_PRODUCER_V1.md` at the linked implementation.
 The integration started at `b5b8108e2e8c2839616b7cedb8671371e31765a5`; the
 completed native adapter and projection are the model-side safe resume surface.
 Runtime collector/Host/model-client changes require activation in its own tracker.
@@ -966,7 +998,8 @@ this into model search or an open-ended training campaign. Runtime changes or a 
 Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
-Runtime sources and historical probe records remain unchanged. The compiler
+Historical probe records remain unchanged; the new Runtime source change is
+limited to the explicitly activated `GDA-GUI-001` slice above. The compiler
 checks caller-supplied snapshots, not live state, authenticity, durable
 deduplication or Runtime authorization; Runtime must revalidate at dispatch.
 The unchanged historical model/diagnostic chain was fully validated through
@@ -974,8 +1007,9 @@ PR #89; this bounded screen does not rerun that chain or its models.
 
 Preserve the diagnostic-v2 consumed/no-retry/no-successor state below and all
 historical output bytes. The frozen portable-package gate remains deferred at
-`f8dc9a62471759282ad2b41673d95acd43bf240f`. Runtime remains unchanged at its
-own tracker; only its public tool schemas/validator are read for this probe.
+`f8dc9a62471759282ad2b41673d95acd43bf240f`. Earlier probe receipts retain their
+original Runtime pins. Do not rewrite those frozen hashes to hide the later
+Runtime change; reproduction against their old source still requires that pin.
 The old diagnostic chain has no successor; the new native-proposal adapter objective
 comes only from the owner's separately selected flagship closeout scope.
 
