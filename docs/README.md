@@ -26,6 +26,7 @@ English companion documents.
 | Topic | English default | Chinese / source |
 |---|---|---|
 | Runtime bridge consumer | [English version](en/FC-BRIDGE-001.md) | [Chinese source](FC-BRIDGE-001.md) |
+| Local desktop readiness screen | [Probe v1](LOCAL_DESKTOP_READINESS_PROBE_V1.md) | Two cached local candidates, 24 synthetic text cases; executor exact 0/6 vs 1/6, no live desktop readiness |
 | Runtime freeze pin | [Desktop Runtime integration](en/desktop-runtime-integration.md) | [Canonical record](../baseline/runtime-freeze-v1.json) |
 | Lane A reliability dataset | [English version](en/adr/ADR-0001-lane-a-reliability-dataset-v1.md) | [Chinese source](adr/ADR-0001-lane-a-reliability-dataset-v1.md) |
 | Lane B consent/capture/security contract v1 | [FC-BRIDGE-003 review](FC-BRIDGE-003-lane-b-consent-capture-security-v1.md) | Contract review complete; capture remains unimplemented |
