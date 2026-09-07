@@ -1066,7 +1066,7 @@ contains the separate worker/CI/tests and this receipt. After this handoff is
 merged and cleaned, the next objective is readiness review of fresh Runtime
 revalidation plus one observable fixture action; first activate that bounded
 slice in the Runtime tracker. No successor model or action run is active here.
-The owner has now continued; Runtime `GDA-GUI-005` is the single active slice:
+The owner continued at that point; Runtime `GDA-GUI-005` was the single active slice:
 one observable fixture action following same-Session fresh revalidation, the
 existing Host/MCP safeguards, and state read-back. Reuse the unchanged model
 worker and failed-admission experimental adapter. Model PR #100 merged as
@@ -1095,7 +1095,32 @@ branches were deleted and Runtime returned to clean `main`. Model handoff PR #10
 only records status and the safe diagnostic receipt; worker, model, adapter and
 frozen evaluation files are unchanged. After this handoff is merged and cleaned,
 the single next objective is the disposable Word write/save/read-back readiness
-slice, activated first in the Runtime tracker. Do not rerun the consumed fixture.
+slice. The owner has now continued: Runtime `GDA-GUI-006` is active in its tracker.
+Model PR #101 merged as `6b13e561b58057997dcf42d0e2133455bc3b95c0` with required
+checks passed and both branches cleaned. Add a separately named fixed Word-editor
+worker using the unchanged local model and experimental adapter; preserve the
+old worker and consumed receipts. The Runtime owns all observation and dispatch.
+No browser run, training or promotion is active. Do not rerun the consumed fixture.
+`GDA-GUI-006` now has recovered artifact evidence in
+[the safe receipt](baseline/gui-word-native-2026-09-07.json). One local request
+localized the real Word editor in 2.094 seconds (797 input / 29 output tokens,
+9,331,244,032 peak allocated bytes). Runtime approved and performed a coordinate
+click, Ctrl+End and one fixed-text type. A subsequent UIA snapshot timed out;
+the original run remains UNKNOWN_OUTCOME. A separately observed save-only run
+then passed with five tools / one save / zero model calls, and a new Word process
+reopened the same hash with two read-only tools. Both windows were closed.
+This proves a recovered synthetic artifact, not an uninterrupted successful run
+or model-authored summary. The adapter remains below admission (17/24 vs 20/24).
+The final Runtime harness uses complete body observations around Save and retains
+focus checks before typing. Its entire revised sequence still needs one fresh
+uninterrupted real attempt. The current slice only publishes the worker, tests,
+CI transport check and exact Runtime handoff; no additional model call is active.
+Existing native/projector checks pass (20/18); both image-worker transports pass
+five tests each. Frozen evaluation outputs and the predecessor worker are unchanged.
+Runtime final local regression is `3069 passed, 39 skipped`, one existing warning;
+31 new harness tests, Ruff, mypy-180, docs-13, dependency and diff checks pass.
+The 13-test LoRA audit still reports admission failed. Runtime publication and
+the exact merged handoff remain the only current work.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.

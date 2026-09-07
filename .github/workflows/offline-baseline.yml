@@ -67,6 +67,8 @@ jobs:
         run: python -I -B scripts/validate_gui_observation_projection.py --unit-tests --check
       - name: Validate inert local-model worker transport
         run: python -I -B tests/test_gui_owl_single.py
+      - name: Word image worker transport
+        run: python -I -B tests/test_gui_owl_word.py
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity
