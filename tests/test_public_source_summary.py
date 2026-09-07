@@ -11,8 +11,8 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.probe_public_source_summary import (  # noqa: E402
-    MAX_INPUT_BYTES, SOURCE_TITLE, SOURCE_URL, failure_receipt, main, parse_request,
-    render_brief, sha,
+    MAX_INPUT_BYTES, SOURCE_TITLE, SOURCE_URL, completion_metrics, failure_receipt,
+    main, parse_request, render_brief, safe_completion, sha,
 )
 
 
@@ -100,8 +100,8 @@ class SummaryTests(unittest.TestCase):
                                 timeout=10)
         self.assertEqual(result.returncode, 1)
         self.assertEqual(json.loads(result.stdout), dict(
-            version=2, status="ERROR", code="SUMMARY_WORKER_FAILED", model_requests=0,
-            stage="REQUEST", reason="REQUEST_FIELDS"))
+            version=3, status="ERROR", code="SUMMARY_WORKER_FAILED", model_requests=0,
+            stage="REQUEST", reason="REQUEST_FIELDS", completion=None))
 
     def test_known_failure_classified_without_exception_text(self):
         for stage, reason in [("RESOURCE_CHECK", "OUTPUT_RESOURCE_CAP"),
@@ -155,6 +155,40 @@ class SummaryTests(unittest.TestCase):
         with patch("sys.stdin", Input()), contextlib.redirect_stdout(output):
             self.assertEqual(main(["--one-reference-summary"], generator=fail), 1)
         self.assertEqual(json.loads(output.getvalue())["model_requests"], 0)
+
+    def test_completion_distinguishes_token_time_and_eos_indicators(self):
+        token = completion_metrics(100, [7] * 384, [9], 3.0, 1000, 100)
+        timed = completion_metrics(100, [7] * 20, [9], 45.2, 1000, 100)
+        normal = completion_metrics(100, [7, 9], [9], 3.0, 1000, 100)
+        self.assertTrue(token["token_limit_reached"])
+        self.assertFalse(token["time_limit_reached"])
+        self.assertTrue(timed["time_limit_reached"])
+        self.assertFalse(timed["token_limit_reached"])
+        self.assertFalse(timed["eos_reached"])
+        self.assertTrue(normal["eos_reached"])
+
+    def test_completion_can_report_simultaneous_limits_and_resource_failure(self):
+        value = completion_metrics(100, [7] * 384, 9, 61.0, 16_000_000_000, 5000)
+        result = failure_receipt(ValueError("OUTPUT_RESOURCE_CAP"), [1],
+                                 {"stage": "RESOURCE_CHECK", "completion": value})
+        self.assertEqual(result["completion"], value)
+        self.assertTrue(value["token_limit_reached"] and value["time_limit_reached"])
+        self.assertNotIn("stop_cause", value)
+
+    def test_completion_rejects_unknown_fields_nonfinite_and_forged_flags(self):
+        valid = completion_metrics(100, [7], [9], 1.0, 1000, 100)
+        for changes in [{"raw": "private model prose"}, {"output_tokens": True},
+                        {"generation_seconds": float("nan")}, {"eos_reached": 1},
+                        {"token_limit_reached": True}, {"time_limit_reached": True}]:
+            result = failure_receipt(RuntimeError("private exception"), [1],
+                                     {"stage": "EOS_CHECK", "completion": valid | changes})
+            self.assertIsNone(result["completion"])
+            self.assertNotIn("private", json.dumps(result))
+
+    def test_missing_completion_is_unknown_not_zero(self):
+        self.assertIsNone(safe_completion(None))
+        result = failure_receipt(RuntimeError("failed in generation"), [1], {"stage": "GENERATION"})
+        self.assertIsNone(result["completion"])
 
 
 if __name__ == "__main__":

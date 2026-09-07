@@ -1195,6 +1195,36 @@ integration remain pending. The existing model admission result is unchanged.
 Matching Runtime review/receipt: PR #413; model implementation and handoff: PR #104.
 Both publications retain the same failed-attempt receipt; only clear CI/review
 states permit merge and feature-branch cleanup.
+Runtime #413 and model #104 are merged and cleaned. The canonical successor
+`GDA-GUI-009` now activates one new reference-summary diagnostic using the
+unchanged v2 worker, model/adapter, prompt and caps. Reuse only the pinned
+712-character reference body, not the consumed request ID or parent. This is a
+controlled diagnostic, not fresh browser acquisition. Validate the v2 response
+parent before its sole invocation; preserve all prior receipts and no-retry gates.
+The new `public-source-summary-stage-20260907` request is consumed. Its validated
+v2 response is `EOS_CHECK` / `GENERATION_INCOMPLETE`, one generation entry,
+process exit 1 and no retry. [Separate receipt](baseline/public-source-summary-stage-2026-09-07.json)
+binds unchanged worker/model/source/prompt and the new parent/request. Reaching
+EOS_CHECK proves generation returned, decoding completed and resource checks
+passed; no complete summary or actual token/time/memory counters were returned.
+The pinned EOS IDs `[151645, 151643]` agree with tokenizer EOS `<|im_end|>` at
+151645, and the template has no `enable_thinking` switch. No mismatch was found;
+do not infer the old generic failure's stage or choose a token/time cause.
+Eight parent tests (five before invocation) and 14 existing worker tests pass. Runtime
+source and old receipts are unchanged. Publish this bounded classification; the
+single next objective is safe completion-counter/stop-condition diagnostic repair
+with offline tests, without another model call or weakened acceptance. Summary
+quality, actual Runtime source capture and generated-content Word remain pending.
+The identified completion-counter repair is now included in this bounded slice,
+without another generation. Worker response v3 retains strictly validated numeric
+completion counters and independent EOS/token/time threshold flags on rejected
+output; earlier unobserved counters remain null. Caps and acceptance are unchanged,
+and failed raw prose never enters the safe response. Final offline tests: 18 worker
+and 9 parent; no inference used v3. The consumed v2 parent retains its old pin and
+rejects v3, while its fake-process tests explicitly substitute the current test hash.
+The actual v2 worker is preserved at `e868f4b5c65c29245019f3ac8c6efa079289edf8`.
+After publication/cleanup, the single next objective is a separately scoped v3-aware
+completion diagnostic with reviewed metadata validation; do not replay old requests.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
