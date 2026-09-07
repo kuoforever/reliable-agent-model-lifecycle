@@ -1008,12 +1008,38 @@ native and retained LoRA checks remain unchanged with 51 tests passing. These
 are local results; publication still requires clear current PR gates. See
 Runtime `docs/GUI_HOST_SOURCE_V1.md` at the linked implementation for reproduction.
 
-The single next objective is `FC-MVP-002-single-window-readonly-readiness-v1`:
-after clear publication, scope an explicit opt-in launch for one known window
-and validate actual read-only metadata collection before model inference or
-action execution. Real desktop access is not activated by this offline result;
-it must enter a named Runtime row under the owner's selected live scope. No
-click, typing, saving or model call belongs to that first observation gate.
+`FC-MVP-002-single-window-readonly-readiness-v1` now has a passing native-window
+attempt. Runtime `GDA-GUI-003`, implementation
+`75295387d1cba03d950566b4d57df3f385eb70d1` in
+[Runtime PR #408](https://github.com/kuoforever/guarded-desktop-agent/pull/408),
+adds an explicit opt-in development stdio launcher and a disposable native
+fixture containing synthetic text and one inert button. Ordinary CLI defaults,
+reviewed MCP tools and the sole Runner boundary remain unchanged. The owner
+selected this independent local fixture after auxiliary browser/desktop-tool
+observation could not be verified; no browser policy was bypassed.
+
+Run `gui-readonly-b9db48ef96ee460aaf7673871d706934` returned `PASS` / `SUCCESS`:
+one matched button, three charged reads, observation epoch 3, unchanged input,
+zero model turns and zero side effects. Actual checkpoint metrics include one
+image result and zero tool failures. The fixture was closed after collection.
+The receipt retains exact probe/fixture hashes, fixed codes and counts only;
+raw window/control text, refs and screenshots were not exported. See Runtime
+`docs/GUI_READONLY_PROBE_V1.md` and
+`docs/evidence/gui-readonly-native-2026-09-07.json` at the linked implementation.
+
+Local validation: 11 new probe tests; 60 focused tests passed; full Runtime
+suite `2995 passed, 39 skipped`; Ruff, mypy-180, docs-13, dependency/diff checks
+passed. Native checkpoint and source hashes matched the retained receipt.
+Publication remains subject to current PR checks, review and conflict state.
+This is real Host/stdio MCP/native-window observation evidence. It is not
+GUI-OWL inference, model grounding success, a training trace, or a completed
+Chrome-to-Word workflow. Previous frozen/offline receipts retain their old pins.
+
+The single next objective is `FC-MVP-002-real-window-proposal-readiness-v1`:
+after clear publication, connect the existing consumer projection to the real
+observation in memory and prepare one bounded GUI-OWL proposal kept inert.
+Any model invocation must be explicitly configured in a named Runtime row;
+no desktop action or automatic rich export follows from observation success.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
@@ -1025,8 +1051,8 @@ this into model search or an open-ended training campaign. Runtime changes or a 
 Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
-Historical probe records remain unchanged; the new Runtime source change is
-limited to the explicitly activated `GDA-GUI-001` / `GDA-GUI-002` slices above. The compiler
+Historical probe records remain unchanged; the Runtime changes are limited to
+the explicitly activated `GDA-GUI-001` / `GDA-GUI-002` / `GDA-GUI-003` slices above. The compiler
 checks caller-supplied snapshots, not live state, authenticity, durable
 deduplication or Runtime authorization; Runtime must revalidate at dispatch.
 The unchanged historical model/diagnostic chain was fully validated through
