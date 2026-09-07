@@ -1132,6 +1132,25 @@ the single next objective is one fresh uninterrupted Word attempt against the
 revised merged Runtime observation sequence. Activate that next real attempt in
 the Runtime tracker first; do not replay the consumed unknown ledger or claim
 that the recovered artifact was an uninterrupted run. No Chrome run is active.
+The owner has now continued. Model PR #102 merged as
+`7188b9a84b9fda86cb2a59c1f7d5fa55b12815ac`, with all four required checks passed
+and both feature branches removed. Runtime `GDA-GUI-007` now activates one fresh
+uninterrupted Word attempt using the unchanged merged harness, model and worker.
+This repository receives the resulting evidence only. No training, model retry
+of an old run, admission change, cloud provider or browser run is active.
+`GDA-GUI-007` now passed continuously using the unchanged harness and worker:
+`gui-word-23968539e06247858d463318ccbd3813`, one local model request, four
+Runtime-approved actions and 21 tools, zero tool failures/retries. Generation
+was 2.297 seconds (797/29 tokens, 9,331,244,032 peak allocated bytes), excluding
+model loading and desktop work. A new Word process passed full-body read-back
+in `gui-word-a7a921917fe8492a9cf1058ea22f21a9`, two reads and zero model/actions.
+Both windows are closed. [Separate safe receipt](baseline/gui-word-continuous-native-2026-09-07.json)
+binds source and artifact hashes. This is one fixed synthetic Word task with
+no recovery, not model-authored summary quality or Chrome-to-Word proof; model
+admission remains failed. Current work is the validated merged Runtime handoff.
+The next objective after publication/cleanup is fixed public-page summary-to-Word
+integration readiness, first activated in the Runtime tracker. No successor run
+is active during this publication slice.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
