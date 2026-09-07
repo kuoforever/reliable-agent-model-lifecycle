@@ -1151,6 +1151,22 @@ admission remains failed. Current work is the validated merged Runtime handoff.
 The next objective after publication/cleanup is fixed public-page summary-to-Word
 integration readiness, first activated in the Runtime tracker. No successor run
 is active during this publication slice.
+Runtime PR #412 passed all four required checks in CI run `34124786234`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift. It merged
+as `4a9d97233077a6c9db1bcedec3ae55c38f15cf34`; the merged tree exactly matches
+tested evidence commit `47e579e572d157225014dccef8d5b84f815f99c6`. Both Runtime
+branch copies were removed and its checkout returned to clean `main`.
+Current local validation: Runtime `3069 passed, 39 skipped`, one existing warning;
+focused Word-31, Ruff, mypy-180, docs-13, dependency and diff checks passed.
+Model transports/native/projector passed 5/5/20/18. Model PR #103 only publishes
+this matching receipt and canonical handoff, with no implementation change.
+After its merge and cleanup, the single next action is to activate fixed
+public-page summary-to-Word integration readiness in the Runtime tracker and
+check the actual source observation and summary output contract. The older
+synthetic summary probe did not pass automatic acceptance despite useful human
+content review; do not promote it or rerun its consumed cases as new evidence.
+Reuse the now-verified Word path; do not expand into another model search or
+training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
