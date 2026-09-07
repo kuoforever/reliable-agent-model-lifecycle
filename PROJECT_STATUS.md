@@ -1035,7 +1035,7 @@ This is real Host/stdio MCP/native-window observation evidence. It is not
 GUI-OWL inference, model grounding success, a training trace, or a completed
 Chrome-to-Word workflow. Previous frozen/offline receipts retain their old pins.
 
-The single active objective is `FC-MVP-002-real-window-proposal-readiness-v1`:
+The completed predecessor is `FC-MVP-002-real-window-proposal-readiness-v1`:
 the owner continued after Runtime PR #408 and model PR #99 merged. Runtime
 `GDA-GUI-004` now scopes one fresh synthetic-window observation and one isolated
 local GUI-Owl 4B + saved experimental LoRA request. Connect the existing consumer
@@ -1066,6 +1066,36 @@ contains the separate worker/CI/tests and this receipt. After this handoff is
 merged and cleaned, the next objective is readiness review of fresh Runtime
 revalidation plus one observable fixture action; first activate that bounded
 slice in the Runtime tracker. No successor model or action run is active here.
+The owner has now continued; Runtime `GDA-GUI-005` is the single active slice:
+one observable fixture action following same-Session fresh revalidation, the
+existing Host/MCP safeguards, and state read-back. Reuse the unchanged model
+worker and failed-admission experimental adapter. Model PR #100 merged as
+`9721c7017ebd95ac107cdef33490b9fa86f49b43` with all four required checks green;
+both branches were cleaned. This repository only receives the bounded handoff;
+no model training, replacement, promotion or automatic rich capture is active.
+The `GDA-GUI-005` attempt now passed: `gui-action-a74b8ac5694d46b0b3813a476f41a594`.
+One local-model request generated a ref-groundable proposal in 2.563 seconds;
+Runtime revalidated within the same Session, approved and performed one UIA
+button action, then read back the changed label and disabled state. The ledger
+records ten tool calls, epoch 9, one side effect and zero Host provider turns.
+Independent desktop observation agreed, input was unchanged and the fixture was
+closed. [Separate safe receipt](baseline/gui-single-action-native-2026-09-07.json)
+does not change frozen reports or the failed LoRA admission gate. Model worker,
+native compiler and projector tests passed (5/20/18), with retained reports intact.
+Runtime full regression passed `3038 passed, 39 skipped`, one existing Pydantic
+warning; Ruff, mypy-180, docs-13, dependency and diff checks passed.
+Exact next: receive the validated merged Runtime handoff; afterward scope one
+disposable Word write/save/read-back gate toward Chrome-to-Word. No Word run or
+additional model/action attempt is active in this handoff.
+Runtime PR #410 passed all four required checks in CI run `34103943205`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift. It merged
+as `1e19310863728a639c9624742e2e3d87d0a209e9`; the merged tree exactly matches
+tested implementation `a0fd517512827b690d67d721fb0ce1879a71cc35`. Both feature
+branches were deleted and Runtime returned to clean `main`. Model handoff PR #101
+only records status and the safe diagnostic receipt; worker, model, adapter and
+frozen evaluation files are unchanged. After this handoff is merged and cleaned,
+the single next objective is the disposable Word write/save/read-back readiness
+slice, activated first in the Runtime tracker. Do not rerun the consumed fixture.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
