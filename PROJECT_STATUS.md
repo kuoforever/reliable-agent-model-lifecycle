@@ -1056,9 +1056,16 @@ projector/native/LoRA checks: 18/20/13 passed and retained reports matched.
 Exact next: complete scoped publication and handoff. The valid attempt is
 consumed; no automatic model retry. A successor must first review fresh Runtime
 revalidation and one observable fixture action; no action run is active.
-Runtime implementation is submitted in PR #409. Its source and fixture hashes
-match the retained receipt. Publication is pending the current required checks,
-review/conflict audit and merge; do not treat a submitted PR as merged evidence.
+Runtime PR #409 passed all four required checks in CI run `34100794149`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift, and
+merged as `4095012a890f682bc45d46b2bf53ae26828c4e6b`. The merged tree exactly
+matches tested implementation `478a91db59a3eb7a5bba4907ff0fe94b249f8ce0`; both
+feature-branch copies were removed and Runtime returned to clean `main`.
+Its source and fixture hashes match the retained receipt. Model handoff PR #100
+contains the separate worker/CI/tests and this receipt. After this handoff is
+merged and cleaned, the next objective is readiness review of fresh Runtime
+revalidation plus one observable fixture action; first activate that bounded
+slice in the Runtime tracker. No successor model or action run is active here.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
