@@ -1087,10 +1087,15 @@ warning; Ruff, mypy-180, docs-13, dependency and diff checks passed.
 Exact next: receive the validated merged Runtime handoff; afterward scope one
 disposable Word write/save/read-back gate toward Chrome-to-Word. No Word run or
 additional model/action attempt is active in this handoff.
-Runtime implementation `a0fd517512827b690d67d721fb0ce1879a71cc35` is submitted
-in PR #410; final merge receipt remains pending current required checks and
-review/conflict audit. This model-side change only records status and the safe
-diagnostic receipt; worker, model, adapter and frozen evaluation files are unchanged.
+Runtime PR #410 passed all four required checks in CI run `34103943205`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift. It merged
+as `1e19310863728a639c9624742e2e3d87d0a209e9`; the merged tree exactly matches
+tested implementation `a0fd517512827b690d67d721fb0ce1879a71cc35`. Both feature
+branches were deleted and Runtime returned to clean `main`. Model handoff PR #101
+only records status and the safe diagnostic receipt; worker, model, adapter and
+frozen evaluation files are unchanged. After this handoff is merged and cleaned,
+the single next objective is the disposable Word write/save/read-back readiness
+slice, activated first in the Runtime tracker. Do not rerun the consumed fixture.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
