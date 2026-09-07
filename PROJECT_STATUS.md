@@ -1132,6 +1132,41 @@ the single next objective is one fresh uninterrupted Word attempt against the
 revised merged Runtime observation sequence. Activate that next real attempt in
 the Runtime tracker first; do not replay the consumed unknown ledger or claim
 that the recovered artifact was an uninterrupted run. No Chrome run is active.
+The owner has now continued. Model PR #102 merged as
+`7188b9a84b9fda86cb2a59c1f7d5fa55b12815ac`, with all four required checks passed
+and both feature branches removed. Runtime `GDA-GUI-007` now activates one fresh
+uninterrupted Word attempt using the unchanged merged harness, model and worker.
+This repository receives the resulting evidence only. No training, model retry
+of an old run, admission change, cloud provider or browser run is active.
+`GDA-GUI-007` now passed continuously using the unchanged harness and worker:
+`gui-word-23968539e06247858d463318ccbd3813`, one local model request, four
+Runtime-approved actions and 21 tools, zero tool failures/retries. Generation
+was 2.297 seconds (797/29 tokens, 9,331,244,032 peak allocated bytes), excluding
+model loading and desktop work. A new Word process passed full-body read-back
+in `gui-word-a7a921917fe8492a9cf1058ea22f21a9`, two reads and zero model/actions.
+Both windows are closed. [Separate safe receipt](baseline/gui-word-continuous-native-2026-09-07.json)
+binds source and artifact hashes. This is one fixed synthetic Word task with
+no recovery, not model-authored summary quality or Chrome-to-Word proof; model
+admission remains failed. Current work is the validated merged Runtime handoff.
+The next objective after publication/cleanup is fixed public-page summary-to-Word
+integration readiness, first activated in the Runtime tracker. No successor run
+is active during this publication slice.
+Runtime PR #412 passed all four required checks in CI run `34124786234`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift. It merged
+as `4a9d97233077a6c9db1bcedec3ae55c38f15cf34`; the merged tree exactly matches
+tested evidence commit `47e579e572d157225014dccef8d5b84f815f99c6`. Both Runtime
+branch copies were removed and its checkout returned to clean `main`.
+Current local validation: Runtime `3069 passed, 39 skipped`, one existing warning;
+focused Word-31, Ruff, mypy-180, docs-13, dependency and diff checks passed.
+Model transports/native/projector passed 5/5/20/18. Model PR #103 only publishes
+this matching receipt and canonical handoff, with no implementation change.
+After its merge and cleanup, the single next action is to activate fixed
+public-page summary-to-Word integration readiness in the Runtime tracker and
+check the actual source observation and summary output contract. The older
+synthetic summary probe did not pass automatic acceptance despite useful human
+content review; do not promote it or rerun its consumed cases as new evidence.
+Reuse the now-verified Word path; do not expand into another model search or
+training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
