@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -32,18 +33,56 @@ REASONS = frozenset({"REQUEST_SIZE", "DUPLICATE_FIELD", "NONFINITE_JSON", "OBJEC
                      "REQUEST_FIELDS", "VERSION", "REQUEST_ID", "SOURCE_IDENTITY", "SOURCE_TEXT",
                      "SOURCE_DIGEST", "ENVIRONMENT_MISMATCH", "MODEL_FILE_MISMATCH",
                      "INPUT_TOKEN_CAP", "GREEDY_CONFIGURATION", "OUTPUT_RESOURCE_CAP",
-                     "GENERATION_INCOMPLETE", "PLAN_DRIFT"})
+                     "GENERATION_INCOMPLETE", "PLAN_DRIFT", "COMPLETION_METADATA"})
+
+
+def completion_metrics(input_tokens, tokens, eos_ids, seconds, peak, output_bytes):
+    """Stop indicators, not a claim about which stopping criterion fired first."""
+    ids = [eos_ids] if type(eos_ids) is int else eos_ids
+    if (type(tokens) is not list or any(type(t) is not int for t in tokens)
+            or type(ids) is not list or any(type(t) is not int for t in ids)):
+        raise ValueError("COMPLETION_METADATA")
+    value = dict(input_tokens=input_tokens, output_tokens=len(tokens),
+                 generation_seconds=seconds, peak_allocated_bytes=peak,
+                 output_utf8_bytes=output_bytes, eos_reached=bool(tokens and tokens[-1] in ids),
+                 token_limit_reached=len(tokens) >= 384,
+                 time_limit_reached=type(seconds) in (int, float) and seconds >= 45)
+    if safe_completion(value) is None:
+        raise ValueError("COMPLETION_METADATA")
+    return value
+
+
+def safe_completion(value):
+    if type(value) is not dict or set(value) != {
+        "input_tokens", "output_tokens", "generation_seconds", "peak_allocated_bytes",
+        "output_utf8_bytes", "eos_reached", "token_limit_reached", "time_limit_reached",
+    }:
+        return None
+    for key, cap in [("input_tokens", 1_000_000), ("output_tokens", 1_000_000),
+                     ("peak_allocated_bytes", 1_000_000_000_000), ("output_utf8_bytes", 100_000_000)]:
+        if type(value[key]) is not int or not 0 <= value[key] <= cap:
+            return None
+    seconds = value["generation_seconds"]
+    if type(seconds) not in (int, float) or not math.isfinite(seconds) or not 0 <= seconds <= 86400:
+        return None
+    if any(type(value[k]) is not bool for k in ("eos_reached", "token_limit_reached", "time_limit_reached")):
+        return None
+    if (value["token_limit_reached"] != (value["output_tokens"] >= 384)
+            or value["time_limit_reached"] != (seconds >= 45)):
+        return None
+    return dict(value)
 
 
 def failure_receipt(exc, count, progress):
-    """Bounded v2 diagnostics: no exception text, source text or model prose."""
+    """Bounded v3 diagnostics: no exception text, source text or model prose."""
     reason = exc.args[0] if type(exc) is ValueError and len(exc.args) == 1 else None
     reason = reason if type(reason) is str and reason in REASONS else "UNCLASSIFIED"
     stage = progress.get("stage")
     stage = stage if type(stage) is str and stage in STAGES else "REQUEST"
     requests = count[0] if type(count[0]) is int and count[0] in (0, 1) else None
-    return dict(version=2, status="ERROR", code="SUMMARY_WORKER_FAILED", reason=reason,
-                stage=stage, model_requests=requests)
+    return dict(version=3, status="ERROR", code="SUMMARY_WORKER_FAILED", reason=reason,
+                stage=stage, model_requests=requests,
+                completion=safe_completion(progress.get("completion")))
 
 
 def sha(raw):
@@ -171,6 +210,8 @@ def generate(request, count, progress):
     tokens = output[0, tokens_in:].tolist()
     raw = processor.decode(tokens, skip_special_tokens=True, clean_up_tokenization_spaces=False)
     peak = torch.cuda.max_memory_allocated()
+    progress["completion"] = completion_metrics(tokens_in, tokens, config.eos_token_id,
+                                                 elapsed, peak, len(raw.encode()))
     progress["stage"] = "RESOURCE_CHECK"
     if len(raw.encode()) > 4096 or peak > 15_000_000_000 or elapsed > 60:
         raise ValueError("OUTPUT_RESOURCE_CAP")
@@ -183,7 +224,7 @@ def generate(request, count, progress):
     if after_plan != plan:
         raise ValueError("PLAN_DRIFT")
     progress["stage"] = "COMPLETE"
-    return dict(version=2, status="OK", request_id=request["request_id"],
+    return dict(version=3, status="OK", request_id=request["request_id"],
                 source_sha256=request["source_sha256"], raw_output=raw, model_requests=count[0],
                 model_id=plan["model_id"], revision=plan["revision"],
                 adapter_sha256=plan["adapter_files"]["adapter_model.safetensors"],

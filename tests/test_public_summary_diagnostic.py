@@ -40,7 +40,10 @@ class ParentTests(unittest.TestCase):
             reference = Path(temp) / "reference.json"
             reference.write_text(json.dumps(request), encoding="utf-8")
             output = Path(temp) / "attempt"
-            with patch.object(probe, "SOURCE_SHA", request["source_sha256"]):
+            # Injected-process tests do not attest the historical worker pin; the
+            # current worker is v3 and intentionally rejects this consumed v2 CLI.
+            current = sha((ROOT / "scripts/probe_public_source_summary.py").read_bytes())
+            with patch.object(probe, "SOURCE_SHA", request["source_sha256"]), patch.object(probe, "WORKER_SHA", current):
                 receipt = probe.run(reference, output, invoke=invoke)
                 with self.assertRaises(FileExistsError):
                     probe.run(reference, output, invoke=invoke)
@@ -114,6 +117,10 @@ class ParentTests(unittest.TestCase):
                         {"peak_allocated_bytes": 15_000_000_001}, {"raw_output": "x" * 4097}]:
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 probe.validate_response(self.success() | changes, self.success(), 0)
+
+    def test_v3_response_is_not_silently_accepted_by_consumed_v2_parent(self):
+        with self.assertRaisesRegex(ValueError, "RESPONSE_VERSION"):
+            probe.validate_response(self.error() | {"version": 3, "completion": None}, {}, 1)
 
 
 if __name__ == "__main__":

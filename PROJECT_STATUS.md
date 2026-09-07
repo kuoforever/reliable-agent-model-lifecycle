@@ -1215,6 +1215,16 @@ source and old receipts are unchanged. Publish this bounded classification; the
 single next objective is safe completion-counter/stop-condition diagnostic repair
 with offline tests, without another model call or weakened acceptance. Summary
 quality, actual Runtime source capture and generated-content Word remain pending.
+The identified completion-counter repair is now included in this bounded slice,
+without another generation. Worker response v3 retains strictly validated numeric
+completion counters and independent EOS/token/time threshold flags on rejected
+output; earlier unobserved counters remain null. Caps and acceptance are unchanged,
+and failed raw prose never enters the safe response. Final offline tests: 18 worker
+and 9 parent; no inference used v3. The consumed v2 parent retains its old pin and
+rejects v3, while its fake-process tests explicitly substitute the current test hash.
+The actual v2 worker is preserved at `e868f4b5c65c29245019f3ac8c6efa079289edf8`.
+After publication/cleanup, the single next objective is a separately scoped v3-aware
+completion diagnostic with reviewed metadata validation; do not replay old requests.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
