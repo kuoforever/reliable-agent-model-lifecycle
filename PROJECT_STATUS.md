@@ -1165,6 +1165,14 @@ public-page summary-to-Word integration readiness in the Runtime tracker and
 check the actual source observation and summary output contract. The older
 synthetic summary probe did not pass automatic acceptance despite useful human
 content review; do not promote it or rerun its consumed cases as new evidence.
+The owner continued after model PR #103 merged as
+`3bf4b2c281175919ea32ba31c218a6efeccf8c84` and both branch copies were removed.
+Runtime `GDA-GUI-008` activates fixed-source summary integration readiness.
+Add a bounded, tool-free text summary worker using the same pinned GUI-Owl and
+experimental adapter, then invoke it once on a freshly reviewed public reference
+excerpt. This reference is not a Runtime Chrome observation. Separate output
+shape/binding from human factual review; no desktop dispatch or automatic rich
+export, retry, cloud planner, training or model promotion is authorized here.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
