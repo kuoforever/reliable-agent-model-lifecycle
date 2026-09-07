@@ -1,14 +1,18 @@
 """Reference summary trust/format boundary; no model imports or inference."""
+import contextlib
+import io
 import json
 from pathlib import Path
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from scripts.probe_public_source_summary import (  # noqa: E402
-    MAX_INPUT_BYTES, SOURCE_TITLE, SOURCE_URL, parse_request, render_brief, sha,
+    MAX_INPUT_BYTES, SOURCE_TITLE, SOURCE_URL, failure_receipt, main, parse_request,
+    render_brief, sha,
 )
 
 
@@ -96,7 +100,61 @@ class SummaryTests(unittest.TestCase):
                                 timeout=10)
         self.assertEqual(result.returncode, 1)
         self.assertEqual(json.loads(result.stdout), dict(
-            version=1, status="ERROR", code="SUMMARY_WORKER_FAILED", model_requests=0))
+            version=2, status="ERROR", code="SUMMARY_WORKER_FAILED", model_requests=0,
+            stage="REQUEST", reason="REQUEST_FIELDS"))
+
+    def test_known_failure_classified_without_exception_text(self):
+        for stage, reason in [("RESOURCE_CHECK", "OUTPUT_RESOURCE_CAP"),
+                              ("EOS_CHECK", "GENERATION_INCOMPLETE"),
+                              ("POST_USE_PINS", "MODEL_FILE_MISMATCH")]:
+            result = failure_receipt(ValueError(reason), [1], {"stage": stage})
+            self.assertEqual((result["stage"], result["reason"], result["model_requests"]),
+                             (stage, reason, 1))
+
+    def test_untrusted_failure_messages_never_escape(self):
+        for exc in [RuntimeError("private page and model prose"),
+                    ValueError("private source"), ValueError("OUTPUT_RESOURCE_CAP", "private"),
+                    ValueError(["private"])]:
+            result = failure_receipt(exc, [True], {"stage": "private stage"})
+            self.assertNotIn("private", json.dumps(result))
+            self.assertEqual(result["reason"], "UNCLASSIFIED")
+            self.assertIsNone(result["model_requests"])
+
+    def test_injected_failure_after_generation_entry_is_not_retried(self):
+        calls = []
+
+        def fail(request, count, progress):
+            calls.append(request["request_id"])
+            count[0] += 1
+            progress["stage"] = "GENERATION"
+            raise RuntimeError("private model traceback")
+
+        class Input:
+            buffer = io.BytesIO(json.dumps(self.request()).encode())
+
+        output = io.StringIO()
+        with patch("sys.stdin", Input()), contextlib.redirect_stdout(output):
+            status = main(["--one-reference-summary"], generator=fail)
+        self.assertEqual(status, 1)
+        self.assertEqual(calls, ["summary-test"])
+        result = json.loads(output.getvalue())
+        self.assertEqual(result["stage"], "GENERATION")
+        self.assertEqual(result["model_requests"], 1)
+        self.assertEqual(result["reason"], "UNCLASSIFIED")
+        self.assertNotIn("private", output.getvalue())
+
+    def test_injected_preflight_failure_records_zero_generations(self):
+        def fail(request, count, progress):
+            progress["stage"] = "PREFLIGHT"
+            raise ValueError("MODEL_FILE_MISMATCH")
+
+        class Input:
+            buffer = io.BytesIO(json.dumps(self.request()).encode())
+
+        output = io.StringIO()
+        with patch("sys.stdin", Input()), contextlib.redirect_stdout(output):
+            self.assertEqual(main(["--one-reference-summary"], generator=fail), 1)
+        self.assertEqual(json.loads(output.getvalue())["model_requests"], 0)
 
 
 if __name__ == "__main__":

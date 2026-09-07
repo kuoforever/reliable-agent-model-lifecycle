@@ -26,6 +26,24 @@ SYSTEM = (
     "Preserve qualifications and restrictions; do not invent facts. Describe the "
     "article, never propose tools or actions. Do not claim any task was executed."
 )
+STAGES = frozenset({"REQUEST", "PREFLIGHT", "MODEL_LOAD", "PROMPT", "GENERATION",
+                    "DECODE", "RESOURCE_CHECK", "EOS_CHECK", "POST_USE_PINS", "COMPLETE"})
+REASONS = frozenset({"REQUEST_SIZE", "DUPLICATE_FIELD", "NONFINITE_JSON", "OBJECT_REQUIRED",
+                     "REQUEST_FIELDS", "VERSION", "REQUEST_ID", "SOURCE_IDENTITY", "SOURCE_TEXT",
+                     "SOURCE_DIGEST", "ENVIRONMENT_MISMATCH", "MODEL_FILE_MISMATCH",
+                     "INPUT_TOKEN_CAP", "GREEDY_CONFIGURATION", "OUTPUT_RESOURCE_CAP",
+                     "GENERATION_INCOMPLETE", "PLAN_DRIFT"})
+
+
+def failure_receipt(exc, count, progress):
+    """Bounded v2 diagnostics: no exception text, source text or model prose."""
+    reason = exc.args[0] if type(exc) is ValueError and len(exc.args) == 1 else None
+    reason = reason if type(reason) is str and reason in REASONS else "UNCLASSIFIED"
+    stage = progress.get("stage")
+    stage = stage if type(stage) is str and stage in STAGES else "REQUEST"
+    requests = count[0] if type(count[0]) is int and count[0] in (0, 1) else None
+    return dict(version=2, status="ERROR", code="SUMMARY_WORKER_FAILED", reason=reason,
+                stage=stage, model_requests=requests)
 
 
 def sha(raw):
@@ -97,7 +115,8 @@ def render_brief(raw):
     return brief
 
 
-def generate(request, count):
+def generate(request, count, progress):
+    progress["stage"] = "PREFLIGHT"
     for key in ("HF_HUB_OFFLINE", "TRANSFORMERS_OFFLINE", "HF_HUB_DISABLE_TELEMETRY"):
         os.environ[key] = "1"
     import importlib.metadata
@@ -113,6 +132,7 @@ def generate(request, count):
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
     torch.cuda.reset_peak_memory_stats()
+    progress["stage"] = "MODEL_LOAD"
     model = Qwen3VLForConditionalGeneration.from_pretrained(
         model_path, dtype=torch.bfloat16, attn_implementation="sdpa", device_map={"": 0},
         local_files_only=True, trust_remote_code=False,
@@ -122,6 +142,7 @@ def generate(request, count):
     ).eval()
     processor = AutoProcessor.from_pretrained(model_path, local_files_only=True,
                                                trust_remote_code=False)
+    progress["stage"] = "PROMPT"
     messages = [{"role": "system", "content": SYSTEM}, {"role": "user", "content":
                 json.dumps({k: request[k] for k in ("source_title", "source_url", "source_text")})}]
     prompt = processor.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
@@ -139,24 +160,30 @@ def generate(request, count):
         raise ValueError("GREEDY_CONFIGURATION")
     torch.cuda.synchronize()
     began = time.monotonic()
+    progress["stage"] = "GENERATION"
     count[0] += 1
     with torch.inference_mode():
         output = model.generate(**inputs, generation_config=config, use_model_defaults=False,
                                 do_sample=False)
     torch.cuda.synchronize()
     elapsed = time.monotonic() - began
+    progress["stage"] = "DECODE"
     tokens = output[0, tokens_in:].tolist()
     raw = processor.decode(tokens, skip_special_tokens=True, clean_up_tokenization_spaces=False)
     peak = torch.cuda.max_memory_allocated()
+    progress["stage"] = "RESOURCE_CHECK"
     if len(raw.encode()) > 4096 or peak > 15_000_000_000 or elapsed > 60:
         raise ValueError("OUTPUT_RESOURCE_CAP")
+    progress["stage"] = "EOS_CHECK"
     if not tokens or tokens[-1] not in ([config.eos_token_id] if type(config.eos_token_id) is int
                                        else config.eos_token_id):
         raise ValueError("GENERATION_INCOMPLETE")
+    progress["stage"] = "POST_USE_PINS"
     _, _, after_plan = model_files()
     if after_plan != plan:
         raise ValueError("PLAN_DRIFT")
-    return dict(version=1, status="OK", request_id=request["request_id"],
+    progress["stage"] = "COMPLETE"
+    return dict(version=2, status="OK", request_id=request["request_id"],
                 source_sha256=request["source_sha256"], raw_output=raw, model_requests=count[0],
                 model_id=plan["model_id"], revision=plan["revision"],
                 adapter_sha256=plan["adapter_files"]["adapter_model.safetensors"],
@@ -164,17 +191,17 @@ def generate(request, count):
                 peak_allocated_bytes=peak, execution_authorized=False)
 
 
-def main(argv=None):
+def main(argv=None, *, generator=generate):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--one-reference-summary", action="store_true", required=True)
     parser.parse_args(argv)
     count = [0]
+    progress = {"stage": "REQUEST"}
     try:
         request = parse_request(sys.stdin.buffer.read(MAX_INPUT_BYTES + 1))
-        result = generate(request, count)
-    except Exception:
-        result = dict(version=1, status="ERROR", code="SUMMARY_WORKER_FAILED",
-                      model_requests=count[0])
+        result = generator(request, count, progress)
+    except Exception as exc:
+        result = failure_receipt(exc, count, progress)
     print(json.dumps(result, sort_keys=True), flush=True)
     return 0 if result["status"] == "OK" else 1
 

@@ -1173,6 +1173,25 @@ experimental adapter, then invoke it once on a freshly reviewed public reference
 excerpt. This reference is not a Runtime Chrome observation. Separate output
 shape/binding from human factual review; no desktop dispatch or automatic rich
 export, retry, cloud planner, training or model promotion is authorized here.
+The sole `public-source-summary-20260907` invocation returned process exit 1 and
+`SUMMARY_WORKER_FAILED` with generation-entry count 1. Its 712-character public
+reference excerpt/request/prompt/worker hashes and fixed response are recorded in
+[the safe receipt](baseline/public-source-summary-readiness-2026-09-07.json).
+No summary or generation metrics were returned: completion, actual resource use,
+output shape, factual quality and failure cause cannot be established. This is
+not evidence that the model lacks summarization ability. No retry or desktop
+operation occurred. The attempt's worker is retained at implementation commit
+`5d031e37cd96a79461d189439d11283ebcf7ddef`.
+The subsequent response-v2 repair adds allowlisted error stage/reason and bounded
+generation-entry counts without raw exception text. Four injected-failure tests
+plus the ten original boundary tests pass; no inference has used this repair.
+Existing Word/single-image transport tests pass 5/5, native proposal/projector
+gates pass 20/18 and retained evidence checks pass. Current work is publication
+and matching Runtime handoff; after cleanup, the single next objective is a
+separately scoped repaired reference-summary diagnostic with a v2-aware parent.
+Do not replay the consumed v1 request/parent, which expects response version 1.
+Real Runtime Chrome acquisition, generated-text Word binding and local provider
+integration remain pending. The existing model admission result is unchanged.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
