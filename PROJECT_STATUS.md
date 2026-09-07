@@ -1120,7 +1120,18 @@ five tests each. Frozen evaluation outputs and the predecessor worker are unchan
 Runtime final local regression is `3069 passed, 39 skipped`, one existing warning;
 31 new harness tests, Ruff, mypy-180, docs-13, dependency and diff checks pass.
 The 13-test LoRA audit still reports admission failed. Runtime publication and
-the exact merged handoff remain the only current work.
+the exact merged handoff were the only publication work. Runtime PR #411 passed
+all four required checks in CI run `34109619479`, with no reviews, comments,
+unresolved threads, conflicts or base/head drift. It squash-merged as
+`e112dd1455e5f349db353ffaa6e667d1f9390cbf`; the merged tree exactly matches tested
+implementation `a0766361bfdecad457160f48227e5afe6a31c0a8`. Both Runtime branch
+copies were deleted and its checkout returned to clean `main`.
+Model handoff PR #102 publishes this matching receipt, the separate fixed Word
+worker and its offline CI check. After its checks, merge and branch cleanup,
+the single next objective is one fresh uninterrupted Word attempt against the
+revised merged Runtime observation sequence. Activate that next real attempt in
+the Runtime tracker first; do not replay the consumed unknown ledger or claim
+that the recovered artifact was an uninterrupted run. No Chrome run is active.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
