@@ -69,6 +69,8 @@ jobs:
         run: python -I -B tests/test_gui_owl_single.py
       - name: Word image worker transport
         run: python -I -B tests/test_gui_owl_word.py
+      - name: Reference summary transport and shape boundaries
+        run: python -I -B tests/test_public_source_summary.py
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity

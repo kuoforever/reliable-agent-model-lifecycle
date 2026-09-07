@@ -1165,6 +1165,36 @@ public-page summary-to-Word integration readiness in the Runtime tracker and
 check the actual source observation and summary output contract. The older
 synthetic summary probe did not pass automatic acceptance despite useful human
 content review; do not promote it or rerun its consumed cases as new evidence.
+The owner continued after model PR #103 merged as
+`3bf4b2c281175919ea32ba31c218a6efeccf8c84` and both branch copies were removed.
+Runtime `GDA-GUI-008` activates fixed-source summary integration readiness.
+Add a bounded, tool-free text summary worker using the same pinned GUI-Owl and
+experimental adapter, then invoke it once on a freshly reviewed public reference
+excerpt. This reference is not a Runtime Chrome observation. Separate output
+shape/binding from human factual review; no desktop dispatch or automatic rich
+export, retry, cloud planner, training or model promotion is authorized here.
+The sole `public-source-summary-20260907` invocation returned process exit 1 and
+`SUMMARY_WORKER_FAILED` with generation-entry count 1. Its 712-character public
+reference excerpt/request/prompt/worker hashes and fixed response are recorded in
+[the safe receipt](baseline/public-source-summary-readiness-2026-09-07.json).
+No summary or generation metrics were returned: completion, actual resource use,
+output shape, factual quality and failure cause cannot be established. This is
+not evidence that the model lacks summarization ability. No retry or desktop
+operation occurred. The attempt's worker is retained at implementation commit
+`5d031e37cd96a79461d189439d11283ebcf7ddef`.
+The subsequent response-v2 repair adds allowlisted error stage/reason and bounded
+generation-entry counts without raw exception text. Four injected-failure tests
+plus the ten original boundary tests pass; no inference has used this repair.
+Existing Word/single-image transport tests pass 5/5, native proposal/projector
+gates pass 20/18 and retained evidence checks pass. Current work is publication
+and matching Runtime handoff; after cleanup, the single next objective is a
+separately scoped repaired reference-summary diagnostic with a v2-aware parent.
+Do not replay the consumed v1 request/parent, which expects response version 1.
+Real Runtime Chrome acquisition, generated-text Word binding and local provider
+integration remain pending. The existing model admission result is unchanged.
+Matching Runtime review/receipt: PR #413; model implementation and handoff: PR #104.
+Both publications retain the same failed-attempt receipt; only clear CI/review
+states permit merge and feature-branch cleanup.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
