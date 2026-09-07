@@ -1035,11 +1035,37 @@ This is real Host/stdio MCP/native-window observation evidence. It is not
 GUI-OWL inference, model grounding success, a training trace, or a completed
 Chrome-to-Word workflow. Previous frozen/offline receipts retain their old pins.
 
-The single next objective is `FC-MVP-002-real-window-proposal-readiness-v1`:
-after clear publication, connect the existing consumer projection to the real
-observation in memory and prepare one bounded GUI-OWL proposal kept inert.
-Any model invocation must be explicitly configured in a named Runtime row;
-no desktop action or automatic rich export follows from observation success.
+The single active objective is `FC-MVP-002-real-window-proposal-readiness-v1`:
+the owner continued after Runtime PR #408 and model PR #99 merged. Runtime
+`GDA-GUI-004` now scopes one fresh synthetic-window observation and one isolated
+local GUI-Owl 4B + saved experimental LoRA request. Connect the existing consumer
+projection in memory and compile the screenshot-conditioned response against
+the acquired snapshot only. The model worker has no desktop interface; its
+one inference request is counted separately from the observation Host ledger.
+The failed LoRA promotion threshold remains failed. No model replacement,
+retraining, browser access, desktop action or automatic rich export is active.
+The one real attempt now passed: `gui-inert-5c04182d868243e080418482affc2a53`
+produced one snapshot-relative `click_ref`, 2.344 seconds generation, 781 input /
+27 output tokens and 9,317,841,408 peak allocated bytes. Runtime recorded three
+read calls, zero Host provider turns/side effects and unchanged input; fixture
+closed. [Evidence and limits](docs/gui-inert-native-probe-v1.md) link the separate
+safe receipt without changing any frozen predecessor evidence. Runtime full
+regression is `3020 passed, 39 skipped`, one existing warning; Ruff, mypy-180,
+docs-13, dependency and diff checks pass. Model worker tests: 5 passed; unchanged
+projector/native/LoRA checks: 18/20/13 passed and retained reports matched.
+Exact next: complete scoped publication and handoff. The valid attempt is
+consumed; no automatic model retry. A successor must first review fresh Runtime
+revalidation and one observable fixture action; no action run is active.
+Runtime PR #409 passed all four required checks in CI run `34100794149`, with
+no reviews, comments, unresolved threads, conflicts or base/head drift, and
+merged as `4095012a890f682bc45d46b2bf53ae26828c4e6b`. The merged tree exactly
+matches tested implementation `478a91db59a3eb7a5bba4907ff0fe94b249f8ce0`; both
+feature-branch copies were removed and Runtime returned to clean `main`.
+Its source and fixture hashes match the retained receipt. Model handoff PR #100
+contains the separate worker/CI/tests and this receipt. After this handoff is
+merged and cleaned, the next objective is readiness review of fresh Runtime
+revalidation plus one observable fixture action; first activate that bounded
+slice in the Runtime tracker. No successor model or action run is active here.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
 resume points. Endpoint equality is not atomic capture, UIA offscreen status is
 not occlusion proof, and hash binding is not authentication or action authority.
@@ -1052,7 +1078,7 @@ Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
 Historical probe records remain unchanged; the Runtime changes are limited to
-the explicitly activated `GDA-GUI-001` / `GDA-GUI-002` / `GDA-GUI-003` slices above. The compiler
+the explicitly activated `GDA-GUI-001` / `GDA-GUI-002` / `GDA-GUI-003` / `GDA-GUI-004` slices above. The compiler
 checks caller-supplied snapshots, not live state, authenticity, durable
 deduplication or Runtime authorization; Runtime must revalidate at dispatch.
 The unchanged historical model/diagnostic chain was fully validated through
