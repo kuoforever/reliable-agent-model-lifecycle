@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-09-06.
+> Updated: 2026-09-07.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -961,8 +961,9 @@ The coordinator compares metadata endpoints, validates actual Runtime result
 types and supplied Host ledger stamps, matches Session refs to strict native
 control identities, enforces an elapsed-time limit, and derives the four bound
 Host fact groups. It never receives a caller-authored completeness boolean.
-The concrete Host `ObservationSource` adapter remains **unwired**: genuine
-live ledger/Session provenance is not yet demonstrated by these fake-source tests.
+At that predecessor revision the concrete Host `ObservationSource` adapter was
+unwired. Its fake-source tests did not demonstrate genuine ledger/Session
+provenance; the separate integration below now covers the real code offline.
 
 The Runtime reproduction script verifies this repository's consumer revision
 `924c07db6c72cbcae4ae941d1191272f0ffc9e14` and both consumer source hashes before
@@ -977,19 +978,45 @@ with zero escapes; built/installed-wheel async producer smoke. This repository's
 Publication still requires the current PR checks/reviews/conflicts to be clear;
 these numbers describe local validation, not a claim about pending CI.
 
-The single next objective is `FC-MVP-002-runtime-host-source-integration-v1`:
-after clear publication, activate one bounded Runtime row for the concrete
-async Host source and its offline integration tests. `DesktopMCPPort.generation`
-and `AgentRunner` result bookkeeping own generation/epoch; the MCP server's
-Session owns ref/native-ID and strict driver metadata. Define that transport
-seam and consume those actual sources through the sole existing desktop path.
-Do not synthesize the missing provenance with new counters or guessed refs.
-This successor is not live collection, model loading or action execution.
-Preserve Runtime's completed maintenance, paused Provider/Formal Demo, and Full
-Cycle resume points. Endpoint equality is not an atomic OS capture, UIA
-offscreen status is not occlusion proof, and a hash binding is not authentication
-or execution authority. The owning contract and reproduction commands are in
-Runtime `docs/GUI_OBSERVATION_PRODUCER_V1.md` at the linked implementation.
+`FC-MVP-002-runtime-host-source-integration-v1` is complete at the offline
+implementation level. Runtime `GDA-GUI-002`, implementation
+`000f0a14e454afe160d23ca654be368827fbb0a1` in
+[Runtime PR #407](https://github.com/kuoforever/guarded-desktop-agent/pull/407),
+connects the async source to the actual `AgentRunner` call boundary,
+`StdioDesktopMCP.generation`, result bookkeeping, `RunRecorder` and Session
+native/ref/scope tables. A default-off read-only resource on the same MCP
+connection carries bounded checked metadata; no model tool or CLI/environment
+activation was added. Unsupported privacy/continuation/operator lifecycles
+reject instead of silently bypassing their checks.
+
+The cross-repository replay pins consumer
+`42428dde8b706be9d70003358c183d16ab057e9a` and both unchanged projection/native
+source hashes. Real Runner/MCP SDK client/server/Session code over memory streams
+and a fake desktop driver produce generation 1, ledger epochs 1/2/3, three charged
+tool calls and two metadata reads. The existing projector accepts the bundle;
+the native compiler produces an inert `click_ref`. Model turns, side effects,
+model inference and live desktop execution remain zero/false. Connection cleanup
+completes before recording successful observation collection.
+
+Local Runtime validation: 16 new integration tests, including default-off
+behavior, wire/ref/state rejection, budget exhaustion, actual session reconnect,
+timeout, cancellation, cleanup failure and retained `UNKNOWN_OUTCOME` without
+replay; full suite `2984 passed, 39 skipped`; all 16 integration tests also pass
+against the installed wheel. Ruff, mypy-180, docs/dependency/diff, crash/replay-33
+and deterministic eval 13/13 with zero escapes pass. Model-side projection,
+native and retained LoRA checks remain unchanged with 51 tests passing. These
+are local results; publication still requires clear current PR gates. See
+Runtime `docs/GUI_HOST_SOURCE_V1.md` at the linked implementation for reproduction.
+
+The single next objective is `FC-MVP-002-single-window-readonly-readiness-v1`:
+after clear publication, scope an explicit opt-in launch for one known window
+and validate actual read-only metadata collection before model inference or
+action execution. Real desktop access is not activated by this offline result;
+it must enter a named Runtime row under the owner's selected live scope. No
+click, typing, saving or model call belongs to that first observation gate.
+Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
+resume points. Endpoint equality is not atomic capture, UIA offscreen status is
+not occlusion proof, and hash binding is not authentication or action authority.
 The integration started at `b5b8108e2e8c2839616b7cedb8671371e31765a5`; the
 completed native adapter and projection are the model-side safe resume surface.
 Runtime collector/Host/model-client changes require activation in its own tracker.
@@ -999,7 +1026,7 @@ Chrome-to-Word run must enter the Runtime repository's own canonical tracker.
 A future cloud planner may supply subgoals without acquiring desktop authority.
 
 Historical probe records remain unchanged; the new Runtime source change is
-limited to the explicitly activated `GDA-GUI-001` slice above. The compiler
+limited to the explicitly activated `GDA-GUI-001` / `GDA-GUI-002` slices above. The compiler
 checks caller-supplied snapshots, not live state, authenticity, durable
 deduplication or Runtime authorization; Runtime must revalidate at dispatch.
 The unchanged historical model/diagnostic chain was fully validated through
