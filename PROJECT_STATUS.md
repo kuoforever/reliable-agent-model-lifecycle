@@ -1192,6 +1192,9 @@ separately scoped repaired reference-summary diagnostic with a v2-aware parent.
 Do not replay the consumed v1 request/parent, which expects response version 1.
 Real Runtime Chrome acquisition, generated-text Word binding and local provider
 integration remain pending. The existing model admission result is unchanged.
+Matching Runtime review/receipt: PR #413; model implementation and handoff: PR #104.
+Both publications retain the same failed-attempt receipt; only clear CI/review
+states permit merge and feature-branch cleanup.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
