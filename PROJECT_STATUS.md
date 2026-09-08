@@ -1244,6 +1244,29 @@ Exact next: publish this scoped result and clean both branches; then prepare one
 bounded completion-budget control with unchanged source/model/prompt and separate
 EOS/shape/factual gates. Validate offline before a newly scoped invocation. More
 tokens do not guarantee a valid summary; no consumed request is replayed.
+Runtime #415 merged as `2740a91a58a7178ceddaeba7ecac1594dd1e4d17` and model #106
+as `32e17d340971f228be9c0f6e74cf34c2e73e8796`, all required checks passed and both
+branches were cleaned. The owner's continuation activates Runtime GDA-GUI-011:
+a separate response-v4 worker/parent with 768 output tokens, 90-second soft,
+120-second checked generation and 240-second process budget. Source, prompt,
+model, adapter, 4096-byte output and 15 GB memory limits, shape and factual gates
+remain fixed. This changes the budget envelope, not just the token parameter.
+Exact next: validate the control offline, then run its one new request and classify
+EOS/shape/facts separately. No retry, old-code mutation, desktop or training.
+GDA-GUI-011 is now consumed: `EOS_CHECK` / `GENERATION_INCOMPLETE`, 320 input /
+768 output tokens, 56.657 seconds, 9,122,767,872 peak allocated bytes, 3,685 output
+bytes, token threshold true, time threshold false, EOS absent. The [safe receipt](baseline/public-source-summary-budget-2026-09-08.json)
+binds the exact control. All unchanged byte/memory/checked-time caps passed.
+Budget doubling did not yield completion on this reference; unseen output type,
+shape and factual quality remain unknown. One model call, zero retries/desktop calls.
+Eight new offline tests passed before inference, plus 18 worker / 7 completion /
+9 stage-parent historical tests, Ruff, docs consistency (13 tools; 9 tests) and
+diff checks. Old workers, parents, receipts and Runtime executable code are intact.
+Exact next: publish and clean this scoped slice, then review the existing
+summary-to-GUI handoff offline for the previously accepted future planner/local-GUI
+role split. Stop budget escalation; no additional inference, training or model search.
+The summary producer remains unqualified; do not turn a manual fixture into model
+summary evidence. Runtime authority and the failed LoRA admission gate stay unchanged.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
