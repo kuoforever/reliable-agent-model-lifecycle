@@ -75,6 +75,8 @@ jobs:
         run: python -I -B tests/test_public_summary_diagnostic.py
       - name: Reference summary completion metadata
         run: python -I -B tests/test_public_summary_completion.py
+      - name: Reference summary doubled-budget control
+        run: python -I -B tests/test_public_summary_budget.py
 
   hydrated-lfs-integrity:
     name: hydrated-lfs-integrity
