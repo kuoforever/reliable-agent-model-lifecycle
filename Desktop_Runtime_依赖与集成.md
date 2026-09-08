@@ -22,6 +22,19 @@ Runtime 的当前任务、冻结范围和新会话入口：
 
 不要从聊天记录、分支名或 Runtime 的大路线图推断当前任务。
 
+## Content handoff v1（离线接口）
+
+Runtime 的 `computer_use_agent.content_handoff` 定义可复用的 `append_text`
+内容任务：绑定来源摘要值、目标与初始正文、待写文本、预期完整正文，以及
+`readback` / `saved` / `reopened` 三项核验。核心接口不依赖网页、模型或 Word。
+合成生产端样例见 [content_handoff_v1](fixtures/content_handoff_v1/README.md)。
+
+模型只提供 `candidate`。Host 独立提供来源核验、当前目标正文、场景配置与
+绑定整份 candidate 的外部事实审核。摘要值相等只证明内容绑定，不证明事实正确、
+审核者身份或执行授权。接口返回不可执行的数据；真实 Word 接入与浏览器来源
+采集仍待实现，所有动作仍经过 Runtime/Runner/MCP。该接口不改变冻结的 Lane A
+契约，也不启用 Lane B、云端调用、模型晋级或自动富数据导出。
+
 ## 项目分工
 
 | 能力 | Desktop Runtime | Full Cycle |
