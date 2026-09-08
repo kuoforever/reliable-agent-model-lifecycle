@@ -1285,6 +1285,24 @@ Full Runtime regression before the final large-integer parser edge repair passed
 cases pass, along with Ruff, mypy-181, docs-13, dependency and diff checks.
 Next: checked publication and cleanup, then an offline Word content adapter that
 consumes the reviewed task without introducing a second desktop dispatch path.
+Runtime #417 merged as `70c0a46bbd03727bcb55aa4e70157bdcf8c81923` and model #108
+as `439e4682d1ba40e70e36fc28dbeece4088c21c99`; checks passed and branches cleaned.
+The owner's continuation activates Runtime GDA-GUI-013, an optional reviewed-content
+adapter in the existing Word probe. It binds the Host-selected file, exact initial/
+final body and saved artifact; action dispatch remains the existing Runner path.
+The default fixed-note CLI stays unchanged. This repository updates integration
+guidance only; no producer/model change or inference occurs. Validation uses fake
+MCP/model responses and synthetic packages, never live Word evidence. Exact next:
+finish Runtime offline validation, publish the scoped handoff and clean branches.
+GDA-GUI-013 offline implementation is complete: 99 focused Runtime tests pass.
+Full regression before the final bounded durability-reader refinement passed
+3136 tests / 39 skips / one existing warning; the final 99-case gate, Ruff,
+mypy-182, docs-13, dependency and diff checks pass. The content path uses exact
+UI/body/artifact comparisons, consumes failed/unknown attempts in process and
+never retries a GUI write/save. It does not prove actual window/file identity,
+close/reopen lifecycle or durable deduplication. Next: final-CI publication and
+cleanup, then prepare one disposable Word content run with fresh Host review and
+target binding; no live run is activated by this handoff.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
