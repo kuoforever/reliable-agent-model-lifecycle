@@ -1267,6 +1267,24 @@ summary-to-GUI handoff offline for the previously accepted future planner/local-
 role split. Stop budget escalation; no additional inference, training or model search.
 The summary producer remains unqualified; do not turn a manual fixture into model
 summary evidence. Runtime authority and the failed LoRA admission gate stay unchanged.
+Runtime #416 merged as `e90c47a137a99c069730ca23f38b1356120b88ad` and model #107
+as `c1813afcc2aa2ebe3b43406b2414229d2c7c7262`; required checks passed and branches
+were cleaned. The owner now activates Runtime GDA-GUI-012 for a reusable offline
+content handoff. Runtime owns the inert append-text contract; this repository
+supplies the identical two-profile synthetic producer fixture and integration
+guidance. Source/target/content/final-body bindings and external Host review are
+separate from any execution authority. No summary producer is newly qualified.
+Exact next: complete Runtime contract validation and scoped cross-repository
+publication. Actual Word integration must retain fresh observation, policy,
+approval, WAL and Runner/MCP boundaries; no desktop/model call belongs to this slice.
+GDA-GUI-012 is now implemented offline: 40 Runtime focused tests pass across the
+two synthetic profiles; the identical fixture SHA-256 is
+`f999de9fe32a555c512de553137585eec1d3a4727e6793ed8e2a3c475e4d589c`.
+Full Runtime regression before the final large-integer parser edge repair passed
+3108 tests / 39 skips / one existing warning; the final parser and all 40 focused
+cases pass, along with Ruff, mypy-181, docs-13, dependency and diff checks.
+Next: checked publication and cleanup, then an offline Word content adapter that
+consumes the reviewed task without introducing a second desktop dispatch path.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
