@@ -1,6 +1,6 @@
 # Project status
 
-> Updated: 2026-09-07.
+> Updated: 2026-09-08.
 > This is the operational entry point for a new Reliable Agent Model Lifecycle
 > session.
 
@@ -1225,6 +1225,25 @@ rejects v3, while its fake-process tests explicitly substitute the current test 
 The actual v2 worker is preserved at `e868f4b5c65c29245019f3ac8c6efa079289edf8`.
 After publication/cleanup, the single next objective is a separately scoped v3-aware
 completion diagnostic with reviewed metadata validation; do not replay old requests.
+Runtime #414/model #105 merged and cleaned. The owner's 2026-09-08 continuation
+activates Runtime `GDA-GUI-010`: one new v3-aware parent/request with unchanged
+worker/model/adapter/prompt/caps and the pinned 2026-09-07 reference excerpt.
+Validate completion metadata before invocation; report token/time/EOS indicators
+independently, preserve unknowns and all older receipts. No desktop or training.
+The sole GDA-GUI-010 call is now consumed: `EOS_CHECK` / `GENERATION_INCOMPLETE`,
+320 input / 384 output tokens, 29.516 seconds, 9,044,687,872 peak allocated bytes,
+1,839 output UTF-8 bytes, token threshold true, time threshold false, EOS absent.
+[Safe receipt](baseline/public-source-summary-completion-2026-09-08.json) binds the
+unchanged worker and exact new parent/request; no partial prose is retained.
+This establishes token-limited completion for this attempt only. Shape and factual
+quality remain unassessed; there was one model request and zero retries/desktop calls.
+Final local gates: 7 new parent tests (6 before invocation), 18 worker tests,
+9 historical parent tests, Ruff, Runtime mypy-180, docs (13 tools; 9 tests), dependency and diff checks
+pass. The worker, old parent, older receipts and Runtime executable code are unchanged.
+Exact next: publish this scoped result and clean both branches; then prepare one
+bounded completion-budget control with unchanged source/model/prompt and separate
+EOS/shape/factual gates. Validate offline before a newly scoped invocation. More
+tokens do not guarantee a valid summary; no consumed request is replayed.
 Reuse the now-verified Word path; do not expand into another model search or
 training campaign. No new browser, planner or model run belongs to this handoff.
 Preserve completed maintenance, paused Provider/Formal Demo and Full Cycle
