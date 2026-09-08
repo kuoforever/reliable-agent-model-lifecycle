@@ -35,6 +35,12 @@ Runtime 的 `computer_use_agent.content_handoff` 定义可复用的 `append_text
 采集仍待实现，所有动作仍经过 Runtime/Runner/MCP。该接口不改变冻结的 Lane A
 契约，也不启用 Lane B、云端调用、模型晋级或自动富数据导出。
 
+Runtime 的 `word_content_adapter.WordContentAdapter` 现通过 Word probe 的显式
+Python 参数消费这份交接。它绑定 Host 选定的文档路径、初始文件、写入后的完整
+正文和保存文件哈希；独立只读阶段核验同一保存文件。动作仍走原 Runner，CLI
+默认仍是固定测试文本。该适配器仅完成合成离线验证，未新增真实 Word 或模型调用；
+实际关闭/重新打开、桌面干扰归因和新尝试记录仍需要独立的现场证据。
+
 ## 项目分工
 
 | 能力 | Desktop Runtime | Full Cycle |
