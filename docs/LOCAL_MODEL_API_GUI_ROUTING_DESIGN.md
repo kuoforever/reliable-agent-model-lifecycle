@@ -41,13 +41,13 @@ Runtime 通过 `subprocess.run()` 启动 worker；一次加载、推理后退出
 | 已有证据 | 能证明什么 | 不能据此宣称什么 |
 |---|---|---|
 | [GUI-Owl LoRA pilot](GUI_OWL_LORA_PILOT_V1.md)：17/24，门槛20/24 | 固定样例上的改进与未通过的准入项 | 模型已获通用 GUI 准入 |
-| 2026-09-07 [固定 Word 记录](https://github.com/kuoforever/guarded-desktop-agent/blob/7e90999e4dea7808e46e681a1995be0b57174eb1/docs/GUI_WORD_CONTINUOUS_EVIDENCE.md)：写入、保存、新进程重开通过 | 一次合成文本、受控流程的应用诊断 | 模型自主规划/撰写全文，或跨应用成功率 |
+| 2026-09-07 [固定 Word 记录](https://github.com/kuoforever/guarded-desktop-agent/blob/222136403388ca8373de716142bff6a2ad39e99e/docs/GUI_WORD_CONTINUOUS_EVIDENCE.md)：写入、保存、新进程重开通过 | 一次合成文本、受控流程的应用诊断 | 模型自主规划/撰写全文，或跨应用成功率 |
 | [MM-004](MM-004-multimodal-hard-negative-model-evaluation-result-review-v2.md)：32/56，clean accept 4/28，hard-negative rejection 28/28 | 固定成对样例中的明显 reject bias | 混合路由已经可靠、省钱或更快 |
 
 固定 Word 的 2.297 秒仅为 generation time，不含加载和桌面操作。
 该任务中模型主要定位编辑区，内容、保存和结果核验由 Host/Runtime 编排。
 
-Runtime 的 [local_openai 边界](https://github.com/kuoforever/guarded-desktop-agent/blob/7e90999e4dea7808e46e681a1995be0b57174eb1/docs/PROVIDERS.md)
+Runtime 的 [local_openai 边界](https://github.com/kuoforever/guarded-desktop-agent/blob/222136403388ca8373de716142bff6a2ad39e99e/docs/PROVIDERS.md)
 是另一条文本 Planner/final 接入路径：仅接受指定 loopback `/v1` 地址，
 不启动模型服务，未开放视觉或普通 native tool calling。
 `base_url` 配置不能替代上述 GUI 视觉 worker 集成。
