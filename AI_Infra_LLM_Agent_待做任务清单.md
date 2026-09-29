@@ -484,7 +484,7 @@ agent-model-factory/
 - 全屏 vs 局部裁剪
 - UIA-only vs screenshot-only vs fusion
 - 不同动作历史长度
-- 不同置信度 fallback 阈值
+- 独立验证集校准后的 fallback 阈值；模型自报置信度不直接作为路由依据
 
 **验收**
 
@@ -492,6 +492,19 @@ agent-model-factory/
 - 固定 GUI 任务集可重复运行
 - 有任务成功率、步骤数、回退率、显存和延迟报告
 - 所有动作仍经过既有 Runtime/Runner/MCP 边界
+
+**后续候选设计（2026-09-29整理，未启动新实验）**
+
+- 将2026-09-17讨论的 `Qwen/Qwen3.5-4B` post-trained 作为图文训练/评测候选，
+  `Qwen/Qwen3.5-9B` 4-bit 作为推理对照；这不是最新型号结论或本机实测。
+- 16GB显存预算覆盖权重、视觉输入、KV cache与训练激活；先限制图片数、分辨率和
+  上下文做 inference smoke，再验证 QLoRA、保存和独立重载。
+- 独立检查 loader、processor、LoRA targets/config和输出解析；不得假定
+  Qwen2.5-VL Adapter兼容新架构，既有冻结基线和结果保持可复现。
+- 对照记录任务成功率、误接受/误拒绝、结构化输出有效率、时延和峰值显存；
+  恢复实施前重新核实官方型号、许可证及框架支持。
+- 设计依据见[本地模型、API 与 GUI 协作设计](docs/LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md)；
+  启动仍由 `PROJECT_STATUS.md` 的唯一活动目标决定。
 
 **当前进展（2026-08-17）**
 
@@ -1845,6 +1858,19 @@ denied / next gate null，raw-runtime 是否可本地复验只作独立状态且
 - fallback
 - metrics / trace
 
+**本地 GUI worker 服务化设计（待实现）**
+
+- 先冻结现有 stdin/stdout worker 契约，再增加 loopback 常驻服务；保留
+  Transformers + PEFT 路径，vLLM兼容性单独验证。
+- 拟议接口：`GET /readyz`、`GET /v1/model-info`、
+  `POST /v1/gui/proposals`；它们尚不是可调用能力。
+- 保留 request/context/image、model revision和Adapter绑定及推理资源指标；
+  模型返回候选，Runtime adapter校验并重核验最新观察后进入既有执行边界。
+- 验收固定输入/配置下worker与API候选一致性，以及超时、错误响应、过期观察和
+  资源超限拒绝。推理重试不授予GUI写入重放或已消费实验重跑权限。
+- 现有 `local_openai` 文本Planner/final客户端不能直接替代视觉worker。
+  详见[接口与协作设计](docs/LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md)。
+
 ## SERV-002：vLLM 服务
 
 部署：
@@ -1889,6 +1915,13 @@ denied / next gate null，raw-runtime 是否可本地复验只作独立状态且
 - cache hit
 - GPU utilization
 - error rate
+
+**GUI协作补充（待验证）**
+
+- 稳定规则/工具/流程放缓存前缀，动态界面状态放后缀；核实所选供应商的命中、
+  有效期和写入/输出费用，不把缓存命中当作免除生成开销。
+- 分开记录冷启动、常驻加载、排队、生成、桌面等待和验证时间，以及常驻显存。
+  HTTP本身不带来生成提速，收益须归因到实测的加载复用或缓存。
 
 ## SERV-005：Admission Control 与过载
 
@@ -1997,6 +2030,18 @@ Tool Router 必须输出合法决策 JSON，格式失败不能靠重试掩盖。
 - 压测脚本、负载模型和硬件状态可复现
 - 本地小模型与远端强模型有成本对照
 
+**GUI任务级对照（待执行）**
+
+- 固定同一任务、初始状态、Runtime和验收条件：A=缓存/上下文优化后的全云端，
+  B=云端规划+本地确定性流程，C=B+本地模型与升级路由；先比较B/A，再比较C/B。
+- 记录task success、错误副作用、端到端P50/P95、escalation、retry、
+  human intervention及本地覆盖率，区分冷/热启动。
+- 每成功任务成本=全部尝试的API、本地算力、冷启动、恢复与人工成本 /
+  通过独立状态验证的任务数；零成功时明确无定义并报告失败成本。
+- `T_hybrid ≈ T_local + q × T_cloud` 仅用于解释升级率q的影响；
+  不以该简化模型、单次generation time或API费用替代端到端测量。
+- 实验依据与既有reject bias见[协作设计](docs/LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md)。
+
 ## SERV-011：部署优化门禁与性能回归
 
 **必须包含**
@@ -2021,9 +2066,14 @@ Tool Router 必须输出合法决策 JSON，格式失败不能靠重试掩盖。
 3. 确定性规则
 4. 远端强模型
 
+以上是可用层次，不是每次请求的必经顺序。可直接验证的状态优先确定性工具；
+已验证且目标唯一、观察新鲜、有独立验收的窄任务才优先本地模型；
+陌生界面、复杂语义或跨页面规划可直接交云端。
+
 触发条件：
 
-- 低置信度
+- 独立验证集校准后的风险/覆盖率门槛；不采信模型自报置信度作为唯一依据
+- 目标歧义、观察冲突、动作后无预期进展，需要携带最新状态重新规划
 - 队列积压或 SLO 违约
 - 显存不足或引擎故障
 - 训练任务占用同一张 GPU
@@ -2034,6 +2084,9 @@ Tool Router 必须输出合法决策 JSON，格式失败不能靠重试掩盖。
 - 降级不放宽 Policy、Approval 或审批边界
 - 记录每层的成功率、延迟和成本
 - 单机训练与 Serving 的资源竞争有显式策略
+- 子任务包含前置条件、成功条件、停止条件和步数预算；连续GUI动作重新观察定位
+- 同时报告本地覆盖率与实际成功率，Runtime拒绝不能靠切换模型绕过
+- 采用SERV-010的固定A/B/C对照证明本地模型增量收益；数据回流仍遵守Lane B边界
 
 ## MLOPS-001：模型和数据注册
 

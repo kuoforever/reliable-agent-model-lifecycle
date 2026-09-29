@@ -35,6 +35,14 @@ active objective come from [PROJECT_STATUS](../../PROJECT_STATUS.md).
 
 ## Definition of Done
 
+The [local model/API/GUI design](local-model-api-gui-routing-design.md) connects
+the dated model-selection, worker-service, and hybrid-routing discussions to
+MM-003 and SERV-001/004/010/012. Their acceptance criteria cover independent
+candidate compatibility, worker/API parity and stale-observation rejection,
+cache/residency measurements, fixed A/B/C comparisons, and observable routing
+conditions. These remain planned requirements; the design changes no active
+objective or completion status.
+
 A task is not complete until it has:
 
 - code and versioned artifacts;
@@ -47,4 +55,3 @@ A task is not complete until it has:
 
 Planned functionality must remain marked planned until all required evidence
 exists.
-

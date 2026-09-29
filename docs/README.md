@@ -110,6 +110,7 @@ English companion documents.
 | [Scenario companion](en/scenario-coverage.md) | [Scenario coverage matrix](../多模态与业务场景覆盖矩阵.md) |
 | [Task map](en/task-checklist.md) | [Task checklist](../AI_Infra_LLM_Agent_待做任务清单.md) |
 | [Template guide](en/writing-execution-templates.md) | [Writing and execution templates](../AI_Infra_LLM_Agent_写作与执行模块模板.md) |
+| [Local model/API/GUI design](en/local-model-api-gui-routing-design.md) | [Candidate, contract, and routing design](LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md); proposed work mapped to MM-003 and SERV-* |
 
 `PROJECT_STATUS.md` remains the source of truth for sequencing and the single
 active objective. The Chinese checklist remains authoritative for exact task
