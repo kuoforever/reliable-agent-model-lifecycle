@@ -41,6 +41,29 @@ Python 参数消费这份交接。它绑定 Host 选定的文档路径、初始�
 默认仍是固定测试文本。该适配器仅完成合成离线验证，未新增真实 Word 或模型调用；
 实际关闭/重新打开、桌面干扰归因和新尝试记录仍需要独立的现场证据。
 
+## 本地推理 API 与模型协作（设计参考）
+
+完整设计见[本地模型、API 与 GUI 协作设计](docs/LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md)，
+验收要求归入现有 MM-003 与 SERV-001/004/010/012。
+本节说明后续接口演进方向，不改变已冻结的 Runtime 契约、Lane A fixture 或任务顺序。
+
+现有 GUI 实验使用 Runtime 调用本地子进程、stdin/stdout JSON 传输的 worker。
+模型返回候选位置/动作及 request/context/image、model/Adapter 绑定，
+Host 校验响应，Runtime 重新核验当前观察后才进入 Policy / Approval / WAL /
+Runner / MCP。现有 `local_openai` 是文本 Planner/final 路径，
+不能直接承接这条视觉动作链路。
+
+后续先冻结 worker 契约，再考虑 loopback 常驻 API：
+模型仓库负责加载、版本、推理超时和资源；Runtime adapter 负责响应验证、
+观察绑定和执行前核验。拟议 `/readyz`、`/v1/model-info`、
+`/v1/gui/proposals` 尚未实现。首个验收比较相同输入下 worker/API 候选一致性，
+并覆盖超时、错误响应和过期观察。模型服务成功响应始终不等于执行授权。
+
+云端规划、本地确定性步骤及本地模型的收益通过固定 A/B/C 对照确认，
+同时报告成功率、端到端 P50/P95、升级/重试/人工介入及每成功任务成本。
+Runtime 拒绝不能靠换模型绕过；真实 Runtime 改动必须进入其自身
+`PROJECT_STATUS.md`，模型服务设计不创建新的桌面 dispatch 路径。
+
 ## 项目分工
 
 | 能力 | Desktop Runtime | Full Cycle |

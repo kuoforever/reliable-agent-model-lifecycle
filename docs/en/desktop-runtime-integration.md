@@ -25,6 +25,29 @@ not infer Runtime state from chat history or branch names.
 | Agentic RL and multi-agent work | Not responsible | Owner |
 | Consent/redaction/retention for rich episodes | Safety constraints | Owner and separate review |
 
+## Local inference API and model collaboration
+
+The [local model/API/GUI design](local-model-api-gui-routing-design.md) records
+proposed evolution of the existing stdin/stdout subprocess worker. Preserve
+request/context/image and model/Adapter bindings; Host validates replies and
+Runtime revalidates current observations before Policy, Approval, WAL, Runner,
+and MCP dispatch. The separate local_openai text Planner/final client does not
+implement this visual GUI path.
+
+Freeze the worker contract before introducing a loopback resident service.
+Proposed /readyz, /v1/model-info, and /v1/gui/proposals endpoints remain
+unimplemented. Model-side loading/version/resource management stays separate
+from Runtime response validation, observation binding, and action authority.
+Worker/API parity, timeouts, malformed responses, and stale observations need
+independent validation under SERV-001.
+
+SERV-004/010/012 cover cache/residency costs and fixed A/B/C comparisons of
+optimized cloud, deterministic local flow, and local-model escalation. Measure
+end-to-end success, latency, retries, intervention, and cost per verified task.
+Changing models cannot bypass Runtime denial. This design does not change
+frozen Runtime contracts or Lane A fixtures, activate execution, or create a
+second dispatch path; Runtime changes require its own project sequencing.
+
 ## Two data lanes
 
 Lane A is automatic redacted reliability evidence. It can support reliability

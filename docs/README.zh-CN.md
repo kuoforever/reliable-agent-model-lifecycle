@@ -50,3 +50,4 @@ English (default): [README.md](README.md)
 | [多模态与业务场景覆盖矩阵](../多模态与业务场景覆盖矩阵.md) | 模态、环境、任务和场景契约 |
 | [待做任务清单](../AI_Infra_LLM_Agent_待做任务清单.md) | 任务编号、依赖和 Definition of Done |
 | [写作与执行模块模板](../AI_Infra_LLM_Agent_写作与执行模块模板.md) | 实验、ADR、评测、审查和验收模板 |
+| [本地模型、API 与 GUI 协作设计](LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md) | 三次讨论融入 MM-003 / SERV-* 的设计依据、证据边界和待验证要求 |

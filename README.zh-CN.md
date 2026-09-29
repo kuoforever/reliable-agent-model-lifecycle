@@ -14,6 +14,7 @@ English (default): [README.md](README.md)
 | [职业与学习中心](docs/career/) | 完整面试手册、逐项求职证据和教学协作模块 |
 | [待做任务清单](AI_Infra_LLM_Agent_待做任务清单.md) | 详细任务、依赖和 Definition of Done |
 | [Desktop Runtime 依赖与集成](Desktop_Runtime_依赖与集成.md) | 跨仓所有权、安全边界和版本 pin |
+| [本地模型、API 与 GUI 协作设计](docs/LOCAL_MODEL_API_GUI_ROUTING_DESIGN.md) | 候选选型、worker 服务化、路由与 A/B/C 验收设计；实验待验证 |
 
 ## 一句话定位
 

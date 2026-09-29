@@ -14,6 +14,7 @@
 | [Career and learning hub](docs/career/) | Full interview handbook, per-item JD evidence, and teaching-oriented collaboration modules |
 | [Task checklist](docs/en/task-checklist.md) | English map of task IDs, dependencies, and Definition of Done |
 | [Desktop Runtime integration](docs/en/desktop-runtime-integration.md) | Cross-repository ownership, safety boundaries, and version pins |
+| [Local models, APIs, and GUI collaboration](docs/en/local-model-api-gui-routing-design.md) | Dated candidate selection, proposed worker-to-API contract, and planned A/B/C routing evaluation |
 
 ## Positioning
 
